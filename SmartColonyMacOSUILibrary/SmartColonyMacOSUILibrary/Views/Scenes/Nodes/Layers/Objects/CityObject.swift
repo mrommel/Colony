@@ -43,6 +43,7 @@ enum CityObjectMode {
     case alternate
 }
 
+// swiftlint:disable type_body_length
 class CityObject {
 
     static let rangeAttackActionKey: String = "rangeAttackActionKey"

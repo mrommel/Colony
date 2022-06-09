@@ -8,7 +8,7 @@
 
 import Foundation
 
-// swiftlint:disable type_body_length
+// swiftlint:disable type_body_length inclusive_language
 public enum BuildingType: Int, Codable {
 
     case none
@@ -88,7 +88,7 @@ public enum BuildingType: Int, Codable {
         return [
             // ancient
             .ancientWalls, .barracks, .granary, .grove, .library, .monument,
-                .palace, .shrine, .waterMill,
+            .palace, .shrine, .waterMill,
 
             // classical
             .amphitheater, .lighthouse, .stable, .arena, .market, .temple, .ancestralHall,
@@ -96,7 +96,7 @@ public enum BuildingType: Int, Codable {
 
             // medieval
             .medievalWalls, .workshop, .armory, .foreignMinistry, .grandMastersChapel,
-                .intelligenceAgency, .university,
+            .intelligenceAgency, .university,
 
             // renaissance
             .renaissanceWalls, .shipyard, .bank, .artMuseum, .archaeologicalMuseum,
@@ -273,7 +273,6 @@ public enum BuildingType: Int, Codable {
         let flavours: [Flavor]
     }
 
-    // swiftlint:disable line_length
     // swiftlint:disable function_body_length
     private func data() -> BuildingTypeData {
 

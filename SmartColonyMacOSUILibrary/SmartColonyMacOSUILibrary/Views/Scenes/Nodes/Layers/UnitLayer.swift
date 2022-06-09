@@ -9,6 +9,7 @@ import SpriteKit
 import SmartAILibrary
 import SmartAssets
 
+// swiftlint:disable type_body_length
 class UnitLayer: SKNode {
 
     static let kTextureWidth: Int = 48

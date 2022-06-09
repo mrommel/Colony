@@ -158,7 +158,6 @@ public enum DistrictType: Int, Codable {
         }
     }
 
-    // swiftlint:disable line_length
     private func data() -> DistrictTypeData {
 
         switch self {
