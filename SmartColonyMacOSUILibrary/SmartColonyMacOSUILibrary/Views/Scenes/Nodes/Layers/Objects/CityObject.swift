@@ -37,6 +37,12 @@ extension NSBezierPath {
     }
 }
 
+enum CityObjectMode {
+
+    case original
+    case alternate
+}
+
 class CityObject {
 
     static let rangeAttackActionKey: String = "rangeAttackActionKey"
@@ -45,6 +51,8 @@ class CityObject {
     weak var gameModel: GameModel?
 
     let identifier: String
+    let mode: CityObjectMode
+    var wrapOverlap: Int = 0
 
     // internal UI elements
     private var sprite: SKSpriteNode
@@ -71,33 +79,53 @@ class CityObject {
     var atlasAttackEast: ObjectTextureAtlas?
     var atlasAttackWest: ObjectTextureAtlas?
 
-    init(city: AbstractCity?, in gameModel: GameModel?) {
+    init(city: AbstractCity?, mode: CityObjectMode, in gameModel: GameModel?) {
 
         self.identifier = UUID.init().uuidString
+        self.mode = mode
         self.city = city
         self.gameModel = gameModel
 
-        guard let city = self.city else {
-            fatalError("cant get city")
+        guard let gameModel = self.gameModel else {
+            fatalError("gameModel not set")
         }
+
+        let mapSize = gameModel.mapSize()
+
+        self.wrapOverlap = mapSize.width() / 2
 
         self.sprite = SKSpriteNode(
             texture: SKTexture(image: ImageCache.shared.image(for: "city-ancient-small-noWalls")),
             size: CityLayer.kTextureSize
         )
-        self.sprite.position = HexPoint.toScreen(hex: city.location)
-        self.sprite.zPosition = Globals.ZLevels.city
-        self.sprite.anchorPoint = CGPoint.lowerLeft
 
         self.attackSprite = SKSpriteNode(
             texture: SKTexture(image: ImageCache.shared.image(for: "district-empty")),
             size: CityLayer.kTextureSize
         )
-        self.attackSprite.position = HexPoint.toScreen(hex: city.location)
+
+        self.sprite.position = self.screenLocation()
+        self.sprite.zPosition = Globals.ZLevels.city
+        self.sprite.anchorPoint = CGPoint.lowerLeft
+
+        self.attackSprite.position = self.screenLocation()
         self.attackSprite.zPosition = Globals.ZLevels.cityAttack
         self.attackSprite.anchorPoint = CGPoint.lowerLeft
 
         self.setupAttackAnimations()
+    }
+
+    private func screenLocation() -> CGPoint {
+
+        guard let city = self.city else {
+            fatalError("cant get city")
+        }
+
+        if self.mode == .original {
+            return HexPoint.toScreen(hex: city.location)
+        } else {
+            return HexPoint.toScreen(hex: self.alternatePoint(for: city.location))
+        }
     }
 
     func addTo(node parent: SKNode) {
@@ -125,20 +153,36 @@ class CityObject {
         )
     }
 
+    private func alternatePoint(for point: HexPoint) -> HexPoint {
+
+        if point.x >= self.wrapOverlap {
+            return HexPoint(x: point.x - 2 * self.wrapOverlap, y: point.y)
+        }
+
+        if point.x < self.wrapOverlap {
+            return HexPoint(x: point.x + 2 * self.wrapOverlap, y: point.y)
+        }
+
+        return point
+    }
+
     // animation is relative to city location (so it starts at 0,0)
     private func animateAttack(from: HexPoint, to: HexPoint, on atlas: ObjectTextureAtlas?, completion block: @escaping () -> Swift.Void) {
 
+        let fromLocation = self.mode == .original ? from : self.alternatePoint(for: from)
+        let toLocation = self.mode == .original ? to : self.alternatePoint(for: to)
+
         if let atlas = atlas {
-            self.attackSprite.position = HexPoint.toScreen(hex: from)
+            self.attackSprite.position = HexPoint.toScreen(hex: fromLocation)
             let attackFrames = atlas.textures.map { SKTexture(image: $0) }
             let attack = SKAction.animate(with: [attackFrames/*, attackFrames, attackFrames*/].flatMap { $0 }, timePerFrame: atlas.timePerFrame / 2.0)
-            let move = SKAction.move(to: HexPoint.toScreen(hex: to), duration: attack.duration)
+            let move = SKAction.move(to: HexPoint.toScreen(hex: toLocation), duration: attack.duration)
             let animate = SKAction.group([attack, move])
             // let animate = SKAction.repeatForever(attack)
             self.attackSprite.run(animate/*, withKey: CityObject.rangeAttackActionKey*/, completion: {
                 block()
                 self.attackSprite.texture = SKTexture(image: ImageCache.shared.image(for: "district-empty"))
-                self.attackSprite.position = HexPoint.toScreen(hex: from)
+                self.attackSprite.position = HexPoint.toScreen(hex: fromLocation)
             })
         } else {
             // self.sprite.position = HexPoint.toScreen(hex: hex)

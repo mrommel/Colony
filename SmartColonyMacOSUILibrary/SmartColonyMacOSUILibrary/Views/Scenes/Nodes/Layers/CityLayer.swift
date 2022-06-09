@@ -163,24 +163,40 @@ class CityLayer: SKNode {
         }
 
         if tile.isVisible(to: player) {
-            let cityObject = CityObject(city: city, in: self.gameModel)
+            let originalCityObject = CityObject(city: city, mode: .original, in: self.gameModel)
 
             // add to canvas
-            cityObject.addTo(node: self)
-
-            cityObject.showCityBanner()
+            originalCityObject.addTo(node: self)
+            originalCityObject.showCityBanner()
 
             // keep reference
-            cityObjects.append(cityObject)
+            self.cityObjects.append(originalCityObject)
+
+            let alternateCityObject = CityObject(city: city, mode: .alternate, in: self.gameModel)
+
+            // add to canvas
+            alternateCityObject.addTo(node: self)
+            alternateCityObject.showCityBanner()
+
+            // keep reference
+            self.cityObjects.append(alternateCityObject)
 
         } else if tile.isDiscovered(by: player) {
-            let cityObject = CityObject(city: city, in: self.gameModel)
+            let originalCityObject = CityObject(city: city, mode: .original, in: self.gameModel)
 
             // add to canvas
-            cityObject.addTo(node: self)
+            originalCityObject.addTo(node: self)
 
             // keep reference
-            cityObjects.append(cityObject)
+            self.cityObjects.append(originalCityObject)
+
+            let alternateCityObject = CityObject(city: city, mode: .alternate, in: self.gameModel)
+
+            // add to canvas
+            alternateCityObject.addTo(node: self)
+
+            // keep reference
+            self.cityObjects.append(alternateCityObject)
         }
     }
 
@@ -201,14 +217,18 @@ class CityLayer: SKNode {
         let isDiscovered = tile.isDiscovered(by: player)
         let isVisible = tile.isVisible(to: player)
 
-        if let cityObject = self.cityObjects.first(where: { city.location == $0.city?.location }) {
+        if let cityObject = self.cityObjects.first(where: { city.location == $0.city?.location && $0.mode == .original }) {
             if isVisible {
 
                 let currentHashValue = self.hash(for: city, on: tile)
                 if !self.hasher!.has(hash: currentHashValue, at: city.location) {
                     cityObject.updateCityBanner()
 
-                    // FIXME update city size / buildings
+                    if let alternateCityObject = self.cityObjects.first(where: { city.location == $0.city?.location && $0.mode == .alternate }) {
+
+                        alternateCityObject.updateCityBanner()
+                    }
+
                     self.hasher?.update(hash: currentHashValue, at: city.location)
                 }
             }
