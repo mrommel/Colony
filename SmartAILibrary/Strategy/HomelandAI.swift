@@ -1787,8 +1787,8 @@ public class HomelandAI {
         if !self.currentMoveUnits.isEmpty {
 
             // Execute twice so explorers who can reach the end of their sight can move again
-            self.executeExplorerMoves(in: gameModel)
-            self.executeExplorerMoves(in: gameModel)
+            self.executeExplorerMoves(land: true, in: gameModel)
+            self.executeExplorerMoves(land: true, in: gameModel)
         }
     }
 
@@ -1815,13 +1815,13 @@ public class HomelandAI {
 
         if !self.currentMoveUnits.isEmpty {
             // Execute twice so explorers who can reach the end of their sight can move again
-            self.executeExplorerMoves(in: gameModel)
-            self.executeExplorerMoves(in: gameModel)
+            self.executeExplorerMoves(land: false, in: gameModel)
+            self.executeExplorerMoves(land: false, in: gameModel)
         }
     }
 
     /// Moves units to explore the map
-    private func executeExplorerMoves(in gameModel: GameModel?) {
+    private func executeExplorerMoves(land: Bool, in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -1839,11 +1839,11 @@ public class HomelandAI {
         var foundNearbyExplorePlot = false
 
         let pathfinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
-            for: .walk,
-               for: player,
-               unitMapType: .combat,
-               canEmbark: player.canEmbark(),
-               canEnterOcean: player.canEnterOcean()
+            for: land ? .walk : .swimShallow,
+            for: player,
+            unitMapType: .combat,
+            canEmbark: player.canEmbark(),
+            canEnterOcean: player.canEnterOcean()
         )
         let pathfinder = AStarPathfinder(with: pathfinderDataSource)
 

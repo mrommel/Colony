@@ -110,6 +110,7 @@
 		C93D66A824028DB500F5157B /* HexPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D66A724028DB500F5157B /* HexPath.swift */; };
 		C93D66AA2402913100F5157B /* UnitMovementType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D66A92402913100F5157B /* UnitMovementType.swift */; };
 		C93D66AC24044EA700F5157B /* TacticalAnalysisMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D66AB24044EA700F5157B /* TacticalAnalysisMap.swift */; };
+		C94402F2285265B100C6EFF2 /* ContinentFinderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94402F1285265B100C6EFF2 /* ContinentFinderTests.swift */; };
 		C94CB3CD274D8E54002F3083 /* TileAppealTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94CB3CC274D8E54002F3083 /* TileAppealTests.swift */; };
 		C95503C324585F6E00D4B3D8 /* MapOptionResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95503C224585F6D00D4B3D8 /* MapOptionResources.swift */; };
 		C95503C5245864A200D4B3D8 /* StartPositioner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95503C4245864A200D4B3D8 /* StartPositioner.swift */; };
@@ -544,6 +545,7 @@
 		C93D66A724028DB500F5157B /* HexPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexPath.swift; sourceTree = "<group>"; };
 		C93D66A92402913100F5157B /* UnitMovementType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitMovementType.swift; sourceTree = "<group>"; };
 		C93D66AB24044EA700F5157B /* TacticalAnalysisMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TacticalAnalysisMap.swift; sourceTree = "<group>"; };
+		C94402F1285265B100C6EFF2 /* ContinentFinderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinentFinderTests.swift; sourceTree = "<group>"; };
 		C94CB3CC274D8E54002F3083 /* TileAppealTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileAppealTests.swift; sourceTree = "<group>"; };
 		C95503C224585F6D00D4B3D8 /* MapOptionResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOptionResources.swift; sourceTree = "<group>"; };
 		C95503C4245864A200D4B3D8 /* StartPositioner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPositioner.swift; sourceTree = "<group>"; };
@@ -1113,6 +1115,7 @@
 				C9F76AAE243314B80018672A /* CivicTests.swift */,
 				C9D5F67D2763EA0700B34AA3 /* CivicEurekaTests.swift */,
 				C9FE140D2412F8B0008CC6B3 /* CombatTests.swift */,
+				C94402F1285265B100C6EFF2 /* ContinentFinderTests.swift */,
 				C963AD1327863DBF00981EF3 /* DedicationTests.swift */,
 				C9D8DF7523EF6D0B0091C917 /* DiplomacyAITests.swift */,
 				C9B6321D23DCDAB400E15A5F /* DiplomaticDealAITests.swift */,
@@ -2175,6 +2178,7 @@
 				C9EF39C5278818F30066A507 /* PlayerMomentsTests.swift in Sources */,
 				C986A5F22664F56F0055D3D4 /* ReligionTests.swift in Sources */,
 				C94CB3CD274D8E54002F3083 /* TileAppealTests.swift in Sources */,
+				C94402F2285265B100C6EFF2 /* ContinentFinderTests.swift in Sources */,
 				C9F4FE5427EFAB86008545DB /* GossipTests.swift in Sources */,
 				C90323EB27D4EE6900AFBCFE /* PlayerCityStateQuestTests.swift in Sources */,
 				C92317BD23D6EAB5001FC723 /* HierarchicalStateMachineTests.swift in Sources */,

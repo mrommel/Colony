@@ -3236,12 +3236,13 @@ public class Unit: AbstractUnit {
 
     public func can(automate: UnitAutomationType) -> Bool {
 
-        if !self.missions.isEmpty {
+        guard self.missions.isEmpty else {
             // cant automate when unit has a mission
             return false
         }
 
-        if self.isAutomated() {
+        guard !self.isAutomated() else {
+            // or when automated
             return false
         }
 
@@ -3251,11 +3252,12 @@ public class Unit: AbstractUnit {
             return false
 
         case .build:
-            if !self.type.abilities().contains(.canImprove) && !self.type.abilities().contains(.canImproveSea) {
+            guard self.type.has(ability: .canImprove) || self.type.has(ability: .canImproveSea) else {
                 return false
             }
 
             return true
+
         case .explore:
             if self.baseCombatStrength(ignoreEmbarked: true) == 0 {
                 return false
