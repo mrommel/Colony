@@ -40,7 +40,7 @@ internal class GalleyUnitType: UnitTypeData {
             supportDistance: 0,
             strength: 10,
             targetType: .navalMelee,
-            meleeAttack: 0,
+            meleeAttack: 30,
             rangedAttack: 0,
             moves: 3,
             requiredTech: .sailing,
