@@ -14,11 +14,11 @@ internal class AdmiralUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Admiral",
+            name: "TXT_KEY_UNIT_ADMIRAL_NAME",
             baseType: .admiral,
             domain: .land,
             effects: [
-                "Boosts combat strength and mobility of nearby naval units. Can \"Retire\" to expend it once no longer useful."
+                "TXT_KEY_UNIT_ADMIRAL_EFFECT1"
             ],
             abilities: [],
             era: .none,

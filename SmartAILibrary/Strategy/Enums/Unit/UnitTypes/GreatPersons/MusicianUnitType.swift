@@ -14,11 +14,11 @@ internal class MusicianUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Musician",
+            name: "TXT_KEY_UNIT_MUSICIAN_NAME",
             baseType: .musician,
             domain: .land,
             effects: [
-                "Activate on an appropriate tile to create Great Work."
+                "TXT_KEY_UNIT_MUSICIAN_EFFECT1"
             ],
             abilities: [],
             era: .none,

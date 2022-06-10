@@ -14,12 +14,12 @@ internal class QuadriremeUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Quadrireme",
+            name: "TXT_KEY_UNIT_QUADRIREME_NAME",
             baseType: .quadrireme,
             domain: .sea,
             effects: [
-                "Has a ranged attack with Range 1.",
-                "Can only operate on coastal waters until Cartography is researched."
+                "TXT_KEY_UNIT_QUADRIREME_EFFECT1",
+                "TXT_KEY_UNIT_QUADRIREME_EFFECT2"
             ],
             abilities: [.oceanImpassable],
             era: .classical,

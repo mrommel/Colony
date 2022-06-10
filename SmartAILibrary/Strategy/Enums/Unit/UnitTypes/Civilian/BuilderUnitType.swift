@@ -14,13 +14,12 @@ internal class BuilderUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Builder",
+            name: "TXT_KEY_UNIT_BUILDER_NAME",
             baseType: .builder,
             domain: .land,
             effects: [
-                "May create tile improvements or remove features like Woods or Rainforest. " +
-                "Build charges number can be increased through policies or wonders like the Pyramids.",
-                "Production cost is progressive." // #
+                "TXT_KEY_UNIT_BUILDER_EFFECT1",
+                "TXT_KEY_UNIT_BUILDER_EFFECT2"
             ],
             abilities: [.canImprove],
             era: .ancient,

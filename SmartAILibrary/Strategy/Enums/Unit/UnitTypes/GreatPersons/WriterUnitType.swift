@@ -14,11 +14,11 @@ internal class WriterUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Writer",
+            name: "TXT_KEY_UNIT_WRITER_NAME",
             baseType: .writer,
             domain: .land,
             effects: [
-                "Activate on an appropriate tile, such as an Amphitheatre, to create the Great Work."
+                "TXT_KEY_UNIT_WRITER_EFFECT1"
             ],
             abilities: [],
             era: .none,

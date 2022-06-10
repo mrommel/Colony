@@ -14,11 +14,11 @@ internal class SlingerUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Slinger",
+            name: "TXT_KEY_UNIT_SLINGER_NAME",
             baseType: .slinger,
             domain: .land,
             effects: [
-                "Weak Ancient era ranged unit. Better on attack than defense."
+                "TXT_KEY_UNIT_SLINGER_EFFECT1"
             ],
             abilities: [.canCapture],
             era: .ancient,

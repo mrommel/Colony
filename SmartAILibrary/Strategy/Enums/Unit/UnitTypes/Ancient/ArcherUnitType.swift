@@ -14,11 +14,11 @@ internal class ArcherUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Archer",
+            name: "TXT_KEY_UNIT_ARCHER_NAME",
             baseType: .archer,
             domain: .land,
             effects: [
-                "First Ancient era ranged unit with Range of 2."
+                "TXT_KEY_UNIT_ARCHER_EFFECT1"
             ],
             abilities: [.canCapture],
             era: .ancient,

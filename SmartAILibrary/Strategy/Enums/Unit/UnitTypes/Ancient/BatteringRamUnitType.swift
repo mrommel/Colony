@@ -14,13 +14,12 @@ internal class BatteringRamUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Battering Ram",
+            name: "TXT_KEY_UNIT_BATTERING_RAM_NAME",
             baseType: .batteringRam,
             domain: .land,
             effects: [
-                "When this unit is adjacent to a District with Defenses, all melee units and " +
-                "anti-cavalry units (including naval melee) attacking it do full damage to the District walls.",
-                "Only effective against Ancient Walls."
+                "TXT_KEY_UNIT_BATTERING_RAM_EFFECT1",
+                "TXT_KEY_UNIT_BATTERING_RAM_EFFECT2"
             ],
             abilities: [],
             era: .ancient,

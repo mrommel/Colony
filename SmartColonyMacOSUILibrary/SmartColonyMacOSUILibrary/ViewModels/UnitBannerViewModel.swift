@@ -134,7 +134,7 @@ class UnitBannerViewModel: ObservableObject {
     public func unitName() -> String {
 
         if let selectedUnit = self.selectedUnit {
-            return selectedUnit.name()
+            return selectedUnit.name().localized()
         } else {
             return ""
         }
@@ -245,7 +245,7 @@ class UnitBannerViewModel: ObservableObject {
                 gameModel.userInterface?.askForInput(
                     title: "TXT_KEY_RENAME".localized(),
                     summary: "TXT_KEY_MISC_PROVIDE_NAME".localized(),
-                    value: selectedUnit.name(),
+                    value: selectedUnit.name().localized(),
                     confirm: "TXT_KEY_RENAME".localized(),
                     cancel: "TXT_KEY_CANCEL".localized(),
                     completion: { newValue in

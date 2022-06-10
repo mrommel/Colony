@@ -14,12 +14,12 @@ internal class MedicUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Medic",
+            name: "TXT_KEY_UNIT_MEDIC_NAME",
             baseType: .medic,
             domain: .land,
             effects: [
-                "Industrial era support unit.",
-                "Can heal adjacent units."
+                "TXT_KEY_UNIT_MEDIC_EFFECT1",
+                "TXT_KEY_UNIT_MEDIC_EFFECT2"
             ],
             abilities: [.canHeal],
             era: .industrial,

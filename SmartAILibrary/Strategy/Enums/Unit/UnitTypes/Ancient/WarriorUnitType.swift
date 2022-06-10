@@ -14,11 +14,11 @@ internal class WarriorUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Warrior",
+            name: "TXT_KEY_UNIT_WARRIOR_NAME",
             baseType: .warrior,
             domain: .land,
             effects: [
-                "Weak Ancient era melee unit."
+                "TXT_KEY_UNIT_WARRIOR_EFFECT1"
             ],
             abilities: [.canCapture],
             era: .ancient,

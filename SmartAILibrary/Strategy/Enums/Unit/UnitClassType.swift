@@ -37,23 +37,23 @@ public enum UnitClassType {
 
         switch self {
 
-        case .civilian: return "Civilian"
-        case .melee: return "Melee"
-        case .recon: return "Recon"
-        case .ranged: return "Ranged"
-        case .antiCavalry: return "Anti-Cavalry"
-        case .lightCavalry: return "Light Cavalry"
-        case .heavyCavalry: return "Heavy Cavalry"
-        case .siege: return "Siege"
-        case .navalMelee: return "Naval Melee"
-        case .navalRanged: return "Naval Ranged"
-        case .navalRaider: return "Naval Raider"
-        case .navalCarrier: return "Naval Carrier"
-        case .airFighter: return "Air Fighter"
-        case .airBomber: return "Air Bomber"
-        case .support: return "Support"
+        case .civilian: return "TXT_KEY_UNIT_CLASS_CIVILIAN_NAME"
+        case .melee: return "TXT_KEY_UNIT_CLASS_MELEE_NAME"
+        case .recon: return "TXT_KEY_UNIT_CLASS_RECON_NAME"
+        case .ranged: return "TXT_KEY_UNIT_CLASS_RANGED_NAME"
+        case .antiCavalry: return "TXT_KEY_UNIT_CLASS_ANTI_CAVALRY_NAME"
+        case .lightCavalry: return "TXT_KEY_UNIT_CLASS_LIGHT_CAVALRY_NAME"
+        case .heavyCavalry: return "TXT_KEY_UNIT_CLASS_HEAVY_CAVALRY_NAME"
+        case .siege: return "TXT_KEY_UNIT_CLASS_SIEGE_NAME"
+        case .navalMelee: return "TXT_KEY_UNIT_CLASS_NAVAL_MELEE_NAME"
+        case .navalRanged: return "TXT_KEY_UNIT_CLASS_NAVAL_RANGED_NAME"
+        case .navalRaider: return "TXT_KEY_UNIT_CLASS_NAVAL_RAIDER_NAME"
+        case .navalCarrier: return "TXT_KEY_UNIT_CLASS_NAVAL_CARRIER_NAME"
+        case .airFighter: return "TXT_KEY_UNIT_CLASS_AIR_FIGHTER_NAME"
+        case .airBomber: return "TXT_KEY_UNIT_CLASS_AIR_BOMBER_NAME"
+        case .support: return "TXT_KEY_UNIT_CLASS_SUPPORT_NAME"
 
-        case .city: return "City"
+        case .city: return "TXT_KEY_UNIT_CLASS_CITY_NAME"
         }
     }
 }

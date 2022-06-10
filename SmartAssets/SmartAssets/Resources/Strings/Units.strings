@@ -1,0 +1,346 @@
+/* 
+  Units.strings
+  SmartAssets
+
+  Created by Michael Rommel on 10.06.22.
+  
+*/
+
+// civilians ------------------------------
+
+// settler
+"TXT_KEY_UNIT_SETTLER_NAME" = "Settler";
+"TXT_KEY_UNIT_SETTLER_EFFECT1" = "May create new cities. Reduces city's Citizen Population by 1 when completed. Requires at least 2 Citizen Population.";
+"TXT_KEY_UNIT_SETTLER_EFFECT2" = "Production cost is progressive.";
+
+// builder
+"TXT_KEY_UNIT_BUILDER_NAME" = "Builder";
+"TXT_KEY_UNIT_BUILDER_EFFECT1" = "May create tile improvements or remove features like Woods or Rainforest. Build charges number can be increased through policies or wonders like the Pyramids.";
+"TXT_KEY_UNIT_BUILDER_EFFECT2" = "Production cost is progressive."; // #
+
+// trader
+"TXT_KEY_UNIT_TRADER_NAME" = "Trader";
+"TXT_KEY_UNIT_TRADER_EFFECT1" = "May make and maintain a single [TradeRoute] Trade Route. Automatically creates Roads as it travels.";
+"TXT_KEY_UNIT_TRADER_EFFECT2" = "Production cost is progressive."; // #
+
+// recon ------------------------------
+
+// recon - ancient
+
+// scout
+"TXT_KEY_UNIT_SCOUT_NAME" = "Scout";
+"TXT_KEY_UNIT_SCOUT_EFFECT1" = "Fast-moving, Ancient era recon unit.";
+
+// recon - medieval
+
+// skirmisher
+"TXT_KEY_UNIT_SKIRMISHER_NAME" = "Skirmisher";
+"TXT_KEY_UNIT_SKIRMISHER_EFFECT1" = "Has a ranged attack with Range 1.";
+"TXT_KEY_UNIT_SKIRMISHER_EFFECT2" = "-17 Ranged Strength against District defenses and Naval units.";
+
+// recon - industrial
+
+// case ranger
+// "TXT_KEY_UNIT_##_NAME" = "";
+
+// melee ------------------------------
+
+// melee - ancient
+
+// warrior
+"TXT_KEY_UNIT_WARRIOR_NAME" = "Warrior";
+"TXT_KEY_UNIT_WARRIOR_EFFECT1" = "Weak Ancient era melee unit.";
+
+// melee - classical
+
+// swordman
+"TXT_KEY_UNIT_SWORDMAN_NAME" = "Swordman";
+"TXT_KEY_UNIT_SWORDMAN_EFFECT1" = "+5 [Strength] Combat Strength vs. anti-cavalry units.";
+
+// melee - medieval
+
+// manAtArms
+"TXT_KEY_UNIT_MAN_AT_ARMS_NAME" = "Man-At-Arms";
+"TXT_KEY_UNIT_MAN_AT_ARMS_EFFECT1" = "+5 [Strength] Combat Strength vs. anti-cavalry units.";
+
+// melee - renaissance
+
+// case musketman
+// "TXT_KEY_UNIT_##_NAME" = "";
+
+// melee - industrial
+
+// case lineInfantry
+// "TXT_KEY_UNIT_##_NAME" = "";
+
+// ranged ------------------------------
+
+// ranged - ancient
+
+// slinger
+"TXT_KEY_UNIT_SLINGER_NAME" = "Slinger";
+"TXT_KEY_UNIT_SLINGER_EFFECT1" = "Weak Ancient era ranged unit. Better on attack than defense.";
+
+// archer
+"TXT_KEY_UNIT_ARCHER_NAME" = "Archer";
+"TXT_KEY_UNIT_ARCHER_EFFECT1" = "First Ancient era ranged unit with Range of 2.";
+
+// ranged - medieval
+
+// crossbowman
+"TXT_KEY_UNIT_CROSSBOWMAN_NAME" = "Crossbowman";
+"TXT_KEY_UNIT_CROSSBOWMAN_EFFECT1" = "Has a ranged attack with Range 2.";
+"TXT_KEY_UNIT_CROSSBOWMAN_EFFECT2" = "-17 Ranged Strength against District defenses and Naval units.";
+
+// ranged - industrial
+
+// case fieldCannon
+// "TXT_KEY_UNIT_##_NAME" = "";
+
+// anti-cavalry ------------------------------
+
+// anti-cavalry - ancient
+
+// spearman
+"TXT_KEY_UNIT_SPEARMAN_NAME" = "Spearman";
+"TXT_KEY_UNIT_SPEARMAN_EFFECT1" = "Ancient era melee unit that's effective against mounted units.";
+
+// anti-cavalry - medieval
+
+// pikeman
+"TXT_KEY_UNIT_PIKEMAN_NAME" = "Pikeman";
+"TXT_KEY_UNIT_PIKEMAN_EFFECT1" = "+10 [Strength] Combat Strength vs. light, heavy, and ranged cavalry units.";
+
+// anti-cavalry - renaissance
+
+// pikeAndShot
+// "TXT_KEY_UNIT_##_NAME" = "";
+
+// light cavalry ------------------------------
+
+// light cavalry - classical
+
+// horseman
+"TXT_KEY_UNIT_HORSEMAN_NAME" = "Horseman";
+"TXT_KEY_UNIT_HORSEMAN_EFFECT1" = "First unit with a [Movement] Movement of 4.";
+"TXT_KEY_UNIT_HORSEMAN_EFFECT2" = "Ignores enemy zone of control."; // #
+
+// light cavalry - medieval
+
+// courser
+// "TXT_KEY_UNIT_##_NAME" = "";
+
+// light cavalry - industrial
+
+// cavalry
+// "TXT_KEY_UNIT_##_NAME" = "";
+
+// heavy cavalry ------------------------------
+
+// heavy cavalry - ancient
+
+// heavyChariot
+"TXT_KEY_UNIT_HEAVY_CHARIOT_NAME" = "Heavy Chariot";
+"TXT_KEY_UNIT_HEAVY_CHARIOT_EFFECT1" = "Hard-hitting, Ancient era heavy cavalry unit.";
+"TXT_KEY_UNIT_HEAVY_CHARIOT_EFFECT2" = "Gains 1 bonus Movement if it begins a turn on a flat tile with no Woods, Rainforest, or Hills.";
+
+// heavy cavalry - medieval
+
+// knight
+"TXT_KEY_UNIT_KNIGHT_NAME" = "Knight";
+"TXT_KEY_UNIT_KNIGHT_EFFECT1" = "Ignores enemy zone of control."; // #
+
+// heavy cavalry - industrial
+
+// cuirassier
+// "TXT_KEY_UNIT_##_NAME" = "";
+
+// siege ------------------------------
+
+// siege - classical
+
+// catapult
+"TXT_KEY_UNIT_CATAPULT_NAME" = "Catapult";
+"TXT_KEY_UNIT_CATAPULT_EFFECT1" = "Deals bombard-type damage, effective against District defenses.";
+"TXT_KEY_UNIT_CATAPULT_EFFECT2" = "-17 Bombard Strength against land units.";
+"TXT_KEY_UNIT_CATAPULT_EFFECT3" = "Without the Expert Crew Promotion, cannot attack after moving unless its maximum Movement is 3 or more.";
+
+// siege - medieval
+
+// trebuchet
+"TXT_KEY_UNIT_TREBUCHET_NAME" = "Trebuchet";
+"TXT_KEY_UNIT_TREBUCHET_EFFECT1" = "Deals bombard-type damage, effective against District defenses.";
+"TXT_KEY_UNIT_TREBUCHET_EFFECT2" = "-17 Bombard Strength against land units.";
+"TXT_KEY_UNIT_TREBUCHET_EFFECT3" = "Without the Expert Crew Promotion, cannot attack after moving unless its maximum Movement is 3 or more.";
+
+// siege - renaissace
+
+// bombard
+// "TXT_KEY_UNIT_##_NAME" = "";
+
+// naval melee ------------------------------
+
+// naval melee - ancient
+
+// galley
+"TXT_KEY_UNIT_GALLEY_NAME" = "Galley";
+"TXT_KEY_UNIT_GALLEY_EFFECT1" = "Ancient era melee naval combat unit.";
+"TXT_KEY_UNIT_GALLEY_EFFECT2" = "Can only operate on coastal waters until Cartography is researched.";
+
+// naval melee - renaissance
+
+// case caravel
+// "TXT_KEY_UNIT_##_NAME" = "";
+
+// naval melee - industrial
+
+// ironclad
+// "TXT_KEY_UNIT_##_NAME" = "";
+
+// naval ranged ------------------------------
+
+// naval ranged - classical
+
+// quadrireme
+"TXT_KEY_UNIT_QUADRIREME_NAME" = "Quadrireme";
+"TXT_KEY_UNIT_QUADRIREME_EFFECT1" = "Has a ranged attack with Range 1.";
+"TXT_KEY_UNIT_QUADRIREME_EFFECT2" = "Can only operate on coastal waters until Cartography is researched.";
+
+// naval ranged - renaissance
+
+// frigate
+// "TXT_KEY_UNIT_##_NAME" = "";
+
+// naval raider ------------------------------
+
+// naval raider - renaissance
+
+// privateer
+// "TXT_KEY_UNIT_##_NAME" = "";
+
+// support ------------------------------
+
+// support - ancient
+
+// batteringRam
+"TXT_KEY_UNIT_BATTERING_RAM_NAME" = "Battering Ram";
+"TXT_KEY_UNIT_BATTERING_RAM_EFFECT1" = "When this unit is adjacent to a District with Defenses, all melee units and anti-cavalry units (including naval melee) attacking it do full damage to the District walls.";
+"TXT_KEY_UNIT_BATTERING_RAM_EFFECT2" = "Only effective against Ancient Walls.";
+
+// support - classical
+
+// siegeTower
+"TXT_KEY_UNIT_SIEGE_TOWER_NAME" = "Siege Tower";
+"TXT_KEY_UNIT_SIEGE_TOWER_EFFECT1" = "When adjacent to a city, attacking melee units and anti-cavalry units ignore Walls and immediately assault the city.";
+"TXT_KEY_UNIT_SIEGE_TOWER_EFFECT2" = "Only effective against Ancient Walls and Medieval Walls.";
+
+// support - medieval
+
+// Military Engineer
+// "TXT_KEY_UNIT_##_NAME" = "";
+
+// support - industrial
+
+// medic
+"TXT_KEY_UNIT_MEDIC_NAME" = "Medic";
+"TXT_KEY_UNIT_MEDIC_EFFECT1" = "Industrial era support unit.";
+"TXT_KEY_UNIT_MEDIC_EFFECT2" = "Can heal adjacent units.";
+
+// great people ------------------------------
+
+// admiral
+"TXT_KEY_UNIT_ADMIRAL_NAME" = "Admiral";
+"TXT_KEY_UNIT_ADMIRAL_EFFECT1" = "Boosts combat strength and mobility of nearby naval units. Can \"Retire\" to expend it once no longer useful.";
+
+// artist
+"TXT_KEY_UNIT_ARTIST_NAME" = "Artist";
+"TXT_KEY_UNIT_ARTIST_EFFECT1" = "Activate on an appropriate tile to create Great Work.";
+
+// engineer
+"TXT_KEY_UNIT_ENGINEER_NAME" = "Engineer";
+"TXT_KEY_UNIT_ENGINEER_EFFECT1" = "Activate on an appropriate tile to receive their effects.";
+
+// general
+"TXT_KEY_UNIT_GENERAL_NAME" = "General";
+"TXT_KEY_UNIT_GENERAL_EFFECT1" = "Boosts combat strength and mobility of nearby land units. Can \"Retire\" to expend it once no longer useful.";
+
+// merchant
+"TXT_KEY_UNIT_MERCHANT_NAME" = "Merchant";
+"TXT_KEY_UNIT_MERCHANT_EFFECT1" = "Activate on an appropriate tile to receive their effects.";
+
+// musician
+"TXT_KEY_UNIT_MUSICIAN_NAME" = "Musician";
+"TXT_KEY_UNIT_MUSICIAN_EFFECT1" = "Activate on an appropriate tile to create Great Work.";
+
+// prophet
+"TXT_KEY_UNIT_PROPHET_NAME" = "Prophet";
+"TXT_KEY_UNIT_PROPHET_EFFECT1" = "Activate on Holy Site or Stonehenge to found a Religion.";
+
+// scientist
+"TXT_KEY_UNIT_SCIENTIST_NAME" = "Scientist";
+"TXT_KEY_UNIT_SCIENTIST_EFFECT1" = "Activate on an appropriate tile to receive their effects.";
+
+// writer
+"TXT_KEY_UNIT_WRITER_NAME" = "Writer";
+"TXT_KEY_UNIT_WRITER_EFFECT1" = "Activate on an appropriate tile, such as an Amphitheatre, to create the Great Work.";
+
+// player overrides
+
+// barbarians
+
+// barbarianWarrior
+"TXT_KEY_UNIT_BARBARIAN_WARRIOR_NAME" = "Barbarian Warrior";
+
+// barbarianArcher
+"TXT_KEY_UNIT_BARBARIAN_ARCHER_NAME" = "Barbarian Archer";
+
+
+
+// ---------------------
+// civilian
+"TXT_KEY_UNIT_CLASS_CIVILIAN_NAME" = "Civilian";
+
+// melee
+"TXT_KEY_UNIT_CLASS_MELEE_NAME" = "Melee";
+
+// recon
+"TXT_KEY_UNIT_CLASS_RECON_NAME" = "Recon";
+
+// ranged
+"TXT_KEY_UNIT_CLASS_RANGED_NAME" = "Ranged";
+
+// antiCavalry
+"TXT_KEY_UNIT_CLASS_ANTI_CAVALRY_NAME" = "Anti-Cavalry";
+
+// lightCavalry
+"TXT_KEY_UNIT_CLASS_LIGHT_CAVALRY_NAME" = "Light Cavalry";
+
+// heavyCavalry
+"TXT_KEY_UNIT_CLASS_HEAVY_CAVALRY_NAME" = "Heavy Cavalry";
+
+// siege
+"TXT_KEY_UNIT_CLASS_SIEGE_NAME" = "Siege";
+
+// navalMelee
+"TXT_KEY_UNIT_CLASS_NAVAL_MELEE_NAME" = "Naval Melee";
+
+// navalRanged
+"TXT_KEY_UNIT_CLASS_NAVAL_RANGED_NAME" = "Naval Ranged";
+
+// navalRaider
+"TXT_KEY_UNIT_CLASS_NAVAL_RAIDER_NAME" = "Naval Raider";
+
+// navalCarrier
+"TXT_KEY_UNIT_CLASS_NAVAL_CARRIER_NAME" = "Naval Carrier";
+
+// airFighter
+"TXT_KEY_UNIT_CLASS_AIR_FIGHTER_NAME" = "Air Fighter";
+
+// airBomber
+"TXT_KEY_UNIT_CLASS_AIR_BOMBER_NAME" = "Air Bomber";
+
+// support
+"TXT_KEY_UNIT_CLASS_SUPPORT_NAME" = "Support";
+
+// city
+"TXT_KEY_UNIT_CLASS_CITY_NAME" = "City";

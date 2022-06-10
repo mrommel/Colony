@@ -14,11 +14,11 @@ internal class SpearmanUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Spearman",
+            name: "TXT_KEY_UNIT_SPEARMAN_NAME",
             baseType: .spearman,
             domain: .land,
             effects: [
-                "Ancient era melee unit that's effective against mounted units."
+                "TXT_KEY_UNIT_SPEARMAN_EFFECT1"
             ],
             abilities: [.canCapture],
             era: .ancient,

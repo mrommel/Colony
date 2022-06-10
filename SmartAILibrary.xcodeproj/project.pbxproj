@@ -1218,6 +1218,15 @@
 			path = Civilian;
 			sourceTree = "<group>";
 		};
+		C94670282853C0A000734327 /* Barbarian */ = {
+			isa = PBXGroup;
+			children = (
+				C9D645EA272295D900646BB8 /* BarbarianWarriorUnitType.swift */,
+				C9D645EC27229C5800646BB8 /* BarbarianArcherUnitType.swift */,
+			);
+			path = Barbarian;
+			sourceTree = "<group>";
+		};
 		C957AA302436353500203024 /* MapLoading */ = {
 			isa = PBXGroup;
 			children = (
@@ -1533,8 +1542,7 @@
 			isa = PBXGroup;
 			children = (
 				C9D645F027229D0000646BB8 /* UnitTypeData.swift */,
-				C9D645EA272295D900646BB8 /* BarbarianWarriorUnitType.swift */,
-				C9D645EC27229C5800646BB8 /* BarbarianArcherUnitType.swift */,
+				C94670282853C0A000734327 /* Barbarian */,
 				C93B21BB2727D28E00B6D287 /* Civilian */,
 				C9D6460D2722B02100646BB8 /* Ancient */,
 				C9D6460E2722B03100646BB8 /* Classical */,

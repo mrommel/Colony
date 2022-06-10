@@ -14,12 +14,12 @@ internal class CrossbowmanUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Crossbowman",
+            name: "TXT_KEY_UNIT_CROSSBOWMAN_NAME",
             baseType: .crossbowman,
             domain: .land,
             effects: [
-                "Has a ranged attack with Range 2.",
-                "-17 Ranged Strength against District defenses and Naval units."
+                "TXT_KEY_UNIT_CROSSBOWMAN_EFFECT1",
+                "TXT_KEY_UNIT_CROSSBOWMAN_EFFECT2"
             ],
             abilities: [.canCapture],
             era: .medieval,

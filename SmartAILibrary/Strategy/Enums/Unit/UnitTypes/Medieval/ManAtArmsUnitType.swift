@@ -14,11 +14,11 @@ internal class ManAtArmsUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Man-At-Arms",
+            name: "TXT_KEY_UNIT_MAN_AT_ARMS_NAME",
             baseType: .manAtArms,
             domain: .land,
             effects: [
-                "+5 [Strength] Combat Strength vs. anti-cavalry units."
+                "TXT_KEY_UNIT_MAN_AT_ARMS_EFFECT1"
             ],
             abilities: [.canCapture],
             era: .medieval,

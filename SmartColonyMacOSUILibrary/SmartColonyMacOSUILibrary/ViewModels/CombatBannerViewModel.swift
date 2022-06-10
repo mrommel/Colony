@@ -152,7 +152,7 @@ class CombatBannerViewModel: ObservableObject {
             }
 
             self.attackerViewModel.update(
-                name: attackerUnit.name(),
+                name: attackerUnit.name().localized(),
                 portraitTextureName: attackerUnit.type.portraitTexture(),
                 strength: attackerStrength,
                 healthPoints: attackerUnit.healthPoints(),
@@ -329,7 +329,7 @@ class CombatBannerViewModel: ObservableObject {
             promotions: []
         )
         self.defenderViewModel.update(
-            name: defenderUnit.name(),
+            name: defenderUnit.name().localized(),
             portraitTextureName: defenderUnit.type.portraitTexture(),
             strength: defenderStrength,
             healthPoints: defenderUnit.healthPoints(),
@@ -397,7 +397,7 @@ class CombatBannerViewModel: ObservableObject {
             }
 
             self.attackerViewModel.update(
-                name: attackerUnit.name(),
+                name: attackerUnit.name().localized(),
                 portraitTextureName: attackerUnit.type.portraitTexture(),
                 strength: attackerStrength,
                 healthPoints: attackerUnit.healthPoints(),

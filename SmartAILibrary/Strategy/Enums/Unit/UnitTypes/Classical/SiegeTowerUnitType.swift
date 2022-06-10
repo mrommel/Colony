@@ -14,12 +14,12 @@ internal class SiegeTowerUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Siege Tower",
+            name: "TXT_KEY_UNIT_SIEGE_TOWER_NAME",
             baseType: .siegeTower,
             domain: .land,
             effects: [
-                "When adjacent to a city, attacking melee units and anti-cavalry units ignore Walls and immediately assault the city.",
-                "Only effective against Ancient Walls and Medieval Walls."
+                "TXT_KEY_UNIT_SIEGE_TOWER_EFFECT1",
+                "TXT_KEY_UNIT_SIEGE_TOWER_EFFECT2"
             ],
             abilities: [],
             era: .classical,

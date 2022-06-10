@@ -120,10 +120,10 @@ final class UnitViewModel: QueueViewModel, Codable {
     func title() -> String {
 
         if let unit = self.unit {
-            return unit.name()
+            return unit.name().localized()
         }
 
-        return self.unitType.name()
+        return self.unitType.name().localized()
     }
 
     func turnsText() -> String {

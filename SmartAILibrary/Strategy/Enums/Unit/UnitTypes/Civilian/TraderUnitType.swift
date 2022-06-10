@@ -14,12 +14,12 @@ internal class TraderUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Trader",
+            name: "TXT_KEY_UNIT_TRADER_NAME",
             baseType: .trader,
             domain: .land,
             effects: [
-                "May make and maintain a single [TradeRoute] Trade Route. Automatically creates Roads as it travels.",
-                "Production cost is progressive."
+                "TXT_KEY_UNIT_TRADER_EFFECT1",
+                "TXT_KEY_UNIT_TRADER_EFFECT2"
             ],
             abilities: [
                 .canEstablishTradeRoute,

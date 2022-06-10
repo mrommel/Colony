@@ -14,11 +14,11 @@ internal class MerchantUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Merchant",
+            name: "TXT_KEY_UNIT_MERCHANT_NAME",
             baseType: .merchant,
             domain: .land,
             effects: [
-                "Activate on an appropriate tile to receive their effects."
+                "TXT_KEY_UNIT_MERCHANT_EFFECT1"
             ],
             abilities: [],
             era: .none,

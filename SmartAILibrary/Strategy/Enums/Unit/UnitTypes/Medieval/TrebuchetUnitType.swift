@@ -14,13 +14,13 @@ internal class TrebuchetUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Trebuchet",
+            name: "TXT_KEY_UNIT_TREBUCHET_NAME",
             baseType: .trebuchet,
             domain: .land,
             effects: [
-                "Deals bombard-type damage, effective against District defenses.",
-                "-17 Bombard Strength against land units.",
-                "Without the Expert Crew Promotion, cannot attack after moving unless its maximum Movement is 3 or more."
+                "TXT_KEY_UNIT_TREBUCHET_EFFECT1",
+                "TXT_KEY_UNIT_TREBUCHET_EFFECT2",
+                "TXT_KEY_UNIT_TREBUCHET_EFFECT3"
             ],
             abilities: [],
             era: .classical,

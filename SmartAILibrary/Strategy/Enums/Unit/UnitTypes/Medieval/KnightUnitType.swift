@@ -14,11 +14,11 @@ internal class KnightUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Knight",
+            name: "TXT_KEY_UNIT_KNIGHT_NAME",
             baseType: .knight,
             domain: .land,
             effects: [
-                "Ignores enemy zone of control."
+                "TXT_KEY_UNIT_KNIGHT_EFFECT1"
             ],
             abilities: [.canCapture],
             era: .medieval,

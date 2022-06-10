@@ -14,12 +14,12 @@ internal class HorsemanUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Horseman",
+            name: "TXT_KEY_UNIT_HORSEMAN_NAME",
             baseType: .horseman,
             domain: .land,
             effects: [
-                "First unit with a [Movement] Movement of 4.",
-                "Ignores enemy zone of control."
+                "TXT_KEY_UNIT_HORSEMAN_EFFECT1",
+                "TXT_KEY_UNIT_HORSEMAN_EFFECT2"
             ],
             abilities: [
                 .canCapture,

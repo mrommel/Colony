@@ -14,11 +14,11 @@ internal class ProphetUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Prophet",
+            name: "TXT_KEY_UNIT_PROPHET_NAME",
             baseType: .prophet,
             domain: .land,
             effects: [
-                "Activate on Holy Site or Stonehenge to found a Religion."
+                "TXT_KEY_UNIT_PROPHET_EFFECT1"
             ],
             abilities: [],
             era: .none,

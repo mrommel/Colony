@@ -14,11 +14,11 @@ internal class PikemanUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Pikeman",
+            name: "TXT_KEY_UNIT_PIKEMAN_NAME",
             baseType: .pikeman,
             domain: .land,
             effects: [
-                "+10 [Strength] Combat Strength vs. light, heavy, and ranged cavalry units."
+                "TXT_KEY_UNIT_PIKEMAN_EFFECT1"
             ],
             abilities: [.canCapture],
             era: .medieval,

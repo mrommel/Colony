@@ -14,11 +14,11 @@ internal class ScientistUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Scientist",
+            name: "TXT_KEY_UNIT_SCIENTIST_NAME",
             baseType: .scientist,
             domain: .land,
             effects: [
-                "Activate on an appropriate tile to receive their effects."
+                "TXT_KEY_UNIT_SCIENTIST_EFFECT1"
             ],
             abilities: [],
             era: .none,

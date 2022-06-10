@@ -184,7 +184,7 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
     init(unit: UnitType) {
 
         self.title = unit.name().localized()
-        self.summary = "Unit of class \(unit.unitClass().name())"
+        self.summary = "Unit of class \(unit.unitClass().name().localized())"
         var detailText = "Effects: \n"
         unit.effects().forEach { detailText += ("* " + $0.localized() + "\n") }
         self.detail = detailText
@@ -321,7 +321,7 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
         self.title = government.name().localized()
         self.summary = "Government from the \(government.era()) era that requires \(government.required().name().localized()) to be researched."
         let slots: [String] = PolicyCardSlotType.all
-            .map { "\(government.policyCardSlots().numberOfSlots(in: $0)) \($0.name()) slots" }
+            .map { "\(government.policyCardSlots().numberOfSlots(in: $0)) \($0.name().localized()) slots" }
         let slotsText = ListFormatter.localizedString(byJoining: slots)
         self.detail = "\(government.bonus1Summary().localized())\n\(government.bonus2Summary().localized())\nIt has \(slotsText)."
         self.imageName = government.iconTexture()

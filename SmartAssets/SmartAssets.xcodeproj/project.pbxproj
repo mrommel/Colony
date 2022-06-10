@@ -27,6 +27,7 @@
 		C931ADE32577D1510002BA2F /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C931ADE22577D1510002BA2F /* ArrayExtension.swift */; };
 		C932BA842774AC4E00F4640D /* Dedications.strings in Resources */ = {isa = PBXBuildFile; fileRef = C932BA832774AC4E00F4640D /* Dedications.strings */; };
 		C939254726F0E66B00E51921 /* CityExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C939254626F0E66B00E51921 /* CityExtension.swift */; };
+		C946702A2853C14500734327 /* Units.strings in Resources */ = {isa = PBXBuildFile; fileRef = C94670292853C14500734327 /* Units.strings */; };
 		C950F990264573F30057A7D1 /* CommandTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F98F264573F20057A7D1 /* CommandTypeExtension.swift */; };
 		C950F9922647E2140057A7D1 /* NotificationTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F9912647E2130057A7D1 /* NotificationTypeExtension.swift */; };
 		C950F99D26490A790057A7D1 /* PolicyCardsTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950F99C26490A790057A7D1 /* PolicyCardsTypeExtension.swift */; };
@@ -181,6 +182,7 @@
 		C931ADE22577D1510002BA2F /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		C932BA832774AC4E00F4640D /* Dedications.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Dedications.strings; sourceTree = "<group>"; };
 		C939254626F0E66B00E51921 /* CityExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityExtension.swift; sourceTree = "<group>"; };
+		C94670292853C14500734327 /* Units.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Units.strings; sourceTree = "<group>"; };
 		C950F98F264573F20057A7D1 /* CommandTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandTypeExtension.swift; sourceTree = "<group>"; };
 		C950F9912647E2130057A7D1 /* NotificationTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTypeExtension.swift; sourceTree = "<group>"; };
 		C950F99C26490A790057A7D1 /* PolicyCardsTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyCardsTypeExtension.swift; sourceTree = "<group>"; };
@@ -498,6 +500,7 @@
 				C9C1699827DCF61000E61088 /* Leaders.strings */,
 				C985037E28454D990074A025 /* Buildings.strings */,
 				C9E6630D2850DA4D0077DB26 /* Districts.strings */,
+				C94670292853C14500734327 /* Units.strings */,
 			);
 			path = Strings;
 			sourceTree = "<group>";
@@ -669,6 +672,7 @@
 				C9A09850261CB6930098C5E1 /* knight.png in Resources */,
 				C9A0985A261CB6930098C5E1 /* long_swordman.xml in Resources */,
 				C963AD102785E27100981EF3 /* Techs.strings in Resources */,
+				C946702A2853C14500734327 /* Units.strings in Resources */,
 				C9A25C1427023BD50071B186 /* prophet.png in Resources */,
 				C9A09848261CB6930098C5E1 /* spearman.png in Resources */,
 				C9E80CD227C7CCE60048216B /* AOE1_50500.pal in Resources */,

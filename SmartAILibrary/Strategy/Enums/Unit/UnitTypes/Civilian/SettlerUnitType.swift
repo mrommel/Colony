@@ -14,12 +14,12 @@ internal class SettlerUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Settler",
+            name: "TXT_KEY_UNIT_SETTLER_NAME",
             baseType: .settler,
             domain: .land,
             effects: [
-                "May create new cities. Reduces city's Citizen Population by 1 when completed. Requires at least 2 Citizen Population.",
-                "Production cost is progressive."
+                "TXT_KEY_UNIT_SETTLER_EFFECT1",
+                "TXT_KEY_UNIT_SETTLER_EFFECT2"
             ],
             abilities: [.canFound],
             era: .ancient,

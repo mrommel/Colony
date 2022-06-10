@@ -14,12 +14,12 @@ internal class SkirmisherUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Skirmisher",
+            name: "TXT_KEY_UNIT_SKIRMISHER_NAME",
             baseType: .skirmisher,
             domain: .land,
             effects: [
-                "Has a ranged attack with Range 1.",
-                "-17 Ranged Strength against District defenses and Naval units."
+                "TXT_KEY_UNIT_SKIRMISHER_EFFECT1",
+                "TXT_KEY_UNIT_SKIRMISHER_EFFECT2"
             ],
             abilities: [.canCapture],
             era: .medieval,

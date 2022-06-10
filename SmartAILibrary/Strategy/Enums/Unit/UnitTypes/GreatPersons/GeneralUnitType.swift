@@ -14,11 +14,11 @@ internal class GeneralUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "General",
+            name: "TXT_KEY_UNIT_GENERAL_NAME",
             baseType: .general,
             domain: .land,
             effects: [
-                "Boosts combat strength and mobility of nearby land units. Can \"Retire\" to expend it once no longer useful."
+                "TXT_KEY_UNIT_GENERAL_EFFECT1"
             ],
             abilities: [],
             era: .none,

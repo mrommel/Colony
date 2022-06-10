@@ -14,12 +14,12 @@ internal class GalleyUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Galley",
+            name: "TXT_KEY_UNIT_GALLEY_NAME",
             baseType: .galley,
             domain: .sea,
             effects: [
-                "Ancient era melee naval combat unit.",
-                "Can only operate on coastal waters until Cartography is researched."
+                "TXT_KEY_UNIT_GALLEY_EFFECT1",
+                "TXT_KEY_UNIT_GALLEY_EFFECT2"
             ],
             abilities: [
                 .oceanImpassable,

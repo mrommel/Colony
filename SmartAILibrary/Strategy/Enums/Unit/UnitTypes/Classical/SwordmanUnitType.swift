@@ -14,11 +14,11 @@ internal class SwordmanUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Swordman",
+            name: "TXT_KEY_UNIT_SWORDMAN_NAME",
             baseType: .swordman,
             domain: .land,
             effects: [
-                "+5 [Strength] Combat Strength vs. anti-cavalry units."
+                "TXT_KEY_UNIT_SWORDMAN_EFFECT1"
             ],
             abilities: [.canCapture],
             era: .classical,

@@ -14,13 +14,13 @@ internal class CatapultUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Catapult",
+            name: "TXT_KEY_UNIT_CATAPULT_NAME",
             baseType: .catapult,
             domain: .land,
             effects: [
-                "Deals bombard-type damage, effective against District defenses.",
-                "-17 Bombard Strength against land units.",
-                "Without the Expert Crew Promotion, cannot attack after moving unless its maximum Movement is 3 or more."
+                "TXT_KEY_UNIT_CATAPULT_EFFECT1",
+                "TXT_KEY_UNIT_CATAPULT_EFFECT2",
+                "TXT_KEY_UNIT_CATAPULT_EFFECT3"
             ],
             abilities: [.canCapture],
             era: .classical,

@@ -14,12 +14,12 @@ internal class HeavyChariotUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Heavy Chariot",
+            name: "TXT_KEY_UNIT_HEAVY_CHARIOT_NAME",
             baseType: .heavyChariot,
             domain: .land,
             effects: [
-                "Hard-hitting, Ancient era heavy cavalry unit.",
-                "Gains 1 bonus Movement if it begins a turn on a flat tile with no Woods, Rainforest, or Hills."
+                "TXT_KEY_UNIT_HEAVY_CHARIOT_EFFECT1",
+                "TXT_KEY_UNIT_HEAVY_CHARIOT_EFFECT2"
             ],
             abilities: [.canCapture],
             era: .ancient,

@@ -14,11 +14,11 @@ internal class ScoutUnitType: UnitTypeData {
     init() {
 
         super.init(
-            name: "Scout",
+            name: "TXT_KEY_UNIT_SCOUT_NAME",
             baseType: .scout,
             domain: .land,
             effects: [
-                "Fast-moving, Ancient era recon unit."
+                "TXT_KEY_UNIT_SCOUT_EFFECT1"
             ],
             abilities: [.experienceFromTribal],
             era: .ancient,
