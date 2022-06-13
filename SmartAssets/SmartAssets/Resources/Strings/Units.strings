@@ -30,6 +30,7 @@
 // scout
 "TXT_KEY_UNIT_SCOUT_NAME" = "Scout";
 "TXT_KEY_UNIT_SCOUT_EFFECT1" = "Fast-moving, Ancient era recon unit.";
+// Gains XP when activating Tribal Villages (+5 XP) and discovering natural wonders (+10 XP), besides the normal gains from combat. // #
 
 // recon - medieval
 

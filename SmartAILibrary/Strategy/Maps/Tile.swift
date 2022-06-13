@@ -119,6 +119,7 @@ public protocol AbstractTile: Codable, NSCopying {
     func isOpenGround() -> Bool
     func isWater() -> Bool
     func isLand() -> Bool
+    func domain() -> UnitDomainType
     func isRoughGround() -> Bool
     func isImpassable(for movementType: UnitMovementType) -> Bool
 
@@ -134,6 +135,8 @@ public protocol AbstractTile: Codable, NSCopying {
 
     func has(route: RouteType) -> Bool
     func hasAnyRoute() -> Bool
+    func isRoute() -> Bool
+    func isValidRoute(for unit: AbstractUnit?) -> Bool
 
     func canBuild(buildType: BuildType, by player: AbstractPlayer?) -> Bool
     @discardableResult
@@ -247,6 +250,8 @@ public protocol AbstractTile: Codable, NSCopying {
     func isRiverIn(flow: FlowDirection) -> Bool
 
     func movementCost(for movementType: UnitMovementType, from source: AbstractTile, wrapX wrapXValue: Int) -> Double
+    func needsEmbarkation(by unit: AbstractUnit?) -> Bool
+
     func isValidDomainFor(unit: AbstractUnit?) -> Bool
     func isValidDomainForAction(of unit: AbstractUnit?) -> Bool
 
@@ -1071,6 +1076,31 @@ public class Tile: AbstractTile {
         return self.routeValue != .none
     }
 
+    //    --------------------------------------------------------------------------------
+    public func isRoute() -> Bool {
+
+        return self.routeValue != .none
+    }
+
+    //    --------------------------------------------------------------------------------
+    public func isValidRoute(for unitRef: AbstractUnit?) -> Bool {
+
+        if self.routeValue != .none && !self.routePillagedValue {
+
+            guard let unit = unitRef else {
+                return true
+            }
+
+            if unit.domain() == self.domain() {
+
+                // no owner - no enemy
+                return !unit.isEnemy(of: self.ownerValue) || unit.isEnemyRoute()
+            }
+        }
+
+        return false
+    }
+
     public func canBePillaged() -> Bool {
 
         return self.improvementValue.canBePillaged()
@@ -1393,6 +1423,11 @@ public class Tile: AbstractTile {
     public func isLand() -> Bool {
 
         return self.terrainVal.isLand()
+    }
+
+    public func domain() -> UnitDomainType {
+
+        return self.terrainVal.isWater() ? .sea : .land
     }
 
     func isFlatlands() -> Bool {
@@ -1730,41 +1765,42 @@ public class Tile: AbstractTile {
         }
 
         // https://civilization.fandom.com/wiki/Roads_(Civ6)
-        switch self.route() {
+        if self.hasAnyRoute() {
+            terrainCost = self.routeValue.movementCost()
 
-        case .none:
-            // NOOP
-            break
+            if self.routeValue != .ancientRoad {
+                riverCost =  0.0
+            }
 
-        case .ancientRoad:
-            // Starting road, well-packed dirt. Most terrain costs 1 MP; crossing rivers still costs 3 MP.
-            terrainCost = 1.0
             hillCosts = 0.0
             featureCosts = 0.0
-
-        case .classicalRoad:
-            // Adds bridges over rivers; crossing them now also costs 1 MP.
-            terrainCost = 1.0
-            hillCosts = 0.0
-            featureCosts = 0.0
-            riverCost = 0.0
-
-        case .industrialRoad:
-            // Paved roads are developed; 0.75 MP per tile.
-            terrainCost = 0.75
-            hillCosts = 0.0
-            featureCosts = 0.0
-            riverCost = 0.0
-
-        case .modernRoad:
-            // Asphalted roads are developed; 0.50 MP per tile.
-            terrainCost = 0.5
-            hillCosts = 0.0
-            featureCosts = 0.0
-            riverCost = 0.0
         }
 
         return terrainCost + hillCosts + featureCosts + riverCost
+    }
+
+    public func needsEmbarkation(by unitRef: AbstractUnit?) -> Bool {
+
+        // embarkation only on water plots
+        if !self.isWater() || self.featureValue == .ice /* || IsAllowsWalkWater()*/ {
+            return false
+        }
+
+        guard let unit = unitRef else {
+            return true
+        }
+
+        //only land units need to embark
+        if unit.domain() != .land || unit.canMoveAllTerrain() {
+            return false
+        }
+
+        //some units can flip between different types
+        /*if unit.isConvertUnit())
+            return false;*/
+
+        // we know it's a land unit and a water plot by now
+        return true
     }
 
     func isNeighbor(to candidate: HexPoint, wrapX wrapXValue: Int = -1) -> Bool {

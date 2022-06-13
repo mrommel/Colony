@@ -25,6 +25,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     func isBarbarian() -> Bool
     func isHuman() -> Bool
     func isEnemy(of otherPlayer: AbstractPlayer?) -> Bool
+    func isEnemyRoute() -> Bool
     func unitClassType() -> UnitClassType
     func unitMapType() -> UnitMapType
 
@@ -62,9 +63,11 @@ public protocol AbstractUnit: AnyObject, Codable {
     func canEnterTerrain(of tile: AbstractTile?) -> Bool
     func isImpassable(terrain: TerrainType) -> Bool
     func canMoveAllTerrain() -> Bool
+    func isIgnoreZoneOfControl() -> Bool
     func validTarget(at target: HexPoint, in gameModel: GameModel?) -> Bool
     func canHold(at point: HexPoint, in gameModel: GameModel?) -> Bool
     func canEnterTerritory(of otherPlayer: AbstractPlayer?, ignoreRightOfPassage: Bool, isDeclareWarMove: Bool) -> Bool
+    func isHoveringUnit() -> Bool
 
     func healthPoints() -> Int
     func maxHealthPoints() -> Int
@@ -78,6 +81,9 @@ public protocol AbstractUnit: AnyObject, Codable {
     func upgradeType() -> UnitType?
     func canUpgrade(to unitType: UnitType, in gameModel: GameModel?) -> Bool
     func doUpgrade(to unitType: UnitType, in gameModel: GameModel?)
+
+    func isConvertUnit() -> Bool
+    func isSlowInEnemyLand() -> Bool
 
     func isOutOfAttacks() -> Bool
     func setMadeAttack(to newValue: Bool)
@@ -511,7 +517,7 @@ public class Unit: AbstractUnit {
 
         guard let player = self.player,
               let otherPlayer = otherPlayer else {
-            fatalError("cant get player")
+            return false
         }
 
         // barbarians are always enemies
@@ -520,6 +526,15 @@ public class Unit: AbstractUnit {
         }
 
         return player.isAtWar(with: otherPlayer)
+    }
+
+    public func isEnemyRoute() -> Bool {
+
+        guard let promotions = self.promotions else {
+            fatalError("cant get promotions")
+        }
+
+        return promotions.gainedPromotions().contains(where: { $0.isEnemyRoute() })
     }
 
     public func unitClassType() -> UnitClassType {
@@ -774,6 +789,16 @@ public class Unit: AbstractUnit {
         gameModel?.userInterface?.show(unit: newUnit, at: location)
 
         newUnit.finishMoves()
+    }
+
+    public func isConvertUnit() -> Bool {
+
+        return false
+    }
+
+    public func isSlowInEnemyLand() -> Bool {
+
+        return self.canSetUpForRangedAttack()
     }
 
     /// Current power of unit (raw unit type power adjusted for health)
@@ -2539,6 +2564,11 @@ public class Unit: AbstractUnit {
                 return true
             }
         }
+
+        return false
+    }
+
+    public func isHoveringUnit() -> Bool {
 
         return false
     }
@@ -4565,6 +4595,38 @@ public class Unit: AbstractUnit {
     public func canMoveAllTerrain() -> Bool {
 
         // FIXME
+        return false
+    }
+
+    public func isIgnoreZoneOfControl() -> Bool {
+
+        // There are units that ignore zone of control completely. They are:
+        // All cavalry units (light, heavy, and ranged)
+        if self.unitClassType() == .lightCavalry ||
+            self.unitClassType() == .heavyCavalry {
+            return true
+        }
+
+        // Naval raider units
+        if self.unitClassType() == .navalRaider {
+            return true
+        }
+
+        // Viking Longship (Harald Hardrada only)
+
+        // Air fighter units // Air bomber units
+        if self.unitClassType() == .airFighter || self.unitClassType() == .airBomber {
+            return true
+        }
+
+        guard let promotions = self.promotions else {
+            fatalError("cant get promotions")
+        }
+
+        if promotions.gainedPromotions().contains(where: { $0.ignoreZoneOfControl() }) {
+            return true
+        }
+
         return false
     }
 

@@ -321,6 +321,7 @@
 		C9C315D527B55A7A00387733 /* GameWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C315D427B55A7A00387733 /* GameWriter.swift */; };
 		C9C315D727B55AAB00387733 /* GameLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C315D627B55AAB00387733 /* GameLoader.swift */; };
 		C9C52FCC23D8EFCC00B34140 /* PlayerScoringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C52FCB23D8EFCC00B34140 /* PlayerScoringTests.swift */; };
+		C9C8E5652857099D00853BEB /* UnitMovement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C8E5642857099D00853BEB /* UnitMovement.swift */; };
 		C9D1919B26596315008C9622 /* PantheonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D1919A26596315008C9622 /* PantheonType.swift */; };
 		C9D1919D265968F3008C9622 /* ReligionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D1919C265968F3008C9622 /* ReligionType.swift */; };
 		C9D1919F265969CF008C9622 /* BeliefType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D1919E265969CF008C9622 /* BeliefType.swift */; };
@@ -756,6 +757,7 @@
 		C9C315D427B55A7A00387733 /* GameWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameWriter.swift; sourceTree = "<group>"; };
 		C9C315D627B55AAB00387733 /* GameLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLoader.swift; sourceTree = "<group>"; };
 		C9C52FCB23D8EFCC00B34140 /* PlayerScoringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerScoringTests.swift; sourceTree = "<group>"; };
+		C9C8E5642857099D00853BEB /* UnitMovement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitMovement.swift; sourceTree = "<group>"; };
 		C9D1919A26596315008C9622 /* PantheonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantheonType.swift; sourceTree = "<group>"; };
 		C9D1919C265968F3008C9622 /* ReligionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReligionType.swift; sourceTree = "<group>"; };
 		C9D1919E265969CF008C9622 /* BeliefType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeliefType.swift; sourceTree = "<group>"; };
@@ -1293,6 +1295,7 @@
 				C907085523EC5F5600281161 /* Unit.swift */,
 				C956BF5D24F105FC009702B4 /* UnitTradeRouteData.swift */,
 				C9FE1411241517D2008CC6B3 /* UnitMission.swift */,
+				C9C8E5642857099D00853BEB /* UnitMovement.swift */,
 				C9EE60AB240270FB00535B93 /* Armies.swift */,
 				C9EE60AD2402714C00535B93 /* Army.swift */,
 				C978E0ED252269C3008B8001 /* ArmyFormationSlot.swift */,
@@ -1852,6 +1855,7 @@
 				C9D8DF6E23EDAD7E0091C917 /* UnitTaskType.swift in Sources */,
 				C93B21BD2727D30600B6D287 /* PikemanUnitType.swift in Sources */,
 				C965A53023FC6A7E00BCEB54 /* HexPointWithCorner.swift in Sources */,
+				C9C8E5652857099D00853BEB /* UnitMovement.swift in Sources */,
 				C9588AC92419897300304E9A /* CitySpecializationType.swift in Sources */,
 				C9DFCF7423F29DA90032243D /* Array2D.swift in Sources */,
 				C9A12B6D26FA562B0094B980 /* Governor.swift in Sources */,

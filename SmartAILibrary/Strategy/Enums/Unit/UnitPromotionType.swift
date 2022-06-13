@@ -9,6 +9,7 @@
 import Foundation
 
 // https://civilization.fandom.com/wiki/Promotions_(Civ6)
+// https://github.com/LoneGazebo/Community-Patch-DLL/blob/b33ee4a04e91d27356af0bcc421de1b7899ac073/(2)%20Vox%20Populi/Balance%20Changes/Units/PromotionChanges.xml
 public enum UnitPromotionType: Int, Codable {
 
     case embarkation
@@ -58,6 +59,27 @@ public enum UnitPromotionType: Int, Codable {
         let unitClass: UnitClassType
         let required: [UnitPromotionType]
         let consumable: Bool
+        let enemyRoute: Bool
+        let ignoreZoneOfControl: Bool
+
+        init(name: String,
+             effect: String,
+             tier: Int,
+             unitClass: UnitClassType,
+             required: [UnitPromotionType],
+             consumable: Bool,
+             enemyRoute: Bool = false,
+             ignoreZoneOfControl: Bool = false) {
+
+            self.name = name
+            self.effect = effect
+            self.tier = tier
+            self.unitClass = unitClass
+            self.required = required
+            self.consumable = consumable
+            self.enemyRoute = enemyRoute
+            self.ignoreZoneOfControl = ignoreZoneOfControl
+        }
     }
 
     // MARK: methods
@@ -92,6 +114,16 @@ public enum UnitPromotionType: Int, Codable {
         return self.data().consumable
     }
 
+    func isEnemyRoute() -> Bool {
+
+        return self.data().enemyRoute
+    }
+
+    func ignoreZoneOfControl() -> Bool {
+
+        return self.data().ignoreZoneOfControl
+    }
+
     // MARK: private methods
 
     private func data() -> PromotionData {
@@ -105,7 +137,8 @@ public enum UnitPromotionType: Int, Codable {
                 tier: 0,
                 unitClass: .melee,
                 required: [],
-                consumable: false)
+                consumable: false
+            )
 
             // general
         case .healthBoostRecon:
