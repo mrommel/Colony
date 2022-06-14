@@ -34,8 +34,8 @@ class PromotionViewModel: ObservableObject, Identifiable {
 
         self.promotionType = promotionType
 
-        self.name = promotionType.name()
-        self.effect = promotionType.effect()
+        self.name = promotionType.name().localized()
+        self.effect = promotionType.effect().localized()
         self.typeTexture = promotionType.iconTexture()
         self.state = state
     }

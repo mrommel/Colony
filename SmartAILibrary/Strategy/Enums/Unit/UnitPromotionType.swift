@@ -132,19 +132,21 @@ public enum UnitPromotionType: Int, Codable {
 
         case .embarkation:
             return PromotionData(
-                name: "Embarkation", // #
-                effect: "---",
+                name: "TXT_KEY_UNIT_PROMOTION_EMBARKATION_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_EMBARKATION_EFFECT",
                 tier: 0,
                 unitClass: .melee,
                 required: [],
                 consumable: false
             )
 
+            // ---------------------
             // general
+            
         case .healthBoostRecon:
             return PromotionData(
-                name: "Health Boost", // #
-                effect: "---",
+                name: "TXT_KEY_UNIT_PROMOTION_HEALTH_BOOST_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_HEALTH_BOOST_EFFECT",
                 tier: 0,
                 unitClass: .recon,
                 required: [],
@@ -152,20 +154,22 @@ public enum UnitPromotionType: Int, Codable {
             )
         case .healthBoostMelee:
             return PromotionData(
-                name: "Health Boost", // #
-                effect: "---",
+                name: "TXT_KEY_UNIT_PROMOTION_HEALTH_BOOST_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_HEALTH_BOOST_EFFECT",
                 tier: 0,
                 unitClass: .melee,
                 required: [],
                 consumable: true
             )
 
+            // ---------------------
             // recon
+
         case .ranger:
             // https://civilization.fandom.com/wiki/Ranger_(promotion)_(Civ6)
             return PromotionData(
-                name: "Ranger",
-                effect: "Faster Movement in Woods and Jungle terrain.", // #
+                name: "TXT_KEY_UNIT_PROMOTION_RANGER_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_RANGER_EFFECT",
                 tier: 1,
                 unitClass: .recon,
                 required: [],
@@ -174,8 +178,8 @@ public enum UnitPromotionType: Int, Codable {
         case .alpine:
             // https://civilization.fandom.com/wiki/Alpine_(Civ6)
             return PromotionData(
-                name: "Alpine",
-                effect: "Faster Movement on Hill terrain.", // #
+                name: "TXT_KEY_UNIT_PROMOTION_ALPINE_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_ALPINE_EFFECT",
                 tier: 1,
                 unitClass: .recon,
                 required: [],
@@ -184,8 +188,8 @@ public enum UnitPromotionType: Int, Codable {
         case .sentry:
             // https://civilization.fandom.com/wiki/Sentry_(Civ6)
             return PromotionData(
-                name: "Sentry",
-                effect: "Can see through Woods and Jungle.", // #
+                name: "TXT_KEY_UNIT_PROMOTION_SENTRY_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_SENTRY_EFFECT",
                 tier: 2,
                 unitClass: .recon,
                 required: [.ranger, .alpine],
@@ -194,8 +198,8 @@ public enum UnitPromotionType: Int, Codable {
         case .guerrilla:
             // https://civilization.fandom.com/wiki/Guerrilla_(Civ6)
             return PromotionData(
-                name: "Guerrilla",
-                effect: "Can move after attacking.", // #
+                name: "TXT_KEY_UNIT_PROMOTION_GUERRILLA_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_GUERRILLA_EFFECT",
                 tier: 2,
                 unitClass: .recon,
                 required: [.ranger, .alpine],
@@ -203,8 +207,8 @@ public enum UnitPromotionType: Int, Codable {
             )
         case .spyglass:
             return PromotionData(
-                name: "Spyglass",
-                effect: "+1 sight range.",
+                name: "TXT_KEY_UNIT_PROMOTION_SPYGLASS_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_SPYGLASS_EFFECT",
                 tier: 3,
                 unitClass: .recon,
                 required: [.sentry],
@@ -213,8 +217,8 @@ public enum UnitPromotionType: Int, Codable {
         case .ambush:
             // https://civilization.fandom.com/wiki/Ambush_(Civ6)
             return PromotionData(
-                name: "Ambush",
-                effect: "+20 [Strength] Combat Strength in all situations.", // #
+                name: "TXT_KEY_UNIT_PROMOTION_AMBUSH_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_AMBUSH_EFFECT",
                 tier: 3,
                 unitClass: .recon,
                 required: [.guerrilla],
@@ -223,20 +227,22 @@ public enum UnitPromotionType: Int, Codable {
         case .camouflage:
             // https://civilization.fandom.com/wiki/Camouflage_(Civ6)
             return PromotionData(
-                name: "Camouflage",
-                effect: "Only adjacent enemy units can reveal this unit.", // #
+                name: "TXT_KEY_UNIT_PROMOTION_CAMOUFLAGE_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_CAMOUFLAGE_EFFECT",
                 tier: 4,
                 unitClass: .recon,
                 required: [.spyglass, .ambush],
                 consumable: false
             )
 
+            // ---------------------
             // melee
+
         case .battleCry:
             // https://civilization.fandom.com/wiki/Battlecry_(Civ6)
             return PromotionData(
-                name: "Battlecry",
-                effect: "+7 [Strength] Combat Strength vs. melee and ranged units.",
+                name: "TXT_KEY_UNIT_PROMOTION_BATTLECRY_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_BATTLECRY_EFFECT",
                 tier: 1,
                 unitClass: .melee,
                 required: [],
@@ -245,8 +251,8 @@ public enum UnitPromotionType: Int, Codable {
         case .tortoise:
             // https://civilization.fandom.com/wiki/Tortoise_(Civ6)
             return PromotionData(
-                name: "Tortoise",
-                effect: "+10 [Strength] Combat Strength when defending against ranged attacks.",
+                name: "TXT_KEY_UNIT_PROMOTION_TORTOISE_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_TORTOISE_EFFECT",
                 tier: 1,
                 unitClass: .melee,
                 required: [],
@@ -255,8 +261,8 @@ public enum UnitPromotionType: Int, Codable {
         case .commando:
             // https://civilization.fandom.com/wiki/Commando_(Civ6)
             return PromotionData(
-                name: "Commando",
-                effect: "Can scale Cliff walls. +1 Movement.", // #
+                name: "TXT_KEY_UNIT_PROMOTION_COMMANDO_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_COMMANDO_EFFECT",
                 tier: 2,
                 unitClass: .melee,
                 required: [.battleCry, .amphibious],
@@ -265,8 +271,8 @@ public enum UnitPromotionType: Int, Codable {
         case .amphibious:
             // https://civilization.fandom.com/wiki/Amphibious_(Civ6)
             return PromotionData(
-                name: "Amphibious",
-                effect: "No [Strength] Combat Strength and Movement penalty when attacking from Sea or over a River.", // #
+                name: "TXT_KEY_UNIT_PROMOTION_AMPHIBIOUS_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_AMPHIBIOUS_EFFECT",
                 tier: 2,
                 unitClass: .melee,
                 required: [.tortoise, .commando],
@@ -275,8 +281,8 @@ public enum UnitPromotionType: Int, Codable {
         case .zweihander:
             // https://civilization.fandom.com/wiki/Zweihander_(Civ6)
             return PromotionData(
-                name: "Zweihander",
-                effect: "+7 [Strength] Combat Strength vs. anti-cavalry units.", // #
+                name: "TXT_KEY_UNIT_PROMOTION_ZWEIHANDER_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_ZWEIHANDER_EFFECT",
                 tier: 3,
                 unitClass: .melee,
                 required: [.tortoise, .amphibious],
@@ -285,8 +291,8 @@ public enum UnitPromotionType: Int, Codable {
         case .urbanWarfare:
             // https://civilization.fandom.com/wiki/Urban_Warfare_(Civ6)
             return PromotionData(
-                name: "Urban warfare",
-                effect: "+10 [Strength] Combat Strength when fighting in a city.", // #
+                name: "TXT_KEY_UNIT_PROMOTION_URBAN_WARFARE_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_URBAN_WARFARE_EFFECT",
                 tier: 3,
                 unitClass: .melee,
                 required: [.commando, .amphibious],
@@ -295,8 +301,8 @@ public enum UnitPromotionType: Int, Codable {
         case .eliteGuard:
             // https://civilization.fandom.com/wiki/Elite_Guard_(Civ6)
             return PromotionData(
-                name: "Elite guard",
-                effect: "+1 additional attack per turn if Movement allows. Can move after attacking.", // #
+                name: "TXT_KEY_UNIT_PROMOTION_ELITE_GUARD_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_ELITE_GUARD_EFFECT",
                 tier: 4,
                 unitClass: .melee,
                 required: [.zweihander, .urbanWarfare],

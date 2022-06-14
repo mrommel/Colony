@@ -296,8 +296,10 @@
 "TXT_KEY_UNIT_BARBARIAN_ARCHER_NAME" = "Barbarian Archer";
 
 
-
 // ---------------------
+// unit classes
+// ---------------------
+
 // civilian
 "TXT_KEY_UNIT_CLASS_CIVILIAN_NAME" = "Civilian";
 
@@ -345,3 +347,81 @@
 
 // city
 "TXT_KEY_UNIT_CLASS_CITY_NAME" = "City";
+
+
+// ---------------------
+// units promotions
+// ---------------------
+
+// embarkation
+"TXT_KEY_UNIT_PROMOTION_EMBARKATION_NAME" = "Embarkation"; // #
+"TXT_KEY_UNIT_PROMOTION_EMBARKATION_EFFECT" = "---";
+
+// ---------------------
+// general
+
+// healthBoostRecon / healthBoostMelee
+"TXT_KEY_UNIT_PROMOTION_HEALTH_BOOST_NAME" = "Health Boost"; // #
+"TXT_KEY_UNIT_PROMOTION_HEALTH_BOOST_EFFECT" = "---";
+
+// ---------------------
+// recon
+
+// ranger
+"TXT_KEY_UNIT_PROMOTION_RANGER_NAME" = "Ranger";
+"TXT_KEY_UNIT_PROMOTION_RANGER_EFFECT" = "Faster Movement in Woods and Jungle terrain."; // #
+
+// alpine
+"TXT_KEY_UNIT_PROMOTION_ALPINE_NAME" = "Alpine";
+"TXT_KEY_UNIT_PROMOTION_ALPINE_EFFECT" = "Faster Movement on Hill terrain."; // #
+
+// sentry
+"TXT_KEY_UNIT_PROMOTION_SENTRY_NAME" = "Sentry";
+"TXT_KEY_UNIT_PROMOTION_SENTRY_EFFECT" = "Can see through Woods and Jungle."; // #
+
+// guerrilla
+"TXT_KEY_UNIT_PROMOTION_GUERRILLA_NAME" = "Guerrilla";
+"TXT_KEY_UNIT_PROMOTION_GUERRILLA_EFFECT" = "Can move after attacking."; // #
+
+// spyglass
+"TXT_KEY_UNIT_PROMOTION_SPYGLASS_NAME" = "Spyglass";
+"TXT_KEY_UNIT_PROMOTION_SPYGLASS_EFFECT" = "+1 sight range.";
+
+// ambush
+"TXT_KEY_UNIT_PROMOTION_AMBUSH_NAME" = "Ambush";
+"TXT_KEY_UNIT_PROMOTION_AMBUSH_EFFECT" = "+20 [Strength] Combat Strength in all situations."; // #
+
+// camouflage
+"TXT_KEY_UNIT_PROMOTION_CAMOUFLAGE_NAME" = "Camouflage";
+"TXT_KEY_UNIT_PROMOTION_CAMOUFLAGE_EFFECT" = "Only adjacent enemy units can reveal this unit."; // #
+
+// ---------------------
+// melee
+
+// battleCry
+"TXT_KEY_UNIT_PROMOTION_BATTLECRY_NAME" = "Battlecry";
+"TXT_KEY_UNIT_PROMOTION_BATTLECRY_EFFECT" = "+7 [Strength] Combat Strength vs. melee and ranged units.";
+
+// tortoise
+"TXT_KEY_UNIT_PROMOTION_TORTOISE_NAME" = "Tortoise";
+"TXT_KEY_UNIT_PROMOTION_TORTOISE_EFFECT" = "+10 [Strength] Combat Strength when defending against ranged attacks.";
+
+// commando:
+"TXT_KEY_UNIT_PROMOTION_COMMANDO_NAME" = "Commando";
+"TXT_KEY_UNIT_PROMOTION_COMMANDO_EFFECT" = "Can scale Cliff walls. +1 Movement."; // #
+
+// amphibious
+"TXT_KEY_UNIT_PROMOTION_AMPHIBIOUS_NAME" = "Amphibious";
+"TXT_KEY_UNIT_PROMOTION_AMPHIBIOUS_EFFECT" = "No [Strength] Combat Strength and Movement penalty when attacking from Sea or over a River."; // #
+
+// zweihander
+"TXT_KEY_UNIT_PROMOTION_ZWEIHANDER_NAME" = "Zweihander";
+"TXT_KEY_UNIT_PROMOTION_ZWEIHANDER_EFFECT" = "+7 [Strength] Combat Strength vs. anti-cavalry units."; // #
+
+// urbanWarfare
+"TXT_KEY_UNIT_PROMOTION_URBAN_WARFARE_NAME" = "Urban warfare";
+"TXT_KEY_UNIT_PROMOTION_URBAN_WARFARE_EFFECT" = "+10 [Strength] Combat Strength when fighting in a city."; // #
+
+// eliteGuard
+"TXT_KEY_UNIT_PROMOTION_ELITE_GUARD_NAME" = "Elite guard";
+"TXT_KEY_UNIT_PROMOTION_ELITE_GUARD_EFFECT" = "+1 additional attack per turn if Movement allows. Can move after attacking."; // #
