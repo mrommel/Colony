@@ -1677,7 +1677,7 @@ public class Unit: AbstractUnit {
             return 0
         }
 
-        guard let path = self.path(towards: target, options: .none, in: gameModel) else {
+        guard var path = self.path(towards: target, options: .none, in: gameModel) else {
             print("Unable to generate path with BuildRouteFinder")
             if self.type == .trader {
                 self.finishMoves() // skip one turn
@@ -1761,6 +1761,9 @@ public class Unit: AbstractUnit {
         }
 
         var usedPathCost = 0.0
+
+        // this is wrong - unsure where it gets broken
+        path.cropPoints(until: self.location)
 
         print("unit \(self.location) => doMoveOnPath(\(path)")
         for (index, point) in path.enumerated() {
