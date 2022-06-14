@@ -351,6 +351,7 @@
 
 // ---------------------
 // units promotions
+// https://github.com/Swiftwork/civ6-explorer/blob/dbe3ca6d5468828ef0b26ef28f69555de0bcb959/src/assets/game/BaseGame/UnitPromotions.xml
 // ---------------------
 
 // embarkation
@@ -369,11 +370,11 @@
 
 // ranger
 "TXT_KEY_UNIT_PROMOTION_RANGER_NAME" = "Ranger";
-"TXT_KEY_UNIT_PROMOTION_RANGER_EFFECT" = "Faster Movement in Woods and Jungle terrain."; // #
+"TXT_KEY_UNIT_PROMOTION_RANGER_EFFECT" = "Faster Movement in Woods and Jungle terrain.";
 
 // alpine
 "TXT_KEY_UNIT_PROMOTION_ALPINE_NAME" = "Alpine";
-"TXT_KEY_UNIT_PROMOTION_ALPINE_EFFECT" = "Faster Movement on Hill terrain."; // #
+"TXT_KEY_UNIT_PROMOTION_ALPINE_EFFECT" = "Faster Movement on Hill terrain.";
 
 // sentry
 "TXT_KEY_UNIT_PROMOTION_SENTRY_NAME" = "Sentry";
@@ -381,7 +382,7 @@
 
 // guerrilla
 "TXT_KEY_UNIT_PROMOTION_GUERRILLA_NAME" = "Guerrilla";
-"TXT_KEY_UNIT_PROMOTION_GUERRILLA_EFFECT" = "Can move after attacking."; // #
+"TXT_KEY_UNIT_PROMOTION_GUERRILLA_EFFECT" = "Can move after attacking.";
 
 // spyglass
 "TXT_KEY_UNIT_PROMOTION_SPYGLASS_NAME" = "Spyglass";
@@ -389,7 +390,7 @@
 
 // ambush
 "TXT_KEY_UNIT_PROMOTION_AMBUSH_NAME" = "Ambush";
-"TXT_KEY_UNIT_PROMOTION_AMBUSH_EFFECT" = "+20 [Strength] Combat Strength in all situations."; // #
+"TXT_KEY_UNIT_PROMOTION_AMBUSH_EFFECT" = "+20 [Strength] Combat Strength in all situations.";
 
 // camouflage
 "TXT_KEY_UNIT_PROMOTION_CAMOUFLAGE_NAME" = "Camouflage";
@@ -406,7 +407,7 @@
 "TXT_KEY_UNIT_PROMOTION_TORTOISE_NAME" = "Tortoise";
 "TXT_KEY_UNIT_PROMOTION_TORTOISE_EFFECT" = "+10 [Strength] Combat Strength when defending against ranged attacks.";
 
-// commando:
+// commando
 "TXT_KEY_UNIT_PROMOTION_COMMANDO_NAME" = "Commando";
 "TXT_KEY_UNIT_PROMOTION_COMMANDO_EFFECT" = "Can scale Cliff walls. +1 Movement."; // #
 
@@ -416,12 +417,12 @@
 
 // zweihander
 "TXT_KEY_UNIT_PROMOTION_ZWEIHANDER_NAME" = "Zweihander";
-"TXT_KEY_UNIT_PROMOTION_ZWEIHANDER_EFFECT" = "+7 [Strength] Combat Strength vs. anti-cavalry units."; // #
+"TXT_KEY_UNIT_PROMOTION_ZWEIHANDER_EFFECT" = "+7 [Strength] Combat Strength vs. anti-cavalry units.";
 
 // urbanWarfare
 "TXT_KEY_UNIT_PROMOTION_URBAN_WARFARE_NAME" = "Urban warfare";
-"TXT_KEY_UNIT_PROMOTION_URBAN_WARFARE_EFFECT" = "+10 [Strength] Combat Strength when fighting in a city."; // #
+"TXT_KEY_UNIT_PROMOTION_URBAN_WARFARE_EFFECT" = "+10 [Strength] Combat Strength when fighting in a city.";
 
 // eliteGuard
 "TXT_KEY_UNIT_PROMOTION_ELITE_GUARD_NAME" = "Elite guard";
-"TXT_KEY_UNIT_PROMOTION_ELITE_GUARD_EFFECT" = "+1 additional attack per turn if Movement allows. Can move after attacking."; // #
+"TXT_KEY_UNIT_PROMOTION_ELITE_GUARD_EFFECT" = "+1 additional attack per turn if Movement allows. Can move after attacking.";

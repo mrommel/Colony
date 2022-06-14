@@ -18,8 +18,6 @@ class UnitMovement {
         toPlot toPlotRef: AbstractTile?,
         movesRemaining: Int,
         maxMoves: Int,
-        terrainFeatureCostMultiplierFromPromotions terrainFeatureCostMultiplierFromPromotionsValue: Int = -1,
-        terrainFeatureCostAdderFromPromotions terrainFeatureCostAdderFromPromotionsValue: Int =  -1,
         in gameModel: GameModel?
     ) -> Double {
 
@@ -33,8 +31,6 @@ class UnitMovement {
 
         var regularCost: Double = 1.0
         var routeCost: Double = Double(Int.max) // assume no route
-        var terrainFeatureCostMultiplierFromPromotions: Double = Double(terrainFeatureCostMultiplierFromPromotionsValue)
-        var terrainFeatureCostAdderFromPromotions: Double = Double(terrainFeatureCostAdderFromPromotionsValue)
 
         // some easy checks first
         if unit.isHuman() && !toPlot.isDiscovered(by: unit.player) {
@@ -217,7 +213,7 @@ class UnitMovement {
             }
         }*/
 
-        if toPlot.isRoughGround() /*&& unit.isRoughTerrainEndsTurn()*/ && !(routeFrom && routeTo) {
+        if toPlot.isRoughGround() && unit.isRoughTerrainEndsTurn() && !(routeFrom && routeTo) {
             // Is a unit's movement consumed for entering rough terrain?
             return Double(Int.max)
         }
@@ -241,7 +237,7 @@ class UnitMovement {
 
                 // Hill cost is hardcoded
                 if toPlot.hasHills() || toPlot.feature() == .mountains {
-                    regularCost += 1.0 /*HILLS_EXTRA_MOVEMENT */
+                    regularCost += 1.0 /* HILLS_EXTRA_MOVEMENT */
                 }
 
                 if riverCrossing && !amphibious {
@@ -253,26 +249,12 @@ class UnitMovement {
                 regularCost = max(1.0, regularCost /* - unit.extraMoveDiscount()*/)
             }
 
-            // now switch to high-precision costs
-            // regularCost *= iMoveDenominator;
-
-            if terrainFeatureCostMultiplierFromPromotions < 0 {
-                // we have to do it on the fly
-                terrainFeatureCostMultiplierFromPromotions = 1.0
-                // FIXME terrainFeatureCostMultiplierFromPromotions = CvUnitMovement::GetMovementCostMultiplierFromPromotions(pUnit, pToPlot);
-            }
-
             // multiplicative change
+            let terrainFeatureCostMultiplierFromPromotions = movementCostMultiplierFromPromotions(for: unit, on: toPlot)
             regularCost *= Double(terrainFeatureCostMultiplierFromPromotions)
-            // regularCost /= iMoveDenominator;
-
-            if terrainFeatureCostAdderFromPromotions < 0 {
-                // we have to do it on the fly
-                terrainFeatureCostAdderFromPromotions = 0.0
-                // FIXME terrainFeatureCostAdderFromPromotions = CvUnitMovement::GetMovementCostAdderFromPromotions(pUnit, pToPlot);
-            }
 
             // additive change
+            let terrainFeatureCostAdderFromPromotions = movementCostAdderFromPromotions(for: unit, on: toPlot)
             regularCost += terrainFeatureCostAdderFromPromotions
 
             // extra movement cost in some instances
@@ -301,8 +283,6 @@ class UnitMovement {
         toPlot toPlotRef: AbstractTile?,
         movesRemaining: Int,
         maxMoves: Int,
-        terrainFeatureCostMultiplierFromPromotions terrainFeatureCostMultiplierFromPromotionsValue: Int = -1,
-        terrainFeatureCostAdderFromPromotions terrainFeatureCostAdderFromPromotionsValue: Int =  -1,
         in gameModel: GameModel?
     ) -> Double {
 
@@ -316,8 +296,6 @@ class UnitMovement {
             toPlot: toPlotRef,
             movesRemaining: movesRemaining,
             maxMoves: maxMoves,
-            terrainFeatureCostMultiplierFromPromotions: terrainFeatureCostMultiplierFromPromotionsValue,
-            terrainFeatureCostAdderFromPromotions: terrainFeatureCostAdderFromPromotionsValue,
             in: gameModel
         )
     }
@@ -329,8 +307,6 @@ class UnitMovement {
         toPlot toPlotRef: AbstractTile?,
         movesRemaining: Int,
         maxMoves: Int,
-        terrainFeatureCostMultiplierFromPromotions terrainFeatureCostMultiplierFromPromotionsValue: Int = -1,
-        terrainFeatureCostAdderFromPromotions terrainFeatureCostAdderFromPromotionsValue: Int =  -1,
         in gameModel: GameModel?
     ) -> Double {
 
@@ -344,8 +320,6 @@ class UnitMovement {
             toPlot: toPlotRef,
             movesRemaining: movesRemaining,
             maxMoves: maxMoves,
-            terrainFeatureCostMultiplierFromPromotions: terrainFeatureCostMultiplierFromPromotionsValue,
-            terrainFeatureCostAdderFromPromotions: terrainFeatureCostAdderFromPromotionsValue,
             in: gameModel
         )
     }
@@ -357,8 +331,6 @@ class UnitMovement {
         toPlot toPlotRef: AbstractTile?,
         movesRemaining: Int,
         maxMoves: Int,
-        terrainFeatureCostMultiplierFromPromotions terrainFeatureCostMultiplierFromPromotionsValue: Int = -1,
-        terrainFeatureCostAdderFromPromotions terrainFeatureCostAdderFromPromotionsValue: Int =  -1,
         in gameModel: GameModel?
     ) -> Double {
 
@@ -366,8 +338,8 @@ class UnitMovement {
             unit: unitRef,
             fromPlot: fromPlotRef,
             toPlot: toPlotRef,
-            movesRemaining: terrainFeatureCostMultiplierFromPromotionsValue,
-            maxMoves: terrainFeatureCostAdderFromPromotionsValue,
+            movesRemaining: -1,
+            maxMoves: -1,
             in: gameModel
         )
 
@@ -487,5 +459,57 @@ class UnitMovement {
         }
 
         return false
+    }
+
+    // base value is 1. so < 1 actually means easier movement
+    static func movementCostMultiplierFromPromotions(for unitRef: AbstractUnit?, on tileRef: AbstractTile?) -> Double {
+
+        guard let tile = tileRef else {
+            return 1.0
+        }
+
+        var modifier = 1.0
+        let toTerrain = tile.terrain()
+        let toFeature = tile.feature()
+
+        /*if tile.hasHills() && pUnit->isHillsDoubleMove() {
+            modifier *= 0.5
+        } else if (pPlot->isHills() && pUnit->isTerrainHalfMove(TERRAIN_HILL)) {
+            modifier *= 2.0
+        } else if (pPlot->isMountain() && pUnit->isMountainsDoubleMove()) {
+            modifier *= 0.5
+        } else if (pUnit->isTerrainDoubleMove(eToTerrain) || pUnit->isFeatureDoubleMove(eToFeature)) {
+            modifier *= 0.5
+        } else if (pUnit->isTerrainHalfMove(eToTerrain) || pUnit->isFeatureHalfMove(eToFeature)) {
+            modifier *= 2.0
+        }*/
+
+        return modifier
+    }
+
+
+    // base value is 0, any value >0 means movement is harder
+    static func movementCostAdderFromPromotions(for unitRef: AbstractUnit?, on tileRef: AbstractTile?) -> Double {
+
+        guard let tile = tileRef, let unit = unitRef else {
+            return 1.0
+        }
+
+        var modifier = 0.0
+        // let toTerrain = tile.terrain()
+        let toFeature = tile.feature()
+
+        if unit.has(promotion: .ranger) && toFeature == .forest {
+            // ranger - Faster Movement in Woods and Jungle terrain.
+            modifier -= FeatureType.forest.movementCosts()
+        } else if unit.has(promotion: .ranger) && toFeature == .rainforest {
+            // ranger - Faster Movement in Woods and Jungle terrain.
+            modifier -= FeatureType.rainforest.movementCosts()
+        } else if unit.has(promotion: .alpine) && tile.hasHills() {
+            // alpine - Faster Movement on Hill terrain.
+            modifier -= 1.0 /* HILLS_EXTRA_MOVEMENT */
+        }
+
+        return modifier
     }
 }

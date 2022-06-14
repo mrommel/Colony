@@ -84,6 +84,7 @@ public protocol AbstractUnit: AnyObject, Codable {
 
     func isConvertUnit() -> Bool
     func isSlowInEnemyLand() -> Bool
+    func isRoughTerrainEndsTurn() -> Bool
 
     func isOutOfAttacks() -> Bool
     func setMadeAttack(to newValue: Bool)
@@ -109,6 +110,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     func experienceModifier() -> Double
     func set(experienceModifier: Double)
     func isPromotionReady() -> Bool
+    func has(promotion: UnitPromotionType) -> Bool
     func gainedPromotions() -> [UnitPromotionType]
     func possiblePromotions() -> [UnitPromotionType]
     func doPromote(with promotionType: UnitPromotionType, in gameModel: GameModel?)
@@ -801,6 +803,11 @@ public class Unit: AbstractUnit {
         return self.canSetUpForRangedAttack()
     }
 
+    public func isRoughTerrainEndsTurn() -> Bool {
+
+        return false
+    }
+
     /// Current power of unit (raw unit type power adjusted for health)
     public func power() -> Int {
 
@@ -949,7 +956,8 @@ public class Unit: AbstractUnit {
                 result.append(CombatModifier(value: 10, title: "Bonus against Anti-Cavalry"))
             }
 
-            if self.unitClassType() == .antiCavalry && (defender.unitClassType() == .lightCavalry || defender.unitClassType() == .heavyCavalry) {
+            if self.unitClassType() == .antiCavalry &&
+                (defender.unitClassType() == .lightCavalry || defender.unitClassType() == .heavyCavalry) {
                 result.append(CombatModifier(value: 10, title: "Bonus against Cavalry"))
             }
 
@@ -971,7 +979,14 @@ public class Unit: AbstractUnit {
             if promotions.has(promotion: .battleCry) {
                 // +7 Combat Strength vs. melee and ranged units.
                 if defender.unitClassType() == .melee || defender.unitClassType() == .ranged {
-                    result.append(CombatModifier(value: 7, title: "Battle Cry"))
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.battleCry.name()))
+                }
+            }
+
+            if promotions.has(promotion: .zweihander) {
+                if defender.unitClassType() == .antiCavalry {
+                    // +7 [Strength] Combat Strength vs. anti-cavalry units.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.zweihander.name()))
                 }
             }
         }
@@ -984,6 +999,16 @@ public class Unit: AbstractUnit {
             if self.unitClassType() == .ranged {
                 result.append(CombatModifier(value: -17, title: "Penalty against City"))
             }
+
+            if promotions.has(promotion: .urbanWarfare) {
+                // +10 [Strength] Combat Strength when fighting in a city.
+                result.append(CombatModifier(value: +10, title: UnitPromotionType.urbanWarfare.name()))
+            }
+        }
+
+        if promotions.has(promotion: .ambush) {
+            // +20 [Strength] Combat Strength in all situations.
+            result.append(CombatModifier(value: +20, title: UnitPromotionType.ambush.name()))
         }
 
         ////////////////////////
@@ -1160,7 +1185,14 @@ public class Unit: AbstractUnit {
             if promotions.has(promotion: .tortoise) {
                 if attacker.isRanged() && ranged {
                     // +10 Combat Strength when defending against ranged attacks.
-                    result.append(CombatModifier(value: 10, title: "Tortoise promotion"))
+                    result.append(CombatModifier(value: 10, title: UnitPromotionType.tortoise.name()))
+                }
+            }
+
+            if promotions.has(promotion: .zweihander) {
+                if attacker.unitClassType() == .antiCavalry {
+                    // +7 [Strength] Combat Strength vs. anti-cavalry units.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.zweihander.name()))
                 }
             }
 
@@ -1201,6 +1233,11 @@ public class Unit: AbstractUnit {
             if supportUnitCount > 0 {
                 result.append(CombatModifier(value: 2 * supportUnitCount, title: "Support Bonus"))
             }
+        }
+
+        if promotions.has(promotion: .ambush) {
+            // +20 [Strength] Combat Strength in all situations.
+            result.append(CombatModifier(value: +20, title: UnitPromotionType.ambush.name()))
         }
 
         return result
@@ -1355,6 +1392,16 @@ public class Unit: AbstractUnit {
     }
 
     public func canMoveAfterAttacking() -> Bool {
+
+        // guerrilla - Can move after attacking.
+        if self.has(promotion: .guerrilla) {
+            return true
+        }
+
+        // eliteGuard - +1 additional attack per turn if Movement allows. Can move after attacking.
+        if self.has(promotion: .eliteGuard) {
+            return true
+        }
 
         return false
     }
@@ -1769,9 +1816,9 @@ public class Unit: AbstractUnit {
         for (index, point) in path.enumerated() {
 
             // skip first point
-            if index == 0 {
+            /*if index == 0 {
                 continue
-            }
+            }*/
 
             if self.doMove(on: point, in: gameModel) {
 
@@ -3030,6 +3077,15 @@ public class Unit: AbstractUnit {
         let level = self.experienceLevel()
 
         return promotions.count() < (level - 1)
+    }
+
+    public func has(promotion: UnitPromotionType) -> Bool {
+
+        guard let promotions = self.promotions else {
+            fatalError("cant get promotions")
+        }
+
+        return promotions.has(promotion: promotion)
     }
 
     public func gainedPromotions() -> [UnitPromotionType] {
