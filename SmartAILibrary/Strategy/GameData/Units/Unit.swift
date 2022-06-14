@@ -1605,14 +1605,7 @@ public class Unit: AbstractUnit {
             fatalError("cant get game")
         }
 
-        let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(
-            for: self.movementType(),
-            for: self.player,
-            ignoreOwner: self.type.canMoveInRivalTerritory(),
-            unitMapType: self.unitMapType(),
-            canEmbark: self.canEmbark(in: gameModel) || self.isEmbarked(),
-            canEnterOcean: self.player!.canEnterOcean()
-        )
+        let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(for: self)
         let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
         if var path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: target) {
@@ -1814,13 +1807,7 @@ public class Unit: AbstractUnit {
             fatalError("cant get oldPlot")
         }
 
-        let costDataSource = gameModel.unitAwarePathfinderDataSource(
-            for: self.movementType(),
-            for: self.player,
-            unitMapType: self.unitMapType(),
-            canEmbark: self.canEmbark(in: gameModel) || self.isEmbarked(),
-            canEnterOcean: self.player!.canEnterOcean()
-        )
+        let costDataSource = gameModel.unitAwarePathfinderDataSource(for: self)
 
         if !self.canMove() {
             return false
@@ -1935,10 +1922,6 @@ public class Unit: AbstractUnit {
 
         guard let player = self.player else {
             fatalError("cant get player")
-        }
-
-        guard let techs = player.techs else {
-            fatalError("cant get player techs")
         }
 
         guard let diplomacyAI = player.diplomacyAI else {
@@ -2113,7 +2096,7 @@ public class Unit: AbstractUnit {
         self.doMobilize(in: gameModel) // unfortify
 
         // needs to be here so that the square is considered visible when we move into it...
-        gameModel.sight(at: newLocation, sight: self.sight(), for: player)
+            gameModel.sight(at: newLocation, sight: self.sight(), by: self, for: player)
         // newPlot->area()->changeUnitsPerPlayer(getOwner(), 1);
         var newCityRef = gameModel.city(at: newPlot.point)
 
@@ -2205,6 +2188,11 @@ public class Unit: AbstractUnit {
 
             if newPlot.has(improvement: .goodyHut) {
                 self.player?.doGoodyHut(at: newPlot, by: self, in: gameModel)
+
+                if self.type.has(ability: .experienceFromTribal) {
+                    // Gains XP when activating Tribal Villages (+5 XP) and discovering Natural Wonders (+10 XP)
+                    self.changeExperience(by: 5, in: gameModel)
+                }
             }
 
             if newPlot.has(improvement: .barbarianCamp) {
@@ -4172,13 +4160,7 @@ public class Unit: AbstractUnit {
             return true
         }
 
-        let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(
-            for: self.movementType(),
-            for: self.player,
-            unitMapType: self.unitMapType(),
-            canEmbark: self.canEmbark(in: gameModel),
-            canEnterOcean: self.player!.canEnterOcean()
-        )
+        let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(for: self)
         let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: point) {
@@ -4196,13 +4178,7 @@ public class Unit: AbstractUnit {
             fatalError("cant get game")
         }
 
-        let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(
-            for: self.movementType(),
-            for: self.player,
-            unitMapType: self.unitMapType(),
-            canEmbark: self.canEmbark(in: gameModel),
-            canEnterOcean: self.player!.canEnterOcean()
-        )
+        let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(for: self)
         let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
         if var path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: point) {
@@ -4616,6 +4592,10 @@ public class Unit: AbstractUnit {
 
         // Air fighter units // Air bomber units
         if self.unitClassType() == .airFighter || self.unitClassType() == .airBomber {
+            return true
+        }
+
+        if self.type.abilities().contains(where: { $0 == .ignoreZoneOfControl }) {
             return true
         }
 

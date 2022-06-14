@@ -1790,12 +1790,12 @@ public class Tile: AbstractTile {
             return true
         }
 
-        //only land units need to embark
+        // only land units need to embark
         if unit.domain() != .land || unit.canMoveAllTerrain() {
             return false
         }
 
-        //some units can flip between different types
+        // some units can flip between different types
         /*if unit.isConvertUnit())
             return false;*/
 

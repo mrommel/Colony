@@ -23,7 +23,7 @@ internal class HorsemanUnitType: UnitTypeData {
             ],
             abilities: [
                 .canCapture,
-                .canIgnoreZoneOfControl
+                .ignoreZoneOfControl
             ],
             era: .classical,
             requiredResource: nil,

@@ -32,7 +32,7 @@ class UnitMovement {
         }
 
         var regularCost: Double = 1.0
-        var routeCost: Double = Double(Int.max) //assume no route
+        var routeCost: Double = Double(Int.max) // assume no route
         var terrainFeatureCostMultiplierFromPromotions: Double = Double(terrainFeatureCostMultiplierFromPromotionsValue)
         var terrainFeatureCostAdderFromPromotions: Double = Double(terrainFeatureCostAdderFromPromotionsValue)
 
@@ -140,7 +140,7 @@ class UnitMovement {
                     cheapEmbarkStateChange = true
                 }
 
-                //If city, and player has embark from city at reduced cost...
+                // If city, and player has embark from city at reduced cost...
                 if fromPlot.isCity() && gameModel.isCoastal(at: fromPlot.point) {
                     freeEmbarkStateChange = true
                 }

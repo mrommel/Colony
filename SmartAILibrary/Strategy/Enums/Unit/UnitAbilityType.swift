@@ -24,7 +24,7 @@ enum UnitAbilityType {
 
     case canHeal // Increases the healing of stationary adjacent units by +20 HP/turn.
     case canMoveInRivalTerritory
-    case canIgnoreZoneOfControl
+    case ignoreZoneOfControl
 
     static var all: [UnitAbilityType] {
 
@@ -33,7 +33,7 @@ enum UnitAbilityType {
 
             .canEmbark, .experienceFromTribal, .oceanImpassable, .canCapture,
 
-            .canHeal, .canMoveInRivalTerritory, .canIgnoreZoneOfControl
+            .canHeal, .canMoveInRivalTerritory, .ignoreZoneOfControl
         ]
     }
 
@@ -70,7 +70,7 @@ enum UnitAbilityType {
 
         case .canHeal: return AbilityData(name: "Can Heal adjacent units")
         case .canMoveInRivalTerritory: return AbilityData(name: "Can move in rival territorys")
-        case .canIgnoreZoneOfControl: return AbilityData(name: "Ignores enemy zone of control")
+        case .ignoreZoneOfControl: return AbilityData(name: "Ignores enemy zone of control")
         }
     }
 }
