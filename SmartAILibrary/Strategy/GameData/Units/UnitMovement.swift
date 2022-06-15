@@ -502,10 +502,10 @@ class UnitMovement {
 
         if unit.has(promotion: .ranger) && toFeature == .forest {
             // ranger - Faster Movement in Woods and Jungle terrain.
-            modifier -= FeatureType.forest.movementCosts()
+            modifier -= 1.0 // 2 - FeatureType.forest.movementCosts()
         } else if unit.has(promotion: .ranger) && toFeature == .rainforest {
             // ranger - Faster Movement in Woods and Jungle terrain.
-            modifier -= FeatureType.rainforest.movementCosts()
+            modifier -= 1.0 // 2 - FeatureType.rainforest.movementCosts()
         } else if unit.has(promotion: .alpine) && tile.hasHills() {
             // alpine - Faster Movement on Hill terrain.
             modifier -= 1.0 /* HILLS_EXTRA_MOVEMENT */
