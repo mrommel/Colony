@@ -36,6 +36,9 @@ class CityGrowthViewModel: ObservableObject {
 
     // -------- housing ----------
     @Published
+    var housingSummary: String
+
+    @Published
     var housingFromBuildings: String
 
     @Published
@@ -74,6 +77,7 @@ class CityGrowthViewModel: ObservableObject {
         self.growthInTurns = "-"
 
         // housing
+        self.housingSummary = "-"
         self.housingFromBuildings = "-"
         self.housingFromDistricts = "-"
         self.housingFromWater = "-"
@@ -132,7 +136,8 @@ class CityGrowthViewModel: ObservableObject {
             self.amenitiesFromCivics = "0"
 
             // housing
-            self.housingFromBuildings = "\(city.housingFromBuildings() + city.housingFromWonders(in: gameModel))"
+            self.housingSummary = "\(city.housingPerTurn(in: gameModel)) Housing for \(city.population()) Citizen"
+            self.housingFromBuildings = "\(city.housingFromBuildings()) / \(city.housingFromWonders(in: gameModel))"
             self.housingFromDistricts = "\(city.housingFromDistricts(in: gameModel))"
             self.housingFromWater = "\(city.baseHousing(in: gameModel))"
         }

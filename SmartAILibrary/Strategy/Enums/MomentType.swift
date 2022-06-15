@@ -1466,6 +1466,7 @@ extension MomentType: Codable {
         case dedication // DedicationType
         case casusBelli // CasusBelliType
         case pantheon // PantheonType
+        case cityState // CityStateType
     }
 
     public init(from decoder: Decoder) throws {
@@ -1502,7 +1503,9 @@ extension MomentType: Codable {
             let continentName = try container.decode(String.self, forKey: .continentName)
             self = .cityOnNewContinent(cityName: cityName, continentName: continentName)
 
-        // case cityStatesFirstSuzerain 8
+        case 8:
+            let cityState = try container.decode(CityStateType.self, forKey: .cityState)
+            self = .cityStatesFirstSuzerain(cityState: cityState)
         // case cityStateArmyLeviedNearEnemy 9
         // case climateChangePhase 10
 
@@ -1961,7 +1964,10 @@ extension MomentType: Codable {
             try container.encode(cityName, forKey: .cityName)
             try container.encode(continentName, forKey: .continentName)
 
-        // case cityStatesFirstSuzerain 8
+        case .cityStatesFirstSuzerain(cityState: let cityState):
+            try container.encode(8, forKey: .rawValue)
+            try container.encode(cityState, forKey: .cityState)
+
         // case cityStateArmyLeviedNearEnemy 9
         // case climateChangePhase 10
 
