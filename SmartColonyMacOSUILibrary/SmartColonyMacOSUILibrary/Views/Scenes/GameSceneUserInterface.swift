@@ -412,7 +412,7 @@ extension GameScene: UserInterfaceDelegate {
             text = String(format: "TXT_KEY_MISC_GOLD_FROM_KILL".localized(), gold)
 
         case .unitDiedAttacking(attackerName: let attackerName, defenderName: let defenderName, defenderDamage: let defenderDamage):
-            text = String(format: "TXT_KEY_MISC_YOU_UNIT_DIED_ATTACKING".localized(), attackerName, defenderName, defenderDamage)
+            text = String(format: "TXT_KEY_MISC_YOU_UNIT_DIED_ATTACKING".localized(), attackerName.localized(), defenderName.localized(), defenderDamage)
 
         case .enemyUnitDiedAttacking(
             attackerName: let attackerName,
@@ -421,14 +421,14 @@ extension GameScene: UserInterfaceDelegate {
             defenderDamage: let defenderDamage):
 
             let attackerPlayerName: String = attackerPlayer?.leader.name() ?? "Unknown"
-            text = String(format: "TXT_KEY_MISC_YOU_KILLED_ENEMY_UNIT".localized(), attackerName, attackerPlayerName, defenderName, defenderDamage)
+            text = String(format: "TXT_KEY_MISC_YOU_KILLED_ENEMY_UNIT".localized(), attackerName,.localized() attackerPlayerName.localized(), defenderName.localized(), defenderDamage)
 
         case .unitDestroyedEnemyUnit(
             attackerName: let attackerName,
             attackerDamage: let attackerDamage,
             defenderName: let defenderName):
 
-            text = String(format: "TXT_KEY_MISC_YOU_UNIT_DESTROYED_ENEMY".localized(), attackerName, attackerDamage, defenderName)
+            text = String(format: "TXT_KEY_MISC_YOU_UNIT_DESTROYED_ENEMY".localized(), attackerName.localized(), attackerDamage.localized(), defenderName)
 
         case .unitDiedDefending(
             attackerName: let attackerName,
@@ -437,7 +437,7 @@ extension GameScene: UserInterfaceDelegate {
             defenderName: let defenderName):
 
             let attackerPlayerName: String = attackerPlayer?.leader.name() ?? "Unknown"
-            text = String(format: "TXT_KEY_MISC_YOU_UNIT_WAS_DESTROYED".localized(), attackerName, attackerPlayerName, attackerDamage, defenderName)
+            text = String(format: "TXT_KEY_MISC_YOU_UNIT_WAS_DESTROYED".localized(), attackerName.localized(), attackerPlayerName.localized(), attackerDamage, defenderName.localized())
 
         case .unitAttackingWithdraw(
             attackerName: let attackerName,
@@ -445,7 +445,7 @@ extension GameScene: UserInterfaceDelegate {
             defenderName: let defenderName,
             defenderDamage: let defenderDamage):
 
-            text = String(format: "TXT_KEY_MISC_YOU_UNIT_WITHDRAW".localized(), attackerName, attackerDamage, defenderName, defenderDamage)
+            text = String(format: "TXT_KEY_MISC_YOU_UNIT_WITHDRAW".localized(), attackerName.localized(), attackerDamage, defenderName.localized(), defenderDamage)
 
         case .enemyAttackingWithdraw(
             attackerName: let attackerName,
@@ -453,7 +453,7 @@ extension GameScene: UserInterfaceDelegate {
             defenderName: let defenderName,
             defenderDamage: let defenderDamage):
 
-            text = String(format: "TXT_KEY_MISC_ENEMY_UNIT_WITHDRAW".localized(), attackerName, attackerDamage, defenderName, defenderDamage)
+            text = String(format: "TXT_KEY_MISC_ENEMY_UNIT_WITHDRAW".localized(), attackerName.localized(), attackerDamage, defenderName.localized(), defenderDamage)
 
         case .conqueredEnemyCity(attackerName: let attackerName, attackerDamage: let attackerDamage, cityName: let cityName):
             text = String(format: "TXT_KEY_MISC_YOU_CONQUERED_ENEMY_CITY".localized(), attackerName, attackerDamage, cityName)

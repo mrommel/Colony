@@ -8,6 +8,7 @@
 import SwiftUI
 import SmartAssets
 import SmartAILibrary
+import SwiftUITooltip
 
 class HeaderViewModel: ObservableObject {
 
@@ -68,17 +69,17 @@ class HeaderViewModel: ObservableObject {
 
     init() {
 
-        self.scienceHeaderViewModel = HeaderButtonViewModel(type: .science)
-        self.cultureHeaderViewModel = HeaderButtonViewModel(type: .culture)
-        self.governmentHeaderViewModel = HeaderButtonViewModel(type: .government)
-        self.religionHeaderViewModel = HeaderButtonViewModel(type: .religion)
-        self.greatPeopleHeaderViewModel = HeaderButtonViewModel(type: .greatPeople)
-        self.momentsHeaderViewModel = HeaderButtonViewModel(type: .moments)
-        self.governorsHeaderViewModel = HeaderButtonViewModel(type: .governors)
-        self.rankingHeaderViewModel = HeaderButtonViewModel(type: .ranking)
-        self.cityStateHeaderViewModel = HeaderButtonViewModel(type: .cityStates)
-        self.tradeRoutesHeaderViewModel = HeaderButtonViewModel(type: .tradeRoutes)
-        self.eraProgressHeaderViewModel = HeaderButtonViewModel(type: .eraProgress)
+        self.scienceHeaderViewModel = HeaderButtonViewModel(type: .science, toolTipSide: .trailingBottom)
+        self.cultureHeaderViewModel = HeaderButtonViewModel(type: .culture, toolTipSide: .trailingBottom)
+        self.governmentHeaderViewModel = HeaderButtonViewModel(type: .government, toolTipSide: .trailingBottom)
+        self.religionHeaderViewModel = HeaderButtonViewModel(type: .religion, toolTipSide: .trailingBottom)
+        self.greatPeopleHeaderViewModel = HeaderButtonViewModel(type: .greatPeople, toolTipSide: .trailingBottom)
+        self.momentsHeaderViewModel = HeaderButtonViewModel(type: .moments, toolTipSide: .trailingBottom)
+        self.governorsHeaderViewModel = HeaderButtonViewModel(type: .governors, toolTipSide: .trailingBottom)
+        self.rankingHeaderViewModel = HeaderButtonViewModel(type: .ranking, toolTipSide: .leadingBottom)
+        self.cityStateHeaderViewModel = HeaderButtonViewModel(type: .cityStates, toolTipSide: .leadingBottom)
+        self.tradeRoutesHeaderViewModel = HeaderButtonViewModel(type: .tradeRoutes, toolTipSide: .leadingBottom)
+        self.eraProgressHeaderViewModel = HeaderButtonViewModel(type: .eraProgress, toolTipSide: .leadingBottom)
 
         self.techProgressViewModel = TechProgressViewModel()
         self.civicProgressViewModel = CivicProgressViewModel()

@@ -1464,6 +1464,15 @@ public class City: AbstractCity {
     // https://civilization.fandom.com/wiki/Loyalty_(Civ6)
     func updateLoyaltyValue(in gameModel: GameModel?) {
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        guard player.isMajorAI() || player.isHuman() else {
+            self.loyaltyValue = 100
+            return
+        }
+
         var loyalty: Double = 0.0
 
         loyalty += self.loyaltyPressureFromNearbyCitizen(in: gameModel)
@@ -1520,8 +1529,7 @@ public class City: AbstractCity {
                 continue
             }
 
-            // hm, maybe this is too much?
-            guard loopTile.ownerLeader() == oldPlayer.leader else {
+            guard loopTile.workingCity()?.location == self.location else {
                 continue
             }
 

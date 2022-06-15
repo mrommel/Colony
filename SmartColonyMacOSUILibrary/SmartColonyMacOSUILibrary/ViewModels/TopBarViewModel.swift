@@ -407,23 +407,46 @@ extension TopBarViewModel {
         )
         tooltipText.append(incomeTitle)
 
-        let incomeFromCities = NSAttributedString(
-            string: "\n\(goldFromCities) from cities",
-            attributes: Globals.Attributs.tooltipContentAttributs
-        )
-        tooltipText.append(incomeFromCities)
+        let cities = gameModel.cities(of: player)
 
-        let incomeFromDeals = NSAttributedString(
-            string: "\n\(goldFromDeals) from deals",
-            attributes: Globals.Attributs.tooltipContentAttributs
-        )
-        tooltipText.append(incomeFromDeals)
+        if !cities.isEmpty {
 
-        let incomeFromTradeRoutes = NSAttributedString(
-            string: "\n\(goldFromTradeRoutes) from trade routes",
-            attributes: Globals.Attributs.tooltipContentAttributs
-        )
-        tooltipText.append(incomeFromTradeRoutes)
+            let incomeFromCities = NSAttributedString(
+                string: "\n\(goldFromCities) from cities",
+                attributes: Globals.Attributs.tooltipContentAttributs
+            )
+            tooltipText.append(incomeFromCities)
+
+            for cityRef in cities {
+
+                guard let city = cityRef else {
+                    continue
+                }
+
+                let goldFromCity = String(format: "%.1f", city.goldPerTurn(in: gameModel))
+                let cityYield = NSAttributedString(
+                    string: "\n   +\(goldFromCity) from \(city.name)",
+                    attributes: Globals.Attributs.tooltipContentAttributs
+                )
+                tooltipText.append(cityYield)
+            }
+        }
+
+        if dealIncome != 0.0 {
+            let incomeFromDeals = NSAttributedString(
+                string: "\n\(goldFromDeals) from deals",
+                attributes: Globals.Attributs.tooltipContentAttributs
+            )
+            tooltipText.append(incomeFromDeals)
+        }
+
+        if tradeRoutes > 0.0 {
+            let incomeFromTradeRoutes = NSAttributedString(
+                string: "\n\(goldFromTradeRoutes) from trade routes",
+                attributes: Globals.Attributs.tooltipContentAttributs
+            )
+            tooltipText.append(incomeFromTradeRoutes)
+        }
 
         let incomeSum = NSAttributedString(
             string: "\nSum: \(goldIncome)",
@@ -463,11 +486,13 @@ extension TopBarViewModel {
         )
         tooltipText.append(maintenanceForUnits)
 
-        let moneyForDeals = NSAttributedString(
-            string: "\n\(goldForDeals) for deals",
-            attributes: Globals.Attributs.tooltipContentAttributs
-        )
-        tooltipText.append(moneyForDeals)
+        if dealExpenses != 0.0 {
+            let moneyForDeals = NSAttributedString(
+                string: "\n\(goldForDeals) for deals",
+                attributes: Globals.Attributs.tooltipContentAttributs
+            )
+            tooltipText.append(moneyForDeals)
+        }
 
         let sumExpenses = NSAttributedString(
             string: "\nSum: \(goldExpenses)",

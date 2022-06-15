@@ -42,7 +42,7 @@ struct HeaderButtonView: View {
             Image(nsImage: ImageCache.shared.image(for: "header-bar-button"))
                 .resizable()
         )
-        .tooltip(self.viewModel.toolTip())
+        .tooltip(self.viewModel.toolTip(), side: self.viewModel.toolTipSide)
     }
 }
 
@@ -52,7 +52,7 @@ struct HeaderButtonView_Previews: PreviewProvider {
     static var previews: some View {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
-        let viewModel = HeaderButtonViewModel(type: .government)
+        let viewModel = HeaderButtonViewModel(type: .government, toolTipSide: .bottom)
 
         HeaderButtonView(viewModel: viewModel)
     }
