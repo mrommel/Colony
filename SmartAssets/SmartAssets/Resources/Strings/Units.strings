@@ -426,3 +426,35 @@
 // eliteGuard
 "TXT_KEY_UNIT_PROMOTION_ELITE_GUARD_NAME" = "Elite guard";
 "TXT_KEY_UNIT_PROMOTION_ELITE_GUARD_EFFECT" = "+1 additional attack per turn if Movement allows. Can move after attacking.";
+
+
+// ---------------------
+// ranged
+
+// volley
+"TXT_KEY_UNIT_PROMOTION_VOLLEY_NAME" = "Volley";
+"TXT_KEY_UNIT_PROMOTION_VOLLEY_EFFECT" = "+5 [RangedStrength] Ranged Strength vs. land units.";
+
+// garrison
+"TXT_KEY_UNIT_PROMOTION_GARRISON_NAME" = "Garrison";
+"TXT_KEY_UNIT_PROMOTION_GARRISON_EFFECT" = "+10 [Strength] Combat Strength when occupying a district or Fort."; // #
+
+// arrowStorm
+"TXT_KEY_UNIT_PROMOTION_ARROW_STORM_NAME" = "Arrow Storm";
+"TXT_KEY_UNIT_PROMOTION_ARROW_STORM_EFFECT" = "+7 [RangedStrength] Ranged Strength vs. land and naval units.";
+
+// incendiaries
+"TXT_KEY_UNIT_PROMOTION_INCENDIARIES_NAME" = "Incendiaries";
+"TXT_KEY_UNIT_PROMOTION_INCENDIARIES_EFFECT" = "+7 [RangedStrength] Ranged Strength vs. district defenses."; // #
+
+// suppression
+"TXT_KEY_UNIT_PROMOTION_SUPPRESSION_NAME" = "Suppression";
+"TXT_KEY_UNIT_PROMOTION_SUPPRESSION_EFFECT" = "Exercise zone of control.";
+
+// emplacement
+"TXT_KEY_UNIT_PROMOTION_EMPLACEMENT_NAME" = "Emplacement";
+"TXT_KEY_UNIT_PROMOTION_EMPLACEMENT_EFFECT" = "+10 [Strength] Combat Strength when defending vs. city attacks.";
+
+// expertMarksman
+"TXT_KEY_UNIT_PROMOTION_EXPERT_MARKSMAN_NAME" = "Expert Marksman";
+"TXT_KEY_UNIT_PROMOTION_EXPERT_MARKSMAN_EFFECT" = "+1 additional attack per turn if unit has not moved.";

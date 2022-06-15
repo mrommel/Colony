@@ -224,7 +224,7 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                 let fromTile = gameModel.tile(at: fromTileCoord) {
 
                 let maxMoves = unit.maxMoves(in: gameModel)
-                movementCost = UnitMovement.movementCostSelectiveZOC(
+                movementCost = UnitMovement.movementCostSelectiveZoneOfControl(
                     unit: self.unit,
                     fromPlot: fromTile,
                     toPlot: toTile,

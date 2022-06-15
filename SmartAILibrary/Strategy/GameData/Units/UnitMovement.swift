@@ -286,11 +286,11 @@ class UnitMovement {
         in gameModel: GameModel?
     ) -> Double {
 
-        if isSlowedByZOC(unit: unitRef, fromPlot: fromPlotRef, toPlot: toPlotRef, in: gameModel) {
+        if isSlowedByZoneOfControl(unit: unitRef, fromPlot: fromPlotRef, toPlot: toPlotRef, in: gameModel) {
             return Double(movesRemaining)
         }
 
-        return movementCostNoZOC(
+        return movementCostNoZoneOfControl(
             unit: unitRef,
             fromPlot: fromPlotRef,
             toPlot: toPlotRef,
@@ -301,7 +301,7 @@ class UnitMovement {
     }
 
     //    ---------------------------------------------------------------------------
-    static func movementCostSelectiveZOC(
+    static func movementCostSelectiveZoneOfControl(
         unit unitRef: AbstractUnit?,
         fromPlot fromPlotRef: AbstractTile?,
         toPlot toPlotRef: AbstractTile?,
@@ -310,11 +310,11 @@ class UnitMovement {
         in gameModel: GameModel?
     ) -> Double {
 
-        if isSlowedByZOC(unit: unitRef, fromPlot: fromPlotRef, toPlot: toPlotRef, in: gameModel) {
+        if isSlowedByZoneOfControl(unit: unitRef, fromPlot: fromPlotRef, toPlot: toPlotRef, in: gameModel) {
             return Double(movesRemaining)
         }
 
-        return movementCostNoZOC(
+        return movementCostNoZoneOfControl(
             unit: unitRef,
             fromPlot: fromPlotRef,
             toPlot: toPlotRef,
@@ -325,7 +325,7 @@ class UnitMovement {
     }
 
     //    ---------------------------------------------------------------------------
-    static func movementCostNoZOC(
+    static func movementCostNoZoneOfControl(
         unit unitRef: AbstractUnit?,
         fromPlot fromPlotRef: AbstractTile?,
         toPlot toPlotRef: AbstractTile?,
@@ -354,7 +354,7 @@ class UnitMovement {
     }
 
     //    --------------------------------------------------------------------------------
-    static func isSlowedByZOC(
+    static func isSlowedByZoneOfControl(
         unit unitRef: AbstractUnit?,
         fromPlot fromPlotRef: AbstractTile?,
         toPlot toPlotRef: AbstractTile?,
@@ -417,11 +417,11 @@ class UnitMovement {
                 }
 
                 // Combat unit?
-                if !loopUnit.isCombatUnit() {
+                if !loopUnit.isExertingZoneOfControl() {
                     continue
                 }
 
-                // Embarked units don't have ZOC
+                // Embarked units don't have Zone Of Control
                 if loopUnit.isEmbarked() {
                     continue
                 }
@@ -431,20 +431,21 @@ class UnitMovement {
 
                     // Same Domain?
                     if loopUnit.domain() != unitDomain {
-                        // hovering units always exert a ZOC
+                        // hovering units always exert a Zone of control
                         if loopUnit.isHoveringUnit() {
-                            // continue on
+                            return true
                         }
-                        // water unit can ZoC embarked land unit
-                        else if loopUnit.domain() == .sea &&
-                                    (toPlot.needsEmbarkation(by: unit) || fromPlot.needsEmbarkation(by: unit)) {
-                            // continue on
-                        } else {
-                            // ignore this unit
-                            continue
+
+                        // water unit can exert zone of control towards embarked land unit
+                        if loopUnit.domain() == .sea &&
+                            (toPlot.needsEmbarkation(by: unit) || fromPlot.needsEmbarkation(by: unit)) {
+                            return true
                         }
+
+                        // ignore this unit
+                        continue
                     } else {
-                        // land units don't ZoC embarked units (if they stay embarked)
+                        // land units don't exert zone of control towards embarked units (if they stay embarked)
                         if loopUnit.domain() == .land &&
                             toPlot.needsEmbarkation(by: unit) &&
                             fromPlot.needsEmbarkation(by: unit) {

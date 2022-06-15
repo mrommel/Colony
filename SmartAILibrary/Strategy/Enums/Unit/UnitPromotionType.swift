@@ -37,6 +37,13 @@ public enum UnitPromotionType: Int, Codable {
     case eliteGuard // +1 additional attack per turn if Movement allows. Can move after attacking.
 
     // ranged
+    case volley // +5 Ranged Strength Ranged Strength vs. land units.
+    case garrison // +10 Strength Combat Strength when occupying a district or Fort.
+    case arrowStorm // +7 Ranged Strength Ranged Strength vs. land and naval units.
+    case incendiaries // +7 Ranged Strength Ranged Strength vs. district defenses.
+    case suppression // Exercise zone of control.
+    case emplacement // +10 Strength Combat Strength when defending vs. city attacks.
+    case expertMarksman // +1 additional attack per turn if unit has not moved.
 
     public static var all: [UnitPromotionType] {
         return [
@@ -45,9 +52,14 @@ public enum UnitPromotionType: Int, Codable {
             .ranger, .alpine, .sentry, .guerrilla, .spyglass, .ambush, .camouflage,
 
             // melee
-            .battleCry, .tortoise, .commando, .amphibious, .zweihander, .urbanWarfare, .eliteGuard
+            .battleCry, .tortoise, .commando, .amphibious, .zweihander, .urbanWarfare, .eliteGuard,
+
+            // ranged
+            .volley, .garrison, .arrowStorm, .incendiaries, .suppression, .emplacement, .expertMarksman
         ]
     }
+
+    public static let defaultFlavorValue = 5
 
     // MARK: internal classes
 
@@ -61,6 +73,7 @@ public enum UnitPromotionType: Int, Codable {
         let consumable: Bool
         let enemyRoute: Bool
         let ignoreZoneOfControl: Bool
+        let flavours: [Flavor]
 
         init(name: String,
              effect: String,
@@ -69,7 +82,8 @@ public enum UnitPromotionType: Int, Codable {
              required: [UnitPromotionType],
              consumable: Bool,
              enemyRoute: Bool = false,
-             ignoreZoneOfControl: Bool = false) {
+             ignoreZoneOfControl: Bool = false,
+             flavours: [Flavor]) {
 
             self.name = name
             self.effect = effect
@@ -79,6 +93,7 @@ public enum UnitPromotionType: Int, Codable {
             self.consumable = consumable
             self.enemyRoute = enemyRoute
             self.ignoreZoneOfControl = ignoreZoneOfControl
+            self.flavours = flavours
         }
     }
 
@@ -137,7 +152,10 @@ public enum UnitPromotionType: Int, Codable {
                 tier: 0,
                 unitClass: .melee,
                 required: [],
-                consumable: false
+                consumable: false,
+                flavours: [
+                    Flavor(type: .navalGrowth, value: 2)
+                ]
             )
 
             // ---------------------
@@ -150,7 +168,10 @@ public enum UnitPromotionType: Int, Codable {
                 tier: 0,
                 unitClass: .recon,
                 required: [],
-                consumable: true
+                consumable: true,
+                flavours: [
+                    Flavor(type: .amenities, value: 2)
+                ]
             )
         case .healthBoostMelee:
             return PromotionData(
@@ -159,7 +180,10 @@ public enum UnitPromotionType: Int, Codable {
                 tier: 0,
                 unitClass: .melee,
                 required: [],
-                consumable: true
+                consumable: true,
+                flavours: [
+                    Flavor(type: .amenities, value: 2)
+                ]
             )
 
             // ---------------------
@@ -173,7 +197,11 @@ public enum UnitPromotionType: Int, Codable {
                 tier: 1,
                 unitClass: .recon,
                 required: [],
-                consumable: false
+                consumable: false,
+                flavours: [
+                    Flavor(type: .recon, value: 2),
+                    Flavor(type: .mobile, value: 2)
+                ]
             )
         case .alpine:
             // https://civilization.fandom.com/wiki/Alpine_(Civ6)
@@ -183,7 +211,11 @@ public enum UnitPromotionType: Int, Codable {
                 tier: 1,
                 unitClass: .recon,
                 required: [],
-                consumable: false
+                consumable: false,
+                flavours: [
+                    Flavor(type: .recon, value: 1),
+                    Flavor(type: .mobile, value: 2)
+                ]
             )
         case .sentry:
             // https://civilization.fandom.com/wiki/Sentry_(Civ6)
@@ -193,7 +225,10 @@ public enum UnitPromotionType: Int, Codable {
                 tier: 2,
                 unitClass: .recon,
                 required: [.ranger, .alpine],
-                consumable: false
+                consumable: false,
+                flavours: [
+                    Flavor(type: .recon, value: 2)
+                ]
             )
         case .guerrilla:
             // https://civilization.fandom.com/wiki/Guerrilla_(Civ6)
@@ -203,7 +238,11 @@ public enum UnitPromotionType: Int, Codable {
                 tier: 2,
                 unitClass: .recon,
                 required: [.ranger, .alpine],
-                consumable: false
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 2),
+                    Flavor(type: .mobile, value: 2)
+                ]
             )
         case .spyglass:
             return PromotionData(
@@ -212,7 +251,11 @@ public enum UnitPromotionType: Int, Codable {
                 tier: 3,
                 unitClass: .recon,
                 required: [.sentry],
-                consumable: false
+                consumable: false,
+                flavours: [
+                    Flavor(type: .recon, value: 2),
+                    Flavor(type: .mobile, value: 1)
+                ]
             )
         case .ambush:
             // https://civilization.fandom.com/wiki/Ambush_(Civ6)
@@ -222,7 +265,10 @@ public enum UnitPromotionType: Int, Codable {
                 tier: 3,
                 unitClass: .recon,
                 required: [.guerrilla],
-                consumable: false
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 2)
+                ]
             )
         case .camouflage:
             // https://civilization.fandom.com/wiki/Camouflage_(Civ6)
@@ -232,7 +278,10 @@ public enum UnitPromotionType: Int, Codable {
                 tier: 4,
                 unitClass: .recon,
                 required: [.spyglass, .ambush],
-                consumable: false
+                consumable: false,
+                flavours: [
+                    Flavor(type: .recon, value: 2)
+                ]
             )
 
             // ---------------------
@@ -246,7 +295,11 @@ public enum UnitPromotionType: Int, Codable {
                 tier: 1,
                 unitClass: .melee,
                 required: [],
-                consumable: false
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 2),
+                    Flavor(type: .ranged, value: 1)
+                ]
             )
         case .tortoise:
             // https://civilization.fandom.com/wiki/Tortoise_(Civ6)
@@ -256,7 +309,11 @@ public enum UnitPromotionType: Int, Codable {
                 tier: 1,
                 unitClass: .melee,
                 required: [],
-                consumable: false
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 3),
+                    Flavor(type: .ranged, value: 1)
+                ]
             )
         case .commando:
             // https://civilization.fandom.com/wiki/Commando_(Civ6)
@@ -266,7 +323,10 @@ public enum UnitPromotionType: Int, Codable {
                 tier: 2,
                 unitClass: .melee,
                 required: [.battleCry, .amphibious],
-                consumable: false
+                consumable: false,
+                flavours: [
+                    Flavor(type: .mobile, value: 3)
+                ]
             )
         case .amphibious:
             // https://civilization.fandom.com/wiki/Amphibious_(Civ6)
@@ -276,7 +336,11 @@ public enum UnitPromotionType: Int, Codable {
                 tier: 2,
                 unitClass: .melee,
                 required: [.tortoise, .commando],
-                consumable: false
+                consumable: false,
+                flavours: [
+                    Flavor(type: .mobile, value: 2),
+                    Flavor(type: .naval, value: 2)
+                ]
             )
         case .zweihander:
             // https://civilization.fandom.com/wiki/Zweihander_(Civ6)
@@ -286,7 +350,10 @@ public enum UnitPromotionType: Int, Codable {
                 tier: 3,
                 unitClass: .melee,
                 required: [.tortoise, .amphibious],
-                consumable: false
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 3)
+                ]
             )
         case .urbanWarfare:
             // https://civilization.fandom.com/wiki/Urban_Warfare_(Civ6)
@@ -296,7 +363,11 @@ public enum UnitPromotionType: Int, Codable {
                 tier: 3,
                 unitClass: .melee,
                 required: [.commando, .amphibious],
-                consumable: false
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 2),
+                    Flavor(type: .cityDefense, value: 2)
+                ]
             )
         case .eliteGuard:
             // https://civilization.fandom.com/wiki/Elite_Guard_(Civ6)
@@ -306,7 +377,115 @@ public enum UnitPromotionType: Int, Codable {
                 tier: 4,
                 unitClass: .melee,
                 required: [.zweihander, .urbanWarfare],
-                consumable: false
+                consumable: false,
+                flavours: [
+                    Flavor(type: .mobile, value: 3),
+                    Flavor(type: .offense, value: 2)
+                ]
+
+            )
+
+            // ---------------------
+            // ranged
+
+        case .volley:
+            // https://civilization.fandom.com/wiki/Volley_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_VOLLEY_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_VOLLEY_EFFECT",
+                tier: 1,
+                unitClass: .ranged,
+                required: [],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 3)
+                ]
+            )
+
+        case .garrison:
+            // https://civilization.fandom.com/wiki/Garrison_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_GARRISON_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_GARRISON_EFFECT",
+                tier: 1,
+                unitClass: .ranged,
+                required: [],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .cityDefense, value: 4)
+                ]
+            )
+
+        case .arrowStorm:
+            // https://civilization.fandom.com/wiki/Arrow_Storm_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_ARROW_STORM_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_ARROW_STORM_EFFECT",
+                tier: 2,
+                unitClass: .ranged,
+                required: [.volley],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 3),
+                    Flavor(type: .naval, value: 2)
+                ]
+            )
+
+        case .incendiaries:
+            // https://civilization.fandom.com/wiki/Incendiaries_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_INCENDIARIES_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_INCENDIARIES_EFFECT",
+                tier: 2,
+                unitClass: .ranged,
+                required: [.garrison],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 4)
+                ]
+            )
+
+        case .suppression:
+            // https://civilization.fandom.com/wiki/Suppression_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_SUPPRESSION_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_SUPPRESSION_EFFECT",
+                tier: 3,
+                unitClass: .ranged,
+                required: [.arrowStorm, .incendiaries],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .defense, value: 3)
+                ]
+            )
+
+        case .emplacement:
+            // https://civilization.fandom.com/wiki/Emplacement_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_EMPLACEMENT_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_EMPLACEMENT_EFFECT",
+                tier: 3,
+                unitClass: .ranged,
+                required: [.arrowStorm, .incendiaries],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .cityDefense, value: 3),
+                    Flavor(type: .defense, value: 2)
+                ]
+            )
+
+        case .expertMarksman:
+            // https://civilization.fandom.com/wiki/Expert_Marksman_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_EXPERT_MARKSMAN_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_EXPERT_MARKSMAN_EFFECT",
+                tier: 4,
+                unitClass: .ranged,
+                required: [.suppression, .emplacement],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 3)
+                ]
             )
 
         }
@@ -326,40 +505,14 @@ public enum UnitPromotionType: Int, Codable {
     func flavor(for flavorType: FlavorType) -> Int {
 
         if let modifier = self.flavors().first(where: { $0.type == flavorType }) {
-            return modifier.value
+            return UnitPromotionType.defaultFlavorValue + modifier.value
         }
 
-        return DistrictType.defaultFlavorValue
+        return UnitPromotionType.defaultFlavorValue
     }
 
     private func flavors() -> [Flavor] {
 
-        switch self {
-
-        case .embarkation: return [Flavor(type: .navalGrowth, value: 2)]
-
-            // general
-        case .healthBoostRecon: return [Flavor(type: .amenities, value: 2)]
-        case .healthBoostMelee: return [Flavor(type: .amenities, value: 2)]
-
-            // recon
-        case .ranger: return [Flavor(type: .recon, value: 2), Flavor(type: .mobile, value: 2)]
-        case .alpine: return [Flavor(type: .recon, value: 1), Flavor(type: .mobile, value: 2)]
-        case .sentry: return [Flavor(type: .recon, value: 2)]
-        case .guerrilla: return [Flavor(type: .offense, value: 2), Flavor(type: .mobile, value: 2)]
-        case .spyglass: return [Flavor(type: .recon, value: 2), Flavor(type: .mobile, value: 1)]
-        case .ambush: return [Flavor(type: .offense, value: 2)]
-        case .camouflage: return [Flavor(type: .recon, value: 2)]
-
-            // melee
-        case .battleCry: return [Flavor(type: .offense, value: 2), Flavor(type: .ranged, value: 1)]
-        case .tortoise: return [Flavor(type: .offense, value: 3), Flavor(type: .ranged, value: 1)]
-        case .commando: return [Flavor(type: .mobile, value: 3)]
-        case .amphibious: return [Flavor(type: .mobile, value: 2), Flavor(type: .naval, value: 2)]
-        case .zweihander: return [Flavor(type: .offense, value: 3)]
-        case .urbanWarfare: return [Flavor(type: .offense, value: 2), Flavor(type: .cityDefense, value: 2)]
-        case .eliteGuard: return [Flavor(type: .mobile, value: 3), Flavor(type: .offense, value: 2)]
-
-        }
+        return self.data().flavours
     }
 }

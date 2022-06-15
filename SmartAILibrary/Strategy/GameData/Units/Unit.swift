@@ -64,6 +64,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     func isImpassable(terrain: TerrainType) -> Bool
     func canMoveAllTerrain() -> Bool
     func isIgnoreZoneOfControl() -> Bool
+    func isExertingZoneOfControl() -> Bool
     func validTarget(at target: HexPoint, in gameModel: GameModel?) -> Bool
     func canHold(at point: HexPoint, in gameModel: GameModel?) -> Bool
     func canEnterTerritory(of otherPlayer: AbstractPlayer?, ignoreRightOfPassage: Bool, isDeclareWarMove: Bool) -> Bool
@@ -989,6 +990,20 @@ public class Unit: AbstractUnit {
                     result.append(CombatModifier(value: 7, title: UnitPromotionType.zweihander.name()))
                 }
             }
+
+            if promotions.has(promotion: .volley) {
+                if defender.domain() == .land {
+                    // +5 [RangedStrength] Ranged Strength vs. land units.
+                    result.append(CombatModifier(value: 5, title: UnitPromotionType.volley.name()))
+                }
+            }
+
+            if promotions.has(promotion: .arrowStorm) {
+                if defender.domain() == .land || defender.domain() == .sea {
+                    // +7 Ranged Strength Ranged Strength vs. land and naval units.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.arrowStorm.name()))
+                }
+            }
         }
 
         ////////////////////////
@@ -1003,6 +1018,11 @@ public class Unit: AbstractUnit {
             if promotions.has(promotion: .urbanWarfare) {
                 // +10 [Strength] Combat Strength when fighting in a city.
                 result.append(CombatModifier(value: +10, title: UnitPromotionType.urbanWarfare.name()))
+            }
+
+            if promotions.has(promotion: .emplacement) {
+                // +10 Strength Combat Strength when defending vs. city attacks.
+                result.append(CombatModifier(value: +10, title: UnitPromotionType.emplacement.name()))
             }
         }
 
@@ -1400,6 +1420,11 @@ public class Unit: AbstractUnit {
 
         // eliteGuard - +1 additional attack per turn if Movement allows. Can move after attacking.
         if self.has(promotion: .eliteGuard) {
+            return true
+        }
+
+        // expertMarksman - +1 additional attack per turn if unit has not moved.
+        if self.has(promotion: .expertMarksman) {
             return true
         }
 
@@ -4663,6 +4688,38 @@ public class Unit: AbstractUnit {
         }
 
         if promotions.gainedPromotions().contains(where: { $0.ignoreZoneOfControl() }) {
+            return true
+        }
+
+        return false
+    }
+
+    public func isExertingZoneOfControl() -> Bool {
+
+        // Every land unit that can perform a melee attack:
+        // Melee units
+        if self.unitClassType() == .melee {
+            return true
+        }
+
+        // Anti-cavalry units
+        if self.unitClassType() == .antiCavalry {
+            return true
+        }
+
+        // Light cavalry or Heavy cavalry units
+        if self.unitClassType() == .lightCavalry ||
+            self.unitClassType() == .heavyCavalry {
+            return true
+        }
+
+        // Scout
+        if self.unitClassType() == .recon {
+            return true
+        }
+
+        // Ranged units with the Suppression Promotion
+        if self.unitClassType() == .ranged && self.has(promotion: .suppression) {
             return true
         }
 
