@@ -421,14 +421,14 @@ extension GameScene: UserInterfaceDelegate {
             defenderDamage: let defenderDamage):
 
             let attackerPlayerName: String = attackerPlayer?.leader.name() ?? "Unknown"
-            text = String(format: "TXT_KEY_MISC_YOU_KILLED_ENEMY_UNIT".localized(), attackerName,.localized() attackerPlayerName.localized(), defenderName.localized(), defenderDamage)
+            text = String(format: "TXT_KEY_MISC_YOU_KILLED_ENEMY_UNIT".localized(), attackerName.localized(), attackerPlayerName.localized(), defenderName.localized(), defenderDamage)
 
         case .unitDestroyedEnemyUnit(
             attackerName: let attackerName,
             attackerDamage: let attackerDamage,
             defenderName: let defenderName):
 
-            text = String(format: "TXT_KEY_MISC_YOU_UNIT_DESTROYED_ENEMY".localized(), attackerName.localized(), attackerDamage.localized(), defenderName)
+            text = String(format: "TXT_KEY_MISC_YOU_UNIT_DESTROYED_ENEMY".localized(), attackerName.localized(), attackerDamage, defenderName.localized())
 
         case .unitDiedDefending(
             attackerName: let attackerName,

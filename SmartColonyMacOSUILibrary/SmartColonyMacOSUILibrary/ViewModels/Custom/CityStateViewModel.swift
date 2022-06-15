@@ -166,7 +166,7 @@ class CityStateViewModel: ObservableObject {
     func suzerainText() -> NSAttributedString {
 
         let tokenizer = LabelTokenizer()
-        returntokenizer.convert(
+        return tokenizer.convert(
             text: self.cityState.bonus(for: .suzerain).localized(),
             with: Globals.Attributs.tooltipContentAttributs
         )
