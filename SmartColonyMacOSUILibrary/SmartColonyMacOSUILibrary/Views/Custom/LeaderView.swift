@@ -35,7 +35,7 @@ struct LeaderView: View {
                     .padding(.trailing, 24)
             }
             .frame(width: 52, height: 52)
-            .tooltip(self.viewModel.toolTip)
+            .tooltip(self.viewModel.toolTip, side: .leadingBottom)
         } else {
             EmptyView()
         }
