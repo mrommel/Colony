@@ -209,7 +209,7 @@ public enum UnitPromotionType: Int, Codable {
 
             // ---------------------
             // general
-            
+
         case .healthBoostRecon:
             return PromotionData(
                 name: "TXT_KEY_UNIT_PROMOTION_HEALTH_BOOST_NAME",

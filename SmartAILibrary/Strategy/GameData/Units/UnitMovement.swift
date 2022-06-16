@@ -488,7 +488,6 @@ class UnitMovement {
         return modifier
     }
 
-
     // base value is 0, any value >0 means movement is harder
     static func movementCostAdderFromPromotions(for unitRef: AbstractUnit?, on tileRef: AbstractTile?) -> Double {
 

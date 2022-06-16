@@ -59,7 +59,7 @@ class CombatUnitViewModel: ObservableObject {
         combatModifiers: [CombatModifier],
         promotions: [UnitPromotionType]) {
 
-        self.name = name
+            self.name = name.localized()
         self.portraitTextureName = portraitTextureName
         self.strength = strength
         self.healthPoints = healthPoints
