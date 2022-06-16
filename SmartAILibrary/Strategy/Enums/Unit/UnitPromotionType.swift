@@ -10,6 +10,7 @@ import Foundation
 
 // https://civilization.fandom.com/wiki/Promotions_(Civ6)
 // https://github.com/LoneGazebo/Community-Patch-DLL/blob/b33ee4a04e91d27356af0bcc421de1b7899ac073/(2)%20Vox%20Populi/Balance%20Changes/Units/PromotionChanges.xml
+// swiftlint:disable type_body_length
 public enum UnitPromotionType: Int, Codable {
 
     case embarkation
@@ -67,6 +68,14 @@ public enum UnitPromotionType: Int, Codable {
     // siege
 
     // navalMelee
+    case helmsman
+    case embolon
+    case rutter
+    case reinforcedHull
+    case convoy
+    case auxiliaryShips
+    case creepingAttack
+
     // navalRanged
     // navalRaider
     // navalCarrier
@@ -92,7 +101,10 @@ public enum UnitPromotionType: Int, Codable {
             .echelon, .thrust, .square, .schiltron, .redeploy, .chokePoints, .holdTheLine,
 
             // lightCavalry
-            .caparison, .coursers, .depredation, .doubleEnvelopment, .spikingTheGuns, .pursuit, .escortMobility
+            .caparison, .coursers, .depredation, .doubleEnvelopment, .spikingTheGuns, .pursuit, .escortMobility,
+
+            // navalMelee
+            .helmsman, .embolon, .rutter, .reinforcedHull, .convoy, .auxiliaryShips, .creepingAttack
         ]
     }
 
@@ -730,6 +742,109 @@ public enum UnitPromotionType: Int, Codable {
                     Flavor(type: .mobile, value: 3)
                 ]
             )
+
+            // ---------------------
+            // navalMelee
+
+        case .helmsman:
+            // https://civilization.fandom.com/wiki/Helmsman_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_HELMSMAN_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_HELMSMAN_EFFECT",
+                tier: 1,
+                unitClass: .navalMelee,
+                required: [],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .expansion, value: 2),
+                    Flavor(type: .mobile, value: 3)
+                ]
+            )
+
+        case .embolon:
+            // https://civilization.fandom.com/wiki/Embolon_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_EMBOLON_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_EMBOLON_EFFECT",
+                tier: 1,
+                unitClass: .navalMelee,
+                required: [],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 3)
+                ]
+            )
+
+        case .rutter:
+            // https://civilization.fandom.com/wiki/Rutter_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_RUTTER_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_RUTTER_EFFECT",
+                tier: 2,
+                unitClass: .navalMelee,
+                required: [.helmsman],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .expansion, value: 2)
+                ]
+            )
+
+        case .reinforcedHull:
+            // https://civilization.fandom.com/wiki/Reinforced_Hull_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_REINFORCED_HULL_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_REINFORCED_HULL_EFFECT",
+                tier: 2,
+                unitClass: .navalMelee,
+                required: [.embolon],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .defense, value: 4)
+                ]
+            )
+
+        case .convoy:
+            // https://civilization.fandom.com/wiki/Convoy_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_CONVOY_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_CONVOY_EFFECT",
+                tier: 3,
+                unitClass: .navalMelee,
+                required: [.rutter, .reinforcedHull],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 3)
+                ]
+            )
+
+        case .auxiliaryShips:
+            // https://civilization.fandom.com/wiki/Auxiliary_Ships_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_AUXILIARY_SHIPS_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_AUXILIARY_SHIPS_EFFECT",
+                tier: 3,
+                unitClass: .navalMelee,
+                required: [.rutter, .reinforcedHull],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .defense, value: 3)
+                ]
+            )
+
+        case .creepingAttack:
+            // https://civilization.fandom.com/wiki/Creeping_Attack_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_CREEPING_ATTACK_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_CREEPING_ATTACK_EFFECT",
+                tier: 4,
+                unitClass: .navalMelee,
+                required: [.convoy, .auxiliaryShips],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 3)
+                ]
+            )
+
         }
     }
 

@@ -1022,14 +1022,14 @@ public class Unit: AbstractUnit {
             // light cavalry
 
             if promotions.has(promotion: .caparison) {
-                if attacker.unitClassType() == .antiCavalry {
+                if defender.unitClassType() == .antiCavalry {
                     // caparison - +5 Combat Strength vs. anti-cavalry.
                     result.append(CombatModifier(value: 5, title: UnitPromotionType.caparison.name()))
                 }
             }
 
             if promotions.has(promotion: .coursers) {
-                if attacker.unitClassType() == .ranged || attacker.unitClassType() == .siege {
+                if defender.unitClassType() == .ranged || defender.unitClassType() == .siege {
                     // coursers - +5 Combat Strength when attacking ranged and siege units.
                     result.append(CombatModifier(value: 5, title: UnitPromotionType.coursers.name()))
                 }
@@ -1039,6 +1039,15 @@ public class Unit: AbstractUnit {
                 if defender.unitClassType() == .siege {
                     // spikingTheGuns - +7 Strength Combat Strength vs. siege units.
                     result.append(CombatModifier(value: 7, title: UnitPromotionType.spikingTheGuns.name()))
+                }
+            }
+
+            // navalMelee
+
+            if promotions.has(promotion: .embolon) {
+                if defender.unitClassType() == .navalRaider {
+                    // embolon - +7 [Strength] Combat Strength vs. naval units.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.embolon.name()))
                 }
             }
         }
@@ -1300,6 +1309,29 @@ public class Unit: AbstractUnit {
                 if attacker.unitClassType() == .siege {
                     // spikingTheGuns - +7 Strength Combat Strength vs. siege units.
                     result.append(CombatModifier(value: 7, title: UnitPromotionType.spikingTheGuns.name()))
+                }
+            }
+
+            // navalMelee
+
+            if promotions.has(promotion: .embolon) {
+                if attacker.unitClassType() == .navalRaider {
+                    // embolon - +7 [Strength] Combat Strength vs. naval units.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.embolon.name()))
+                }
+            }
+
+            if promotions.has(promotion: .reinforcedHull) {
+                if attacker.unitClassType() == .ranged || attacker.unitClassType() == .navalRanged {
+                    // reinforcedHull - +10 [Strength] Combat Strength when defending vs. ranged attacks.
+                    result.append(CombatModifier(value: 10, title: UnitPromotionType.reinforcedHull.name()))
+                }
+            }
+
+            if promotions.has(promotion: .creepingAttack) {
+                if attacker.unitClassType() == .navalRaider {
+                    // creepingAttack - +14 [Strength] Combat Strength vs. naval raider units.
+                    result.append(CombatModifier(value: 14, title: UnitPromotionType.creepingAttack.name()))
                 }
             }
 
@@ -2897,6 +2929,11 @@ public class Unit: AbstractUnit {
             moveVal += 1
         }
 
+        // helmsman - +1 Movement.
+        if self.has(promotion: .helmsman) {
+            moveVal += 1
+        }
+
         return moveVal
     }
 
@@ -2921,8 +2958,13 @@ public class Unit: AbstractUnit {
 
         if let promotions = self.promotions {
 
-            // +1 sight range.
+            // spyglass - +1 sight range.
             if promotions.has(promotion: .spyglass) {
+                sightValue += 1
+            }
+
+            // rutter - +1 sight range.
+            if promotions.has(promotion: .rutter) {
                 sightValue += 1
             }
         }

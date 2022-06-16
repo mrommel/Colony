@@ -522,3 +522,34 @@
 // escortMobility
 "TXT_KEY_UNIT_PROMOTION_ESCORT_MOBILITY_NAME" = "Escort Mobility";
 "TXT_KEY_UNIT_PROMOTION_ESCORT_MOBILITY_EFFECT" = "Formation units all inherit escort's [Movement] Movement speed."; // #
+
+// ---------------------
+// navalMelee
+
+// helmsman
+"TXT_KEY_UNIT_PROMOTION_HELMSMAN_NAME" = "Helmsman";
+"TXT_KEY_UNIT_PROMOTION_HELMSMAN_EFFECT" = "+1 [Movement] Movement.";
+
+// embolon
+"TXT_KEY_UNIT_PROMOTION_EMBOLON_NAME" = "Embolon";
+"TXT_KEY_UNIT_PROMOTION_EMBOLON_EFFECT" = "+7 [Strength] Combat Strength vs. naval units.";
+
+// rutter
+"TXT_KEY_UNIT_PROMOTION_RUTTER_NAME" = "Rutter";
+"TXT_KEY_UNIT_PROMOTION_RUTTER_EFFECT" = "+1 sight range.";
+
+// reinforcedHull
+"TXT_KEY_UNIT_PROMOTION_REINFORCED_HULL_NAME" = "Reinforced Hull";
+"TXT_KEY_UNIT_PROMOTION_REINFORCED_HULL_EFFECT" = "+10 [Strength] Combat Strength when defending vs. ranged attacks.";
+
+// convoy
+"TXT_KEY_UNIT_PROMOTION_CONVOY_NAME" = "Convoy";
+"TXT_KEY_UNIT_PROMOTION_CONVOY_EFFECT" = "+10 [Strength] Combat Strength when in a formation."; // #
+
+// auxiliaryShips
+"TXT_KEY_UNIT_PROMOTION_AUXILIARY_SHIPS_NAME" = "Auxiliary Ships";
+"TXT_KEY_UNIT_PROMOTION_AUXILIARY_SHIPS_EFFECT" = "Heal outside of friendly territory."; // #
+
+// creepingAttack
+"TXT_KEY_UNIT_PROMOTION_CREEPING_ATTACK_NAME" = "Creeping Attack";
+"TXT_KEY_UNIT_PROMOTION_CREEPING_ATTACK_EFFECT" = "+14 [Strength] Combat Strength vs. naval raider units.";

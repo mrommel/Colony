@@ -44,6 +44,44 @@ extension UnitPromotionType {
         case .emplacement: return "promotion-default"
         case .expertMarksman: return "promotion-default"
 
+            // antiCavalry
+        case .echelon: return "promotion-default"
+        case .thrust: return "promotion-default"
+        case .square: return "promotion-default"
+        case .schiltron: return "promotion-default"
+        case .redeploy: return "promotion-default"
+        case .chokePoints: return "promotion-default"
+        case .holdTheLine: return "promotion-default"
+
+            // lightCavalry
+        case .caparison: return "promotion-default"
+        case .coursers: return "promotion-default"
+        case .depredation: return "promotion-default"
+        case .doubleEnvelopment: return "promotion-default"
+        case .spikingTheGuns: return "promotion-default"
+        case .pursuit: return "promotion-default"
+        case .escortMobility: return "promotion-default"
+
+            // heavyCavalry
+            // siege
+
+            // navalMelee
+        case .helmsman: return "promotion-default"
+        case .embolon: return "promotion-default"
+        case .rutter: return "promotion-default"
+        case .reinforcedHull: return "promotion-default"
+        case .convoy: return "promotion-default"
+        case .auxiliaryShips: return "promotion-default"
+        case .creepingAttack: return "promotion-default"
+
+            // navalRanged
+            // navalRaider
+            // navalCarrier
+
+            // airFighter
+            // airBomber
+
+            // support
         }
     }
 }
