@@ -978,7 +978,7 @@ public class Unit: AbstractUnit {
             // //////////
 
             if promotions.has(promotion: .battleCry) {
-                // +7 Combat Strength vs. melee and ranged units.
+                // battleCry - +7 Combat Strength vs. melee and ranged units.
                 if defender.unitClassType() == .melee || defender.unitClassType() == .ranged {
                     result.append(CombatModifier(value: 7, title: UnitPromotionType.battleCry.name()))
                 }
@@ -986,22 +986,59 @@ public class Unit: AbstractUnit {
 
             if promotions.has(promotion: .zweihander) {
                 if defender.unitClassType() == .antiCavalry {
-                    // +7 [Strength] Combat Strength vs. anti-cavalry units.
+                    // zweihander - +7 Combat Strength vs. anti-cavalry units.
                     result.append(CombatModifier(value: 7, title: UnitPromotionType.zweihander.name()))
                 }
             }
 
             if promotions.has(promotion: .volley) {
                 if defender.domain() == .land {
-                    // +5 [RangedStrength] Ranged Strength vs. land units.
+                    // volley - +5 Ranged Strength vs. land units.
                     result.append(CombatModifier(value: 5, title: UnitPromotionType.volley.name()))
                 }
             }
 
             if promotions.has(promotion: .arrowStorm) {
                 if defender.domain() == .land || defender.domain() == .sea {
-                    // +7 Ranged Strength Ranged Strength vs. land and naval units.
+                    // arrowStorm - +7 Ranged Strength Ranged Strength vs. land and naval units.
                     result.append(CombatModifier(value: 7, title: UnitPromotionType.arrowStorm.name()))
+                }
+            }
+
+            if promotions.has(promotion: .echelon) {
+                if defender.unitClassType() == .antiCavalry {
+                    // echelon - +5 [Strength] Combat Strength vs. cavalry units.
+                    result.append(CombatModifier(value: 5, title: UnitPromotionType.echelon.name()))
+                }
+            }
+
+            if promotions.has(promotion: .thrust) {
+                if defender.unitClassType() == .melee {
+                    // thrust - +5 [Strength] Combat Strength vs. melee units.
+                    result.append(CombatModifier(value: 5, title: UnitPromotionType.thrust.name()))
+                }
+            }
+
+            // light cavalry
+
+            if promotions.has(promotion: .caparison) {
+                if attacker.unitClassType() == .antiCavalry {
+                    // caparison - +5 Combat Strength vs. anti-cavalry.
+                    result.append(CombatModifier(value: 5, title: UnitPromotionType.caparison.name()))
+                }
+            }
+
+            if promotions.has(promotion: .coursers) {
+                if attacker.unitClassType() == .ranged || attacker.unitClassType() == .siege {
+                    // coursers - +5 Combat Strength when attacking ranged and siege units.
+                    result.append(CombatModifier(value: 5, title: UnitPromotionType.coursers.name()))
+                }
+            }
+
+            if promotions.has(promotion: .spikingTheGuns) {
+                if defender.unitClassType() == .siege {
+                    // spikingTheGuns - +7 Strength Combat Strength vs. siege units.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.spikingTheGuns.name()))
                 }
             }
         }
@@ -1069,6 +1106,11 @@ public class Unit: AbstractUnit {
                         // Only units that are currently owned by the same player can provide Flanking to one another
                         if loopUnit.player?.leader != self.leader {
                             continue
+                        }
+
+                        // doubleEnvelopment - Double flanking bonus
+                        if loopUnit.has(promotion: .doubleEnvelopment) {
+                            flankingUnitCount += 1
                         }
 
                         flankingUnitCount += 1
@@ -1216,6 +1258,51 @@ public class Unit: AbstractUnit {
                 }
             }
 
+            if promotions.has(promotion: .echelon) {
+                if attacker.unitClassType() == .antiCavalry {
+                    // echelon - +5 [Strength] Combat Strength vs. cavalry units.
+                    result.append(CombatModifier(value: 5, title: UnitPromotionType.echelon.name()))
+                }
+            }
+
+            if promotions.has(promotion: .thrust) {
+                if attacker.unitClassType() == .melee {
+                    // thrust - +5 [Strength] Combat Strength vs. melee units.
+                    result.append(CombatModifier(value: 5, title: UnitPromotionType.thrust.name()))
+                }
+            }
+
+            if promotions.has(promotion: .schiltron) {
+                if attacker.unitClassType() == .melee {
+                    // schiltron - +10 Combat Strength when defending vs. melee class units.
+                    result.append(CombatModifier(value: 10, title: UnitPromotionType.schiltron.name()))
+                }
+            }
+
+            if promotions.has(promotion: .chokePoints) {
+                if let tile = toTile {
+                    if tile.has(feature: .forest) || tile.has(feature: .rainforest) ||
+                        tile.hasHills() || tile.has(feature: .marsh) {
+                        // chokePoints - +7 Combat Strength when defending in Woods, Jungle, Hills, or Marsh.
+                        result.append(CombatModifier(value: 7, title: UnitPromotionType.chokePoints.name()))
+                    }
+                }
+            }
+
+            if promotions.has(promotion: .caparison) {
+                if attacker.unitClassType() == .antiCavalry {
+                    // caparison - +5 Combat Strength vs. anti-cavalry.
+                    result.append(CombatModifier(value: 5, title: UnitPromotionType.caparison.name()))
+                }
+            }
+
+            if promotions.has(promotion: .spikingTheGuns) {
+                if attacker.unitClassType() == .siege {
+                    // spikingTheGuns - +7 Strength Combat Strength vs. siege units.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.spikingTheGuns.name()))
+                }
+            }
+
             // //////////
             // support
             // //////////
@@ -1243,6 +1330,11 @@ public class Unit: AbstractUnit {
                         // Only units that are currently owned by the same player can provide Flanking to one another
                         if loopUnit.player?.leader != self.leader {
                             continue
+                        }
+
+                        // square - Double Support bonus
+                        if loopUnit.has(promotion: .square) {
+                            supportUnitCount += 1
                         }
 
                         supportUnitCount += 1
@@ -2788,12 +2880,22 @@ public class Unit: AbstractUnit {
             }
         }
 
-        // exodusOfTheEvangelists + golden - +2 Movement Movement for Missionaries, Apostles and Inquisitors
+        // exodusOfTheEvangelists + golden - +2 Movement for Missionaries, Apostles and Inquisitors
         /*if player.currentAge() == .golden && player.has(dedication: .exodusOfTheEvangelists) {
             if self.type == .missionary || self.type == .apostle || self.type == .inquisitor {
                 moveVal += 2
             }
         }*/
+
+        // pursuit - +1 Movement.
+        if self.has(promotion: .pursuit) {
+            moveVal += 1
+        }
+
+        // redeploy - +1 Movement.
+        if self.has(promotion: .redeploy) {
+            moveVal += 1
+        }
 
         return moveVal
     }
@@ -4210,6 +4312,20 @@ public class Unit: AbstractUnit {
             if !improvement.canBePillaged() {
                 return false
             } else {
+
+                var movesCost: Int = 2
+
+                // depredation - Pillaging costs only 1 Movement point.
+                if self.has(promotion: .depredation) {
+                    movesCost = 1
+                }
+
+                self.movesValue -= movesCost
+
+                if self.movesValue < 0 {
+                    self.movesValue = 0
+                }
+
                 tile.removeImprovement()
 
                 if tile.resource(for: player) != .none {

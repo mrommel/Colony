@@ -458,3 +458,67 @@
 // expertMarksman
 "TXT_KEY_UNIT_PROMOTION_EXPERT_MARKSMAN_NAME" = "Expert Marksman";
 "TXT_KEY_UNIT_PROMOTION_EXPERT_MARKSMAN_EFFECT" = "+1 additional attack per turn if unit has not moved.";
+
+
+// ---------------------
+// antiCavalry
+
+// echelon
+"TXT_KEY_UNIT_PROMOTION_ECHELON_NAME" = "Echelon";
+"TXT_KEY_UNIT_PROMOTION_ECHELON_EFFECT" = "+5 [Strength] Combat Strength vs. cavalry units.";
+
+// thrust
+"TXT_KEY_UNIT_PROMOTION_THRUST_NAME" = "Thrust";
+"TXT_KEY_UNIT_PROMOTION_THRUST_EFFECT" = "+5 [Strength] Combat Strength vs. melee units.";
+
+// square
+"TXT_KEY_UNIT_PROMOTION_SQUARE_NAME" = "Square";
+"TXT_KEY_UNIT_PROMOTION_SQUARE_EFFECT" = "Double Support bonus.";
+
+// schiltron
+"TXT_KEY_UNIT_PROMOTION_SCHILTRON_NAME" = "Schiltron";
+"TXT_KEY_UNIT_PROMOTION_SCHILTRON_EFFECT" = "+10 [Strength] Combat Strength when defending vs. melee class units.";
+
+// redeploy
+"TXT_KEY_UNIT_PROMOTION_REDEPLOY_NAME" = "Redeploy";
+"TXT_KEY_UNIT_PROMOTION_REDEPLOY_EFFECT" = "+1 [Movement] Movement.";
+
+// chokePoints
+"TXT_KEY_UNIT_PROMOTION_CHOKE_POINTS_NAME" = "Choke Points";
+"TXT_KEY_UNIT_PROMOTION_CHOKE_POINTS_EFFECT" = "+7 [Strength] Combat Strength when defending in Woods, Jungle, Hills, or Marsh.";
+
+// holdTheLine
+"TXT_KEY_UNIT_PROMOTION_HOLD_THE_LINE_NAME" = "Hold the Line";
+"TXT_KEY_UNIT_PROMOTION_HOLD_THE_LINE_EFFECT" = "Adjacent units of a different class get +10 [Strength] Combat Strength vs. cavalry."; // #
+
+
+// ---------------------
+// lightCavalry
+
+// caparison
+"TXT_KEY_UNIT_PROMOTION_CAPARISON_NAME" = "Caparison";
+"TXT_KEY_UNIT_PROMOTION_CAPARISON_EFFECT" = "+5 [Strength] Combat Strength vs. anti-cavalry.";
+
+// coursers
+"TXT_KEY_UNIT_PROMOTION_COURSERS_NAME" = "Coursers";
+"TXT_KEY_UNIT_PROMOTION_COURSERS_EFFECT" = "+5 [Strength] Combat Strength when attacking ranged and siege units.";
+
+// depredation
+"TXT_KEY_UNIT_PROMOTION_DEPREDATION_NAME" = "Depredation";
+"TXT_KEY_UNIT_PROMOTION_DEPREDATION_EFFECT" = "Pillaging costs only 1 [Movement] Movement point.";
+
+// doubleEnvelopment
+"TXT_KEY_UNIT_PROMOTION_DOUBLE_ENVELOPMENT_NAME" = "Double Envelopment";
+"TXT_KEY_UNIT_PROMOTION_DOUBLE_ENVELOPMENT_EFFECT" = "2x flanking bonus.";
+
+// spikingTheGuns
+"TXT_KEY_UNIT_PROMOTION_SPIKING_THE_GUNS_NAME" = "Spiking the Guns";
+"TXT_KEY_UNIT_PROMOTION_SPIKING_THE_GUNS_EFFECT" = "+7 [Strength] Combat Strength vs. siege units.";
+
+// pursuit
+"TXT_KEY_UNIT_PROMOTION_PURSUIT_NAME" = "Pursuit";
+"TXT_KEY_UNIT_PROMOTION_PURSUIT_EFFECT" = "+1 [Movement] Movement.";
+
+// escortMobility
+"TXT_KEY_UNIT_PROMOTION_ESCORT_MOBILITY_NAME" = "Escort Mobility";
+"TXT_KEY_UNIT_PROMOTION_ESCORT_MOBILITY_EFFECT" = "Formation units all inherit escort's [Movement] Movement speed."; // #

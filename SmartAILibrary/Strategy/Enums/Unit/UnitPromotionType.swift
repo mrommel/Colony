@@ -45,6 +45,37 @@ public enum UnitPromotionType: Int, Codable {
     case emplacement // +10 Strength Combat Strength when defending vs. city attacks.
     case expertMarksman // +1 additional attack per turn if unit has not moved.
 
+    // antiCavalry
+    case echelon
+    case thrust
+    case square
+    case schiltron
+    case redeploy
+    case chokePoints
+    case holdTheLine
+
+    // lightCavalry
+    case caparison
+    case coursers
+    case depredation
+    case doubleEnvelopment
+    case spikingTheGuns
+    case pursuit
+    case escortMobility
+
+    // heavyCavalry
+    // siege
+
+    // navalMelee
+    // navalRanged
+    // navalRaider
+    // navalCarrier
+
+    // airFighter
+    // airBomber
+
+    // support
+
     public static var all: [UnitPromotionType] {
         return [
 
@@ -55,7 +86,13 @@ public enum UnitPromotionType: Int, Codable {
             .battleCry, .tortoise, .commando, .amphibious, .zweihander, .urbanWarfare, .eliteGuard,
 
             // ranged
-            .volley, .garrison, .arrowStorm, .incendiaries, .suppression, .emplacement, .expertMarksman
+            .volley, .garrison, .arrowStorm, .incendiaries, .suppression, .emplacement, .expertMarksman,
+
+            // antiCavalry
+            .echelon, .thrust, .square, .schiltron, .redeploy, .chokePoints, .holdTheLine,
+
+            // lightCavalry
+            .caparison, .coursers, .depredation, .doubleEnvelopment, .spikingTheGuns, .pursuit, .escortMobility
         ]
     }
 
@@ -488,6 +525,211 @@ public enum UnitPromotionType: Int, Codable {
                 ]
             )
 
+            // ---------------------
+            // antiCavalry
+
+        case .echelon:
+            // https://civilization.fandom.com/wiki/Echelon_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_ECHELON_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_ECHELON_EFFECT",
+                tier: 1,
+                unitClass: .antiCavalry,
+                required: [],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 3)
+                ]
+            )
+
+        case .thrust:
+            // https://civilization.fandom.com/wiki/Thrust_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_THRUST_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_THRUST_EFFECT",
+                tier: 1,
+                unitClass: .antiCavalry,
+                required: [],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 4)
+                ]
+            )
+
+        case .square:
+            // https://civilization.fandom.com/wiki/Square_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_SQUARE_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_SQUARE_EFFECT",
+                tier: 2,
+                unitClass: .antiCavalry,
+                required: [.echelon],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .defense, value: 3),
+                    Flavor(type: .militaryTraining, value: 1)
+                ]
+            )
+
+        case .schiltron:
+            // https://civilization.fandom.com/wiki/Schiltron_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_SCHILTRON_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_SCHILTRON_EFFECT",
+                tier: 2,
+                unitClass: .antiCavalry,
+                required: [.thrust],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 4)
+                ]
+            )
+
+        case .redeploy:
+            // Redeploy
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_REDEPLOY_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_REDEPLOY_EFFECT",
+                tier: 3,
+                unitClass: .antiCavalry,
+                required: [.square, .schiltron],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .mobile, value: 3)
+                ]
+            )
+
+        case .chokePoints:
+            // https://civilization.fandom.com/wiki/Choke_Points_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_CHOKE_POINTS_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_CHOKE_POINTS_EFFECT",
+                tier: 3,
+                unitClass: .antiCavalry,
+                required: [.square, .schiltron],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .defense, value: 4)
+                ]
+            )
+
+        case .holdTheLine:
+            // https://civilization.fandom.com/wiki/Hold_the_Line_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_HOLD_THE_LINE_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_HOLD_THE_LINE_EFFECT",
+                tier: 4,
+                unitClass: .antiCavalry,
+                required: [.redeploy, .chokePoints],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .militaryTraining, value: 2),
+                    Flavor(type: .defense, value: 3)
+                ]
+            )
+
+            // ---------------------
+            // lightCavalry
+
+        case .caparison:
+            // https://civilization.fandom.com/wiki/Caparison_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_CAPARISON_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_CAPARISON_EFFECT",
+                tier: 1,
+                unitClass: .lightCavalry,
+                required: [],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 4)
+                ]
+            )
+
+        case .coursers:
+            // https://civilization.fandom.com/wiki/Coursers_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_COURSERS_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_COURSERS_EFFECT",
+                tier: 1,
+                unitClass: .lightCavalry,
+                required: [],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 2)
+                ]
+            )
+
+        case .depredation:
+            // https://civilization.fandom.com/wiki/Depredation_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_DEPREDATION_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_DEPREDATION_EFFECT",
+                tier: 2,
+                unitClass: .lightCavalry,
+                required: [.caparison],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 3)
+                ]
+            )
+
+        case .doubleEnvelopment:
+            // https://civilization.fandom.com/wiki/Double_Envelopment_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_DOUBLE_ENVELOPMENT_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_DOUBLE_ENVELOPMENT_EFFECT",
+                tier: 2,
+                unitClass: .lightCavalry,
+                required: [.coursers],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .militaryTraining, value: 3),
+                    Flavor(type: .offense, value: 2)
+                ]
+            )
+
+        case .spikingTheGuns:
+            // https://civilization.fandom.com/wiki/Spiking_the_Guns_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_SPIKING_THE_GUNS_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_SPIKING_THE_GUNS_EFFECT",
+                tier: 3,
+                unitClass: .lightCavalry,
+                required: [.depredation, .doubleEnvelopment],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 2),
+                    Flavor(type: .defense, value: 2)
+                ]
+            )
+
+        case .pursuit:
+            // https://civilization.fandom.com/wiki/Pursuit_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_PURSUIT_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_PURSUIT_EFFECT",
+                tier: 3,
+                unitClass: .lightCavalry,
+                required: [.depredation, .doubleEnvelopment],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .mobile, value: 3)
+                ]
+            )
+
+        case .escortMobility:
+            // https://civilization.fandom.com/wiki/Escort_Mobility_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_ESCORT_MOBILITY_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_ESCORT_MOBILITY_EFFECT",
+                tier: 4,
+                unitClass: .lightCavalry,
+                required: [.spikingTheGuns, .pursuit],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .mobile, value: 3)
+                ]
+            )
         }
     }
 
