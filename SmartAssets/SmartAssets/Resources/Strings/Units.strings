@@ -30,6 +30,7 @@
 // scout
 "TXT_KEY_UNIT_SCOUT_NAME" = "Scout";
 "TXT_KEY_UNIT_SCOUT_EFFECT1" = "Fast-moving, Ancient era recon unit.";
+// Gains XP when activating Tribal Villages (+5 XP) and discovering natural wonders (+10 XP), besides the normal gains from combat. // #
 
 // recon - medieval
 
@@ -295,8 +296,10 @@
 "TXT_KEY_UNIT_BARBARIAN_ARCHER_NAME" = "Barbarian Archer";
 
 
-
 // ---------------------
+// unit classes
+// ---------------------
+
 // civilian
 "TXT_KEY_UNIT_CLASS_CIVILIAN_NAME" = "Civilian";
 
@@ -344,3 +347,209 @@
 
 // city
 "TXT_KEY_UNIT_CLASS_CITY_NAME" = "City";
+
+
+// ---------------------
+// units promotions
+// https://github.com/Swiftwork/civ6-explorer/blob/dbe3ca6d5468828ef0b26ef28f69555de0bcb959/src/assets/game/BaseGame/UnitPromotions.xml
+// ---------------------
+
+// embarkation
+"TXT_KEY_UNIT_PROMOTION_EMBARKATION_NAME" = "Embarkation"; // #
+"TXT_KEY_UNIT_PROMOTION_EMBARKATION_EFFECT" = "---";
+
+// ---------------------
+// general
+
+// healthBoostRecon / healthBoostMelee
+"TXT_KEY_UNIT_PROMOTION_HEALTH_BOOST_NAME" = "Health Boost"; // #
+"TXT_KEY_UNIT_PROMOTION_HEALTH_BOOST_EFFECT" = "---";
+
+// ---------------------
+// recon
+
+// ranger
+"TXT_KEY_UNIT_PROMOTION_RANGER_NAME" = "Ranger";
+"TXT_KEY_UNIT_PROMOTION_RANGER_EFFECT" = "Faster Movement in Woods and Jungle terrain.";
+
+// alpine
+"TXT_KEY_UNIT_PROMOTION_ALPINE_NAME" = "Alpine";
+"TXT_KEY_UNIT_PROMOTION_ALPINE_EFFECT" = "Faster Movement on Hill terrain.";
+
+// sentry
+"TXT_KEY_UNIT_PROMOTION_SENTRY_NAME" = "Sentry";
+"TXT_KEY_UNIT_PROMOTION_SENTRY_EFFECT" = "Can see through Woods and Jungle."; // #
+
+// guerrilla
+"TXT_KEY_UNIT_PROMOTION_GUERRILLA_NAME" = "Guerrilla";
+"TXT_KEY_UNIT_PROMOTION_GUERRILLA_EFFECT" = "Can move after attacking.";
+
+// spyglass
+"TXT_KEY_UNIT_PROMOTION_SPYGLASS_NAME" = "Spyglass";
+"TXT_KEY_UNIT_PROMOTION_SPYGLASS_EFFECT" = "+1 sight range.";
+
+// ambush
+"TXT_KEY_UNIT_PROMOTION_AMBUSH_NAME" = "Ambush";
+"TXT_KEY_UNIT_PROMOTION_AMBUSH_EFFECT" = "+20 [Strength] Combat Strength in all situations.";
+
+// camouflage
+"TXT_KEY_UNIT_PROMOTION_CAMOUFLAGE_NAME" = "Camouflage";
+"TXT_KEY_UNIT_PROMOTION_CAMOUFLAGE_EFFECT" = "Only adjacent enemy units can reveal this unit."; // #
+
+// ---------------------
+// melee
+
+// battleCry
+"TXT_KEY_UNIT_PROMOTION_BATTLECRY_NAME" = "Battlecry";
+"TXT_KEY_UNIT_PROMOTION_BATTLECRY_EFFECT" = "+7 [Strength] Combat Strength vs. melee and ranged units.";
+
+// tortoise
+"TXT_KEY_UNIT_PROMOTION_TORTOISE_NAME" = "Tortoise";
+"TXT_KEY_UNIT_PROMOTION_TORTOISE_EFFECT" = "+10 [Strength] Combat Strength when defending against ranged attacks.";
+
+// commando
+"TXT_KEY_UNIT_PROMOTION_COMMANDO_NAME" = "Commando";
+"TXT_KEY_UNIT_PROMOTION_COMMANDO_EFFECT" = "Can scale Cliff walls. +1 Movement."; // #
+
+// amphibious
+"TXT_KEY_UNIT_PROMOTION_AMPHIBIOUS_NAME" = "Amphibious";
+"TXT_KEY_UNIT_PROMOTION_AMPHIBIOUS_EFFECT" = "No [Strength] Combat Strength and Movement penalty when attacking from Sea or over a River."; // #
+
+// zweihander
+"TXT_KEY_UNIT_PROMOTION_ZWEIHANDER_NAME" = "Zweihander";
+"TXT_KEY_UNIT_PROMOTION_ZWEIHANDER_EFFECT" = "+7 [Strength] Combat Strength vs. anti-cavalry units.";
+
+// urbanWarfare
+"TXT_KEY_UNIT_PROMOTION_URBAN_WARFARE_NAME" = "Urban warfare";
+"TXT_KEY_UNIT_PROMOTION_URBAN_WARFARE_EFFECT" = "+10 [Strength] Combat Strength when fighting in a city.";
+
+// eliteGuard
+"TXT_KEY_UNIT_PROMOTION_ELITE_GUARD_NAME" = "Elite guard";
+"TXT_KEY_UNIT_PROMOTION_ELITE_GUARD_EFFECT" = "+1 additional attack per turn if Movement allows. Can move after attacking.";
+
+
+// ---------------------
+// ranged
+
+// volley
+"TXT_KEY_UNIT_PROMOTION_VOLLEY_NAME" = "Volley";
+"TXT_KEY_UNIT_PROMOTION_VOLLEY_EFFECT" = "+5 [RangedStrength] Ranged Strength vs. land units.";
+
+// garrison
+"TXT_KEY_UNIT_PROMOTION_GARRISON_NAME" = "Garrison";
+"TXT_KEY_UNIT_PROMOTION_GARRISON_EFFECT" = "+10 [Strength] Combat Strength when occupying a district or Fort."; // #
+
+// arrowStorm
+"TXT_KEY_UNIT_PROMOTION_ARROW_STORM_NAME" = "Arrow Storm";
+"TXT_KEY_UNIT_PROMOTION_ARROW_STORM_EFFECT" = "+7 [RangedStrength] Ranged Strength vs. land and naval units.";
+
+// incendiaries
+"TXT_KEY_UNIT_PROMOTION_INCENDIARIES_NAME" = "Incendiaries";
+"TXT_KEY_UNIT_PROMOTION_INCENDIARIES_EFFECT" = "+7 [RangedStrength] Ranged Strength vs. district defenses."; // #
+
+// suppression
+"TXT_KEY_UNIT_PROMOTION_SUPPRESSION_NAME" = "Suppression";
+"TXT_KEY_UNIT_PROMOTION_SUPPRESSION_EFFECT" = "Exercise zone of control.";
+
+// emplacement
+"TXT_KEY_UNIT_PROMOTION_EMPLACEMENT_NAME" = "Emplacement";
+"TXT_KEY_UNIT_PROMOTION_EMPLACEMENT_EFFECT" = "+10 [Strength] Combat Strength when defending vs. city attacks.";
+
+// expertMarksman
+"TXT_KEY_UNIT_PROMOTION_EXPERT_MARKSMAN_NAME" = "Expert Marksman";
+"TXT_KEY_UNIT_PROMOTION_EXPERT_MARKSMAN_EFFECT" = "+1 additional attack per turn if unit has not moved.";
+
+
+// ---------------------
+// antiCavalry
+
+// echelon
+"TXT_KEY_UNIT_PROMOTION_ECHELON_NAME" = "Echelon";
+"TXT_KEY_UNIT_PROMOTION_ECHELON_EFFECT" = "+5 [Strength] Combat Strength vs. cavalry units.";
+
+// thrust
+"TXT_KEY_UNIT_PROMOTION_THRUST_NAME" = "Thrust";
+"TXT_KEY_UNIT_PROMOTION_THRUST_EFFECT" = "+5 [Strength] Combat Strength vs. melee units.";
+
+// square
+"TXT_KEY_UNIT_PROMOTION_SQUARE_NAME" = "Square";
+"TXT_KEY_UNIT_PROMOTION_SQUARE_EFFECT" = "Double Support bonus.";
+
+// schiltron
+"TXT_KEY_UNIT_PROMOTION_SCHILTRON_NAME" = "Schiltron";
+"TXT_KEY_UNIT_PROMOTION_SCHILTRON_EFFECT" = "+10 [Strength] Combat Strength when defending vs. melee class units.";
+
+// redeploy
+"TXT_KEY_UNIT_PROMOTION_REDEPLOY_NAME" = "Redeploy";
+"TXT_KEY_UNIT_PROMOTION_REDEPLOY_EFFECT" = "+1 [Movement] Movement.";
+
+// chokePoints
+"TXT_KEY_UNIT_PROMOTION_CHOKE_POINTS_NAME" = "Choke Points";
+"TXT_KEY_UNIT_PROMOTION_CHOKE_POINTS_EFFECT" = "+7 [Strength] Combat Strength when defending in Woods, Jungle, Hills, or Marsh.";
+
+// holdTheLine
+"TXT_KEY_UNIT_PROMOTION_HOLD_THE_LINE_NAME" = "Hold the Line";
+"TXT_KEY_UNIT_PROMOTION_HOLD_THE_LINE_EFFECT" = "Adjacent units of a different class get +10 [Strength] Combat Strength vs. cavalry."; // #
+
+
+// ---------------------
+// lightCavalry
+
+// caparison
+"TXT_KEY_UNIT_PROMOTION_CAPARISON_NAME" = "Caparison";
+"TXT_KEY_UNIT_PROMOTION_CAPARISON_EFFECT" = "+5 [Strength] Combat Strength vs. anti-cavalry.";
+
+// coursers
+"TXT_KEY_UNIT_PROMOTION_COURSERS_NAME" = "Coursers";
+"TXT_KEY_UNIT_PROMOTION_COURSERS_EFFECT" = "+5 [Strength] Combat Strength when attacking ranged and siege units.";
+
+// depredation
+"TXT_KEY_UNIT_PROMOTION_DEPREDATION_NAME" = "Depredation";
+"TXT_KEY_UNIT_PROMOTION_DEPREDATION_EFFECT" = "Pillaging costs only 1 [Movement] Movement point.";
+
+// doubleEnvelopment
+"TXT_KEY_UNIT_PROMOTION_DOUBLE_ENVELOPMENT_NAME" = "Double Envelopment";
+"TXT_KEY_UNIT_PROMOTION_DOUBLE_ENVELOPMENT_EFFECT" = "2x flanking bonus.";
+
+// spikingTheGuns
+"TXT_KEY_UNIT_PROMOTION_SPIKING_THE_GUNS_NAME" = "Spiking the Guns";
+"TXT_KEY_UNIT_PROMOTION_SPIKING_THE_GUNS_EFFECT" = "+7 [Strength] Combat Strength vs. siege units.";
+
+// pursuit
+"TXT_KEY_UNIT_PROMOTION_PURSUIT_NAME" = "Pursuit";
+"TXT_KEY_UNIT_PROMOTION_PURSUIT_EFFECT" = "+1 [Movement] Movement.";
+
+// escortMobility
+"TXT_KEY_UNIT_PROMOTION_ESCORT_MOBILITY_NAME" = "Escort Mobility";
+"TXT_KEY_UNIT_PROMOTION_ESCORT_MOBILITY_EFFECT" = "Formation units all inherit escort's [Movement] Movement speed."; // #
+
+// ---------------------
+// navalMelee
+
+// helmsman
+"TXT_KEY_UNIT_PROMOTION_HELMSMAN_NAME" = "Helmsman";
+"TXT_KEY_UNIT_PROMOTION_HELMSMAN_EFFECT" = "+1 [Movement] Movement.";
+
+// embolon
+"TXT_KEY_UNIT_PROMOTION_EMBOLON_NAME" = "Embolon";
+"TXT_KEY_UNIT_PROMOTION_EMBOLON_EFFECT" = "+7 [Strength] Combat Strength vs. naval units.";
+
+// rutter
+"TXT_KEY_UNIT_PROMOTION_RUTTER_NAME" = "Rutter";
+"TXT_KEY_UNIT_PROMOTION_RUTTER_EFFECT" = "+1 sight range.";
+
+// reinforcedHull
+"TXT_KEY_UNIT_PROMOTION_REINFORCED_HULL_NAME" = "Reinforced Hull";
+"TXT_KEY_UNIT_PROMOTION_REINFORCED_HULL_EFFECT" = "+10 [Strength] Combat Strength when defending vs. ranged attacks.";
+
+// convoy
+"TXT_KEY_UNIT_PROMOTION_CONVOY_NAME" = "Convoy";
+"TXT_KEY_UNIT_PROMOTION_CONVOY_EFFECT" = "+10 [Strength] Combat Strength when in a formation."; // #
+
+// auxiliaryShips
+"TXT_KEY_UNIT_PROMOTION_AUXILIARY_SHIPS_NAME" = "Auxiliary Ships";
+"TXT_KEY_UNIT_PROMOTION_AUXILIARY_SHIPS_EFFECT" = "Heal outside of friendly territory."; // #
+
+// creepingAttack
+"TXT_KEY_UNIT_PROMOTION_CREEPING_ATTACK_NAME" = "Creeping Attack";
+"TXT_KEY_UNIT_PROMOTION_CREEPING_ATTACK_EFFECT" = "+14 [Strength] Combat Strength vs. naval raider units.";

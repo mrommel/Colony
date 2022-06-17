@@ -34,8 +34,8 @@ class PromotionViewModel: ObservableObject, Identifiable {
 
         self.promotionType = promotionType
 
-        self.name = promotionType.name()
-        self.effect = promotionType.effect()
+        self.name = promotionType.name().localized()
+        self.effect = promotionType.effect().localized()
         self.typeTexture = promotionType.iconTexture()
         self.state = state
     }
@@ -48,6 +48,28 @@ class PromotionViewModel: ObservableObject, Identifiable {
     func background() -> NSImage {
 
         return ImageCache.shared.image(for: self.state.iconTexture())
+    }
+
+    func toolTip() -> NSAttributedString {
+
+        let labelTokenizer = LabelTokenizer()
+        let toolTipText = NSMutableAttributedString(string: "")
+
+        let title = NSAttributedString(
+            string: self.promotionType.name().localized(),
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        toolTipText.append(title)
+
+        toolTipText.append(NSAttributedString(string: "\n"))
+
+        let effects = labelTokenizer.convert(
+            text: self.promotionType.effect().localized(),
+            with: Globals.Attributs.tooltipContentAttributs
+        )
+        toolTipText.append(effects)
+
+        return toolTipText
     }
 
     func selectPromotion() {

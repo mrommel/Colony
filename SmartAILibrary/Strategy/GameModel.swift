@@ -1783,7 +1783,31 @@ open class GameModel: Codable {
             canEnterOcean: canEnterOcean,
             wrapX: self.map.wrapX
         )
-        return MoveTypeUnitAwarePathfinderDataSource(in: self, for: movementType, for: player, options: options)
+        return MoveTypeUnitAwarePathfinderDataSource(for: nil, in: self, for: movementType, for: player, options: options)
+    }
+
+    public func unitAwarePathfinderDataSource(for unitRef: AbstractUnit?) -> PathfinderDataSource {
+
+        guard let unit = unitRef else {
+            fatalError()
+        }
+
+        let options = MoveTypeUnitAwareOptions(
+            ignoreSight: true,
+            ignoreOwner: unit.type.canMoveInRivalTerritory(),
+            unitMapType: unit.unitMapType(),
+            canEmbark: unit.canEverEmbark(),
+            canEnterOcean: unit.player!.canEnterOcean(),
+            wrapX: self.map.wrapX
+        )
+
+        return MoveTypeUnitAwarePathfinderDataSource(
+            for: unit,
+            in: self,
+            for: unit.movementType(),
+            for: unit.player,
+            options: options
+        )
     }
 
     func friendlyCityAdjacent(to point: HexPoint, for player: AbstractPlayer?) -> AbstractCity? {
@@ -1942,7 +1966,7 @@ open class GameModel: Codable {
         }
     }
 
-    public func sight(at location: HexPoint, sight: Int, for playerRef: AbstractPlayer?) {
+    public func sight(at location: HexPoint, sight: Int, by unitRef: AbstractUnit? = nil, for playerRef: AbstractPlayer?) {
 
         guard let player = playerRef else {
             fatalError("cant get player")
@@ -1997,6 +2021,13 @@ open class GameModel: Codable {
                     if !player.hasDiscovered(naturalWonder: feature) {
                         player.doDiscover(naturalWonder: feature)
                         player.addMoment(of: .discoveryOfANaturalWonder(naturalWonder: feature), in: self)
+
+                        if let unit = unitRef {
+                            if unit.type.has(ability: .experienceFromTribal) {
+                                // Gains XP when activating Tribal Villages (+5 XP) and discovering Natural Wonders (+10 XP)
+                                unit.changeExperience(by: 10, in: self)
+                            }
+                        }
 
                         if player.isHuman() {
                             player.notifications()?.add(notification: .naturalWonderDiscovered(location: areaPoint))

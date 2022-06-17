@@ -119,9 +119,10 @@ class CityStateViewModel: ObservableObject {
 
     func bonusText1() -> NSAttributedString {
 
-        return NSAttributedString(
-            string: self.cityState.bonus(for: .first).localized(),
-            attributes: Globals.Attributs.tooltipTitleAttributs
+        let tokenizer = LabelTokenizer()
+        return tokenizer.convert(
+            text: self.cityState.bonus(for: .first).localized(),
+            with: Globals.Attributs.tooltipContentAttributs
         )
     }
 
@@ -134,9 +135,10 @@ class CityStateViewModel: ObservableObject {
 
     func bonusText3() -> NSAttributedString {
 
-        return NSAttributedString(
-            string: self.cityState.bonus(for: .third).localized(),
-            attributes: Globals.Attributs.tooltipTitleAttributs
+        let tokenizer = LabelTokenizer()
+        return tokenizer.convert(
+            text: self.cityState.bonus(for: .third).localized(),
+            with: Globals.Attributs.tooltipContentAttributs
         )
     }
 
@@ -149,9 +151,10 @@ class CityStateViewModel: ObservableObject {
 
     func bonusText6() -> NSAttributedString {
 
-        return NSAttributedString(
-            string: self.cityState.bonus(for: .sixth).localized(),
-            attributes: Globals.Attributs.tooltipTitleAttributs
+        let tokenizer = LabelTokenizer()
+        return tokenizer.convert(
+            text: self.cityState.bonus(for: .sixth).localized(),
+            with: Globals.Attributs.tooltipContentAttributs
         )
     }
 
@@ -162,9 +165,10 @@ class CityStateViewModel: ObservableObject {
 
     func suzerainText() -> NSAttributedString {
 
-        return NSAttributedString(
-            string: self.cityState.bonus(for: .suzerain).localized(),
-            attributes: Globals.Attributs.tooltipTitleAttributs
+        let tokenizer = LabelTokenizer()
+        return tokenizer.convert(
+            text: self.cityState.bonus(for: .suzerain).localized(),
+            with: Globals.Attributs.tooltipContentAttributs
         )
     }
 

@@ -317,6 +317,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func changeCitiesLost(by delta: Int)
 
     func bestRoute(at tile: AbstractTile?) -> RouteType
+    func isBridgeBuilding() -> Bool
 
     func reportCultureFromKills(at point: HexPoint, culture cultureVal: Int, wasBarbarian: Bool, in gameModel: GameModel?)
     func reportGoldFromKills(at point: HexPoint, gold goldVal: Int, in gameModel: GameModel?)
@@ -4395,6 +4396,11 @@ public class Player: AbstractPlayer {
         }
 
         return .none
+    }
+
+    public func isBridgeBuilding() -> Bool {
+
+        return self.currentEra() >= .classical
     }
 
     func isCapitalConnectedTo(city targetCity: AbstractCity?, via routeType: RouteType, in gameModel: GameModel?) -> Bool {

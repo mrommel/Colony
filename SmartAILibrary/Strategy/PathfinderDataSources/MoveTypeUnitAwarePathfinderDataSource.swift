@@ -30,14 +30,16 @@ class MoveTypeUnitAwareOptions {
 
 class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
 
+    let unit: AbstractUnit?
     let gameModel: GameModel?
     let movementType: UnitMovementType
     let player: AbstractPlayer?
     let wrapXValue: Int
     let options: MoveTypeUnitAwareOptions
 
-    init(in gameModelRef: GameModel?, for movementType: UnitMovementType, for player: AbstractPlayer?, options: MoveTypeUnitAwareOptions) {
+    init(for unit: AbstractUnit?, in gameModelRef: GameModel?, for movementType: UnitMovementType, for player: AbstractPlayer?, options: MoveTypeUnitAwareOptions) {
 
+        self.unit = unit
         self.gameModel = gameModelRef
         self.movementType = movementType
         self.player = player
@@ -215,30 +217,51 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
             fatalError("cant get gameModel")
         }
 
-        if let toTile = gameModel.tile(at: toTileCoord),
-            let fromTile = gameModel.tile(at: fromTileCoord) {
+        if let unit = self.unit {
+            var movementCost: Double = 0.0
 
-            if let city = gameModel.city(at: toTileCoord) {
+            if let toTile = gameModel.tile(at: toTileCoord),
+                let fromTile = gameModel.tile(at: fromTileCoord) {
 
-                // own city has little costs
-                if player.isEqual(to: city.player) {
-                    return 0.7
-                }
+                let maxMoves = unit.maxMoves(in: gameModel)
+                movementCost = UnitMovement.movementCostSelectiveZoneOfControl(
+                    unit: self.unit,
+                    fromPlot: fromTile,
+                    toPlot: toTile,
+                    movesRemaining: maxMoves,
+                    maxMoves: maxMoves,
+                    in: gameModel
+                )
             }
 
-            if self.options.canEmbark && self.movementType == .walk {
+            return movementCost
+        } else {
 
-                if fromTile.isLand() && toTile.isWater() {
-                    return 2.0
-                } else if fromTile.isWater() && toTile.isLand() {
-                    return 2.0
-                } else if fromTile.isWater() && toTile.isWater() {
-                    return toTile.movementCost(for: .swim, from: fromTile, wrapX: self.wrapXValue)
+            if let toTile = gameModel.tile(at: toTileCoord),
+                let fromTile = gameModel.tile(at: fromTileCoord) {
+
+                if let city = gameModel.city(at: toTileCoord) {
+
+                    // own city has little costs
+                    if player.isEqual(to: city.player) {
+                        return 0.7
+                    }
                 }
-            }
 
-            let normalMovementCosts = min(2, toTile.movementCost(for: self.movementType, from: fromTile, wrapX: self.wrapXValue))
-            return normalMovementCosts
+                if self.options.canEmbark && self.movementType == .walk {
+
+                    if fromTile.isLand() && toTile.isWater() {
+                        return 2.0
+                    } else if fromTile.isWater() && toTile.isLand() {
+                        return 2.0
+                    } else if fromTile.isWater() && toTile.isWater() {
+                        return toTile.movementCost(for: .swim, from: fromTile, wrapX: self.wrapXValue)
+                    }
+                }
+
+                let normalMovementCosts = min(2, toTile.movementCost(for: self.movementType, from: fromTile, wrapX: self.wrapXValue))
+                return normalMovementCosts
+            }
         }
 
         return UnitMovementType.max

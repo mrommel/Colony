@@ -148,6 +148,42 @@ public enum HexDirection: Int {
             return .southeast
         }
     }
+
+    var clockwiseNeighbor: HexDirection {
+
+        switch self {
+        case .north:
+            return .northeast
+        case .northeast:
+            return .southeast
+        case .southeast:
+            return .south
+        case .south:
+            return .southwest
+        case .southwest:
+            return .northwest
+        case .northwest:
+            return .north
+        }
+    }
+
+    var counterClockwiseNeighbor: HexDirection {
+
+        switch self {
+        case .north:
+            return .northwest
+        case .northeast:
+            return .north
+        case .southeast:
+            return .northeast
+        case .south:
+            return .southeast
+        case .southwest:
+            return .south
+        case .northwest:
+            return .southwest
+        }
+    }
 }
 
 // based on https://www.redblobgames.com/grids/hexagons/implementation.html

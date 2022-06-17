@@ -96,6 +96,7 @@ class UnitTests: XCTestCase {
         } while turnCounter < 10 && !hasVisited
 
         // THEN
+        XCTAssertTrue(hasVisited)
         XCTAssertEqual(humanPlayerWarrior.location, HexPoint(x: 6, y: 2))
     }
 
@@ -368,7 +369,7 @@ class UnitTests: XCTestCase {
 
         // THEN
         XCTAssertNotEqual(beforeRenaming, afterRenaming)
-        XCTAssertEqual(beforeRenaming, "Scout")
+        XCTAssertEqual(beforeRenaming, "TXT_KEY_UNIT_SCOUT_NAME")
         XCTAssertEqual(afterRenaming, "Flamingo")
     }
 

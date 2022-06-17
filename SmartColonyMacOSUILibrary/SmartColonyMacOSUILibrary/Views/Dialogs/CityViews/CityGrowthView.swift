@@ -230,7 +230,7 @@ struct CityGrowthView: View {
             GroupBox {
                 VStack(spacing: 4) {
                     HStack(alignment: .center, spacing: 4) {
-                        Text("X Housing for Y Citizen")
+                        Text(self.viewModel.housingSummary)
                     }
                     .padding(.all, 4)
 

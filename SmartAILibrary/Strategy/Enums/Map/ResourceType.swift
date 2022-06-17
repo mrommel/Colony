@@ -595,7 +595,7 @@ public enum ResourceType: Int, Codable {
                 placedOnHills: false,
                 placedOnRiverSide: false,
                 placedOnFlatlands: false,
-                placedOnFeatures: [.reef, .lake],
+                placedOnFeatures: [/*.reef,*/ .lake],
                 placedOnFeatureTerrains: [],
                 placedOnTerrains: [.shore]
             )

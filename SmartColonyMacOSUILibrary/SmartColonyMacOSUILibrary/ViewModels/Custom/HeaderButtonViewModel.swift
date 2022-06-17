@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SmartAssets
+import SwiftUITooltip
 
 protocol HeaderButtonViewModelDelegate: AnyObject {
 
@@ -16,15 +17,17 @@ protocol HeaderButtonViewModelDelegate: AnyObject {
 class HeaderButtonViewModel: ObservableObject {
 
     let type: HeaderButtonType
+    let toolTipSide: TooltipSide
 
     @Published
     var alert: Bool = false
 
     weak var delegate: HeaderButtonViewModelDelegate?
 
-    init(type: HeaderButtonType) {
+    init(type: HeaderButtonType, toolTipSide: TooltipSide) {
 
         self.type = type
+        self.toolTipSide = toolTipSide
     }
 
     func icon() -> NSImage {

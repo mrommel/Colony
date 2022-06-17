@@ -25,6 +25,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     func isBarbarian() -> Bool
     func isHuman() -> Bool
     func isEnemy(of otherPlayer: AbstractPlayer?) -> Bool
+    func isEnemyRoute() -> Bool
     func unitClassType() -> UnitClassType
     func unitMapType() -> UnitMapType
 
@@ -62,9 +63,14 @@ public protocol AbstractUnit: AnyObject, Codable {
     func canEnterTerrain(of tile: AbstractTile?) -> Bool
     func isImpassable(terrain: TerrainType) -> Bool
     func canMoveAllTerrain() -> Bool
+    func isIgnoreZoneOfControl() -> Bool
+    func isExertingZoneOfControl() -> Bool
     func validTarget(at target: HexPoint, in gameModel: GameModel?) -> Bool
     func canHold(at point: HexPoint, in gameModel: GameModel?) -> Bool
     func canEnterTerritory(of otherPlayer: AbstractPlayer?, ignoreRightOfPassage: Bool, isDeclareWarMove: Bool) -> Bool
+    func isHoveringUnit() -> Bool
+    func isEmbarkFlatCost() -> Bool
+    func isDisembarkFlatCost() -> Bool
 
     func healthPoints() -> Int
     func maxHealthPoints() -> Int
@@ -78,6 +84,10 @@ public protocol AbstractUnit: AnyObject, Codable {
     func upgradeType() -> UnitType?
     func canUpgrade(to unitType: UnitType, in gameModel: GameModel?) -> Bool
     func doUpgrade(to unitType: UnitType, in gameModel: GameModel?)
+
+    func isConvertUnit() -> Bool
+    func isSlowInEnemyLand() -> Bool
+    func isRoughTerrainEndsTurn() -> Bool
 
     func isOutOfAttacks() -> Bool
     func setMadeAttack(to newValue: Bool)
@@ -103,6 +113,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     func experienceModifier() -> Double
     func set(experienceModifier: Double)
     func isPromotionReady() -> Bool
+    func has(promotion: UnitPromotionType) -> Bool
     func gainedPromotions() -> [UnitPromotionType]
     func possiblePromotions() -> [UnitPromotionType]
     func doPromote(with promotionType: UnitPromotionType, in gameModel: GameModel?)
@@ -511,7 +522,7 @@ public class Unit: AbstractUnit {
 
         guard let player = self.player,
               let otherPlayer = otherPlayer else {
-            fatalError("cant get player")
+            return false
         }
 
         // barbarians are always enemies
@@ -520,6 +531,15 @@ public class Unit: AbstractUnit {
         }
 
         return player.isAtWar(with: otherPlayer)
+    }
+
+    public func isEnemyRoute() -> Bool {
+
+        guard let promotions = self.promotions else {
+            fatalError("cant get promotions")
+        }
+
+        return promotions.gainedPromotions().contains(where: { $0.isEnemyRoute() })
     }
 
     public func unitClassType() -> UnitClassType {
@@ -776,6 +796,21 @@ public class Unit: AbstractUnit {
         newUnit.finishMoves()
     }
 
+    public func isConvertUnit() -> Bool {
+
+        return false
+    }
+
+    public func isSlowInEnemyLand() -> Bool {
+
+        return self.canSetUpForRangedAttack()
+    }
+
+    public func isRoughTerrainEndsTurn() -> Bool {
+
+        return false
+    }
+
     /// Current power of unit (raw unit type power adjusted for health)
     public func power() -> Int {
 
@@ -924,7 +959,8 @@ public class Unit: AbstractUnit {
                 result.append(CombatModifier(value: 10, title: "Bonus against Anti-Cavalry"))
             }
 
-            if self.unitClassType() == .antiCavalry && (defender.unitClassType() == .lightCavalry || defender.unitClassType() == .heavyCavalry) {
+            if self.unitClassType() == .antiCavalry &&
+                (defender.unitClassType() == .lightCavalry || defender.unitClassType() == .heavyCavalry) {
                 result.append(CombatModifier(value: 10, title: "Bonus against Cavalry"))
             }
 
@@ -943,10 +979,77 @@ public class Unit: AbstractUnit {
             // promotions
             // //////////
 
-            if promotions.has(promotion: .battleCry) {
-                // +7 Combat Strength vs. melee and ranged units.
+            if promotions.has(promotion: .battlecry) {
+                // battlecry - +7 Combat Strength vs. melee and ranged units.
                 if defender.unitClassType() == .melee || defender.unitClassType() == .ranged {
-                    result.append(CombatModifier(value: 7, title: "Battle Cry"))
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.battlecry.name()))
+                }
+            }
+
+            if promotions.has(promotion: .zweihander) {
+                if defender.unitClassType() == .antiCavalry {
+                    // zweihander - +7 Combat Strength vs. anti-cavalry units.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.zweihander.name()))
+                }
+            }
+
+            if promotions.has(promotion: .volley) {
+                if defender.domain() == .land {
+                    // volley - +5 Ranged Strength vs. land units.
+                    result.append(CombatModifier(value: 5, title: UnitPromotionType.volley.name()))
+                }
+            }
+
+            if promotions.has(promotion: .arrowStorm) {
+                if defender.domain() == .land || defender.domain() == .sea {
+                    // arrowStorm - +7 Ranged Strength Ranged Strength vs. land and naval units.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.arrowStorm.name()))
+                }
+            }
+
+            if promotions.has(promotion: .echelon) {
+                if defender.unitClassType() == .antiCavalry {
+                    // echelon - +5 [Strength] Combat Strength vs. cavalry units.
+                    result.append(CombatModifier(value: 5, title: UnitPromotionType.echelon.name()))
+                }
+            }
+
+            if promotions.has(promotion: .thrust) {
+                if defender.unitClassType() == .melee {
+                    // thrust - +5 [Strength] Combat Strength vs. melee units.
+                    result.append(CombatModifier(value: 5, title: UnitPromotionType.thrust.name()))
+                }
+            }
+
+            // light cavalry
+
+            if promotions.has(promotion: .caparison) {
+                if defender.unitClassType() == .antiCavalry {
+                    // caparison - +5 Combat Strength vs. anti-cavalry.
+                    result.append(CombatModifier(value: 5, title: UnitPromotionType.caparison.name()))
+                }
+            }
+
+            if promotions.has(promotion: .coursers) {
+                if defender.unitClassType() == .ranged || defender.unitClassType() == .siege {
+                    // coursers - +5 Combat Strength when attacking ranged and siege units.
+                    result.append(CombatModifier(value: 5, title: UnitPromotionType.coursers.name()))
+                }
+            }
+
+            if promotions.has(promotion: .spikingTheGuns) {
+                if defender.unitClassType() == .siege {
+                    // spikingTheGuns - +7 Strength Combat Strength vs. siege units.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.spikingTheGuns.name()))
+                }
+            }
+
+            // navalMelee
+
+            if promotions.has(promotion: .embolon) {
+                if defender.unitClassType() == .navalRaider {
+                    // embolon - +7 [Strength] Combat Strength vs. naval units.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.embolon.name()))
                 }
             }
         }
@@ -959,6 +1062,21 @@ public class Unit: AbstractUnit {
             if self.unitClassType() == .ranged {
                 result.append(CombatModifier(value: -17, title: "Penalty against City"))
             }
+
+            if promotions.has(promotion: .urbanWarfare) {
+                // +10 [Strength] Combat Strength when fighting in a city.
+                result.append(CombatModifier(value: +10, title: UnitPromotionType.urbanWarfare.name()))
+            }
+
+            if promotions.has(promotion: .emplacement) {
+                // +10 Strength Combat Strength when defending vs. city attacks.
+                result.append(CombatModifier(value: +10, title: UnitPromotionType.emplacement.name()))
+            }
+        }
+
+        if promotions.has(promotion: .ambush) {
+            // +20 [Strength] Combat Strength in all situations.
+            result.append(CombatModifier(value: +20, title: UnitPromotionType.ambush.name()))
         }
 
         ////////////////////////
@@ -999,6 +1117,11 @@ public class Unit: AbstractUnit {
                         // Only units that are currently owned by the same player can provide Flanking to one another
                         if loopUnit.player?.leader != self.leader {
                             continue
+                        }
+
+                        // doubleEnvelopment - Double flanking bonus
+                        if loopUnit.has(promotion: .doubleEnvelopment) {
+                            flankingUnitCount += 1
                         }
 
                         flankingUnitCount += 1
@@ -1135,7 +1258,82 @@ public class Unit: AbstractUnit {
             if promotions.has(promotion: .tortoise) {
                 if attacker.isRanged() && ranged {
                     // +10 Combat Strength when defending against ranged attacks.
-                    result.append(CombatModifier(value: 10, title: "Tortoise promotion"))
+                    result.append(CombatModifier(value: 10, title: UnitPromotionType.tortoise.name()))
+                }
+            }
+
+            if promotions.has(promotion: .zweihander) {
+                if attacker.unitClassType() == .antiCavalry {
+                    // +7 [Strength] Combat Strength vs. anti-cavalry units.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.zweihander.name()))
+                }
+            }
+
+            if promotions.has(promotion: .echelon) {
+                if attacker.unitClassType() == .antiCavalry {
+                    // echelon - +5 [Strength] Combat Strength vs. cavalry units.
+                    result.append(CombatModifier(value: 5, title: UnitPromotionType.echelon.name()))
+                }
+            }
+
+            if promotions.has(promotion: .thrust) {
+                if attacker.unitClassType() == .melee {
+                    // thrust - +5 [Strength] Combat Strength vs. melee units.
+                    result.append(CombatModifier(value: 5, title: UnitPromotionType.thrust.name()))
+                }
+            }
+
+            if promotions.has(promotion: .schiltron) {
+                if attacker.unitClassType() == .melee {
+                    // schiltron - +10 Combat Strength when defending vs. melee class units.
+                    result.append(CombatModifier(value: 10, title: UnitPromotionType.schiltron.name()))
+                }
+            }
+
+            if promotions.has(promotion: .chokePoints) {
+                if let tile = toTile {
+                    if tile.has(feature: .forest) || tile.has(feature: .rainforest) ||
+                        tile.hasHills() || tile.has(feature: .marsh) {
+                        // chokePoints - +7 Combat Strength when defending in Woods, Jungle, Hills, or Marsh.
+                        result.append(CombatModifier(value: 7, title: UnitPromotionType.chokePoints.name()))
+                    }
+                }
+            }
+
+            if promotions.has(promotion: .caparison) {
+                if attacker.unitClassType() == .antiCavalry {
+                    // caparison - +5 Combat Strength vs. anti-cavalry.
+                    result.append(CombatModifier(value: 5, title: UnitPromotionType.caparison.name()))
+                }
+            }
+
+            if promotions.has(promotion: .spikingTheGuns) {
+                if attacker.unitClassType() == .siege {
+                    // spikingTheGuns - +7 Strength Combat Strength vs. siege units.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.spikingTheGuns.name()))
+                }
+            }
+
+            // navalMelee
+
+            if promotions.has(promotion: .embolon) {
+                if attacker.unitClassType() == .navalRaider {
+                    // embolon - +7 [Strength] Combat Strength vs. naval units.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.embolon.name()))
+                }
+            }
+
+            if promotions.has(promotion: .reinforcedHull) {
+                if attacker.unitClassType() == .ranged || attacker.unitClassType() == .navalRanged {
+                    // reinforcedHull - +10 [Strength] Combat Strength when defending vs. ranged attacks.
+                    result.append(CombatModifier(value: 10, title: UnitPromotionType.reinforcedHull.name()))
+                }
+            }
+
+            if promotions.has(promotion: .creepingAttack) {
+                if attacker.unitClassType() == .navalRaider {
+                    // creepingAttack - +14 [Strength] Combat Strength vs. naval raider units.
+                    result.append(CombatModifier(value: 14, title: UnitPromotionType.creepingAttack.name()))
                 }
             }
 
@@ -1168,6 +1366,11 @@ public class Unit: AbstractUnit {
                             continue
                         }
 
+                        // square - Double Support bonus
+                        if loopUnit.has(promotion: .square) {
+                            supportUnitCount += 1
+                        }
+
                         supportUnitCount += 1
                     }
                 }
@@ -1176,6 +1379,11 @@ public class Unit: AbstractUnit {
             if supportUnitCount > 0 {
                 result.append(CombatModifier(value: 2 * supportUnitCount, title: "Support Bonus"))
             }
+        }
+
+        if promotions.has(promotion: .ambush) {
+            // +20 [Strength] Combat Strength in all situations.
+            result.append(CombatModifier(value: +20, title: UnitPromotionType.ambush.name()))
         }
 
         return result
@@ -1330,6 +1538,21 @@ public class Unit: AbstractUnit {
     }
 
     public func canMoveAfterAttacking() -> Bool {
+
+        // guerrilla - Can move after attacking.
+        if self.has(promotion: .guerrilla) {
+            return true
+        }
+
+        // eliteGuard - +1 additional attack per turn if Movement allows. Can move after attacking.
+        if self.has(promotion: .eliteGuard) {
+            return true
+        }
+
+        // expertMarksman - +1 additional attack per turn if unit has not moved.
+        if self.has(promotion: .expertMarksman) {
+            return true
+        }
 
         return false
     }
@@ -1580,14 +1803,7 @@ public class Unit: AbstractUnit {
             fatalError("cant get game")
         }
 
-        let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(
-            for: self.movementType(),
-            for: self.player,
-            ignoreOwner: self.type.canMoveInRivalTerritory(),
-            unitMapType: self.unitMapType(),
-            canEmbark: self.canEmbark(in: gameModel) || self.isEmbarked(),
-            canEnterOcean: self.player!.canEnterOcean()
-        )
+        let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(for: self)
         let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
         if var path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: target) {
@@ -1659,7 +1875,7 @@ public class Unit: AbstractUnit {
             return 0
         }
 
-        guard let path = self.path(towards: target, options: .none, in: gameModel) else {
+        guard var path = self.path(towards: target, options: .none, in: gameModel) else {
             print("Unable to generate path with BuildRouteFinder")
             if self.type == .trader {
                 self.finishMoves() // skip one turn
@@ -1744,11 +1960,14 @@ public class Unit: AbstractUnit {
 
         var usedPathCost = 0.0
 
+        // this is wrong - unsure where it gets broken
+        path.cropPoints(until: self.location)
+
         print("unit \(self.location) => doMoveOnPath(\(path)")
         for (index, point) in path.enumerated() {
 
-            // skip first point
-            if index == 0 {
+            // skip if already at point
+            if point == self.location {
                 continue
             }
 
@@ -1789,13 +2008,7 @@ public class Unit: AbstractUnit {
             fatalError("cant get oldPlot")
         }
 
-        let costDataSource = gameModel.unitAwarePathfinderDataSource(
-            for: self.movementType(),
-            for: self.player,
-            unitMapType: self.unitMapType(),
-            canEmbark: self.canEmbark(in: gameModel) || self.isEmbarked(),
-            canEnterOcean: self.player!.canEnterOcean()
-        )
+        let costDataSource = gameModel.unitAwarePathfinderDataSource(for: self)
 
         if !self.canMove() {
             return false
@@ -1910,10 +2123,6 @@ public class Unit: AbstractUnit {
 
         guard let player = self.player else {
             fatalError("cant get player")
-        }
-
-        guard let techs = player.techs else {
-            fatalError("cant get player techs")
         }
 
         guard let diplomacyAI = player.diplomacyAI else {
@@ -2088,7 +2297,7 @@ public class Unit: AbstractUnit {
         self.doMobilize(in: gameModel) // unfortify
 
         // needs to be here so that the square is considered visible when we move into it...
-        gameModel.sight(at: newLocation, sight: self.sight(), for: player)
+        gameModel.sight(at: newLocation, sight: self.sight(), by: self, for: player)
         // newPlot->area()->changeUnitsPerPlayer(getOwner(), 1);
         var newCityRef = gameModel.city(at: newPlot.point)
 
@@ -2180,6 +2389,11 @@ public class Unit: AbstractUnit {
 
             if newPlot.has(improvement: .goodyHut) {
                 self.player?.doGoodyHut(at: newPlot, by: self, in: gameModel)
+
+                if self.type.has(ability: .experienceFromTribal) {
+                    // Gains XP when activating Tribal Villages (+5 XP) and discovering Natural Wonders (+10 XP)
+                    self.changeExperience(by: 5, in: gameModel)
+                }
             }
 
             if newPlot.has(improvement: .barbarianCamp) {
@@ -2543,6 +2757,21 @@ public class Unit: AbstractUnit {
         return false
     }
 
+    public func isHoveringUnit() -> Bool {
+
+        return false
+    }
+
+    public func isEmbarkFlatCost() -> Bool {
+
+        return false
+    }
+
+    public func isDisembarkFlatCost() -> Bool {
+
+        return false
+    }
+
     public func canGarrison(at point: HexPoint, in gameModel: GameModel?) -> Bool {
 
         guard let gameModel = gameModel else {
@@ -2695,12 +2924,27 @@ public class Unit: AbstractUnit {
             }
         }
 
-        // exodusOfTheEvangelists + golden - +2 Movement Movement for Missionaries, Apostles and Inquisitors
+        // exodusOfTheEvangelists + golden - +2 Movement for Missionaries, Apostles and Inquisitors
         /*if player.currentAge() == .golden && player.has(dedication: .exodusOfTheEvangelists) {
             if self.type == .missionary || self.type == .apostle || self.type == .inquisitor {
                 moveVal += 2
             }
         }*/
+
+        // pursuit - +1 Movement.
+        if self.has(promotion: .pursuit) {
+            moveVal += 1
+        }
+
+        // redeploy - +1 Movement.
+        if self.has(promotion: .redeploy) {
+            moveVal += 1
+        }
+
+        // helmsman - +1 Movement.
+        if self.has(promotion: .helmsman) {
+            moveVal += 1
+        }
 
         return moveVal
     }
@@ -2726,8 +2970,13 @@ public class Unit: AbstractUnit {
 
         if let promotions = self.promotions {
 
-            // +1 sight range.
+            // spyglass - +1 sight range.
             if promotions.has(promotion: .spyglass) {
+                sightValue += 1
+            }
+
+            // rutter - +1 sight range.
+            if promotions.has(promotion: .rutter) {
                 sightValue += 1
             }
         }
@@ -3009,6 +3258,15 @@ public class Unit: AbstractUnit {
         let level = self.experienceLevel()
 
         return promotions.count() < (level - 1)
+    }
+
+    public func has(promotion: UnitPromotionType) -> Bool {
+
+        guard let promotions = self.promotions else {
+            fatalError("cant get promotions")
+        }
+
+        return promotions.has(promotion: promotion)
     }
 
     public func gainedPromotions() -> [UnitPromotionType] {
@@ -4108,6 +4366,20 @@ public class Unit: AbstractUnit {
             if !improvement.canBePillaged() {
                 return false
             } else {
+
+                var movesCost: Int = 2
+
+                // depredation - Pillaging costs only 1 Movement point.
+                if self.has(promotion: .depredation) {
+                    movesCost = 1
+                }
+
+                self.movesValue -= movesCost
+
+                if self.movesValue < 0 {
+                    self.movesValue = 0
+                }
+
                 tile.removeImprovement()
 
                 if tile.resource(for: player) != .none {
@@ -4142,13 +4414,7 @@ public class Unit: AbstractUnit {
             return true
         }
 
-        let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(
-            for: self.movementType(),
-            for: self.player,
-            unitMapType: self.unitMapType(),
-            canEmbark: self.canEmbark(in: gameModel),
-            canEnterOcean: self.player!.canEnterOcean()
-        )
+        let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(for: self)
         let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
         if let path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: point) {
@@ -4166,13 +4432,7 @@ public class Unit: AbstractUnit {
             fatalError("cant get game")
         }
 
-        let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(
-            for: self.movementType(),
-            for: self.player,
-            unitMapType: self.unitMapType(),
-            canEmbark: self.canEmbark(in: gameModel),
-            canEnterOcean: self.player!.canEnterOcean()
-        )
+        let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(for: self)
         let pathFinder = AStarPathfinder(with: pathFinderDataSource)
 
         if var path = pathFinder.shortestPath(fromTileCoord: self.location, toTileCoord: point) {
@@ -4565,6 +4825,74 @@ public class Unit: AbstractUnit {
     public func canMoveAllTerrain() -> Bool {
 
         // FIXME
+        return false
+    }
+
+    public func isIgnoreZoneOfControl() -> Bool {
+
+        // There are units that ignore zone of control completely. They are:
+        // All cavalry units (light, heavy, and ranged)
+        if self.unitClassType() == .lightCavalry ||
+            self.unitClassType() == .heavyCavalry {
+            return true
+        }
+
+        // Naval raider units
+        if self.unitClassType() == .navalRaider {
+            return true
+        }
+
+        // Viking Longship (Harald Hardrada only)
+
+        // Air fighter units // Air bomber units
+        if self.unitClassType() == .airFighter || self.unitClassType() == .airBomber {
+            return true
+        }
+
+        if self.type.abilities().contains(where: { $0 == .ignoreZoneOfControl }) {
+            return true
+        }
+
+        guard let promotions = self.promotions else {
+            fatalError("cant get promotions")
+        }
+
+        if promotions.gainedPromotions().contains(where: { $0.ignoreZoneOfControl() }) {
+            return true
+        }
+
+        return false
+    }
+
+    public func isExertingZoneOfControl() -> Bool {
+
+        // Every land unit that can perform a melee attack:
+        // Melee units
+        if self.unitClassType() == .melee {
+            return true
+        }
+
+        // Anti-cavalry units
+        if self.unitClassType() == .antiCavalry {
+            return true
+        }
+
+        // Light cavalry or Heavy cavalry units
+        if self.unitClassType() == .lightCavalry ||
+            self.unitClassType() == .heavyCavalry {
+            return true
+        }
+
+        // Scout
+        if self.unitClassType() == .recon {
+            return true
+        }
+
+        // Ranged units with the Suppression Promotion
+        if self.unitClassType() == .ranged && self.has(promotion: .suppression) {
+            return true
+        }
+
         return false
     }
 

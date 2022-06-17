@@ -541,4 +541,46 @@ class AStarPathFinderTests: XCTestCase {
             XCTAssertEqual(path.cost, 1.0)
         }
     }
+
+    func testUnitAwarePathWithZoneOfControl() throws {
+
+        // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let aiPlayer = Player(leader: .victoria, isHuman: false)
+        aiPlayer.initialize()
+
+        let humanPlayer = Player(leader: .alexander, isHuman: true)
+        humanPlayer.initialize()
+
+        let mapModel = MapUtils.mapFilled(with: .plains, sized: .duel, seed: 42, wrapX: true)
+
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .king,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, aiPlayer, humanPlayer],
+            on: mapModel
+        )
+
+        let scoutUnit = Unit(at: HexPoint(x: 3, y: 3), type: .scout, owner: humanPlayer)
+        gameModel.add(unit: scoutUnit)
+
+        let warriorUnit = Unit(at: HexPoint(x: 4, y: 3), type: .barbarianWarrior, owner: barbarianPlayer)
+        gameModel.add(unit: warriorUnit)
+
+        let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(for: scoutUnit)
+        let pathFinder = AStarPathfinder(with: pathFinderDataSource)
+
+        // WHEN
+        let path = pathFinder.shortestPath(fromTileCoord: HexPoint(x: 3, y: 3), toTileCoord: HexPoint(x: 4, y: 2))
+
+        // THEN
+        XCTAssertNotNil(path, "no path found")
+        if let path = path {
+            XCTAssertEqual(path.count, 4) // without barbarianWarrior => 2
+            XCTAssertEqual(path.cost, 4.0) // without barbarianWarrior => 2.0
+        }
+    }
 }

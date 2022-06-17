@@ -444,6 +444,7 @@ class CityObject {
                 }
             }
 
+            productionProgress = max(0, min(100, productionProgress))
             let productionProgressTextureName = "linear-progress-\(productionProgress)"
             let productionProgressImage = ImageCache.shared.image(for: productionProgressTextureName)
             let productionProgressTexture = SKTexture(image: productionProgressImage)

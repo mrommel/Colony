@@ -44,152 +44,9 @@ struct CombatBannerView: View {
                         .scaledToFit()
                         .frame(width: 391, height: 112)
 
-                    // attacker
-                    Group {
+                    self.defenderView
 
-                        Text("Defender")
-                            .font(.caption)
-                            .frame(width: 110, height: 12, alignment: .center)
-                            // .background(Color.red)
-                            .offset(x: -110.0, y: -96.0)
-
-                        Text(self.viewModel.defenderViewModel.name)
-                            .font(.caption)
-                            .frame(width: 110, height: 12, alignment: .center)
-                            // .background(Color.red)
-                            .offset(x: -110.0, y: -82.0)
-
-                        Image(nsImage: self.viewModel.defenderViewModel.typeIcon())
-                            .resizable()
-                            .frame(width: 42, height: 42)
-                            // .background(Color.red)
-                            .clipShape(Circle())
-                            .offset(x: -32.0, y: -28.0)
-
-                        Image(nsImage: self.viewModel.defenderViewModel.healthIcon())
-                            .resizable()
-                            .frame(width: 64, height: 64)
-                            .padding(EdgeInsets(top: 0, leading: -32, bottom: 0, trailing: 0))
-                            .clipShape(Rectangle())
-                            .offset(x: -15.0, y: -15.0)
-
-                        Text("\(self.viewModel.defenderViewModel.strength)")
-                            .font(.caption)
-                            .frame(width: 20, height: 12, alignment: .center)
-                            // .background(Color.red)
-                            .offset(x: -42.5, y: -80.0)
-
-                        ScrollView {
-                            LazyVStack(spacing: 2) {
-
-                                ForEach(self.viewModel.defenderViewModel.modifierViewModels,
-                                        id: \.self) { modifierViewModel in
-
-                                    HStack(spacing: 2) {
-                                        Text("\(modifierViewModel.value)")
-                                            .font(.system(size: 9))
-                                            .frame(width: 18, alignment: .center)
-
-                                        Text(modifierViewModel.text)
-                                            .font(.system(size: 9))
-                                            .frame(width: 100, alignment: .leading)
-                                    }
-                                }
-                            }
-                        }
-                        .frame(width: 120, height: 60, alignment: .leading)
-                        // .background(Color.red)
-                        .offset(x: -130.0, y: -20.0)
-
-                        ScrollView {
-                            LazyHStack(spacing: 2) {
-
-                                ForEach(self.viewModel.defenderViewModel.promotionViewModels,
-                                        id: \.self) { promotionViewModel in
-
-                                    Image(nsImage: promotionViewModel.icon())
-                                        .resizable()
-                                        .frame(width: 12, height: 12)
-                                }
-                            }
-                        }
-                        .frame(width: 120, height: 12, alignment: .leading)
-                        // .background(Color.red)
-                        .offset(x: -130.0, y: -6.0)
-                    }
-
-                    // defender
-                    Group {
-                        Text("Attacker")
-                            .font(.caption)
-                            .frame(width: 110, height: 12, alignment: .center)
-                            // .background(Color.red)
-                            .offset(x: 110.0, y: -96.0)
-
-                        Text(self.viewModel.attackerViewModel.name)
-                            .font(.caption)
-                            .frame(width: 110, height: 12, alignment: .center)
-                            // .background(Color.red)
-                            .offset(x: 110.0, y: -82.0)
-
-                        Image(nsImage: self.viewModel.attackerViewModel.typeIcon())
-                            .resizable()
-                            .frame(width: 42, height: 42)
-                            // .background(Color.red)
-                            .clipShape(Circle())
-                            .offset(x: 32.0, y: -28.0)
-
-                        Image(nsImage: self.viewModel.attackerViewModel.healthIcon())
-                            .resizable()
-                            .frame(width: 64, height: 64)
-                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: -32))
-                            .clipShape(Rectangle())
-                            .offset(x: 15.0, y: -15.0)
-
-                        Text("\(self.viewModel.attackerViewModel.strength)")
-                            .font(.caption)
-                            .frame(width: 20, height: 12, alignment: .center)
-                            // .background(Color.red)
-                            .offset(x: 42.5, y: -80.0)
-
-                        ScrollView {
-                            LazyVStack(alignment: .leading, spacing: 2) {
-
-                                ForEach(self.viewModel.attackerViewModel.modifierViewModels,
-                                        id: \.self) { modifierViewModel in
-
-                                    HStack(spacing: 2) {
-                                        Text("\(modifierViewModel.value)")
-                                            .font(.system(size: 9))
-                                            .frame(width: 18, alignment: .center)
-
-                                        Text(modifierViewModel.text)
-                                            .font(.system(size: 9))
-                                            .frame(width: 100, alignment: .leading)
-                                    }
-                                }
-                            }
-                        }
-                        .frame(width: 120, height: 60, alignment: .leading)
-                        // .background(Color.red)
-                        .offset(x: 130.0, y: -20.0)
-
-                        ScrollView {
-                            LazyHStack(spacing: 2) {
-
-                                ForEach(self.viewModel.attackerViewModel.promotionViewModels,
-                                        id: \.self) { promotionViewModel in
-
-                                    Image(nsImage: promotionViewModel.icon())
-                                        .resizable()
-                                        .frame(width: 12, height: 12)
-                                }
-                            }
-                        }
-                        .frame(width: 120, height: 12, alignment: .leading)
-                        // .background(Color.red)
-                        .offset(x: 130.0, y: -6.0)
-                    }
+                    self.attackerView
 
                     Text(self.viewModel.combatPredictionText)
                         .font(.caption)
@@ -209,6 +66,159 @@ struct CombatBannerView: View {
             }
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
+    }
+
+    private var defenderView: some View {
+        // defender
+        Group {
+
+            Text("Defender")
+                .font(.caption)
+                .frame(width: 110, height: 12, alignment: .center)
+                // .background(Color.red)
+                .offset(x: -110.0, y: -96.0)
+
+            Text(self.viewModel.defenderViewModel.name)
+                .font(.caption)
+                .frame(width: 110, height: 12, alignment: .center)
+                // .background(Color.red)
+                .offset(x: -110.0, y: -82.0)
+
+            Image(nsImage: self.viewModel.defenderViewModel.typeIcon())
+                .resizable()
+                .frame(width: 42, height: 42)
+                // .background(Color.red)
+                .clipShape(Circle())
+                .offset(x: -32.0, y: -28.0)
+
+            Image(nsImage: self.viewModel.defenderViewModel.healthIcon())
+                .resizable()
+                .frame(width: 64, height: 64)
+                .padding(EdgeInsets(top: 0, leading: -32, bottom: 0, trailing: 0))
+                .clipShape(Rectangle())
+                .offset(x: -15.0, y: -15.0)
+
+            Text("\(self.viewModel.defenderViewModel.strength)")
+                .font(.caption)
+                .frame(width: 20, height: 12, alignment: .center)
+                // .background(Color.red)
+                .offset(x: -42.5, y: -80.0)
+
+            ScrollView {
+                LazyVStack(spacing: 2) {
+
+                    ForEach(self.viewModel.defenderViewModel.modifierViewModels,
+                            id: \.self) { modifierViewModel in
+
+                        HStack(spacing: 2) {
+                            Text("\(modifierViewModel.value)")
+                                .font(.system(size: 9))
+                                .frame(width: 18, alignment: .center)
+
+                            Text(modifierViewModel.text)
+                                .font(.system(size: 9))
+                                .frame(width: 100, alignment: .leading)
+                        }
+                    }
+                }
+            }
+            .frame(width: 120, height: 60, alignment: .leading)
+            // .background(Color.red)
+            .offset(x: -130.0, y: -20.0)
+
+            ScrollView {
+                LazyHStack(spacing: 2) {
+
+                    ForEach(self.viewModel.defenderViewModel.promotionViewModels,
+                            id: \.self) { promotionViewModel in
+
+                        Image(nsImage: promotionViewModel.icon())
+                            .resizable()
+                            .frame(width: 12, height: 12)
+                            .tooltip(promotionViewModel.toolTip(), side: .top)
+                    }
+                }
+            }
+            .frame(width: 120, height: 12, alignment: .leading)
+            // .background(Color.red)
+            .offset(x: -130.0, y: -6.0)
+        }
+    }
+
+    private var attackerView: some View {
+        // attacker
+        Group {
+            Text("Attacker")
+                .font(.caption)
+                .frame(width: 110, height: 12, alignment: .center)
+                // .background(Color.red)
+                .offset(x: 110.0, y: -96.0)
+
+            Text(self.viewModel.attackerViewModel.name)
+                .font(.caption)
+                .frame(width: 110, height: 12, alignment: .center)
+                // .background(Color.red)
+                .offset(x: 110.0, y: -82.0)
+
+            Image(nsImage: self.viewModel.attackerViewModel.typeIcon())
+                .resizable()
+                .frame(width: 42, height: 42)
+                // .background(Color.red)
+                .clipShape(Circle())
+                .offset(x: 32.0, y: -28.0)
+
+            Image(nsImage: self.viewModel.attackerViewModel.healthIcon())
+                .resizable()
+                .frame(width: 64, height: 64)
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: -32))
+                .clipShape(Rectangle())
+                .offset(x: 15.0, y: -15.0)
+
+            Text("\(self.viewModel.attackerViewModel.strength)")
+                .font(.caption)
+                .frame(width: 20, height: 12, alignment: .center)
+                // .background(Color.red)
+                .offset(x: 42.5, y: -80.0)
+
+            ScrollView {
+                LazyVStack(alignment: .leading, spacing: 2) {
+
+                    ForEach(self.viewModel.attackerViewModel.modifierViewModels,
+                            id: \.self) { modifierViewModel in
+
+                        HStack(spacing: 2) {
+                            Text("\(modifierViewModel.value)")
+                                .font(.system(size: 9))
+                                .frame(width: 18, alignment: .center)
+
+                            Text(modifierViewModel.text)
+                                .font(.system(size: 9))
+                                .frame(width: 100, alignment: .leading)
+                        }
+                    }
+                }
+            }
+            .frame(width: 120, height: 60, alignment: .leading)
+            // .background(Color.red)
+            .offset(x: 130.0, y: -20.0)
+
+            ScrollView {
+                LazyHStack(spacing: 2) {
+
+                    ForEach(self.viewModel.attackerViewModel.promotionViewModels,
+                            id: \.self) { promotionViewModel in
+
+                        Image(nsImage: promotionViewModel.icon())
+                            .resizable()
+                            .frame(width: 12, height: 12)
+                            .tooltip(promotionViewModel.toolTip(), side: .top)
+                    }
+                }
+            }
+            .frame(width: 120, height: 12, alignment: .leading)
+            // .background(Color.red)
+            .offset(x: 130.0, y: -6.0)
+        }
     }
 }
 

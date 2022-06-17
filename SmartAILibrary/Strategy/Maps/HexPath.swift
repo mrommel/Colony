@@ -21,11 +21,13 @@ public struct HexPath: Decodable {
     // MARK: constructors
 
     public init() {
+
         self.pointsValue = []
         self.costsValue = []
     }
 
     public init(point: HexPoint, cost: Double, path: HexPath) {
+
         self.pointsValue = [point] + path.pointsValue
         self.costsValue = [cost] + path.costsValue
     }
@@ -61,6 +63,7 @@ public struct HexPath: Decodable {
     }
 
     public var isEmpty: Bool {
+
         return self.pointsValue.isEmpty
     }
 

@@ -125,7 +125,7 @@ class UnitBannerViewModel: ObservableObject {
 
         self.promotionViewModels = [
             PromotionViewModel(promotionType: .alpine, state: .gained),
-            PromotionViewModel(promotionType: .battleCry, state: .gained),
+            PromotionViewModel(promotionType: .battlecry, state: .gained),
             PromotionViewModel(promotionType: .tortoise, state: .gained)
         ]
     }

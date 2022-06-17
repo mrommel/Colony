@@ -13,16 +13,38 @@ class CombatPromotionViewModel: ObservableObject, Identifiable {
 
     let id: UUID = UUID()
 
-    private let promotion: UnitPromotionType
+    private let promotionType: UnitPromotionType
 
     init(promotion: UnitPromotionType) {
 
-        self.promotion = promotion
+        self.promotionType = promotion
     }
 
     func icon() -> NSImage {
 
-        return ImageCache.shared.image(for: self.promotion.iconTexture())
+        return ImageCache.shared.image(for: self.promotionType.iconTexture())
+    }
+
+    func toolTip() -> NSAttributedString {
+
+        let labelTokenizer = LabelTokenizer()
+        let toolTipText = NSMutableAttributedString(string: "")
+
+        let title = NSAttributedString(
+            string: self.promotionType.name().localized(),
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        toolTipText.append(title)
+
+        toolTipText.append(NSAttributedString(string: "\n"))
+
+        let effects = labelTokenizer.convert(
+            text: self.promotionType.effect().localized(),
+            with: Globals.Attributs.tooltipContentAttributs
+        )
+        toolTipText.append(effects)
+
+        return toolTipText
     }
 }
 
