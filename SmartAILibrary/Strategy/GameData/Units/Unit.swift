@@ -2295,7 +2295,7 @@ public class Unit: AbstractUnit {
         self.doMobilize(in: gameModel) // unfortify
 
         // needs to be here so that the square is considered visible when we move into it...
-            gameModel.sight(at: newLocation, sight: self.sight(), by: self, for: player)
+        gameModel.sight(at: newLocation, sight: self.sight(), by: self, for: player)
         // newPlot->area()->changeUnitsPerPlayer(getOwner(), 1);
         var newCityRef = gameModel.city(at: newPlot.point)
 

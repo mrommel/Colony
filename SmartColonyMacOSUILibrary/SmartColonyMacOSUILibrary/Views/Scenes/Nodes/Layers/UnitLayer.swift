@@ -558,12 +558,34 @@ class UnitLayer: SKNode {
 
     func move(unit: AbstractUnit?, on path: HexPath) {
 
+        guard let gameModel = self.gameModel else {
+            fatalError("gameModel not set")
+        }
+
+        guard let humanPlayer = gameModel.humanPlayer() else {
+            fatalError("cant get human player")
+        }
+
         if let selectedUnit = unit {
 
             // original
             if let unitObject = self.originalUnitObject(of: selectedUnit) {
 
                 unitObject.move(on: path)
+
+                // hide if no longer visible
+                if let lastPathEntity = path.last {
+
+                    let lastPathPoint = lastPathEntity.0
+
+                    guard let lastPathTile = gameModel.tile(at: lastPathPoint) else {
+                        fatalError("cant get last path tile")
+                    }
+
+                    if !lastPathTile.isVisible(to: humanPlayer) {
+                        unitObject.hide(at: lastPathPoint)
+                    }
+                }
             } else {
 
                 // most likely foreign unit
@@ -572,6 +594,20 @@ class UnitLayer: SKNode {
                 if let unitObject = self.originalUnitObject(of: selectedUnit) {
 
                     unitObject.move(on: path)
+
+                    // hide if no longer visible
+                    if let lastPathEntity = path.last {
+
+                        let lastPathPoint = lastPathEntity.0
+
+                        guard let lastPathTile = gameModel.tile(at: lastPathPoint) else {
+                            fatalError("cant get last path tile")
+                        }
+
+                        if !lastPathTile.isVisible(to: humanPlayer) {
+                            unitObject.hide(at: lastPathPoint)
+                        }
+                    }
                 }
             }
 
@@ -581,6 +617,20 @@ class UnitLayer: SKNode {
             if let unitObject = self.alternateUnitObject(of: selectedUnit) {
 
                 unitObject.move(on: alternatePath)
+
+                // hide if no longer visible
+                if let lastPathEntity = alternatePath.last {
+
+                    let lastPathPoint = lastPathEntity.0
+
+                    guard let lastPathTile = gameModel.tile(at: lastPathPoint) else {
+                        fatalError("cant get last path tile")
+                    }
+
+                    if !lastPathTile.isVisible(to: humanPlayer) {
+                        unitObject.hide(at: lastPathPoint)
+                    }
+                }
             } else {
 
                 // most likely foreign unit
@@ -589,6 +639,20 @@ class UnitLayer: SKNode {
                 if let unitObject = self.alternateUnitObject(of: selectedUnit) {
 
                     unitObject.move(on: alternatePath)
+
+                    // hide if no longer visible
+                    if let lastPathEntity = alternatePath.last {
+
+                        let lastPathPoint = lastPathEntity.0
+
+                        guard let lastPathTile = gameModel.tile(at: lastPathPoint) else {
+                            fatalError("cant get last path tile")
+                        }
+
+                        if !lastPathTile.isVisible(to: humanPlayer) {
+                            unitObject.hide(at: lastPathPoint)
+                        }
+                    }
                 }
             }
         }
