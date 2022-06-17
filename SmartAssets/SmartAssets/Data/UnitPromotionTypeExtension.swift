@@ -27,13 +27,13 @@ extension UnitPromotionType {
         case .camouflage: return "promotion-camouflage"
 
             // melee
-        case .battleCry: return "promotion-default"
-        case .tortoise: return "promotion-default"
-        case .commando: return "promotion-default"
-        case .amphibious: return "promotion-default"
-        case .zweihander: return "promotion-default"
-        case .urbanWarfare: return "promotion-default"
-        case .eliteGuard: return "promotion-default"
+        case .battlecry: return "promotion-battlecry"
+        case .tortoise: return "promotion-tortoise"
+        case .commando: return "promotion-commando"
+        case .amphibious: return "promotion-amphibious"
+        case .zweihander: return "promotion-zweihander"
+        case .urbanWarfare: return "promotion-urbanWarfare"
+        case .eliteGuard: return "promotion-eliteGuard"
 
             // ranged
         case .volley: return "promotion-default"

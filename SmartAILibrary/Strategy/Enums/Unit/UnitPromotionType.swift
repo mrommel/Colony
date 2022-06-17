@@ -29,7 +29,7 @@ public enum UnitPromotionType: Int, Codable {
     case camouflage // Only adjacent enemy units can reveal this unit.
 
     // melee
-    case battleCry // +7 Combat Strength vs. melee and ranged units.
+    case battlecry // +7 Combat Strength vs. melee and ranged units.
     case tortoise // +10 Combat Strength when defending against ranged attacks.
     case commando // Can scale Cliff walls. +1 Movement.
     case amphibious // No Combat Strength and Movement penalty when attacking from Sea or over a River.
@@ -92,7 +92,7 @@ public enum UnitPromotionType: Int, Codable {
             .ranger, .alpine, .sentry, .guerrilla, .spyglass, .ambush, .camouflage,
 
             // melee
-            .battleCry, .tortoise, .commando, .amphibious, .zweihander, .urbanWarfare, .eliteGuard,
+            .battlecry, .tortoise, .commando, .amphibious, .zweihander, .urbanWarfare, .eliteGuard,
 
             // ranged
             .volley, .garrison, .arrowStorm, .incendiaries, .suppression, .emplacement, .expertMarksman,
@@ -190,6 +190,7 @@ public enum UnitPromotionType: Int, Codable {
 
     // MARK: private methods
 
+    // swiftlint:disable function_body_length
     private func data() -> PromotionData {
 
         switch self {
@@ -336,7 +337,7 @@ public enum UnitPromotionType: Int, Codable {
             // ---------------------
             // melee
 
-        case .battleCry:
+        case .battlecry:
             // https://civilization.fandom.com/wiki/Battlecry_(Civ6)
             return PromotionData(
                 name: "TXT_KEY_UNIT_PROMOTION_BATTLECRY_NAME",
@@ -371,7 +372,7 @@ public enum UnitPromotionType: Int, Codable {
                 effect: "TXT_KEY_UNIT_PROMOTION_COMMANDO_EFFECT",
                 tier: 2,
                 unitClass: .melee,
-                required: [.battleCry, .amphibious],
+                required: [.battlecry, .amphibious],
                 consumable: false,
                 flavours: [
                     Flavor(type: .mobile, value: 3)

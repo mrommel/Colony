@@ -50,6 +50,28 @@ class PromotionViewModel: ObservableObject, Identifiable {
         return ImageCache.shared.image(for: self.state.iconTexture())
     }
 
+    func toolTip() -> NSAttributedString {
+
+        let labelTokenizer = LabelTokenizer()
+        let toolTipText = NSMutableAttributedString(string: "")
+
+        let title = NSAttributedString(
+            string: self.promotionType.name().localized(),
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        toolTipText.append(title)
+
+        toolTipText.append(NSAttributedString(string: "\n"))
+
+        let effects = labelTokenizer.convert(
+            text: self.promotionType.effect().localized(),
+            with: Globals.Attributs.tooltipContentAttributs
+        )
+        toolTipText.append(effects)
+
+        return toolTipText
+    }
+
     func selectPromotion() {
 
         self.delegate?.clicked(on: self.promotionType)

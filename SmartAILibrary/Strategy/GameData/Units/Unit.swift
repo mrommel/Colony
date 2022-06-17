@@ -977,10 +977,10 @@ public class Unit: AbstractUnit {
             // promotions
             // //////////
 
-            if promotions.has(promotion: .battleCry) {
-                // battleCry - +7 Combat Strength vs. melee and ranged units.
+            if promotions.has(promotion: .battlecry) {
+                // battlecry - +7 Combat Strength vs. melee and ranged units.
                 if defender.unitClassType() == .melee || defender.unitClassType() == .ranged {
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.battleCry.name()))
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.battlecry.name()))
                 }
             }
 
