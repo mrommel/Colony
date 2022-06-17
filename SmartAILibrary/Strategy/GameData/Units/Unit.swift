@@ -4969,13 +4969,14 @@ public class Unit: AbstractUnit {
         let visRange = self.sight()
         let range = visRange + 1
 
-        for point in tile.point.areaWith(radius: range) {
+        for loopPoint in tile.point.areaWith(radius: range) {
 
-            if let neighborTile = gameModel.tile(at: point) {
+            guard let neighborTile = gameModel.tile(at: loopPoint) else {
+                continue
+            }
 
-                if !neighborTile.isDiscovered(by: self.player) && tile.canSee(tile: neighborTile, for: self.player, range: visRange, in: gameModel) {
-                    return true
-                }
+            if !neighborTile.isDiscovered(by: self.player) && tile.canSee(tile: neighborTile, for: self.player, range: visRange, in: gameModel) {
+                return true
             }
         }
 

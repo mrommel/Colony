@@ -1839,20 +1839,17 @@ public class Tile: AbstractTile {
         }
     }
 
+    // https://civilization.fandom.com/wiki/Sight_(Civ6)
     public func seeThroughLevel() -> Int {
 
         var level = 0
-
-        if self.terrainVal == .ocean {
-            level += 1
-        }
 
         if self.hasHills() {
             level += 1
         }
 
         if self.has(feature: .mountains) {
-            level += 2
+            level += 3
         }
 
         if self.has(feature: .forest) || self.has(feature: .rainforest) {
