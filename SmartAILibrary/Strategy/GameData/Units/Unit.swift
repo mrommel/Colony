@@ -69,6 +69,8 @@ public protocol AbstractUnit: AnyObject, Codable {
     func canHold(at point: HexPoint, in gameModel: GameModel?) -> Bool
     func canEnterTerritory(of otherPlayer: AbstractPlayer?, ignoreRightOfPassage: Bool, isDeclareWarMove: Bool) -> Bool
     func isHoveringUnit() -> Bool
+    func isEmbarkFlatCost() -> Bool
+    func isDisembarkFlatCost() -> Bool
 
     func healthPoints() -> Int
     func maxHealthPoints() -> Int
@@ -1964,10 +1966,10 @@ public class Unit: AbstractUnit {
         print("unit \(self.location) => doMoveOnPath(\(path)")
         for (index, point) in path.enumerated() {
 
-            // skip first point
-            /*if index == 0 {
+            // skip if already at point
+            if point == self.location {
                 continue
-            }*/
+            }
 
             if self.doMove(on: point, in: gameModel) {
 
@@ -2756,6 +2758,16 @@ public class Unit: AbstractUnit {
     }
 
     public func isHoveringUnit() -> Bool {
+
+        return false
+    }
+
+    public func isEmbarkFlatCost() -> Bool {
+
+        return false
+    }
+
+    public func isDisembarkFlatCost() -> Bool {
 
         return false
     }

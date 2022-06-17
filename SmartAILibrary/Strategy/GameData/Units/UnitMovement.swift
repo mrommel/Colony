@@ -44,7 +44,7 @@ class UnitMovement {
             fatalError("cant get unit player")
         }
 
-        let traits = player.leader.traits()
+        // let traits = player.leader.traits()
         let fasterAlongRiver: Bool = false // traits.isRiverMovementBonus();
         let fasterInHills: Bool = false // traits.isFasterInHills();
         let woodlandMovement: Bool = false // traits.isWoodlandMovementBonus()
@@ -117,7 +117,7 @@ class UnitMovement {
             if !toEmbark && fromEmbark {
                 // Is the unit from a civ that can disembark for just 1 MP?
                 // Does it have a promotion to do so?
-                if false /* unit.isDisembarkFlatCost()*/ {
+                if unit.isDisembarkFlatCost() {
                     cheapEmbarkStateChange = true
                 }
 
@@ -132,7 +132,7 @@ class UnitMovement {
             if toEmbark && !fromEmbark {
                 // Is the unit from a civ that can embark for just 1 MP?
                 // Does it have a promotion to do so?
-                if false /* unit.isEmbarkFlatCost() */ {
+                if unit.isEmbarkFlatCost() {
                     cheapEmbarkStateChange = true
                 }
 
@@ -249,13 +249,14 @@ class UnitMovement {
                 regularCost = max(1.0, regularCost /* - unit.extraMoveDiscount()*/)
             }
 
-            // multiplicative change
-            let terrainFeatureCostMultiplierFromPromotions = movementCostMultiplierFromPromotions(for: unit, on: toPlot)
-            regularCost *= Double(terrainFeatureCostMultiplierFromPromotions)
+            // promotions
+            // multiplier
+            let terrainFeatureCostMultiplier = movementCostMultiplierFromPromotions(for: unit, on: toPlot)
+            regularCost *= terrainFeatureCostMultiplier
 
             // additive change
-            let terrainFeatureCostAdderFromPromotions = movementCostAdderFromPromotions(for: unit, on: toPlot)
-            regularCost += terrainFeatureCostAdderFromPromotions
+            let terrainFeatureCostAdder = movementCostAdderFromPromotions(for: unit, on: toPlot)
+            regularCost += terrainFeatureCostAdder
 
             // extra movement cost in some instances
             var slowDown: Bool = false
@@ -469,9 +470,9 @@ class UnitMovement {
             return 1.0
         }
 
-        var modifier = 1.0
-        let toTerrain = tile.terrain()
-        let toFeature = tile.feature()
+        let modifier = 1.0
+        // let toTerrain = tile.terrain()
+        // let toFeature = tile.feature()
 
         /*if tile.hasHills() && pUnit->isHillsDoubleMove() {
             modifier *= 0.5
