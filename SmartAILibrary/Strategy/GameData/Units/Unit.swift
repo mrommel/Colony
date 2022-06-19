@@ -1039,8 +1039,68 @@ public class Unit: AbstractUnit {
 
             if promotions.has(promotion: .spikingTheGuns) {
                 if defender.unitClassType() == .siege {
-                    // spikingTheGuns - +7 Strength Combat Strength vs. siege units.
+                    // spikingTheGuns - +7 Combat Strength vs. siege units.
                     result.append(CombatModifier(value: 7, title: UnitPromotionType.spikingTheGuns.name()))
+                }
+            }
+
+            // heavy cavalry
+
+            if promotions.has(promotion: .charge) {
+                if defender.isFortified() {
+                    // charge - +10 Combat Strength vs. fortified defender.
+                    result.append(CombatModifier(value: 10, title: UnitPromotionType.charge.name()))
+                }
+            }
+
+            /*if promotions.has(promotion: .marauding) {
+                if defender. {
+                    // marauding - +7 Combat Strength vs. units in districts.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.marauding.name()))
+                }
+            }*/
+
+            if promotions.has(promotion: .rout) {
+                if defender.damage() > 0 {
+                    // rout - +5 Combat Strength against damaged units.
+                    result.append(CombatModifier(value: 5, title: UnitPromotionType.rout.name()))
+                }
+            }
+
+            if promotions.has(promotion: .armorPiercing) {
+                if defender.unitClassType() == .heavyCavalry {
+                    // armorPiercing - +7 Combat Strength against other heavy cavalry units.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.armorPiercing.name()))
+                }
+            }
+
+            // siege
+
+            if promotions.has(promotion: .grapeShot) {
+                if defender.domain() == .land {
+                    // grapeShot - +7 Combat Strength vs. land units
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.grapeShot.name()))
+                }
+            }
+
+            if promotions.has(promotion: .shrapnel) {
+                if defender.domain() == .land {
+                    // shrapnel - +10 Combat Strength vs. land units.
+                    result.append(CombatModifier(value: 10, title: UnitPromotionType.shrapnel.name()))
+                }
+            }
+
+            /*if promotions.has(promotion: .shells) {
+                if defender. {
+                    // shells - +10 Combat Strength vs. district defenses.
+                    result.append(CombatModifier(value: 10, title: UnitPromotionType.shells.name()))
+                }
+            }*/
+
+            if promotions.has(promotion: .advancedRangefinding) {
+                if defender.domain() == .sea {
+                    // advancedRangefinding - +10 Combat Strength vs. naval units.
+                    result.append(CombatModifier(value: 10, title: UnitPromotionType.advancedRangefinding.name()))
                 }
             }
 
@@ -1314,6 +1374,71 @@ public class Unit: AbstractUnit {
                 }
             }
 
+            // heavyCavalry
+
+            if promotions.has(promotion: .barding) {
+                if attacker.unitClassType() == .ranged {
+                    // barding - +7 Combat Strength when defending vs. ranged attacks.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.barding.name()))
+                }
+            }
+
+            /* if promotions.has(promotion: .marauding) {
+                if attacker. {
+                    // marauding - +7 Combat Strength vs. units in districts.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.marauding.name()))
+                }
+            }*/
+
+            if promotions.has(promotion: .rout) {
+                if attacker.damage() > 0 {
+                    // rout - +5 Combat Strength against damaged units.
+                    result.append(CombatModifier(value: 5, title: UnitPromotionType.rout.name()))
+                }
+            }
+
+            if promotions.has(promotion: .armorPiercing) {
+                if attacker.unitClassType() == .heavyCavalry {
+                    // armorPiercing - +7 Combat Strength against other heavy cavalry units.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.armorPiercing.name()))
+                }
+            }
+
+            if promotions.has(promotion: .reactiveArmor) {
+                if attacker.unitClassType() == .heavyCavalry || attacker.unitClassType() == .antiCavalry {
+                    // reactiveArmor - +7 Combat Strength when defending against heavy cavalry and anti-cavalry.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.reactiveArmor.name()))
+                }
+            }
+
+            // siege
+
+            if promotions.has(promotion: .crewWeapons) {
+                // crewWeapons- +7 Combat Strength when defending.
+                result.append(CombatModifier(value: 7, title: UnitPromotionType.crewWeapons.name()))
+            }
+
+            if promotions.has(promotion: .shrapnel) {
+                if attacker.domain() == .land {
+                    // shrapnel - +10 Combat Strength vs. land units.
+                    result.append(CombatModifier(value: 10, title: UnitPromotionType.shrapnel.name()))
+                }
+            }
+
+            /*if promotions.has(promotion: .shells) {
+                if attacker. {
+                    // shells - +10 Combat Strength vs. district defenses.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.shells.name()))
+                }
+            }*/
+
+            if promotions.has(promotion: .advancedRangefinding) {
+                if attacker.domain() == .sea {
+                    // advancedRangefinding - +10 Combat Strength vs. naval units.
+                    result.append(CombatModifier(value: 10, title: UnitPromotionType.advancedRangefinding.name()))
+                }
+            }
+
             // navalMelee
 
             if promotions.has(promotion: .embolon) {
@@ -1546,6 +1671,16 @@ public class Unit: AbstractUnit {
 
         // eliteGuard - +1 additional attack per turn if Movement allows. Can move after attacking.
         if self.has(promotion: .eliteGuard) {
+            return true
+        }
+
+        // breakthrough - +1 additional attack per turn if [Movement] Movement allows.
+        if self.has(promotion: .breakthrough) {
+            return true
+        }
+
+        // expertCrew - Can attack after moving.
+        if self.has(promotion: .expertCrew) {
             return true
         }
 
@@ -2275,7 +2410,7 @@ public class Unit: AbstractUnit {
             self.unGarrison(in: gameModel)
         }
 
-        gameModel.conceal(at: oldPlot.point, sight: self.sight(), for: player)
+        gameModel.conceal(at: oldPlot.point, sight: self.sight(), by: self, for: player)
         // oldPlot->area()->changeUnitsPerPlayer(getOwner(), -1);
         // self.set(lastMoveTurn: gameModel.turnSlice())
         let oldCity = gameModel.city(at: oldPlot.point)
@@ -2986,7 +3121,14 @@ public class Unit: AbstractUnit {
 
     public func range() -> Int {
 
-        return self.type.range()
+        var rangeVal: Int = self.type.range()
+
+        // forwardObservers - +1 [Range] Range.
+        if self.has(promotion: .forwardObservers) {
+            rangeVal += 1
+        }
+
+        return rangeVal
     }
 
     public func search(range: Int, in gameModel: GameModel?) -> Int {
@@ -3799,7 +3941,7 @@ public class Unit: AbstractUnit {
             // FIXME - add die visualization
         }
 
-        gameModel.conceal(at: self.location, sight: self.sight(), for: self.player)
+        gameModel.conceal(at: self.location, sight: self.sight(), by: self, for: self.player)
 
         gameModel.userInterface?.hide(unit: self, at: self.location)
         gameModel.remove(unit: self)
@@ -4966,6 +5108,7 @@ public class Unit: AbstractUnit {
             fatalError("cant get tile")
         }
 
+        let hasSentry = self.has(promotion: .sentry)
         let visRange = self.sight()
         let range = visRange + 1
 
@@ -4975,7 +5118,8 @@ public class Unit: AbstractUnit {
                 continue
             }
 
-            if !neighborTile.isDiscovered(by: self.player) && tile.canSee(tile: neighborTile, for: self.player, range: visRange, in: gameModel) {
+            if !neighborTile.isDiscovered(by: self.player) &&
+                tile.canSee(tile: neighborTile, for: self.player, range: visRange, hasSentry: hasSentry, in: gameModel) {
                 return true
             }
         }

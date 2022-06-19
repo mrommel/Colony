@@ -3068,7 +3068,7 @@ public class TacticalAI: Codable {
 
                             if cell.isWithinRangeOfTarget() && !cell.isSubjectToAttack() {
 
-                                let haveLightOfSight = loopPlot.canSee(tile: targetPlot, for: self.player, range: range, in: gameModel)
+                                let haveLightOfSight = loopPlot.canSee(tile: targetPlot, for: self.player, range: range, hasSentry: false, in: gameModel)
 
                                 if self.findClosestUnit(
                                     towards: loopPlot,
@@ -4872,7 +4872,7 @@ public class TacticalAI: Codable {
                             if noEnemyAdjacent {
                                 // Do we have a unit that can get off a bombard from here THIS turn
                                 var numTurns = -1
-                                let haveLineOfSight = attackPlot.canSee(tile: targetPlot, for: self.player, range: range, in: gameModel)
+                                let haveLineOfSight = attackPlot.canSee(tile: targetPlot, for: self.player, range: range, hasSentry: false, in: gameModel)
 
                                 if self.findClosestUnit(
                                     towards: attackPlot,
@@ -4941,7 +4941,7 @@ public class TacticalAI: Codable {
         }
 
         let plotDistance = self.tempTargets.first!.target.distance(to: target.target)
-        let haveLineOfSight = attackPlot.canSee(tile: targetPlot, for: self.player, range: range, in: gameModel)
+        let haveLineOfSight = attackPlot.canSee(tile: targetPlot, for: self.player, range: range, hasSentry: false, in: gameModel)
 
         if self.findClosestUnit(
             towards: attackPlot,

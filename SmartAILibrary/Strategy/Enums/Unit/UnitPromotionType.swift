@@ -65,7 +65,22 @@ public enum UnitPromotionType: Int, Codable {
     case escortMobility
 
     // heavyCavalry
+    case charge
+    case barding
+    case marauding
+    case rout
+    case armorPiercing
+    case reactiveArmor
+    case breakthrough
+
     // siege
+    case grapeShot
+    case crewWeapons
+    case shrapnel
+    case shells
+    case advancedRangefinding
+    case expertCrew
+    case forwardObservers
 
     // navalMelee
     case helmsman
@@ -102,6 +117,12 @@ public enum UnitPromotionType: Int, Codable {
 
             // lightCavalry
             .caparison, .coursers, .depredation, .doubleEnvelopment, .spikingTheGuns, .pursuit, .escortMobility,
+
+            // heavyCavalry
+            .charge, .barding, .marauding, .rout, .armorPiercing, .reactiveArmor, .breakthrough,
+
+            // siege
+            .grapeShot, .crewWeapons, .shrapnel, .shells, .advancedRangefinding, .expertCrew, .forwardObservers,
 
             // navalMelee
             .helmsman, .embolon, .rutter, .reinforcedHull, .convoy, .auxiliaryShips, .creepingAttack
@@ -741,6 +762,214 @@ public enum UnitPromotionType: Int, Codable {
                 consumable: false,
                 flavours: [
                     Flavor(type: .mobile, value: 3)
+                ]
+            )
+
+            // ---------------------
+            // heavyCavalry
+
+        case .charge:
+            // https://civilization.fandom.com/wiki/Charge_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_CHARGE_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_CHARGE_EFFECT",
+                tier: 1,
+                unitClass: .heavyCavalry,
+                required: [],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 4)
+                ]
+            )
+
+        case .barding:
+            // https://civilization.fandom.com/wiki/Barding_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_BARDING_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_BARDING_EFFECT",
+                tier: 1,
+                unitClass: .heavyCavalry,
+                required: [],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .defense, value: 3)
+                ]
+            )
+
+        case .marauding:
+            // https://civilization.fandom.com/wiki/Marauding_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_MARAUDING_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_MARAUDING_EFFECT",
+                tier: 2,
+                unitClass: .heavyCavalry,
+                required: [.charge, .rout],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 3)
+                ]
+            )
+
+        case .rout:
+            // https://civilization.fandom.com/wiki/Rout_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_ROUT_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_ROUT_EFFECT",
+                tier: 2,
+                unitClass: .heavyCavalry,
+                required: [.barding, .marauding],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 4)
+                ]
+            )
+
+        case .armorPiercing:
+            // https://civilization.fandom.com/wiki/Armor_Piercing_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_ARMOR_PIERCING_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_ARMOR_PIERCING_EFFECT",
+                tier: 3,
+                unitClass: .heavyCavalry,
+                required: [.marauding, .rout],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 3)
+                ]
+            )
+
+        case .reactiveArmor:
+            // https://civilization.fandom.com/wiki/Reactive_Armor_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_REACTIVE_ARMOR_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_REACTIVE_ARMOR_EFFECT",
+                tier: 3,
+                unitClass: .heavyCavalry,
+                required: [.rout],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .defense, value: 3)
+                ]
+            )
+
+        case .breakthrough:
+            // https://civilization.fandom.com/wiki/Breakthrough_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_BREAKTHROUGH_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_BREAKTHROUGH_EFFECT",
+                tier: 4,
+                unitClass: .heavyCavalry,
+                required: [.armorPiercing, .reactiveArmor],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .mobile, value: 2),
+                    Flavor(type: .offense, value: 2)
+                ]
+            )
+
+
+            // ---------------------
+            // siege
+
+        case .grapeShot:
+            // https://civilization.fandom.com/wiki/Grape_Shot_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_GRAPE_SHOT_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_GRAPE_SHOT_EFFECT",
+                tier: 1,
+                unitClass: .siege,
+                required: [],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .ranged, value: 2),
+                    Flavor(type: .offense, value: 2)
+                ]
+            )
+
+        case .crewWeapons:
+            // https://civilization.fandom.com/wiki/Crew_Weapons_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_CREW_WEAPONS_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_CREW_WEAPONS_EFFECT",
+                tier: 1,
+                unitClass: .siege,
+                required: [],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .defense, value: 4)
+                ]
+            )
+
+        case .shrapnel:
+            // https://civilization.fandom.com/wiki/Shrapnel_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_SHRAPNEL_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_SHRAPNEL_EFFECT",
+                tier: 2,
+                unitClass: .siege,
+                required: [.grapeShot],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .ranged, value: 2),
+                    Flavor(type: .offense, value: 3)
+                ]
+            )
+
+        case .shells:
+            // https://civilization.fandom.com/wiki/Shells_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_SHELLS_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_SHELLS_EFFECT",
+                tier: 2,
+                unitClass: .siege,
+                required: [.crewWeapons],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 4)
+                ]
+            )
+
+        case .advancedRangefinding:
+            // https://civilization.fandom.com/wiki/Advanced_Rangefinding_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_ADVANCED_RANGEFINDING_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_ADVANCED_RANGEFINDING_EFFECT",
+                tier: 3,
+                unitClass: .siege,
+                required: [.shrapnel, .shells],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .naval, value: 3)
+                ]
+            )
+
+        case .expertCrew:
+            // https://civilization.fandom.com/wiki/Expert_Crew_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_EXPERT_CREW_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_EXPERT_CREW_EFFECT",
+                tier: 3,
+                unitClass: .siege,
+                required: [.shrapnel, .shells],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .mobile, value: 2),
+                    Flavor(type: .offense, value: 2)
+                ]
+            )
+
+        case .forwardObservers:
+            // https://civilization.fandom.com/wiki/Forward_Observers_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_FORWARD_OBSERVERS_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_FORWARD_OBSERVERS_EFFECT",
+                tier: 4,
+                unitClass: .siege,
+                required: [.advancedRangefinding, .expertCrew],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .ranged, value: 3),
+                    Flavor(type: .offense, value: 1)
                 ]
             )
 

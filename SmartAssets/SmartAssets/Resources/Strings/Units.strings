@@ -523,6 +523,71 @@
 "TXT_KEY_UNIT_PROMOTION_ESCORT_MOBILITY_NAME" = "Escort Mobility";
 "TXT_KEY_UNIT_PROMOTION_ESCORT_MOBILITY_EFFECT" = "Formation units all inherit escort's [Movement] Movement speed."; // #
 
+
+// ---------------------
+// heavyCavalry
+
+// charge
+"TXT_KEY_UNIT_PROMOTION_CHARGE_NAME" = "Charge";
+"TXT_KEY_UNIT_PROMOTION_CHARGE_EFFECT" = "+10 [Strength] Combat Strength vs. fortified defender.";
+
+// barding
+"TXT_KEY_UNIT_PROMOTION_BARDING_NAME" = "Barding";
+"TXT_KEY_UNIT_PROMOTION_BARDING_EFFECT" = "+7 [Strength] Combat Strength when defending vs. ranged attacks.";
+
+// marauding
+"TXT_KEY_UNIT_PROMOTION_MARAUDING_NAME" = "Marauding";
+"TXT_KEY_UNIT_PROMOTION_MARAUDING_EFFECT" = "+7 [Strength] Combat Strength vs. units in districts."; // #
+
+// rout
+"TXT_KEY_UNIT_PROMOTION_ROUT_NAME" = "Rout";
+"TXT_KEY_UNIT_PROMOTION_ROUT_EFFECT" = "+5 [Strength] Combat Strength against damaged units.";
+
+// armorPiercing
+"TXT_KEY_UNIT_PROMOTION_ARMOR_PIERCING_NAME" = "Armor Piercing";
+"TXT_KEY_UNIT_PROMOTION_ARMOR_PIERCING_EFFECT" = "+7 [Strength] Combat Strength against other heavy cavalry units.";
+
+// reactiveArmor
+"TXT_KEY_UNIT_PROMOTION_REACTIVE_ARMOR_NAME" = "Reactive Armor";
+"TXT_KEY_UNIT_PROMOTION_REACTIVE_ARMOR_EFFECT" = "+7 [Strength] Combat Strength when defending against heavy cavalry and anti-cavalry.";
+
+// breakthrough
+"TXT_KEY_UNIT_PROMOTION_BREAKTHROUGH_NAME" = "Breakthrough";
+"TXT_KEY_UNIT_PROMOTION_BREAKTHROUGH_EFFECT" = "+1 additional attack per turn if [Movement] Movement allows.";
+
+
+// ---------------------
+// siege Units
+
+// grapeShot
+"TXT_KEY_UNIT_PROMOTION_GRAPE_SHOT_NAME" = "Grape Shot";
+"TXT_KEY_UNIT_PROMOTION_GRAPE_SHOT_EFFECT" = "+7 [Strength] Combat Strength vs. land units.";
+
+// crewWeapons
+"TXT_KEY_UNIT_PROMOTION_CREW_WEAPONS_NAME" = "Crew Weapons";
+"TXT_KEY_UNIT_PROMOTION_CREW_WEAPONS_EFFECT" = "+7 [Strength] Combat Strength when defending.";
+
+// shrapnel
+"TXT_KEY_UNIT_PROMOTION_SHRAPNEL_NAME" = "Shrapnel";
+"TXT_KEY_UNIT_PROMOTION_SHRAPNEL_EFFECT" = "+10 [Strength] Combat Strength vs. land units.";
+
+// shells
+"TXT_KEY_UNIT_PROMOTION_SHELLS_NAME" = "Shells";
+"TXT_KEY_UNIT_PROMOTION_SHELLS_EFFECT" = "+10 [Strength] Combat Strength vs. district defenses."; // #
+
+// advancedRangefinding
+"TXT_KEY_UNIT_PROMOTION_ADVANCED_RANGEFINDING_NAME" = "Advanced Rangefinding";
+"TXT_KEY_UNIT_PROMOTION_ADVANCED_RANGEFINDING_EFFECT" = "+10 [Strength] Combat Strength vs. naval units.";
+
+// expertCrew
+"TXT_KEY_UNIT_PROMOTION_EXPERT_CREW_NAME" = "Expert Crew";
+"TXT_KEY_UNIT_PROMOTION_EXPERT_CREW_EFFECT" = "Can attack after moving.";
+
+// forwardObservers
+"TXT_KEY_UNIT_PROMOTION_FORWARD_OBSERVERS_NAME" = "Forward Observers";
+"TXT_KEY_UNIT_PROMOTION_FORWARD_OBSERVERS_EFFECT" = "+1 [Range] Range.";
+
+
 // ---------------------
 // navalMelee
 

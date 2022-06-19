@@ -63,7 +63,22 @@ extension UnitPromotionType {
         case .escortMobility: return "promotion-default"
 
             // heavyCavalry
+        case .charge: return "promotion-default"
+        case .barding: return "promotion-default"
+        case .marauding: return "promotion-default"
+        case .rout: return "promotion-default"
+        case .armorPiercing: return "promotion-default"
+        case .reactiveArmor: return "promotion-default"
+        case .breakthrough: return "promotion-default"
+
             // siege
+        case .grapeShot: return "promotion-default"
+        case .crewWeapons: return "promotion-default"
+        case .shrapnel: return "promotion-default"
+        case .shells: return "promotion-default"
+        case .advancedRangefinding: return "promotion-default"
+        case .expertCrew: return "promotion-default"
+        case .forwardObservers: return "promotion-default"
 
             // navalMelee
         case .helmsman: return "promotion-helmsman"

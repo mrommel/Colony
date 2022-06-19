@@ -212,7 +212,7 @@ public protocol AbstractTile: Codable, NSCopying {
     func isVisibleAny() -> Bool
     func sight(by player: AbstractPlayer?)
     func conceal(to player: AbstractPlayer?)
-    func canSee(tile: AbstractTile?, for player: AbstractPlayer?, range: Int, in gameModel: GameModel?) -> Bool
+    func canSee(tile: AbstractTile?, for player: AbstractPlayer?, range: Int, hasSentry: Bool, in gameModel: GameModel?) -> Bool
     func seeThroughLevel() -> Int
 
     // features
@@ -1860,7 +1860,7 @@ public class Tile: AbstractTile {
     }
 
     // FIXME wrap world !
-    public func canSee(tile: AbstractTile?, for player: AbstractPlayer?, range: Int, in gameModel: GameModel?) -> Bool {
+    public func canSee(tile: AbstractTile?, for player: AbstractPlayer?, range: Int, hasSentry: Bool = false, in gameModel: GameModel?) -> Bool {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -1878,6 +1878,8 @@ public class Tile: AbstractTile {
             return true
         }
 
+        let seeThruLevel = hasSentry ? 2 : 1
+
         let distance = self.point.distance(to: tile.point)
         if distance <= range {
 
@@ -1891,7 +1893,7 @@ public class Tile: AbstractTile {
                 tmpPoint = tmpPoint.neighbor(in: dir)
 
                 if let tmpTile = gameModel.tile(at: tmpPoint) {
-                    if tmpTile.seeThroughLevel() > 1 {
+                    if tmpTile.seeThroughLevel() > seeThruLevel {
                         return false
                     }
                 }

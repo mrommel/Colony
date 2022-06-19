@@ -42,6 +42,7 @@ public enum LabelImageType {
     case strength
     case rangedStrength
     case religiousStrength
+    case range
     case movement
     case governor
     case citizen
@@ -109,6 +110,7 @@ public enum LabelImageType {
         case "[Capital]": return .capital
         case "[Strength]": return .strength
         case "[RangedStrength]": return .rangedStrength
+        case "[Range]": return .range
         case "[ReligiousStrength]": return .religiousStrength
         case "[Movement]": return .movement
         case "[Citizen]": return .citizen
@@ -181,6 +183,7 @@ public enum LabelImageType {
         case .capital: return Globals.Icons.capital
         case .strength: return Globals.Icons.strength
         case .rangedStrength: return Globals.Icons.rangedStrength
+        case .range: return Globals.Icons.range
         case .religiousStrength: return Globals.Icons.religiousStrength
         case .movement: return Globals.Icons.movement
         case .citizen: return Globals.Icons.citizen
