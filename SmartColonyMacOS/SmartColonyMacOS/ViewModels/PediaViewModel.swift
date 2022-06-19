@@ -33,6 +33,7 @@ enum PediaCategory {
 
     case religions
     case pantheons
+    case promotions
 
     // dedications
     // moments
@@ -43,7 +44,7 @@ enum PediaCategory {
         .units, .buildings, .districts, .wonders, .improvements,
         .techs, .civics,
         .governments, .policies,
-        .religions, .pantheons
+        .religions, .pantheons, .promotions
     ]
 
     func title() -> String {
@@ -87,6 +88,8 @@ enum PediaCategory {
             return "Religions"
         case .pantheons:
             return "Pantheons"
+        case .promotions:
+            return "Promotions"
         }
     }
 }
@@ -359,6 +362,14 @@ class PediaDetailViewModel: ObservableObject, Identifiable {
         self.imageName = pantheon.iconTexture()
     }
 
+    init(promotion: UnitPromotionType) {
+
+        self.title = promotion.name().localized()
+        self.summary = "Tier \(promotion.tier()) Promotion for \(promotion.unitClass().name().localized()) units"
+        self.detail = promotion.effect().localized()
+        self.imageName = promotion.iconTexture()
+    }
+
     func image() -> NSImage {
 
         return ImageCache.shared.image(for: self.imageName)
@@ -579,6 +590,15 @@ class PediaViewModel: ObservableObject {
             )
         }
 
+        let promotionTextureNames = UnitPromotionType.all.map { $0.iconTexture() }
+        print("- load \(promotionTextureNames.count) promotions")
+        for textureName in promotionTextureNames {
+            ImageCache.shared.add(
+                image: bundle.image(forResource: textureName),
+                for: textureName
+            )
+        }
+
         self.updateDetailModels()
     }
 
@@ -656,6 +676,10 @@ class PediaViewModel: ObservableObject {
             case .pantheons:
                 for pantheonType in PantheonType.all {
                     tmpPediaDetailViewModels.append(PediaDetailViewModel(pantheon: pantheonType))
+                }
+            case .promotions:
+                for promotionType in UnitPromotionType.all {
+                    tmpPediaDetailViewModels.append(PediaDetailViewModel(promotion: promotionType))
                 }
             }
 

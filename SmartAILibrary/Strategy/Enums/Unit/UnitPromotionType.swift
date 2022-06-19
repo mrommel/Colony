@@ -195,7 +195,7 @@ public enum UnitPromotionType: Int, Codable {
         return self.data().tier
     }
 
-    func unitClass() -> UnitClassType {
+    public func unitClass() -> UnitClassType {
 
         return self.data().unitClass
     }
