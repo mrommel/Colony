@@ -90,6 +90,14 @@ extension UnitPromotionType {
         case .creepingAttack: return "promotion-creepingAttack"
 
             // navalRanged
+        case .lineOfBattle: return "promotion-default"
+        case .bombardment: return "promotion-default"
+        case .preparatoryFire: return "promotion-default"
+        case .rollingBarrage: return "promotion-default"
+        case .supplyFleet: return "promotion-default"
+        case .proximityFuses: return "promotion-default"
+        case .coincidenceRangefinding: return "promotion-default"
+
             // navalRaider
             // navalCarrier
 
