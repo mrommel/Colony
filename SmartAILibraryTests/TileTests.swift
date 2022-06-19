@@ -145,15 +145,33 @@ class TileTests: XCTestCase {
         let tileBehindMountains = mapModel.tile(at: HexPoint(x: 2, y: 4))
         let tileNotBlocked = mapModel.tile(at: HexPoint(x: 2, y: 0))
 
-        // todo: add forests / mountains
+        // add forests + hills / mountains to block sight
         mapModel.set(feature: .forest, at: HexPoint(x: 3, y: 2))
         mapModel.set(hills: true, at: HexPoint(x: 3, y: 2))
         mapModel.set(feature: .mountains, at: HexPoint(x: 2, y: 3))
 
         // WHEN
-        let canSeeThruHillsAndForest = self.objectToTest?.canSee(tile: tileBehindForest, for: playerAlexander, range: 2, in: gameModel)
-        let canSeeThruMountains = self.objectToTest?.canSee(tile: tileBehindMountains, for: playerAlexander, range: 2, in: gameModel)
-        let canSeeUnblocked = self.objectToTest?.canSee(tile: tileNotBlocked, for: playerAlexander, range: 2, in: gameModel)
+        let canSeeThruHillsAndForest = self.objectToTest?.canSee(
+            tile: tileBehindForest,
+            for: playerAlexander,
+            range: 2,
+            hasSentry: false,
+            in: gameModel
+        )
+        let canSeeThruMountains = self.objectToTest?.canSee(
+            tile: tileBehindMountains,
+            for: playerAlexander,
+            range: 2,
+            hasSentry: false,
+            in: gameModel
+        )
+        let canSeeUnblocked = self.objectToTest?.canSee(
+            tile: tileNotBlocked,
+            for: playerAlexander,
+            range: 2,
+            hasSentry: false,
+            in: gameModel
+        )
 
         // THEN
         XCTAssertEqual(canSeeThruHillsAndForest, false)

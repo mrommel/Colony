@@ -92,6 +92,14 @@ public enum UnitPromotionType: Int, Codable {
     case creepingAttack
 
     // navalRanged
+    case lineOfBattle
+    case bombardment
+    case preparatoryFire
+    case rollingBarrage
+    case supplyFleet
+    case proximityFuses
+    case coincidenceRangefinding
+
     // navalRaider
     // navalCarrier
 
@@ -125,7 +133,10 @@ public enum UnitPromotionType: Int, Codable {
             .grapeShot, .crewWeapons, .shrapnel, .shells, .advancedRangefinding, .expertCrew, .forwardObservers,
 
             // navalMelee
-            .helmsman, .embolon, .rutter, .reinforcedHull, .convoy, .auxiliaryShips, .creepingAttack
+            .helmsman, .embolon, .rutter, .reinforcedHull, .convoy, .auxiliaryShips, .creepingAttack,
+
+            // navalRanged
+            .lineOfBattle, .bombardment, .preparatoryFire, .rollingBarrage, .supplyFleet, .proximityFuses, .coincidenceRangefinding
         ]
     }
 
@@ -211,7 +222,7 @@ public enum UnitPromotionType: Int, Codable {
 
     // MARK: private methods
 
-    // swiftlint:disable function_body_length
+    // swiftlint:disable function_body_length cyclomatic_complexity
     private func data() -> PromotionData {
 
         switch self {
@@ -867,7 +878,6 @@ public enum UnitPromotionType: Int, Codable {
                 ]
             )
 
-
             // ---------------------
             // siege
 
@@ -1075,6 +1085,110 @@ public enum UnitPromotionType: Int, Codable {
                 ]
             )
 
+            // ---------------------
+            // navalRanged
+
+        case .lineOfBattle:
+            // https://civilization.fandom.com/wiki/Line_of_Battle_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_LINE_OF_BATTLE_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_LINE_OF_BATTLE_EFFECT",
+                tier: 1,
+                unitClass: .navalRanged,
+                required: [],
+                consumable: true,
+                flavours: [
+                    Flavor(type: .naval, value: 3),
+                    Flavor(type: .navalGrowth, value: 1)
+                ]
+            )
+
+        case .bombardment:
+            // https://civilization.fandom.com/wiki/Bombardment_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_BOMBARDMENT_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_BOMBARDMENT_EFFECT",
+                tier: 1,
+                unitClass: .navalRanged,
+                required: [],
+                consumable: true,
+                flavours: [
+                    Flavor(type: .naval, value: 2),
+                    Flavor(type: .defense, value: 3)
+                ]
+            )
+
+        case .preparatoryFire:
+            // https://civilization.fandom.com/wiki/Preparatory_Fire_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_PREPARATORY_FIRE_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_PREPARATORY_FIRE_EFFECT",
+                tier: 2,
+                unitClass: .navalRanged,
+                required: [.lineOfBattle],
+                consumable: true,
+                flavours: [
+                    Flavor(type: .offense, value: 3),
+                    Flavor(type: .defense, value: 1)
+                ]
+            )
+
+        case .rollingBarrage:
+            // https://civilization.fandom.com/wiki/Rolling_Barrage_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_ROLLING_BARRAGE_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_ROLLING_BARRAGE_EFFECT",
+                tier: 2,
+                unitClass: .navalRanged,
+                required: [.bombardment],
+                consumable: true,
+                flavours: [
+                    Flavor(type: .offense, value: 4)
+                ]
+            )
+
+        case .supplyFleet:
+            // https://civilization.fandom.com/wiki/Supply_Fleet_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_SUPPLY_FLEET_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_SUPPLY_FLEET_EFFECT",
+                tier: 3,
+                unitClass: .navalRanged,
+                required: [.preparatoryFire, .rollingBarrage],
+                consumable: true,
+                flavours: [
+                    Flavor(type: .defense, value: 3)
+                ]
+            )
+
+        case .proximityFuses:
+            // https://civilization.fandom.com/wiki/Proximity_Fuses_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_PROXIMITY_FUSES_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_PROXIMITY_FUSES_EFFECT",
+                tier: 3,
+                unitClass: .navalRanged,
+                required: [.preparatoryFire, .rollingBarrage],
+                consumable: true,
+                flavours: [
+                    Flavor(type: .defense, value: 3)
+                ]
+            )
+
+        case .coincidenceRangefinding:
+            // https://civilization.fandom.com/wiki/Coincidence_Rangefinding_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_COINCIDENCE_RANGEFINDING_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_COINCIDENCE_RANGEFINDING_EFFECT",
+                tier: 4,
+                unitClass: .navalRanged,
+                required: [.supplyFleet, .proximityFuses],
+                consumable: true,
+                flavours: [
+                    Flavor(type: .ranged, value: 3),
+                    Flavor(type: .naval, value: 2)
+                ]
+            )
         }
     }
 

@@ -1112,6 +1112,36 @@ public class Unit: AbstractUnit {
                     result.append(CombatModifier(value: 7, title: UnitPromotionType.embolon.name()))
                 }
             }
+
+            // navalRanged
+
+            if promotions.has(promotion: .lineOfBattle) {
+                if defender.domain() == .sea {
+                    // lineOfBattle - +7 Combat Strength vs. naval units.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.lineOfBattle.name()))
+                }
+            }
+
+            /*if promotions.has(promotion: .bombardment) {
+                if defender. {
+                    // bombardment - +7 Combat Strength vs. district defenses.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.bombardment.name()))
+                }
+            }*/
+
+            if promotions.has(promotion: .preparatoryFire) {
+                if defender.domain() == .land {
+                    // preparatoryFire - +7 Combat Strength vs. land units.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.preparatoryFire.name()))
+                }
+            }
+
+            /* if promotions.has(promotion: .rollingBarrage) {
+                if defender. {
+                    // rollingBarrage - +10 Combat Strength vs. district defenses.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.rollingBarrage.name()))
+                }
+            } */
         }
 
         ////////////////////////
@@ -1459,6 +1489,43 @@ public class Unit: AbstractUnit {
                 if attacker.unitClassType() == .navalRaider {
                     // creepingAttack - +14 [Strength] Combat Strength vs. naval raider units.
                     result.append(CombatModifier(value: 14, title: UnitPromotionType.creepingAttack.name()))
+                }
+            }
+
+            // navalRanged
+
+            if promotions.has(promotion: .lineOfBattle) {
+                if attacker.domain() == .sea {
+                    // lineOfBattle - +7 Combat Strength vs. naval units.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.lineOfBattle.name()))
+                }
+            }
+
+            /*if promotions.has(promotion: .bombardment) {
+                if attacker. {
+                    // bombardment - +7 Combat Strength vs. district defenses.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.bombardment.name()))
+                }
+            }*/
+
+            if promotions.has(promotion: .preparatoryFire) {
+                if attacker.domain() == .land {
+                    // preparatoryFire - +7 Combat Strength vs. land units.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.preparatoryFire.name()))
+                }
+            }
+
+            /*if promotions.has(promotion: .rollingBarrage) {
+                if attacker. {
+                    // rollingBarrage - +10 Combat Strength vs. district defenses.
+                    result.append(CombatModifier(value: 10, title: UnitPromotionType.rollingBarrage.name()))
+                }
+            }*/
+
+            if promotions.has(promotion: .proximityFuses) {
+                if attacker.domain() == .air {
+                    // proximityFuses - +7 Combat Strength when defending vs. air attacks.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.proximityFuses.name()))
                 }
             }
 
@@ -3123,8 +3190,13 @@ public class Unit: AbstractUnit {
 
         var rangeVal: Int = self.type.range()
 
-        // forwardObservers - +1 [Range] Range.
+        // forwardObservers - +1 Range.
         if self.has(promotion: .forwardObservers) {
+            rangeVal += 1
+        }
+
+        // coincidenceRangefinding - +1 Range.
+        if self.has(promotion: .coincidenceRangefinding) {
             rangeVal += 1
         }
 
