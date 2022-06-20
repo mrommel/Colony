@@ -159,10 +159,10 @@ class UnitPromotionTests: XCTestCase {
         // WHEN
         try humanPlayerScout.promotions?.earn(promotion: .guerrilla)
         _ = humanPlayerScout.doAttack(into: HexPoint(x: 2, y: 2), steps: 1, in: self.gameModel)
-        let canAttack = humanPlayerScout.canMove()
+        let canMove = humanPlayerScout.canMove()
 
         // THEN
-        XCTAssertEqual(canAttack, true)
+        XCTAssertEqual(canMove, true)
     }
 
     // spyglass - +1 sight range.
@@ -245,5 +245,183 @@ class UnitPromotionTests: XCTestCase {
         try humanPlayerScout.promotions?.earn(promotion: .camouflage)
 
         // THEN
+    }
+
+    // MARK: melee promotions
+
+    // battlecry - +7 Combat Strength vs. melee and ranged units.
+    func testMeleePromotionBattlecry() throws {
+
+        // GIVEN
+        guard let humanPlayer = self.gameModel?.humanPlayer() else {
+            XCTFail("cant get human")
+            return
+        }
+
+        guard let barbarianPlayer = self.gameModel?.barbarianPlayer() else {
+            XCTFail("cant get barbarian")
+            return
+        }
+
+        let humanPlayerScout = Unit(at: HexPoint(x: 2, y: 2), type: .scout, owner: humanPlayer)
+        self.gameModel?.add(unit: humanPlayerScout)
+
+        let barbarianPlayerMelee = Unit(at: HexPoint(x: 2, y: 1), type: .warrior, owner: barbarianPlayer)
+        self.gameModel?.add(unit: barbarianPlayerMelee)
+
+        let barbarianPlayerRecon = Unit(at: HexPoint(x: 2, y: 3), type: .scout, owner: barbarianPlayer)
+        self.gameModel?.add(unit: barbarianPlayerRecon)
+
+        humanPlayer.startTurn(in: self.gameModel)
+
+        let attModMeleeBefore = humanPlayerScout.attackModifier(against: barbarianPlayerMelee, or: nil, in: self.gameModel)
+        let defModMeleeBefore = humanPlayerScout.defenseModifier(against: barbarianPlayerMelee, or: nil, on: nil, ranged: true, in: self.gameModel)
+        let attModReconBefore = humanPlayerScout.attackModifier(against: barbarianPlayerRecon, or: nil, in: self.gameModel)
+
+        // WHEN
+        try humanPlayerScout.promotions?.earn(promotion: .battlecry)
+        let attModMeleeAfter = humanPlayerScout.attackModifier(against: barbarianPlayerMelee, or: nil, in: self.gameModel)
+        let defModMeleeAfter = humanPlayerScout.defenseModifier(against: barbarianPlayerMelee, or: nil, on: nil, ranged: true, in: self.gameModel)
+        let attModReconAfter = humanPlayerScout.attackModifier(against: barbarianPlayerRecon, or: nil, in: self.gameModel)
+
+        // THEN
+        XCTAssertEqual(attModMeleeBefore, 0)
+        XCTAssertEqual(defModMeleeBefore, 0)
+        XCTAssertEqual(attModReconBefore, 0)
+        XCTAssertEqual(attModMeleeAfter, 7) // melee or ranged
+        XCTAssertEqual(defModMeleeAfter, 7) // same here
+        XCTAssertEqual(attModReconAfter, 0) // but not recon
+    }
+
+    // tortoise - +10 Combat Strength when defending against ranged attacks.
+    func testMeleePromotionTortoise() throws {
+
+        // GIVEN
+        guard let humanPlayer = self.gameModel?.humanPlayer() else {
+            XCTFail("cant get human")
+            return
+        }
+
+        guard let barbarianPlayer = self.gameModel?.barbarianPlayer() else {
+            XCTFail("cant get barbarian")
+            return
+        }
+
+        let humanPlayerScout = Unit(at: HexPoint(x: 2, y: 2), type: .scout, owner: humanPlayer)
+        self.gameModel?.add(unit: humanPlayerScout)
+
+        let barbarianPlayerRanged = Unit(at: HexPoint(x: 2, y: 3), type: .slinger, owner: barbarianPlayer)
+        self.gameModel?.add(unit: barbarianPlayerRanged)
+
+        humanPlayer.startTurn(in: self.gameModel)
+
+        let defModMeleeBefore = humanPlayerScout.defenseModifier(against: barbarianPlayerRanged, or: nil, on: nil, ranged: true, in: self.gameModel)
+
+        // WHEN
+        try humanPlayerScout.promotions?.earn(promotion: .tortoise)
+        let defModMeleeAfter = humanPlayerScout.defenseModifier(against: barbarianPlayerRanged, or: nil, on: nil, ranged: true, in: self.gameModel)
+
+        // THEN
+        XCTAssertEqual(defModMeleeBefore, 0)
+        XCTAssertEqual(defModMeleeAfter, 10) // ranged defense
+    }
+
+    // commando - Can scale Cliff walls. +1 Movement.
+    func testMeleePromotionCommando() throws {
+
+        // GIVEN
+        guard let humanPlayer = self.gameModel?.humanPlayer() else {
+            XCTFail("cant get human")
+            return
+        }
+
+        let humanPlayerScout = Unit(at: HexPoint(x: 2, y: 2), type: .scout, owner: humanPlayer)
+        self.gameModel?.add(unit: humanPlayerScout)
+
+        let scoutMovesBefore = humanPlayerScout.maxMoves(in: self.gameModel)
+
+        // WHEN
+        try humanPlayerScout.promotions?.earn(promotion: .commando)
+        let scoutMovesAfter = humanPlayerScout.maxMoves(in: self.gameModel)
+
+        // THEN
+        XCTAssertEqual(scoutMovesBefore, 3)
+        XCTAssertEqual(scoutMovesAfter, 4)
+    }
+
+    // amphibious - No Combat Strength and Movement penalty when attacking from Sea or over a River.
+
+    // zweihander - +7 Combat Strength vs. anti-cavalry units.
+    func testMeleePromotionZweihander() throws {
+
+        // GIVEN
+        guard let humanPlayer = self.gameModel?.humanPlayer() else {
+            XCTFail("cant get human")
+            return
+        }
+
+        guard let barbarianPlayer = self.gameModel?.barbarianPlayer() else {
+            XCTFail("cant get barbarian")
+            return
+        }
+
+        let humanPlayerScout = Unit(at: HexPoint(x: 2, y: 2), type: .scout, owner: humanPlayer)
+        self.gameModel?.add(unit: humanPlayerScout)
+
+        let barbarianPlayerAntiCavalry = Unit(at: HexPoint(x: 2, y: 3), type: .spearman, owner: barbarianPlayer)
+        self.gameModel?.add(unit: barbarianPlayerAntiCavalry)
+
+        humanPlayer.startTurn(in: self.gameModel)
+
+        let attModMeleeBefore = humanPlayerScout.attackModifier(against: barbarianPlayerAntiCavalry, or: nil, on: nil, in: self.gameModel)
+        let defModMeleeBefore = humanPlayerScout.defenseModifier(
+            against: barbarianPlayerAntiCavalry, or: nil, on: nil, ranged: false, in: self.gameModel)
+
+        // WHEN
+        try humanPlayerScout.promotions?.earn(promotion: .zweihander)
+        let attModMeleeAfter = humanPlayerScout.attackModifier(against: barbarianPlayerAntiCavalry, or: nil, on: nil, in: self.gameModel)
+        let defModMeleeAfter = humanPlayerScout.defenseModifier(
+            against: barbarianPlayerAntiCavalry, or: nil, on: nil, ranged: true, in: self.gameModel)
+
+        // THEN
+        XCTAssertEqual(attModMeleeBefore, 0)
+        XCTAssertEqual(defModMeleeBefore, 0)
+        XCTAssertEqual(attModMeleeAfter, 7)
+        XCTAssertEqual(defModMeleeAfter, 7)
+    }
+
+    // urbanWarfare - +10 Combat Strength when fighting in a district.
+
+    // eliteGuard - +1 additional attack per turn if Movement allows. Can move after attacking.
+    func testMeleePromotionEliteGuard() throws {
+
+        // GIVEN
+        guard let humanPlayer = self.gameModel?.humanPlayer() else {
+            XCTFail("cant get human")
+            return
+        }
+
+        guard let barbarianPlayer = self.gameModel?.barbarianPlayer() else {
+            XCTFail("cant get barbarian")
+            return
+        }
+
+        let humanPlayerScout = Unit(at: HexPoint(x: 2, y: 2), type: .scout, owner: humanPlayer)
+        self.gameModel?.add(unit: humanPlayerScout)
+
+        let barbarianPlayerAntiCavalry = Unit(at: HexPoint(x: 2, y: 3), type: .spearman, owner: barbarianPlayer)
+        self.gameModel?.add(unit: barbarianPlayerAntiCavalry)
+
+        humanPlayer.startTurn(in: self.gameModel)
+
+        // WHEN
+        try humanPlayerScout.promotions?.earn(promotion: .eliteGuard)
+        _ = humanPlayerScout.doAttack(into: HexPoint(x: 2, y: 3), steps: 1, in: self.gameModel)
+        let canMove = humanPlayerScout.canMove()
+        let canAttack = humanPlayerScout.canAttack()
+
+        // THEN
+        XCTAssertEqual(canMove, true)
+        XCTAssertEqual(canAttack, true)
     }
 }

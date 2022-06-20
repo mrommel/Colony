@@ -2875,6 +2875,11 @@ public class Unit: AbstractUnit {
             }
         }*/
 
+        // commando - +1 Movement.
+        if self.has(promotion: .commando) {
+            moveVal += 1
+        }
+
         // pursuit - +1 Movement.
         if self.has(promotion: .pursuit) {
             moveVal += 1
