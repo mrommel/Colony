@@ -378,7 +378,7 @@
 
 // sentry
 "TXT_KEY_UNIT_PROMOTION_SENTRY_NAME" = "Sentry";
-"TXT_KEY_UNIT_PROMOTION_SENTRY_EFFECT" = "Can see through Woods and Jungle."; // #
+"TXT_KEY_UNIT_PROMOTION_SENTRY_EFFECT" = "Can see through Woods and Jungle.";
 
 // guerrilla
 "TXT_KEY_UNIT_PROMOTION_GUERRILLA_NAME" = "Guerrilla";

@@ -989,9 +989,7 @@ public class Unit: AbstractUnit {
                 result.append(CombatModifier(value: 10, title: "Bonus against Cavalry"))
             }
 
-            if self.unitClassType() == .ranged &&
-                (defender.unitClassType() == .navalMelee || defender.unitClassType() == .navalRaider ||
-                    defender.unitClassType() == .navalRanged || defender.unitClassType() == .navalCarrier) {
+            if self.unitClassType() == .ranged && defender.domain() == .sea {
                 result.append(CombatModifier(value: -17, title: "Penalty against Naval"))
             }
 
@@ -1004,79 +1002,14 @@ public class Unit: AbstractUnit {
             // promotions
             // //////////
 
-            if promotions.has(promotion: .battlecry) {
-                // battlecry - +7 Combat Strength vs. melee and ranged units.
-                if defender.unitClassType() == .melee || defender.unitClassType() == .ranged {
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.battlecry.name()))
-                }
-            }
+            for gainedPromotion in promotions.gainedPromotions() {
 
-            if promotions.has(promotion: .zweihander) {
-                if defender.unitClassType() == .antiCavalry {
-                    // zweihander - +7 Combat Strength vs. anti-cavalry units.
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.zweihander.name()))
-                }
-            }
-
-            if promotions.has(promotion: .volley) {
-                if defender.domain() == .land {
-                    // volley - +5 Ranged Strength vs. land units.
-                    result.append(CombatModifier(value: 5, title: UnitPromotionType.volley.name()))
-                }
-            }
-
-            if promotions.has(promotion: .arrowStorm) {
-                if defender.domain() == .land || defender.domain() == .sea {
-                    // arrowStorm - +7 Ranged Strength Ranged Strength vs. land and naval units.
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.arrowStorm.name()))
-                }
-            }
-
-            if promotions.has(promotion: .echelon) {
-                if defender.unitClassType() == .antiCavalry {
-                    // echelon - +5 [Strength] Combat Strength vs. cavalry units.
-                    result.append(CombatModifier(value: 5, title: UnitPromotionType.echelon.name()))
-                }
-            }
-
-            if promotions.has(promotion: .thrust) {
-                if defender.unitClassType() == .melee {
-                    // thrust - +5 [Strength] Combat Strength vs. melee units.
-                    result.append(CombatModifier(value: 5, title: UnitPromotionType.thrust.name()))
-                }
-            }
-
-            // light cavalry
-
-            if promotions.has(promotion: .caparison) {
-                if defender.unitClassType() == .antiCavalry {
-                    // caparison - +5 Combat Strength vs. anti-cavalry.
-                    result.append(CombatModifier(value: 5, title: UnitPromotionType.caparison.name()))
-                }
-            }
-
-            if promotions.has(promotion: .coursers) {
-                if defender.unitClassType() == .ranged || defender.unitClassType() == .siege {
-                    // coursers - +5 Combat Strength when attacking ranged and siege units.
-                    result.append(CombatModifier(value: 5, title: UnitPromotionType.coursers.name()))
-                }
-            }
-
-            if promotions.has(promotion: .spikingTheGuns) {
-                if defender.unitClassType() == .siege {
-                    // spikingTheGuns - +7 Combat Strength vs. siege units.
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.spikingTheGuns.name()))
+                if let attackStrengthModifier = gainedPromotion.attackStrengthModifier(against: defender) {
+                    result.append(attackStrengthModifier)
                 }
             }
 
             // heavy cavalry
-
-            if promotions.has(promotion: .charge) {
-                if defender.isFortified() {
-                    // charge - +10 Combat Strength vs. fortified defender.
-                    result.append(CombatModifier(value: 10, title: UnitPromotionType.charge.name()))
-                }
-            }
 
             /*if promotions.has(promotion: .marauding) {
                 if defender. {
@@ -1085,36 +1018,6 @@ public class Unit: AbstractUnit {
                 }
             }*/
 
-            if promotions.has(promotion: .rout) {
-                if defender.damage() > 0 {
-                    // rout - +5 Combat Strength against damaged units.
-                    result.append(CombatModifier(value: 5, title: UnitPromotionType.rout.name()))
-                }
-            }
-
-            if promotions.has(promotion: .armorPiercing) {
-                if defender.unitClassType() == .heavyCavalry {
-                    // armorPiercing - +7 Combat Strength against other heavy cavalry units.
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.armorPiercing.name()))
-                }
-            }
-
-            // siege
-
-            if promotions.has(promotion: .grapeShot) {
-                if defender.domain() == .land {
-                    // grapeShot - +7 Combat Strength vs. land units
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.grapeShot.name()))
-                }
-            }
-
-            if promotions.has(promotion: .shrapnel) {
-                if defender.domain() == .land {
-                    // shrapnel - +10 Combat Strength vs. land units.
-                    result.append(CombatModifier(value: 10, title: UnitPromotionType.shrapnel.name()))
-                }
-            }
-
             /*if promotions.has(promotion: .shells) {
                 if defender. {
                     // shells - +10 Combat Strength vs. district defenses.
@@ -1122,30 +1025,7 @@ public class Unit: AbstractUnit {
                 }
             }*/
 
-            if promotions.has(promotion: .advancedRangefinding) {
-                if defender.domain() == .sea {
-                    // advancedRangefinding - +10 Combat Strength vs. naval units.
-                    result.append(CombatModifier(value: 10, title: UnitPromotionType.advancedRangefinding.name()))
-                }
-            }
-
-            // navalMelee
-
-            if promotions.has(promotion: .embolon) {
-                if defender.unitClassType() == .navalRaider {
-                    // embolon - +7 [Strength] Combat Strength vs. naval units.
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.embolon.name()))
-                }
-            }
-
             // navalRanged
-
-            if promotions.has(promotion: .lineOfBattle) {
-                if defender.domain() == .sea {
-                    // lineOfBattle - +7 Combat Strength vs. naval units.
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.lineOfBattle.name()))
-                }
-            }
 
             /*if promotions.has(promotion: .bombardment) {
                 if defender. {
@@ -1153,13 +1033,6 @@ public class Unit: AbstractUnit {
                     result.append(CombatModifier(value: 7, title: UnitPromotionType.bombardment.name()))
                 }
             }*/
-
-            if promotions.has(promotion: .preparatoryFire) {
-                if defender.domain() == .land {
-                    // preparatoryFire - +7 Combat Strength vs. land units.
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.preparatoryFire.name()))
-                }
-            }
 
             /* if promotions.has(promotion: .rollingBarrage) {
                 if defender. {
@@ -1178,20 +1051,10 @@ public class Unit: AbstractUnit {
                 result.append(CombatModifier(value: -17, title: "Penalty against City"))
             }
 
-            if promotions.has(promotion: .urbanWarfare) {
-                // +10 [Strength] Combat Strength when fighting in a city.
+            if !self.isRanged() && promotions.has(promotion: .urbanWarfare) {
+                // +10 Combat Strength when fighting in a city.
                 result.append(CombatModifier(value: +10, title: UnitPromotionType.urbanWarfare.name()))
             }
-
-            if promotions.has(promotion: .emplacement) {
-                // +10 Strength Combat Strength when defending vs. city attacks.
-                result.append(CombatModifier(value: +10, title: UnitPromotionType.emplacement.name()))
-            }
-        }
-
-        if promotions.has(promotion: .ambush) {
-            // +20 [Strength] Combat Strength in all situations.
-            result.append(CombatModifier(value: +20, title: UnitPromotionType.ambush.name()))
         }
 
         ////////////////////////
@@ -1370,71 +1233,14 @@ public class Unit: AbstractUnit {
             // promotions
             // //////////
 
-            if promotions.has(promotion: .tortoise) {
-                if attacker.isRanged() && ranged {
-                    // +10 Combat Strength when defending against ranged attacks.
-                    result.append(CombatModifier(value: 10, title: UnitPromotionType.tortoise.name()))
-                }
-            }
+            for gainedPromotion in promotions.gainedPromotions() {
 
-            if promotions.has(promotion: .zweihander) {
-                if attacker.unitClassType() == .antiCavalry {
-                    // +7 [Strength] Combat Strength vs. anti-cavalry units.
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.zweihander.name()))
-                }
-            }
-
-            if promotions.has(promotion: .echelon) {
-                if attacker.unitClassType() == .antiCavalry {
-                    // echelon - +5 [Strength] Combat Strength vs. cavalry units.
-                    result.append(CombatModifier(value: 5, title: UnitPromotionType.echelon.name()))
-                }
-            }
-
-            if promotions.has(promotion: .thrust) {
-                if attacker.unitClassType() == .melee {
-                    // thrust - +5 [Strength] Combat Strength vs. melee units.
-                    result.append(CombatModifier(value: 5, title: UnitPromotionType.thrust.name()))
-                }
-            }
-
-            if promotions.has(promotion: .schiltron) {
-                if attacker.unitClassType() == .melee {
-                    // schiltron - +10 Combat Strength when defending vs. melee class units.
-                    result.append(CombatModifier(value: 10, title: UnitPromotionType.schiltron.name()))
-                }
-            }
-
-            if promotions.has(promotion: .chokePoints) {
-                if let tile = toTile {
-                    if tile.has(feature: .forest) || tile.has(feature: .rainforest) ||
-                        tile.hasHills() || tile.has(feature: .marsh) {
-                        // chokePoints - +7 Combat Strength when defending in Woods, Jungle, Hills, or Marsh.
-                        result.append(CombatModifier(value: 7, title: UnitPromotionType.chokePoints.name()))
+                if let defenderStrengthModifier = gainedPromotion.defenderStrengthModifier(against: attacker) {
+                    result.append(defenderStrengthModifier)
+                } else if let tile = toTile {
+                    if let defenderStrengthModifier = gainedPromotion.defenderStrengthModifier(on: tile) {
+                        result.append(defenderStrengthModifier)
                     }
-                }
-            }
-
-            if promotions.has(promotion: .caparison) {
-                if attacker.unitClassType() == .antiCavalry {
-                    // caparison - +5 Combat Strength vs. anti-cavalry.
-                    result.append(CombatModifier(value: 5, title: UnitPromotionType.caparison.name()))
-                }
-            }
-
-            if promotions.has(promotion: .spikingTheGuns) {
-                if attacker.unitClassType() == .siege {
-                    // spikingTheGuns - +7 Strength Combat Strength vs. siege units.
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.spikingTheGuns.name()))
-                }
-            }
-
-            // heavyCavalry
-
-            if promotions.has(promotion: .barding) {
-                if attacker.unitClassType() == .ranged {
-                    // barding - +7 Combat Strength when defending vs. ranged attacks.
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.barding.name()))
                 }
             }
 
@@ -1445,40 +1251,7 @@ public class Unit: AbstractUnit {
                 }
             }*/
 
-            if promotions.has(promotion: .rout) {
-                if attacker.damage() > 0 {
-                    // rout - +5 Combat Strength against damaged units.
-                    result.append(CombatModifier(value: 5, title: UnitPromotionType.rout.name()))
-                }
-            }
-
-            if promotions.has(promotion: .armorPiercing) {
-                if attacker.unitClassType() == .heavyCavalry {
-                    // armorPiercing - +7 Combat Strength against other heavy cavalry units.
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.armorPiercing.name()))
-                }
-            }
-
-            if promotions.has(promotion: .reactiveArmor) {
-                if attacker.unitClassType() == .heavyCavalry || attacker.unitClassType() == .antiCavalry {
-                    // reactiveArmor - +7 Combat Strength when defending against heavy cavalry and anti-cavalry.
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.reactiveArmor.name()))
-                }
-            }
-
             // siege
-
-            if promotions.has(promotion: .crewWeapons) {
-                // crewWeapons- +7 Combat Strength when defending.
-                result.append(CombatModifier(value: 7, title: UnitPromotionType.crewWeapons.name()))
-            }
-
-            if promotions.has(promotion: .shrapnel) {
-                if attacker.domain() == .land {
-                    // shrapnel - +10 Combat Strength vs. land units.
-                    result.append(CombatModifier(value: 10, title: UnitPromotionType.shrapnel.name()))
-                }
-            }
 
             /*if promotions.has(promotion: .shells) {
                 if attacker. {
@@ -1487,44 +1260,7 @@ public class Unit: AbstractUnit {
                 }
             }*/
 
-            if promotions.has(promotion: .advancedRangefinding) {
-                if attacker.domain() == .sea {
-                    // advancedRangefinding - +10 Combat Strength vs. naval units.
-                    result.append(CombatModifier(value: 10, title: UnitPromotionType.advancedRangefinding.name()))
-                }
-            }
-
-            // navalMelee
-
-            if promotions.has(promotion: .embolon) {
-                if attacker.unitClassType() == .navalRaider {
-                    // embolon - +7 [Strength] Combat Strength vs. naval units.
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.embolon.name()))
-                }
-            }
-
-            if promotions.has(promotion: .reinforcedHull) {
-                if attacker.unitClassType() == .ranged || attacker.unitClassType() == .navalRanged {
-                    // reinforcedHull - +10 [Strength] Combat Strength when defending vs. ranged attacks.
-                    result.append(CombatModifier(value: 10, title: UnitPromotionType.reinforcedHull.name()))
-                }
-            }
-
-            if promotions.has(promotion: .creepingAttack) {
-                if attacker.unitClassType() == .navalRaider {
-                    // creepingAttack - +14 [Strength] Combat Strength vs. naval raider units.
-                    result.append(CombatModifier(value: 14, title: UnitPromotionType.creepingAttack.name()))
-                }
-            }
-
             // navalRanged
-
-            if promotions.has(promotion: .lineOfBattle) {
-                if attacker.domain() == .sea {
-                    // lineOfBattle - +7 Combat Strength vs. naval units.
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.lineOfBattle.name()))
-                }
-            }
 
             /*if promotions.has(promotion: .bombardment) {
                 if attacker. {
@@ -1533,13 +1269,6 @@ public class Unit: AbstractUnit {
                 }
             }*/
 
-            if promotions.has(promotion: .preparatoryFire) {
-                if attacker.domain() == .land {
-                    // preparatoryFire - +7 Combat Strength vs. land units.
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.preparatoryFire.name()))
-                }
-            }
-
             /*if promotions.has(promotion: .rollingBarrage) {
                 if attacker. {
                     // rollingBarrage - +10 Combat Strength vs. district defenses.
@@ -1547,10 +1276,12 @@ public class Unit: AbstractUnit {
                 }
             }*/
 
-            if promotions.has(promotion: .proximityFuses) {
-                if attacker.domain() == .air {
-                    // proximityFuses - +7 Combat Strength when defending vs. air attacks.
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.proximityFuses.name()))
+            // city attacks us
+            if city != nil {
+
+                if promotions.has(promotion: .emplacement) {
+                    // +10 Combat Strength when defending vs. city attacks.
+                    result.append(CombatModifier(value: +10, title: UnitPromotionType.emplacement.name()))
                 }
             }
 
@@ -1596,11 +1327,6 @@ public class Unit: AbstractUnit {
             if supportUnitCount > 0 {
                 result.append(CombatModifier(value: 2 * supportUnitCount, title: "Support Bonus"))
             }
-        }
-
-        if promotions.has(promotion: .ambush) {
-            // +20 [Strength] Combat Strength in all situations.
-            result.append(CombatModifier(value: +20, title: UnitPromotionType.ambush.name()))
         }
 
         return result

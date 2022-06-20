@@ -144,6 +144,68 @@ public enum UnitPromotionType: Int, Codable {
 
     // MARK: internal classes
 
+    private enum PromotionCombatModifierDirection {
+
+        case attack
+        case defend
+        case both
+    }
+
+    private struct PromotionCombatModifierData {
+
+        let amount: Int
+
+        let unitClasses: [UnitClassType]
+        let combatDirection: PromotionCombatModifierDirection
+        let damagedOnly: Bool
+        let fortifiedOnly: Bool
+        let roughOnly: Bool
+
+        init(amount: Int, combatDirection: PromotionCombatModifierDirection, damagedOnly: Bool = false, fortifiedOnly: Bool = false, roughOnly: Bool = false) {
+
+            self.amount = amount
+            self.unitClasses = UnitClassType.combat
+            self.combatDirection = combatDirection
+            self.damagedOnly = damagedOnly
+            self.fortifiedOnly = fortifiedOnly
+            self.roughOnly = roughOnly
+        }
+
+        init(amount: Int, unitClasses: [UnitClassType], combatDirection: PromotionCombatModifierDirection, damagedOnly: Bool = false, fortifiedOnly: Bool = false, roughOnly: Bool = false) {
+
+            self.amount = amount
+            self.unitClasses = unitClasses
+            self.combatDirection = combatDirection
+            self.damagedOnly = damagedOnly
+            self.fortifiedOnly = fortifiedOnly
+            self.roughOnly = roughOnly
+        }
+
+        init(amount: Int, domain: UnitDomainType, combatDirection: PromotionCombatModifierDirection, damagedOnly: Bool = false, fortifiedOnly: Bool = false, roughOnly: Bool = false) {
+
+            self.amount = amount
+            self.unitClasses = domain.unitClasses()
+            self.combatDirection = combatDirection
+            self.damagedOnly = damagedOnly
+            self.fortifiedOnly = fortifiedOnly
+            self.roughOnly = roughOnly
+        }
+
+        init(amount: Int, domains: [UnitDomainType], combatDirection: PromotionCombatModifierDirection, damagedOnly: Bool = false, fortifiedOnly: Bool = false, roughOnly: Bool = false) {
+
+            self.amount = amount
+            self.unitClasses = domains
+                .map { $0.unitClasses() }
+                .reduce([], { (result: [UnitClassType], element: [UnitClassType]) -> [UnitClassType] in
+                    return result + element
+                })
+            self.combatDirection = combatDirection
+            self.damagedOnly = damagedOnly
+            self.fortifiedOnly = fortifiedOnly
+            self.roughOnly = roughOnly
+        }
+    }
+
     private struct PromotionData {
 
         let name: String
@@ -154,6 +216,7 @@ public enum UnitPromotionType: Int, Codable {
         let consumable: Bool
         let enemyRoute: Bool
         let ignoreZoneOfControl: Bool
+        let combatModifier: PromotionCombatModifierData?
         let flavours: [Flavor]
 
         init(name: String,
@@ -164,6 +227,7 @@ public enum UnitPromotionType: Int, Codable {
              consumable: Bool,
              enemyRoute: Bool = false,
              ignoreZoneOfControl: Bool = false,
+             combatModifier: PromotionCombatModifierData? = nil,
              flavours: [Flavor]) {
 
             self.name = name
@@ -174,6 +238,7 @@ public enum UnitPromotionType: Int, Codable {
             self.consumable = consumable
             self.enemyRoute = enemyRoute
             self.ignoreZoneOfControl = ignoreZoneOfControl
+            self.combatModifier = combatModifier
             self.flavours = flavours
         }
     }
@@ -218,6 +283,70 @@ public enum UnitPromotionType: Int, Codable {
     func ignoreZoneOfControl() -> Bool {
 
         return self.data().ignoreZoneOfControl
+    }
+
+    func attackStrengthModifier(against defender: AbstractUnit) -> CombatModifier? {
+
+        guard let combatModifier = self.data().combatModifier else {
+            return nil
+        }
+
+        guard combatModifier.combatDirection == .defend else {
+            return nil
+        }
+
+        if combatModifier.damagedOnly && defender.damage() == 0 {
+            return nil
+        }
+
+        if combatModifier.fortifiedOnly && !defender.isFortified() {
+            return nil
+        }
+
+        if combatModifier.unitClasses.contains(where: { $0 == defender.unitClassType() }) {
+            return CombatModifier(value: combatModifier.amount, title: self.name())
+        }
+
+        return nil
+    }
+
+    func defenderStrengthModifier(against attacker: AbstractUnit) -> CombatModifier? {
+
+        guard let combatModifier = self.data().combatModifier else {
+            return nil
+        }
+
+        guard combatModifier.combatDirection == .attack else {
+            return nil
+        }
+
+        if combatModifier.damagedOnly && attacker.damage() == 0 {
+            return nil
+        }
+
+        if combatModifier.unitClasses.contains(where: { $0 == attacker.unitClassType() }) {
+            return CombatModifier(value: combatModifier.amount, title: self.name())
+        }
+
+        return nil
+    }
+
+    func defenderStrengthModifier(on tile: AbstractTile) -> CombatModifier? {
+
+        guard let combatModifier = self.data().combatModifier else {
+            return nil
+        }
+
+        guard combatModifier.combatDirection == .attack else {
+            return nil
+        }
+
+        let tileIsRough = tile.has(feature: .forest) || tile.has(feature: .rainforest) || tile.hasHills() || tile.has(feature: .marsh)
+        guard combatModifier.roughOnly && tileIsRough else {
+            return nil
+        }
+
+        return CombatModifier(value: combatModifier.amount, title: self.name())
     }
 
     // MARK: private methods
@@ -348,6 +477,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .recon,
                 required: [.guerrilla],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 20, combatDirection: .both),
                 flavours: [
                     Flavor(type: .offense, value: 2)
                 ]
@@ -378,11 +508,13 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .melee,
                 required: [],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 7, unitClasses: [.melee, .ranged], combatDirection: .both),
                 flavours: [
                     Flavor(type: .offense, value: 2),
                     Flavor(type: .ranged, value: 1)
                 ]
             )
+
         case .tortoise:
             // https://civilization.fandom.com/wiki/Tortoise_(Civ6)
             return PromotionData(
@@ -392,6 +524,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .melee,
                 required: [],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 10, unitClasses: [.ranged], combatDirection: .defend),
                 flavours: [
                     Flavor(type: .offense, value: 3),
                     Flavor(type: .ranged, value: 1)
@@ -433,6 +566,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .melee,
                 required: [.tortoise, .amphibious],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 7, unitClasses: [.antiCavalry], combatDirection: .both),
                 flavours: [
                     Flavor(type: .offense, value: 3)
                 ]
@@ -479,6 +613,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .ranged,
                 required: [],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 5, domain: .land, combatDirection: .attack), // only ranged attack!
                 flavours: [
                     Flavor(type: .offense, value: 3)
                 ]
@@ -507,6 +642,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .ranged,
                 required: [.volley],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 7, domains: [.land, .sea], combatDirection: .attack), // only ranged attack!
                 flavours: [
                     Flavor(type: .offense, value: 3),
                     Flavor(type: .naval, value: 2)
@@ -582,6 +718,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .antiCavalry,
                 required: [],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 5, unitClasses: [.lightCavalry, .heavyCavalry], combatDirection: .both),
                 flavours: [
                     Flavor(type: .offense, value: 3)
                 ]
@@ -596,6 +733,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .antiCavalry,
                 required: [],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 10, unitClasses: [.melee], combatDirection: .both),
                 flavours: [
                     Flavor(type: .offense, value: 4)
                 ]
@@ -625,6 +763,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .antiCavalry,
                 required: [.thrust],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 10, unitClasses: [.melee], combatDirection: .defend),
                 flavours: [
                     Flavor(type: .offense, value: 4)
                 ]
@@ -653,6 +792,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .antiCavalry,
                 required: [.square, .schiltron],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 7, combatDirection: .defend, roughOnly: true),
                 flavours: [
                     Flavor(type: .defense, value: 4)
                 ]
@@ -685,6 +825,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .lightCavalry,
                 required: [],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 5, unitClasses: [.antiCavalry], combatDirection: .both),
                 flavours: [
                     Flavor(type: .offense, value: 4)
                 ]
@@ -699,6 +840,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .lightCavalry,
                 required: [],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 5, unitClasses: [.ranged, .siege], combatDirection: .attack),
                 flavours: [
                     Flavor(type: .offense, value: 2)
                 ]
@@ -742,6 +884,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .lightCavalry,
                 required: [.depredation, .doubleEnvelopment],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 7, unitClasses: [.siege], combatDirection: .both),
                 flavours: [
                     Flavor(type: .offense, value: 2),
                     Flavor(type: .defense, value: 2)
@@ -788,6 +931,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .heavyCavalry,
                 required: [],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 10, combatDirection: .attack, fortifiedOnly: true),
                 flavours: [
                     Flavor(type: .offense, value: 4)
                 ]
@@ -802,6 +946,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .heavyCavalry,
                 required: [],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 7, unitClasses: [.ranged], combatDirection: .defend),
                 flavours: [
                     Flavor(type: .defense, value: 3)
                 ]
@@ -830,6 +975,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .heavyCavalry,
                 required: [.barding, .marauding],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 7, combatDirection: .both, damagedOnly: true),
                 flavours: [
                     Flavor(type: .offense, value: 4)
                 ]
@@ -844,6 +990,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .heavyCavalry,
                 required: [.marauding, .rout],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 7, unitClasses: [.heavyCavalry], combatDirection: .both),
                 flavours: [
                     Flavor(type: .offense, value: 3)
                 ]
@@ -858,6 +1005,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .heavyCavalry,
                 required: [.rout],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 7, unitClasses: [.heavyCavalry, .antiCavalry], combatDirection: .defend),
                 flavours: [
                     Flavor(type: .defense, value: 3)
                 ]
@@ -890,6 +1038,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .siege,
                 required: [],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 7, domain: .land, combatDirection: .both),
                 flavours: [
                     Flavor(type: .ranged, value: 2),
                     Flavor(type: .offense, value: 2)
@@ -905,6 +1054,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .siege,
                 required: [],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 7, combatDirection: .defend),
                 flavours: [
                     Flavor(type: .defense, value: 4)
                 ]
@@ -919,6 +1069,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .siege,
                 required: [.grapeShot],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 10, domain: .land, combatDirection: .both),
                 flavours: [
                     Flavor(type: .ranged, value: 2),
                     Flavor(type: .offense, value: 3)
@@ -948,6 +1099,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .siege,
                 required: [.shrapnel, .shells],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 10, domain: .sea, combatDirection: .both),
                 flavours: [
                     Flavor(type: .naval, value: 3)
                 ]
@@ -1010,6 +1162,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .navalMelee,
                 required: [],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 7, domain: .sea, combatDirection: .both),
                 flavours: [
                     Flavor(type: .offense, value: 3)
                 ]
@@ -1038,6 +1191,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .navalMelee,
                 required: [.embolon],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 10, unitClasses: [.ranged, .navalRanged], combatDirection: .defend),
                 flavours: [
                     Flavor(type: .defense, value: 4)
                 ]
@@ -1080,6 +1234,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .navalMelee,
                 required: [.convoy, .auxiliaryShips],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 14, unitClasses: [.navalRaider], combatDirection: .both),
                 flavours: [
                     Flavor(type: .offense, value: 3)
                 ]
@@ -1097,6 +1252,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .navalRanged,
                 required: [],
                 consumable: true,
+                combatModifier: PromotionCombatModifierData(amount: 7, domain: .sea, combatDirection: .both),
                 flavours: [
                     Flavor(type: .naval, value: 3),
                     Flavor(type: .navalGrowth, value: 1)
@@ -1127,6 +1283,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .navalRanged,
                 required: [.lineOfBattle],
                 consumable: true,
+                combatModifier: PromotionCombatModifierData(amount: 7, domain: .land, combatDirection: .both),
                 flavours: [
                     Flavor(type: .offense, value: 3),
                     Flavor(type: .defense, value: 1)
@@ -1170,6 +1327,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .navalRanged,
                 required: [.preparatoryFire, .rollingBarrage],
                 consumable: true,
+                combatModifier: PromotionCombatModifierData(amount: 7, domain: .air, combatDirection: .defend),
                 flavours: [
                     Flavor(type: .defense, value: 3)
                 ]
