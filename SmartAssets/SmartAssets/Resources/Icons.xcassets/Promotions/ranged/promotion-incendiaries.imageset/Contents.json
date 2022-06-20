@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "promotion-incendiaries@3x.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
