@@ -1078,4 +1078,27 @@ public class Combat {
 
         return CombatResult(defenderDamage: defenderDamage, attackerDamage: 0, value: value)
     }
+
+    // MARK: air attack
+
+    @discardableResult static func doAirAttack(between attacker: AbstractUnit?, and defenderTileRef: AbstractTile?, in gameModel: GameModel?) -> CombatResult {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let attacker = attacker else {
+            fatalError("cant get attacker")
+        }
+
+        guard let attackerPlayer = attacker.player else {
+            fatalError("cant get attacker player")
+        }
+
+        guard let defenderTile = defenderTileRef else {
+            fatalError("cant get defenderTile")
+        }
+
+        return CombatResult(defenderDamage: 0, attackerDamage: 0, value: .stalemate)
+    }
 }

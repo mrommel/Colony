@@ -2999,7 +2999,7 @@ public class TacticalAI: Codable {
                 continue
             }
 
-            if unit.canAttackRanged() && !unit.isOutOfAttacks() {
+            if unit.canAttackRanged() && !unit.isOutOfAttacks(in: gameModel) {
 
                 let cell = gameModel.tacticalAnalysisMap().plots[unit.location.x, unit.location.y]
 
@@ -3108,7 +3108,7 @@ public class TacticalAI: Codable {
                                                 }
                                             }
 
-                                            if unit.canMove() && !unit.isOutOfAttacks() && unit.canRangeStrike(at: target.target, needWar: false, noncombatAllowed: true, in: gameModel) {
+                                            if unit.canMove() && !unit.isOutOfAttacks(in: gameModel) && unit.canRangeStrike(at: target.target, needWar: false, noncombatAllowed: true, in: gameModel) {
 
                                                 if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
 
@@ -3377,7 +3377,7 @@ public class TacticalAI: Codable {
                 validUnit = false
             } else if mustBeRangedUnit && !loopUnit.canAttackRanged() {
                 validUnit = false
-            } else if mustBeRangedUnit && loopUnit.isOutOfAttacks() {
+            } else if mustBeRangedUnit && loopUnit.isOutOfAttacks(in: gameModel) {
                 validUnit = false
             } else if rangedAttackTarget != nil && mustBeRangedUnit && !self.isExpectedToDamageWithRangedAttack(by: loopUnit, towards: rangedAttackTarget!.point, in: gameModel) {
                 validUnit = false
@@ -5048,7 +5048,7 @@ public class TacticalAI: Codable {
                         }
                     }
 
-                    if unit.canMove() && !unit.isOutOfAttacks() && unit.canRangeStrike(at: target.target, needWar: true, noncombatAllowed: true, in: gameModel) {
+                    if unit.canMove() && !unit.isOutOfAttacks(in: gameModel) && unit.canRangeStrike(at: target.target, needWar: true, noncombatAllowed: true, in: gameModel) {
                         if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
 
                             print("Making a protected bombard with \(unit.name()), Target \(target.target), At \(unit.location)")
@@ -7366,7 +7366,7 @@ public class TacticalAI: Codable {
                     continue
                 }
 
-                if loopUnit.isOutOfAttacks() {
+                if loopUnit.isOutOfAttacks(in: gameModel) {
                     continue
                 }
 
@@ -7764,7 +7764,7 @@ public class TacticalAI: Codable {
             print("Made follow-on \(rangedStr)attack with \(unit.name()) towards \(target.target)")
         }
 
-        let sendAttack = unit.moves() > 0 && !unit.isOutOfAttacks()
+        let sendAttack = unit.moves() > 0 && !unit.isOutOfAttacks(in: gameModel)
         if sendAttack {
 
             if ranged && unit.domain() != .air {

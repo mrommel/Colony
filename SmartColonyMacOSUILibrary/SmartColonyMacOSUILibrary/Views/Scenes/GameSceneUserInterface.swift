@@ -340,6 +340,10 @@ extension GameScene: UserInterfaceDelegate {
 
             var tmpText = "\(tile.terrain().name().localized())"
 
+            if tile.hasHills() {
+                tmpText += " (Hills)"
+            }
+
             if let workingCity = tile.workingCity() {
                 let civilization: CivilizationType = workingCity.leader.civilization()
                 tmpText += "\nOwner: \(civilization.name().localized()) (\(workingCity.name.localized()))"

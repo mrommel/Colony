@@ -89,7 +89,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     func isSlowInEnemyLand() -> Bool
     func isRoughTerrainEndsTurn() -> Bool
 
-    func isOutOfAttacks() -> Bool
+    func isOutOfAttacks(in gameModel: GameModel?) -> Bool
     func setMadeAttack(to newValue: Bool)
     func baseCombatStrength(ignoreEmbarked: Bool) -> Int
     func baseRangedCombatStrength() -> Int
@@ -347,7 +347,7 @@ public class Unit: AbstractUnit {
     var fortifyTurnsValue: Int = 0
     var deployFromOperationTurnValue: Int = -1
     var numberOfAttacksMade: Int
-    var numberOfAttacks: Int
+    var numberOfAttacksValue: Int
 
     // missions
     internal var missions: Stack<UnitMission>
@@ -385,7 +385,7 @@ public class Unit: AbstractUnit {
         self.fortifyValue = 0
         self.setUpForRangedAttackValue = false
         self.numberOfAttacksMade = 0
-        self.numberOfAttacks = 1
+        self.numberOfAttacksValue = 1
 
         self.missions = Stack<UnitMission>()
         self.missionTimerValue = 0
@@ -423,7 +423,7 @@ public class Unit: AbstractUnit {
         self.healthPointsValue = try container.decode(Int.self, forKey: .healthPoints)
         self.fortifyValue = try container.decode(Int.self, forKey: .fortify)
         self.numberOfAttacksMade = try container.decode(Int.self, forKey: .numberOfAttacksMade)
-        self.numberOfAttacks = try container.decode(Int.self, forKey: .numberOfAttacks)
+        self.numberOfAttacksValue = try container.decode(Int.self, forKey: .numberOfAttacks)
 
         self.processedInTurnValue = try container.decode(Bool.self, forKey: .processedInTurn)
         self.deployFromOperationTurnValue = try container.decode(Int.self, forKey: .deployFromOperationTurn)
@@ -470,7 +470,7 @@ public class Unit: AbstractUnit {
         try container.encode(self.isEmbarkedValue, forKey: .isEmbarked)
         try container.encode(self.healthPointsValue, forKey: .healthPoints)
         try container.encode(self.numberOfAttacksMade, forKey: .numberOfAttacksMade)
-        try container.encode(self.numberOfAttacks, forKey: .numberOfAttacks)
+        try container.encode(self.numberOfAttacksValue, forKey: .numberOfAttacks)
 
         try container.encode(self.processedInTurnValue, forKey: .processedInTurn)
         try container.encode(self.deployFromOperationTurnValue, forKey: .deployFromOperationTurn)
@@ -823,14 +823,39 @@ public class Unit: AbstractUnit {
         return Int(powerVal * ratio)
     }
 
-    public func isOutOfAttacks() -> Bool {
+    func numberOfAttacksPerTurn(in gameModel: GameModel?) -> Int {
+
+        var numberOfAttacksPerTurnValue: Int = 0
+
+        // initially units have 1 attack
+        numberOfAttacksPerTurnValue += 1
+
+        // breakthrough - +1 additional attack per turn if Movement allows.
+        if self.has(promotion: .breakthrough) {
+            numberOfAttacksPerTurnValue += 1
+        }
+
+        // eliteGuard - +1 additional attack per turn if Movement allows. Can move after attacking.
+        if self.has(promotion: .eliteGuard) {
+            numberOfAttacksPerTurnValue += 1
+        }
+
+        // expertMarksman - +1 additional attack per turn if unit has not moved.
+        if self.has(promotion: .expertMarksman) && !self.hasMoved(in: gameModel) {
+            numberOfAttacksPerTurnValue += 1
+        }
+
+        return numberOfAttacksPerTurnValue
+    }
+
+    public func isOutOfAttacks(in gameModel: GameModel?) -> Bool {
 
         // Units with blitz don't run out of attacks!
         /*if self.isBlitz() {
             return false
         }*/
 
-        return self.numberOfAttacksMade >= self.numberOfAttacks
+        return self.numberOfAttacksMade >= self.numberOfAttacksPerTurn(in: gameModel)
     }
 
     public func setMadeAttack(to newValue: Bool) {
@@ -1656,22 +1681,17 @@ public class Unit: AbstractUnit {
 
         if adjacent {
 
-            if self.isOutOfAttacks() {
+            if self.isOutOfAttacks(in: gameModel) {
                 return false
             }
-            // don't allow an attack if we already have one
-            /*if (isFighting() || pDestPlot->isFighting())
-                {
-                    return true;
-                }*/
 
             // Air mission
             if self.domain() == .air && self.baseCombatStrength() == 0 {
 
                 if self.canRangeStrike(at: destination, needWar: false, noncombatAllowed: true, in: gameModel) {
-                    // CvUnitCombat::AttackAir(*this, *pDestPlot, (iFlags &  MISSION_MODIFIER_NO_DEFENSIVE_SUPPORT)?CvUnitCombat::ATTACK_OPTION_NO_DEFENSIVE_SUPPORT:CvUnitCombat::ATTACK_OPTION_NONE);
-                    fatalError("niy")
+
                     attack = true
+                    Combat.doAirAttack(between: self, and: destPlot, in: gameModel)
                 }
             } else if destPlot.isCity() { // City combat
                 if let city = gameModel.city(at: destination) {
@@ -1683,10 +1703,7 @@ public class Unit: AbstractUnit {
                                 return false
                             }
 
-                            // CvUnitCombat::AttackCity(*this, *pDestPlot, (iFlags &  MISSION_MODIFIER_NO_DEFENSIVE_SUPPORT)?CvUnitCombat::ATTACK_OPTION_NO_DEFENSIVE_SUPPORT:CvUnitCombat::ATTACK_OPTION_NONE);
-
                             attack = true
-
                             Combat.doMeleeAttack(between: self, and: city, in: gameModel)
                         }
                     }
@@ -1703,7 +1720,6 @@ public class Unit: AbstractUnit {
                 }
 
                 attack = true
-
                 Combat.doMeleeAttack(between: self, and: defenderUnit, in: gameModel)
 
                 unitPlayer.addMoment(of: .battleFought, in: gameModel)
@@ -2877,7 +2893,7 @@ public class Unit: AbstractUnit {
 
         if options.contains(.attack) {
 
-            if self.isOutOfAttacks() {
+            if self.isOutOfAttacks(in: gameModel) {
                 return false
             }
         }
@@ -4401,7 +4417,7 @@ public class Unit: AbstractUnit {
             fatalError("cant get diplomacyAI")
         }
 
-        if self.isOutOfAttacks() {
+        if self.isOutOfAttacks(in: gameModel) {
             return false
         }
 

@@ -1859,7 +1859,6 @@ public class Tile: AbstractTile {
         return level
     }
 
-    // FIXME wrap world !
     public func canSee(tile: AbstractTile?, for player: AbstractPlayer?, range: Int, hasSentry: Bool = false, in gameModel: GameModel?) -> Bool {
 
         guard let gameModel = gameModel else {
@@ -1879,8 +1878,9 @@ public class Tile: AbstractTile {
         }
 
         let seeThruLevel = hasSentry ? 2 : 1
+        let wrappedX: Int = gameModel.wrappedX() ? gameModel.mapSize().width() : -1
 
-        let distance = self.point.distance(to: tile.point)
+        let distance = self.point.distance(to: tile.point, wrapX: wrappedX)
         if distance <= range {
 
             var tmpPoint = self.point
