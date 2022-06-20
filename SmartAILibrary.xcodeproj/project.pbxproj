@@ -97,6 +97,7 @@
 		C930FFB824F5474C002B4D07 /* MoveTypeUnitAwarePathfinderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C930FFB724F5474C002B4D07 /* MoveTypeUnitAwarePathfinderDataSource.swift */; };
 		C934523E240A50C4007508ED /* Combat.swift in Sources */ = {isa = PBXBuildFile; fileRef = C934523D240A50C4007508ED /* Combat.swift */; };
 		C93479492529AF2A00A4B113 /* AStarPathFinderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93479482529AF2A00A4B113 /* AStarPathFinderTests.swift */; };
+		C93560E22860EA3E005668EF /* UnitPromotionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93560E12860EA3E005668EF /* UnitPromotionTests.swift */; };
 		C935FBA6270336FA000CCA49 /* MapUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C935FBA5270336FA000CCA49 /* MapUtils.swift */; };
 		C935FBA827043EE3000CCA49 /* PlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C935FBA727043EE3000CCA49 /* PlayerTests.swift */; };
 		C93B21B42727CD5B00B6D287 /* SiegeTowerUnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93B21B32727CD5B00B6D287 /* SiegeTowerUnitType.swift */; };
@@ -533,6 +534,7 @@
 		C930FFB724F5474C002B4D07 /* MoveTypeUnitAwarePathfinderDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveTypeUnitAwarePathfinderDataSource.swift; sourceTree = "<group>"; };
 		C934523D240A50C4007508ED /* Combat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Combat.swift; sourceTree = "<group>"; };
 		C93479482529AF2A00A4B113 /* AStarPathFinderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AStarPathFinderTests.swift; sourceTree = "<group>"; };
+		C93560E12860EA3E005668EF /* UnitPromotionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitPromotionTests.swift; sourceTree = "<group>"; };
 		C935FBA5270336FA000CCA49 /* MapUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapUtils.swift; sourceTree = "<group>"; };
 		C935FBA727043EE3000CCA49 /* PlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTests.swift; sourceTree = "<group>"; };
 		C93B21B32727CD5B00B6D287 /* SiegeTowerUnitType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiegeTowerUnitType.swift; sourceTree = "<group>"; };
@@ -1155,6 +1157,7 @@
 				C98DBFB123E0580E00B6CE25 /* TileTests.swift */,
 				C956BF6924F3C7B9009702B4 /* TradeRouteTests.swift */,
 				C900A5A8279DED9300D533B3 /* UnitPathfindingTests.swift */,
+				C93560E12860EA3E005668EF /* UnitPromotionTests.swift */,
 				C99047F526CA45A600B1A7A6 /* UnitTests.swift */,
 				C9A50FE2242244C5006AA47B /* UsecaseTests.swift */,
 				C91E223F27F4DC5A003D0F61 /* TacticalAnalysisMapTests.swift */,
@@ -2197,6 +2200,7 @@
 				C956BF6A24F3C7B9009702B4 /* TradeRouteTests.swift in Sources */,
 				C99496932519E4300049C2D6 /* BasicCityAttackOperationTests.swift in Sources */,
 				C9FEEB9C245B5C2E00C51552 /* CityCitizensTests.swift in Sources */,
+				C93560E22860EA3E005668EF /* UnitPromotionTests.swift in Sources */,
 				C92AB92327347827003647D8 /* GameModelVictoryTests.swift in Sources */,
 				C9DFCF7A23F2AFB10032243D /* MapModelTests.swift in Sources */,
 				C963AD1427863DBF00981EF3 /* DedicationTests.swift in Sources */,

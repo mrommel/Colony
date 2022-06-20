@@ -291,7 +291,7 @@ public enum UnitPromotionType: Int, Codable {
             return nil
         }
 
-        guard combatModifier.combatDirection == .defend else {
+        guard combatModifier.combatDirection != .defend else {
             return nil
         }
 
@@ -316,7 +316,7 @@ public enum UnitPromotionType: Int, Codable {
             return nil
         }
 
-        guard combatModifier.combatDirection == .attack else {
+        guard combatModifier.combatDirection != .attack else {
             return nil
         }
 

@@ -72,6 +72,9 @@ class Promotions: AbstractPromotions {
             throw PromotionError.alreadyEarned
         }
 
+        // this is needed - otherwise the promotion might not have an effect
+        AStarPathfinderCache.shared.reset()
+
         self.promotions.append(promotion)
     }
 
