@@ -21,7 +21,7 @@ class CombatModifierViewModel: ObservableObject, Identifiable {
     init(modifier: CombatModifier) {
 
         self.value = modifier.value
-        self.text = modifier.title
+        self.text = modifier.title.localized()
     }
 }
 

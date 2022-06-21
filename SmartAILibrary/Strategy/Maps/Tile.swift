@@ -1873,24 +1873,26 @@ public class Tile: AbstractTile {
             return true
         }
 
-        if self.point.isNeighbor(of: tile.point) {
+        let wrappedX: Int = gameModel.wrappedX() ? gameModel.mapSize().width() : -1
+
+        if self.point.isNeighbor(of: tile.point, wrapX: wrappedX) {
             return true
         }
 
         let seeThruLevel = hasSentry ? 2 : 1
-        let wrappedX: Int = gameModel.wrappedX() ? gameModel.mapSize().width() : -1
 
         let distance = self.point.distance(to: tile.point, wrapX: wrappedX)
         if distance <= range {
 
             var tmpPoint = self.point
 
-            while !tmpPoint.isNeighbor(of: tile.point) {
+            while !tmpPoint.isNeighbor(of: tile.point, wrapX: wrappedX) {
 
                 guard let dir = tmpPoint.direction(towards: tile.point) else {
                     return false
                 }
                 tmpPoint = tmpPoint.neighbor(in: dir)
+                tmpPoint = gameModel.wrap(point: tmpPoint)
 
                 if let tmpTile = gameModel.tile(at: tmpPoint) {
                     if tmpTile.seeThroughLevel() > seeThruLevel {
