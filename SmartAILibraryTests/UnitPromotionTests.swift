@@ -424,4 +424,139 @@ class UnitPromotionTests: XCTestCase {
         XCTAssertEqual(canMove, true)
         XCTAssertEqual(canAttack, true)
     }
+
+    // MARK: ranged promotions
+
+    // volley - +5 Ranged Strength vs. land units.
+    func testRangedPromotionVolley() throws {
+
+        // GIVEN
+        guard let humanPlayer = self.gameModel?.humanPlayer() else {
+            XCTFail("cant get human")
+            return
+        }
+
+        guard let barbarianPlayer = self.gameModel?.barbarianPlayer() else {
+            XCTFail("cant get barbarian")
+            return
+        }
+
+        let humanPlayerArcher = Unit(at: HexPoint(x: 2, y: 2), type: .archer, owner: humanPlayer)
+        self.gameModel?.add(unit: humanPlayerArcher)
+
+        let barbarianPlayerAntiCavalry = Unit(at: HexPoint(x: 2, y: 3), type: .spearman, owner: barbarianPlayer)
+        self.gameModel?.add(unit: barbarianPlayerAntiCavalry)
+
+        let attModRangedBefore = humanPlayerArcher.attackModifier(against: barbarianPlayerAntiCavalry, or: nil, on: nil, in: self.gameModel)
+
+        // WHEN
+        try humanPlayerArcher.promotions?.earn(promotion: .volley)
+        let attModRangedAfter = humanPlayerArcher.attackModifier(against: barbarianPlayerAntiCavalry, or: nil, on: nil, in: self.gameModel)
+
+        // THEN
+        XCTAssertEqual(attModRangedBefore, 0)
+        XCTAssertEqual(attModRangedAfter, 5)
+    }
+
+    // garrison - +10 Combat Strength when occupying a district or Fort.
+
+    // arrowStorm - +7 Ranged Strength vs. land and naval units.
+    func testRangedPromotionArrowStorm() throws {
+
+        // GIVEN
+        guard let humanPlayer = self.gameModel?.humanPlayer() else {
+            XCTFail("cant get human")
+            return
+        }
+
+        guard let barbarianPlayer = self.gameModel?.barbarianPlayer() else {
+            XCTFail("cant get barbarian")
+            return
+        }
+
+        self.gameModel?.tile(at: HexPoint(x: 1, y: 2))?.set(terrain: .shore)
+
+        let humanPlayerArcher = Unit(at: HexPoint(x: 2, y: 2), type: .archer, owner: humanPlayer)
+        self.gameModel?.add(unit: humanPlayerArcher)
+
+        let barbarianPlayerAntiCavalry = Unit(at: HexPoint(x: 2, y: 3), type: .spearman, owner: barbarianPlayer)
+        self.gameModel?.add(unit: barbarianPlayerAntiCavalry)
+
+        let barbarianPlayerShip = Unit(at: HexPoint(x: 1, y: 2), type: .galley, owner: barbarianPlayer)
+        self.gameModel?.add(unit: barbarianPlayerShip)
+
+        let attModRangedLandBefore = humanPlayerArcher.attackModifier(against: barbarianPlayerAntiCavalry, or: nil, on: nil, in: self.gameModel)
+        let attModRangedNavalBefore = humanPlayerArcher.attackModifier(against: barbarianPlayerShip, or: nil, on: nil, in: self.gameModel)
+
+        // WHEN
+        try humanPlayerArcher.promotions?.earn(promotion: .arrowStorm)
+        let attModRangedLandAfter = humanPlayerArcher.attackModifier(against: barbarianPlayerAntiCavalry, or: nil, on: nil, in: self.gameModel)
+        let attModRangedNavalAfter = humanPlayerArcher.attackModifier(against: barbarianPlayerShip, or: nil, on: nil, in: self.gameModel)
+
+        // THEN
+        XCTAssertEqual(attModRangedLandBefore, 0)
+        XCTAssertEqual(attModRangedNavalBefore, -17) // base penalty is -17
+        XCTAssertEqual(attModRangedLandAfter, 7)
+        XCTAssertEqual(attModRangedNavalAfter, -10) // base penalty is -17+7=-10
+    }
+
+    // incendiaries - +7 Ranged Strength vs. district defenses.
+
+    // suppression - Exercise zone of control.
+    func testRangedPromotionSuppression() throws {
+
+        // GIVEN
+        guard let humanPlayer = self.gameModel?.humanPlayer() else {
+            XCTFail("cant get human")
+            return
+        }
+
+        let humanPlayerArcher = Unit(at: HexPoint(x: 2, y: 2), type: .archer, owner: humanPlayer)
+        self.gameModel?.add(unit: humanPlayerArcher)
+
+        let hasZoneOfControlBefore = humanPlayerArcher.isExertingZoneOfControl()
+
+        // WHEN
+        try humanPlayerArcher.promotions?.earn(promotion: .suppression)
+        let hasZoneOfControlAfter = humanPlayerArcher.isExertingZoneOfControl()
+
+        // THEN
+        XCTAssertEqual(hasZoneOfControlBefore, false)
+        XCTAssertEqual(hasZoneOfControlAfter, true)
+    }
+
+    // emplacement - +10 Combat Strength when defending vs. city attacks.
+
+    // expertMarksman - +1 additional attack per turn if unit has not moved.
+    func testMeleePromotionExpertMarksman() throws {
+
+        // GIVEN
+        guard let humanPlayer = self.gameModel?.humanPlayer() else {
+            XCTFail("cant get human")
+            return
+        }
+
+        guard let barbarianPlayer = self.gameModel?.barbarianPlayer() else {
+            XCTFail("cant get barbarian")
+            return
+        }
+
+        let humanPlayerArcher = Unit(at: HexPoint(x: 2, y: 2), type: .archer, owner: humanPlayer)
+        self.gameModel?.add(unit: humanPlayerArcher)
+
+        let barbarianPlayerAntiCavalry = Unit(at: HexPoint(x: 2, y: 3), type: .spearman, owner: barbarianPlayer)
+        self.gameModel?.add(unit: barbarianPlayerAntiCavalry)
+
+        humanPlayer.startTurn(in: self.gameModel)
+
+        // WHEN
+        try humanPlayerArcher.promotions?.earn(promotion: .expertMarksman)
+        _ = humanPlayerArcher.doAttack(into: HexPoint(x: 2, y: 3), steps: 1, in: self.gameModel)
+        let canMove = humanPlayerArcher.canMove()
+        let canAttack = humanPlayerArcher.canAttack()
+
+        // THEN
+        XCTAssertEqual(canMove, true)
+        XCTAssertEqual(canAttack, true)
+    }
 }
