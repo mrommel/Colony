@@ -33,6 +33,23 @@ public enum UnitClassType {
 
     case city
 
+    public static var all: [UnitClassType] = [
+
+        .civilian,
+        .melee, .recon, .ranged, .antiCavalry, .lightCavalry, .heavyCavalry, .siege,
+        .navalMelee, .navalRanged, .navalRaider, .navalCarrier,
+        .airFighter, .airBomber,
+        .support,
+        .city
+    ]
+
+    public static var combat: [UnitClassType] = [
+
+        .melee, .recon, .ranged, .antiCavalry, .lightCavalry, .heavyCavalry, .siege,
+        .navalMelee, .navalRanged, .navalRaider, .navalCarrier,
+        .airFighter, .airBomber
+    ]
+
     public func name() -> String {
 
         switch self {

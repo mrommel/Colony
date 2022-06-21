@@ -89,7 +89,7 @@ public protocol AbstractUnit: AnyObject, Codable {
     func isSlowInEnemyLand() -> Bool
     func isRoughTerrainEndsTurn() -> Bool
 
-    func isOutOfAttacks() -> Bool
+    func isOutOfAttacks(in gameModel: GameModel?) -> Bool
     func setMadeAttack(to newValue: Bool)
     func baseCombatStrength(ignoreEmbarked: Bool) -> Int
     func baseRangedCombatStrength() -> Int
@@ -347,7 +347,7 @@ public class Unit: AbstractUnit {
     var fortifyTurnsValue: Int = 0
     var deployFromOperationTurnValue: Int = -1
     var numberOfAttacksMade: Int
-    var numberOfAttacks: Int
+    var numberOfAttacksValue: Int
 
     // missions
     internal var missions: Stack<UnitMission>
@@ -385,7 +385,7 @@ public class Unit: AbstractUnit {
         self.fortifyValue = 0
         self.setUpForRangedAttackValue = false
         self.numberOfAttacksMade = 0
-        self.numberOfAttacks = 1
+        self.numberOfAttacksValue = 1
 
         self.missions = Stack<UnitMission>()
         self.missionTimerValue = 0
@@ -423,7 +423,7 @@ public class Unit: AbstractUnit {
         self.healthPointsValue = try container.decode(Int.self, forKey: .healthPoints)
         self.fortifyValue = try container.decode(Int.self, forKey: .fortify)
         self.numberOfAttacksMade = try container.decode(Int.self, forKey: .numberOfAttacksMade)
-        self.numberOfAttacks = try container.decode(Int.self, forKey: .numberOfAttacks)
+        self.numberOfAttacksValue = try container.decode(Int.self, forKey: .numberOfAttacks)
 
         self.processedInTurnValue = try container.decode(Bool.self, forKey: .processedInTurn)
         self.deployFromOperationTurnValue = try container.decode(Int.self, forKey: .deployFromOperationTurn)
@@ -470,7 +470,7 @@ public class Unit: AbstractUnit {
         try container.encode(self.isEmbarkedValue, forKey: .isEmbarked)
         try container.encode(self.healthPointsValue, forKey: .healthPoints)
         try container.encode(self.numberOfAttacksMade, forKey: .numberOfAttacksMade)
-        try container.encode(self.numberOfAttacks, forKey: .numberOfAttacks)
+        try container.encode(self.numberOfAttacksValue, forKey: .numberOfAttacks)
 
         try container.encode(self.processedInTurnValue, forKey: .processedInTurn)
         try container.encode(self.deployFromOperationTurnValue, forKey: .deployFromOperationTurn)
@@ -823,14 +823,39 @@ public class Unit: AbstractUnit {
         return Int(powerVal * ratio)
     }
 
-    public func isOutOfAttacks() -> Bool {
+    func numberOfAttacksPerTurn(in gameModel: GameModel?) -> Int {
+
+        var numberOfAttacksPerTurnValue: Int = 0
+
+        // initially units have 1 attack
+        numberOfAttacksPerTurnValue += 1
+
+        // breakthrough - +1 additional attack per turn if Movement allows.
+        if self.has(promotion: .breakthrough) {
+            numberOfAttacksPerTurnValue += 1
+        }
+
+        // eliteGuard - +1 additional attack per turn if Movement allows. Can move after attacking.
+        if self.has(promotion: .eliteGuard) {
+            numberOfAttacksPerTurnValue += 1
+        }
+
+        // expertMarksman - +1 additional attack per turn if unit has not moved.
+        if self.has(promotion: .expertMarksman) && !self.hasMoved(in: gameModel) {
+            numberOfAttacksPerTurnValue += 1
+        }
+
+        return numberOfAttacksPerTurnValue
+    }
+
+    public func isOutOfAttacks(in gameModel: GameModel?) -> Bool {
 
         // Units with blitz don't run out of attacks!
         /*if self.isBlitz() {
             return false
         }*/
 
-        return self.numberOfAttacksMade >= self.numberOfAttacks
+        return self.numberOfAttacksMade >= self.numberOfAttacksPerTurn(in: gameModel)
     }
 
     public func setMadeAttack(to newValue: Bool) {
@@ -964,9 +989,7 @@ public class Unit: AbstractUnit {
                 result.append(CombatModifier(value: 10, title: "Bonus against Cavalry"))
             }
 
-            if self.unitClassType() == .ranged &&
-                (defender.unitClassType() == .navalMelee || defender.unitClassType() == .navalRaider ||
-                    defender.unitClassType() == .navalRanged || defender.unitClassType() == .navalCarrier) {
+            if self.unitClassType() == .ranged && defender.domain() == .sea {
                 result.append(CombatModifier(value: -17, title: "Penalty against Naval"))
             }
 
@@ -979,79 +1002,44 @@ public class Unit: AbstractUnit {
             // promotions
             // //////////
 
-            if promotions.has(promotion: .battlecry) {
-                // battlecry - +7 Combat Strength vs. melee and ranged units.
-                if defender.unitClassType() == .melee || defender.unitClassType() == .ranged {
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.battlecry.name()))
+            for gainedPromotion in promotions.gainedPromotions() {
+
+                if let attackStrengthModifier = gainedPromotion.attackStrengthModifier(against: defender) {
+                    result.append(attackStrengthModifier)
                 }
             }
 
-            if promotions.has(promotion: .zweihander) {
-                if defender.unitClassType() == .antiCavalry {
-                    // zweihander - +7 Combat Strength vs. anti-cavalry units.
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.zweihander.name()))
+            // heavy cavalry
+
+            /*if promotions.has(promotion: .marauding) {
+                if defender. {
+                    // marauding - +7 Combat Strength vs. units in districts.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.marauding.name()))
                 }
-            }
+            }*/
 
-            if promotions.has(promotion: .volley) {
-                if defender.domain() == .land {
-                    // volley - +5 Ranged Strength vs. land units.
-                    result.append(CombatModifier(value: 5, title: UnitPromotionType.volley.name()))
+            /*if promotions.has(promotion: .shells) {
+                if defender. {
+                    // shells - +10 Combat Strength vs. district defenses.
+                    result.append(CombatModifier(value: 10, title: UnitPromotionType.shells.name()))
                 }
-            }
+            }*/
 
-            if promotions.has(promotion: .arrowStorm) {
-                if defender.domain() == .land || defender.domain() == .sea {
-                    // arrowStorm - +7 Ranged Strength Ranged Strength vs. land and naval units.
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.arrowStorm.name()))
+            // navalRanged
+
+            /*if promotions.has(promotion: .bombardment) {
+                if defender. {
+                    // bombardment - +7 Combat Strength vs. district defenses.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.bombardment.name()))
                 }
-            }
+            }*/
 
-            if promotions.has(promotion: .echelon) {
-                if defender.unitClassType() == .antiCavalry {
-                    // echelon - +5 [Strength] Combat Strength vs. cavalry units.
-                    result.append(CombatModifier(value: 5, title: UnitPromotionType.echelon.name()))
+            /* if promotions.has(promotion: .rollingBarrage) {
+                if defender. {
+                    // rollingBarrage - +10 Combat Strength vs. district defenses.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.rollingBarrage.name()))
                 }
-            }
-
-            if promotions.has(promotion: .thrust) {
-                if defender.unitClassType() == .melee {
-                    // thrust - +5 [Strength] Combat Strength vs. melee units.
-                    result.append(CombatModifier(value: 5, title: UnitPromotionType.thrust.name()))
-                }
-            }
-
-            // light cavalry
-
-            if promotions.has(promotion: .caparison) {
-                if defender.unitClassType() == .antiCavalry {
-                    // caparison - +5 Combat Strength vs. anti-cavalry.
-                    result.append(CombatModifier(value: 5, title: UnitPromotionType.caparison.name()))
-                }
-            }
-
-            if promotions.has(promotion: .coursers) {
-                if defender.unitClassType() == .ranged || defender.unitClassType() == .siege {
-                    // coursers - +5 Combat Strength when attacking ranged and siege units.
-                    result.append(CombatModifier(value: 5, title: UnitPromotionType.coursers.name()))
-                }
-            }
-
-            if promotions.has(promotion: .spikingTheGuns) {
-                if defender.unitClassType() == .siege {
-                    // spikingTheGuns - +7 Strength Combat Strength vs. siege units.
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.spikingTheGuns.name()))
-                }
-            }
-
-            // navalMelee
-
-            if promotions.has(promotion: .embolon) {
-                if defender.unitClassType() == .navalRaider {
-                    // embolon - +7 [Strength] Combat Strength vs. naval units.
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.embolon.name()))
-                }
-            }
+            } */
         }
 
         ////////////////////////
@@ -1063,20 +1051,10 @@ public class Unit: AbstractUnit {
                 result.append(CombatModifier(value: -17, title: "Penalty against City"))
             }
 
-            if promotions.has(promotion: .urbanWarfare) {
-                // +10 [Strength] Combat Strength when fighting in a city.
+            if !self.isRanged() && promotions.has(promotion: .urbanWarfare) {
+                // +10 Combat Strength when fighting in a city.
                 result.append(CombatModifier(value: +10, title: UnitPromotionType.urbanWarfare.name()))
             }
-
-            if promotions.has(promotion: .emplacement) {
-                // +10 Strength Combat Strength when defending vs. city attacks.
-                result.append(CombatModifier(value: +10, title: UnitPromotionType.emplacement.name()))
-            }
-        }
-
-        if promotions.has(promotion: .ambush) {
-            // +20 [Strength] Combat Strength in all situations.
-            result.append(CombatModifier(value: +20, title: UnitPromotionType.ambush.name()))
         }
 
         ////////////////////////
@@ -1255,85 +1233,55 @@ public class Unit: AbstractUnit {
             // promotions
             // //////////
 
-            if promotions.has(promotion: .tortoise) {
-                if attacker.isRanged() && ranged {
-                    // +10 Combat Strength when defending against ranged attacks.
-                    result.append(CombatModifier(value: 10, title: UnitPromotionType.tortoise.name()))
-                }
-            }
+            for gainedPromotion in promotions.gainedPromotions() {
 
-            if promotions.has(promotion: .zweihander) {
-                if attacker.unitClassType() == .antiCavalry {
-                    // +7 [Strength] Combat Strength vs. anti-cavalry units.
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.zweihander.name()))
-                }
-            }
-
-            if promotions.has(promotion: .echelon) {
-                if attacker.unitClassType() == .antiCavalry {
-                    // echelon - +5 [Strength] Combat Strength vs. cavalry units.
-                    result.append(CombatModifier(value: 5, title: UnitPromotionType.echelon.name()))
-                }
-            }
-
-            if promotions.has(promotion: .thrust) {
-                if attacker.unitClassType() == .melee {
-                    // thrust - +5 [Strength] Combat Strength vs. melee units.
-                    result.append(CombatModifier(value: 5, title: UnitPromotionType.thrust.name()))
-                }
-            }
-
-            if promotions.has(promotion: .schiltron) {
-                if attacker.unitClassType() == .melee {
-                    // schiltron - +10 Combat Strength when defending vs. melee class units.
-                    result.append(CombatModifier(value: 10, title: UnitPromotionType.schiltron.name()))
-                }
-            }
-
-            if promotions.has(promotion: .chokePoints) {
-                if let tile = toTile {
-                    if tile.has(feature: .forest) || tile.has(feature: .rainforest) ||
-                        tile.hasHills() || tile.has(feature: .marsh) {
-                        // chokePoints - +7 Combat Strength when defending in Woods, Jungle, Hills, or Marsh.
-                        result.append(CombatModifier(value: 7, title: UnitPromotionType.chokePoints.name()))
+                if let defenderStrengthModifier = gainedPromotion.defenderStrengthModifier(against: attacker) {
+                    result.append(defenderStrengthModifier)
+                } else if let tile = toTile {
+                    if let defenderStrengthModifier = gainedPromotion.defenderStrengthModifier(on: tile) {
+                        result.append(defenderStrengthModifier)
                     }
                 }
             }
 
-            if promotions.has(promotion: .caparison) {
-                if attacker.unitClassType() == .antiCavalry {
-                    // caparison - +5 Combat Strength vs. anti-cavalry.
-                    result.append(CombatModifier(value: 5, title: UnitPromotionType.caparison.name()))
+            /* if promotions.has(promotion: .marauding) {
+                if attacker. {
+                    // marauding - +7 Combat Strength vs. units in districts.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.marauding.name()))
                 }
-            }
+            }*/
 
-            if promotions.has(promotion: .spikingTheGuns) {
-                if attacker.unitClassType() == .siege {
-                    // spikingTheGuns - +7 Strength Combat Strength vs. siege units.
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.spikingTheGuns.name()))
+            // siege
+
+            /*if promotions.has(promotion: .shells) {
+                if attacker. {
+                    // shells - +10 Combat Strength vs. district defenses.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.shells.name()))
                 }
-            }
+            }*/
 
-            // navalMelee
+            // navalRanged
 
-            if promotions.has(promotion: .embolon) {
-                if attacker.unitClassType() == .navalRaider {
-                    // embolon - +7 [Strength] Combat Strength vs. naval units.
-                    result.append(CombatModifier(value: 7, title: UnitPromotionType.embolon.name()))
+            /*if promotions.has(promotion: .bombardment) {
+                if attacker. {
+                    // bombardment - +7 Combat Strength vs. district defenses.
+                    result.append(CombatModifier(value: 7, title: UnitPromotionType.bombardment.name()))
                 }
-            }
+            }*/
 
-            if promotions.has(promotion: .reinforcedHull) {
-                if attacker.unitClassType() == .ranged || attacker.unitClassType() == .navalRanged {
-                    // reinforcedHull - +10 [Strength] Combat Strength when defending vs. ranged attacks.
-                    result.append(CombatModifier(value: 10, title: UnitPromotionType.reinforcedHull.name()))
+            /*if promotions.has(promotion: .rollingBarrage) {
+                if attacker. {
+                    // rollingBarrage - +10 Combat Strength vs. district defenses.
+                    result.append(CombatModifier(value: 10, title: UnitPromotionType.rollingBarrage.name()))
                 }
-            }
+            }*/
 
-            if promotions.has(promotion: .creepingAttack) {
-                if attacker.unitClassType() == .navalRaider {
-                    // creepingAttack - +14 [Strength] Combat Strength vs. naval raider units.
-                    result.append(CombatModifier(value: 14, title: UnitPromotionType.creepingAttack.name()))
+            // city attacks us
+            if city != nil {
+
+                if promotions.has(promotion: .emplacement) {
+                    // +10 Combat Strength when defending vs. city attacks.
+                    result.append(CombatModifier(value: +10, title: UnitPromotionType.emplacement.name()))
                 }
             }
 
@@ -1379,11 +1327,6 @@ public class Unit: AbstractUnit {
             if supportUnitCount > 0 {
                 result.append(CombatModifier(value: 2 * supportUnitCount, title: "Support Bonus"))
             }
-        }
-
-        if promotions.has(promotion: .ambush) {
-            // +20 [Strength] Combat Strength in all situations.
-            result.append(CombatModifier(value: +20, title: UnitPromotionType.ambush.name()))
         }
 
         return result
@@ -1464,22 +1407,17 @@ public class Unit: AbstractUnit {
 
         if adjacent {
 
-            if self.isOutOfAttacks() {
+            if self.isOutOfAttacks(in: gameModel) {
                 return false
             }
-            // don't allow an attack if we already have one
-            /*if (isFighting() || pDestPlot->isFighting())
-                {
-                    return true;
-                }*/
 
             // Air mission
             if self.domain() == .air && self.baseCombatStrength() == 0 {
 
                 if self.canRangeStrike(at: destination, needWar: false, noncombatAllowed: true, in: gameModel) {
-                    // CvUnitCombat::AttackAir(*this, *pDestPlot, (iFlags &  MISSION_MODIFIER_NO_DEFENSIVE_SUPPORT)?CvUnitCombat::ATTACK_OPTION_NO_DEFENSIVE_SUPPORT:CvUnitCombat::ATTACK_OPTION_NONE);
-                    fatalError("niy")
+
                     attack = true
+                    Combat.doAirAttack(between: self, and: destPlot, in: gameModel)
                 }
             } else if destPlot.isCity() { // City combat
                 if let city = gameModel.city(at: destination) {
@@ -1491,10 +1429,7 @@ public class Unit: AbstractUnit {
                                 return false
                             }
 
-                            // CvUnitCombat::AttackCity(*this, *pDestPlot, (iFlags &  MISSION_MODIFIER_NO_DEFENSIVE_SUPPORT)?CvUnitCombat::ATTACK_OPTION_NO_DEFENSIVE_SUPPORT:CvUnitCombat::ATTACK_OPTION_NONE);
-
                             attack = true
-
                             Combat.doMeleeAttack(between: self, and: city, in: gameModel)
                         }
                     }
@@ -1511,7 +1446,6 @@ public class Unit: AbstractUnit {
                 }
 
                 attack = true
-
                 Combat.doMeleeAttack(between: self, and: defenderUnit, in: gameModel)
 
                 unitPlayer.addMoment(of: .battleFought, in: gameModel)
@@ -1546,6 +1480,16 @@ public class Unit: AbstractUnit {
 
         // eliteGuard - +1 additional attack per turn if Movement allows. Can move after attacking.
         if self.has(promotion: .eliteGuard) {
+            return true
+        }
+
+        // breakthrough - +1 additional attack per turn if [Movement] Movement allows.
+        if self.has(promotion: .breakthrough) {
+            return true
+        }
+
+        // expertCrew - Can attack after moving.
+        if self.has(promotion: .expertCrew) {
             return true
         }
 
@@ -2275,7 +2219,7 @@ public class Unit: AbstractUnit {
             self.unGarrison(in: gameModel)
         }
 
-        gameModel.conceal(at: oldPlot.point, sight: self.sight(), for: player)
+        gameModel.conceal(at: oldPlot.point, sight: self.sight(), by: self, for: player)
         // oldPlot->area()->changeUnitsPerPlayer(getOwner(), -1);
         // self.set(lastMoveTurn: gameModel.turnSlice())
         let oldCity = gameModel.city(at: oldPlot.point)
@@ -2675,7 +2619,7 @@ public class Unit: AbstractUnit {
 
         if options.contains(.attack) {
 
-            if self.isOutOfAttacks() {
+            if self.isOutOfAttacks(in: gameModel) {
                 return false
             }
         }
@@ -2931,6 +2875,11 @@ public class Unit: AbstractUnit {
             }
         }*/
 
+        // commando - +1 Movement.
+        if self.has(promotion: .commando) {
+            moveVal += 1
+        }
+
         // pursuit - +1 Movement.
         if self.has(promotion: .pursuit) {
             moveVal += 1
@@ -2986,7 +2935,19 @@ public class Unit: AbstractUnit {
 
     public func range() -> Int {
 
-        return self.type.range()
+        var rangeVal: Int = self.type.range()
+
+        // forwardObservers - +1 Range.
+        if self.has(promotion: .forwardObservers) {
+            rangeVal += 1
+        }
+
+        // coincidenceRangefinding - +1 Range.
+        if self.has(promotion: .coincidenceRangefinding) {
+            rangeVal += 1
+        }
+
+        return rangeVal
     }
 
     public func search(range: Int, in gameModel: GameModel?) -> Int {
@@ -3799,7 +3760,7 @@ public class Unit: AbstractUnit {
             // FIXME - add die visualization
         }
 
-        gameModel.conceal(at: self.location, sight: self.sight(), for: self.player)
+        gameModel.conceal(at: self.location, sight: self.sight(), by: self, for: self.player)
 
         gameModel.userInterface?.hide(unit: self, at: self.location)
         gameModel.remove(unit: self)
@@ -4187,7 +4148,7 @@ public class Unit: AbstractUnit {
             fatalError("cant get diplomacyAI")
         }
 
-        if self.isOutOfAttacks() {
+        if self.isOutOfAttacks(in: gameModel) {
             return false
         }
 
@@ -4966,16 +4927,19 @@ public class Unit: AbstractUnit {
             fatalError("cant get tile")
         }
 
+        let hasSentry = self.has(promotion: .sentry)
         let visRange = self.sight()
         let range = visRange + 1
 
-        for point in tile.point.areaWith(radius: range) {
+        for loopPoint in tile.point.areaWith(radius: range) {
 
-            if let neighborTile = gameModel.tile(at: point) {
+            guard let neighborTile = gameModel.tile(at: loopPoint) else {
+                continue
+            }
 
-                if !neighborTile.isDiscovered(by: self.player) && tile.canSee(tile: neighborTile, for: self.player, range: visRange, in: gameModel) {
-                    return true
-                }
+            if !neighborTile.isDiscovered(by: self.player) &&
+                tile.canSee(tile: neighborTile, for: self.player, range: visRange, hasSentry: hasSentry, in: gameModel) {
+                return true
             }
         }
 

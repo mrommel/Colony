@@ -9,6 +9,7 @@ import SmartAILibrary
 
 extension UnitPromotionType {
 
+    // swiftlint:disable cyclomatic_complexity
     public func iconTexture() -> String {
 
         switch self {
@@ -36,34 +37,49 @@ extension UnitPromotionType {
         case .eliteGuard: return "promotion-eliteGuard"
 
             // ranged
-        case .volley: return "promotion-default"
-        case .garrison: return "promotion-default"
-        case .arrowStorm: return "promotion-default"
-        case .incendiaries: return "promotion-default"
-        case .suppression: return "promotion-default"
-        case .emplacement: return "promotion-default"
-        case .expertMarksman: return "promotion-default"
+        case .volley: return "promotion-volley"
+        case .garrison: return "promotion-garrison"
+        case .arrowStorm: return "promotion-arrowStorm"
+        case .incendiaries: return "promotion-incendiaries"
+        case .suppression: return "promotion-suppression"
+        case .emplacement: return "promotion-emplacement"
+        case .expertMarksman: return "promotion-expertMarksman"
 
             // antiCavalry
-        case .echelon: return "promotion-default"
-        case .thrust: return "promotion-default"
-        case .square: return "promotion-default"
-        case .schiltron: return "promotion-default"
-        case .redeploy: return "promotion-default"
-        case .chokePoints: return "promotion-default"
-        case .holdTheLine: return "promotion-default"
+        case .echelon: return "promotion-echelon"
+        case .thrust: return "promotion-thrust"
+        case .square: return "promotion-square"
+        case .schiltron: return "promotion-schiltron"
+        case .redeploy: return "promotion-redeploy"
+        case .chokePoints: return "promotion-chokePoints"
+        case .holdTheLine: return "promotion-holdTheLine"
 
             // lightCavalry
-        case .caparison: return "promotion-default"
-        case .coursers: return "promotion-default"
-        case .depredation: return "promotion-default"
-        case .doubleEnvelopment: return "promotion-default"
-        case .spikingTheGuns: return "promotion-default"
-        case .pursuit: return "promotion-default"
-        case .escortMobility: return "promotion-default"
+        case .caparison: return "promotion-caparison"
+        case .coursers: return "promotion-coursers"
+        case .depredation: return "promotion-depredation"
+        case .doubleEnvelopment: return "promotion-doubleEnvelopment"
+        case .spikingTheGuns: return "promotion-spikingTheGuns"
+        case .pursuit: return "promotion-pursuit"
+        case .escortMobility: return "promotion-escortMobility"
 
             // heavyCavalry
+        case .charge: return "promotion-charge"
+        case .barding: return "promotion-barding"
+        case .marauding: return "promotion-marauding"
+        case .rout: return "promotion-rout"
+        case .armorPiercing: return "promotion-armorPiercing"
+        case .reactiveArmor: return "promotion-reactiveArmor"
+        case .breakthrough: return "promotion-breakthrough"
+
             // siege
+        case .grapeShot: return "promotion-grapeShot"
+        case .crewWeapons: return "promotion-crewWeapons"
+        case .shrapnel: return "promotion-shrapnel"
+        case .shells: return "promotion-shells"
+        case .advancedRangefinding: return "promotion-advancedRangefinding"
+        case .expertCrew: return "promotion-expertCrew"
+        case .forwardObservers: return "promotion-forwardObservers"
 
             // navalMelee
         case .helmsman: return "promotion-helmsman"
@@ -75,6 +91,14 @@ extension UnitPromotionType {
         case .creepingAttack: return "promotion-creepingAttack"
 
             // navalRanged
+        case .lineOfBattle: return "promotion-lineOfBattle"
+        case .bombardment: return "promotion-bombardment"
+        case .preparatoryFire: return "promotion-preparatoryFire"
+        case .rollingBarrage: return "promotion-rollingBarrage"
+        case .supplyFleet: return "promotion-supplyFleet"
+        case .proximityFuses: return "promotion-proximityFuses"
+        case .coincidenceRangefinding: return "promotion-coincidenceRangefinding"
+
             // navalRaider
             // navalCarrier
 

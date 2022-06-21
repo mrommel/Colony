@@ -852,7 +852,7 @@ public class EconomicAI: Codable {
                             }
 
                             // this cheats, because we can't be sure that between the target and the viewer
-                            if evalTile.canSee(tile: adjacentTile, for: player, range: range, in: gameModel) {
+                            if evalTile.canSee(tile: adjacentTile, for: player, range: range, hasSentry: false, in: gameModel) {
                                 viewBlocked = false
                             }
 

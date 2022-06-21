@@ -1955,13 +1955,24 @@ open class GameModel: Codable {
         return 0
     }
 
-    func conceal(at location: HexPoint, sight: Int, for player: AbstractPlayer?) {
+    func conceal(at location: HexPoint, sight: Int, by unitRef: AbstractUnit? = nil, for playerRef: AbstractPlayer?) {
 
-        for pt in location.areaWith(radius: sight) {
+        guard let currentTile = self.tile(at: location) else {
+            fatalError("cant get current location")
+        }
 
-            if let tile = self.tile(at: pt) {
-                tile.conceal(to: player)
-                self.userInterface?.refresh(tile: tile)
+        let hasSentry: Bool = unitRef?.has(promotion: .sentry) ?? false
+
+        for loopPoint in location.areaWith(radius: sight) {
+
+            if let loopTile = self.tile(at: loopPoint) {
+
+                guard loopTile.canSee(tile: currentTile, for: playerRef, range: sight, hasSentry: hasSentry, in: self) else {
+                    continue
+                }
+
+                loopTile.conceal(to: playerRef)
+                self.userInterface?.refresh(tile: loopTile)
             }
         }
     }
@@ -1972,9 +1983,19 @@ open class GameModel: Codable {
             fatalError("cant get player")
         }
 
+        guard let currentTile = self.tile(at: location) else {
+            fatalError("cant get current location")
+        }
+
+        let hasSentry: Bool = unitRef?.has(promotion: .sentry) ?? false
+
         for areaPoint in location.areaWith(radius: sight) {
 
             if let tile = self.tile(at: areaPoint) {
+
+                guard tile.canSee(tile: currentTile, for: playerRef, range: sight, hasSentry: hasSentry, in: self) else {
+                    continue
+                }
 
                 // inform the player about a goody hut
                 if tile.has(improvement: .goodyHut) && !tile.isDiscovered(by: player) {

@@ -1183,7 +1183,7 @@ public class City: AbstractCity {
         // Garrisoned Unit
         var strengthFromUnits = 0
         if let garrisonedUnit = self.garrisonedUnit() {
-            if !garrisonedUnit.isOutOfAttacks() {
+            if !garrisonedUnit.isOutOfAttacks(in: gameModel) {
                 let maxHits = 100 /* MAX_HIT_POINTS */
                 strengthFromUnits = garrisonedUnit.baseCombatStrength(ignoreEmbarked: true) * 100 * (maxHits - garrisonedUnit.damage()) / maxHits
             }

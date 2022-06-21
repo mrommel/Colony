@@ -550,7 +550,15 @@ class TacticalAnalysisMap {
                     if plot.revealed && !plot.impassableTerrain && !plot.impassableTerritory {
 
                         if !plot.enemyCity && !plot.neutralCity {
-                            if ignoreLineOfSight || loopPlot.canSee(tile: targetPlot, for: self.playerBuild, range: range, in: gameModel) {
+                            let canBeSeen = loopPlot.canSee(
+                                tile: targetPlot,
+                                for: self.playerBuild,
+                                range: range,
+                                hasSentry: false,
+                                in: gameModel
+                            )
+
+                            if ignoreLineOfSight || canBeSeen {
                                 plot.withinRangeOfTarget = true
                             }
                         }

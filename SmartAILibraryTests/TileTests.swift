@@ -119,4 +119,63 @@ class TileTests: XCTestCase {
         // THEN
         XCTAssertEqual(isOnContinent, true)
     }
+
+    func testLineOfSightBlocked() {
+
+        // GIVEN
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 16, height: 12), seed: 42)
+
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
+        playerAlexander.initialize()
+
+        // game
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAlexander],
+            on: mapModel
+        )
+
+        self.objectToTest = mapModel.tile(at: HexPoint(x: 2, y: 2))
+        let tileBehindForest = mapModel.tile(at: HexPoint(x: 4, y: 2))
+        let tileBehindMountains = mapModel.tile(at: HexPoint(x: 2, y: 4))
+        let tileNotBlocked = mapModel.tile(at: HexPoint(x: 2, y: 0))
+
+        // add forests + hills / mountains to block sight
+        mapModel.set(feature: .forest, at: HexPoint(x: 3, y: 2))
+        mapModel.set(hills: true, at: HexPoint(x: 3, y: 2))
+        mapModel.set(feature: .mountains, at: HexPoint(x: 2, y: 3))
+
+        // WHEN
+        let canSeeThruHillsAndForest = self.objectToTest?.canSee(
+            tile: tileBehindForest,
+            for: playerAlexander,
+            range: 2,
+            hasSentry: false,
+            in: gameModel
+        )
+        let canSeeThruMountains = self.objectToTest?.canSee(
+            tile: tileBehindMountains,
+            for: playerAlexander,
+            range: 2,
+            hasSentry: false,
+            in: gameModel
+        )
+        let canSeeUnblocked = self.objectToTest?.canSee(
+            tile: tileNotBlocked,
+            for: playerAlexander,
+            range: 2,
+            hasSentry: false,
+            in: gameModel
+        )
+
+        // THEN
+        XCTAssertEqual(canSeeThruHillsAndForest, false)
+        XCTAssertEqual(canSeeThruMountains, false)
+        XCTAssertEqual(canSeeUnblocked, true)
+    }
 }

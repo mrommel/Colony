@@ -212,7 +212,7 @@ public protocol AbstractTile: Codable, NSCopying {
     func isVisibleAny() -> Bool
     func sight(by player: AbstractPlayer?)
     func conceal(to player: AbstractPlayer?)
-    func canSee(tile: AbstractTile?, for player: AbstractPlayer?, range: Int, in gameModel: GameModel?) -> Bool
+    func canSee(tile: AbstractTile?, for player: AbstractPlayer?, range: Int, hasSentry: Bool, in gameModel: GameModel?) -> Bool
     func seeThroughLevel() -> Int
 
     // features
@@ -1839,20 +1839,17 @@ public class Tile: AbstractTile {
         }
     }
 
+    // https://civilization.fandom.com/wiki/Sight_(Civ6)
     public func seeThroughLevel() -> Int {
 
         var level = 0
-
-        if self.terrainVal == .ocean {
-            level += 1
-        }
 
         if self.hasHills() {
             level += 1
         }
 
         if self.has(feature: .mountains) {
-            level += 2
+            level += 3
         }
 
         if self.has(feature: .forest) || self.has(feature: .rainforest) {
@@ -1862,8 +1859,7 @@ public class Tile: AbstractTile {
         return level
     }
 
-    // FIXME wrap world !
-    public func canSee(tile: AbstractTile?, for player: AbstractPlayer?, range: Int, in gameModel: GameModel?) -> Bool {
+    public func canSee(tile: AbstractTile?, for player: AbstractPlayer?, range: Int, hasSentry: Bool = false, in gameModel: GameModel?) -> Bool {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
@@ -1881,7 +1877,10 @@ public class Tile: AbstractTile {
             return true
         }
 
-        let distance = self.point.distance(to: tile.point)
+        let seeThruLevel = hasSentry ? 2 : 1
+        let wrappedX: Int = gameModel.wrappedX() ? gameModel.mapSize().width() : -1
+
+        let distance = self.point.distance(to: tile.point, wrapX: wrappedX)
         if distance <= range {
 
             var tmpPoint = self.point
@@ -1894,7 +1893,7 @@ public class Tile: AbstractTile {
                 tmpPoint = tmpPoint.neighbor(in: dir)
 
                 if let tmpTile = gameModel.tile(at: tmpPoint) {
-                    if tmpTile.seeThroughLevel() > 1 {
+                    if tmpTile.seeThroughLevel() > seeThruLevel {
                         return false
                     }
                 }

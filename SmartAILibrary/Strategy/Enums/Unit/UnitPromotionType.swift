@@ -65,7 +65,22 @@ public enum UnitPromotionType: Int, Codable {
     case escortMobility
 
     // heavyCavalry
+    case charge
+    case barding
+    case marauding
+    case rout
+    case armorPiercing
+    case reactiveArmor
+    case breakthrough
+
     // siege
+    case grapeShot
+    case crewWeapons
+    case shrapnel
+    case shells
+    case advancedRangefinding
+    case expertCrew
+    case forwardObservers
 
     // navalMelee
     case helmsman
@@ -77,6 +92,14 @@ public enum UnitPromotionType: Int, Codable {
     case creepingAttack
 
     // navalRanged
+    case lineOfBattle
+    case bombardment
+    case preparatoryFire
+    case rollingBarrage
+    case supplyFleet
+    case proximityFuses
+    case coincidenceRangefinding
+
     // navalRaider
     // navalCarrier
 
@@ -103,14 +126,85 @@ public enum UnitPromotionType: Int, Codable {
             // lightCavalry
             .caparison, .coursers, .depredation, .doubleEnvelopment, .spikingTheGuns, .pursuit, .escortMobility,
 
+            // heavyCavalry
+            .charge, .barding, .marauding, .rout, .armorPiercing, .reactiveArmor, .breakthrough,
+
+            // siege
+            .grapeShot, .crewWeapons, .shrapnel, .shells, .advancedRangefinding, .expertCrew, .forwardObservers,
+
             // navalMelee
-            .helmsman, .embolon, .rutter, .reinforcedHull, .convoy, .auxiliaryShips, .creepingAttack
+            .helmsman, .embolon, .rutter, .reinforcedHull, .convoy, .auxiliaryShips, .creepingAttack,
+
+            // navalRanged
+            .lineOfBattle, .bombardment, .preparatoryFire, .rollingBarrage, .supplyFleet, .proximityFuses, .coincidenceRangefinding
         ]
     }
 
     public static let defaultFlavorValue = 5
 
     // MARK: internal classes
+
+    private enum PromotionCombatModifierDirection {
+
+        case attack
+        case defend
+        case both
+    }
+
+    private struct PromotionCombatModifierData {
+
+        let amount: Int
+
+        let unitClasses: [UnitClassType]
+        let combatDirection: PromotionCombatModifierDirection
+        let damagedOnly: Bool
+        let fortifiedOnly: Bool
+        let roughOnly: Bool
+
+        init(amount: Int, combatDirection: PromotionCombatModifierDirection, damagedOnly: Bool = false, fortifiedOnly: Bool = false, roughOnly: Bool = false) {
+
+            self.amount = amount
+            self.unitClasses = UnitClassType.combat
+            self.combatDirection = combatDirection
+            self.damagedOnly = damagedOnly
+            self.fortifiedOnly = fortifiedOnly
+            self.roughOnly = roughOnly
+        }
+
+        init(amount: Int, unitClasses: [UnitClassType], combatDirection: PromotionCombatModifierDirection, damagedOnly: Bool = false, fortifiedOnly: Bool = false, roughOnly: Bool = false) {
+
+            self.amount = amount
+            self.unitClasses = unitClasses
+            self.combatDirection = combatDirection
+            self.damagedOnly = damagedOnly
+            self.fortifiedOnly = fortifiedOnly
+            self.roughOnly = roughOnly
+        }
+
+        init(amount: Int, domain: UnitDomainType, combatDirection: PromotionCombatModifierDirection, damagedOnly: Bool = false, fortifiedOnly: Bool = false, roughOnly: Bool = false) {
+
+            self.amount = amount
+            self.unitClasses = domain.unitClasses()
+            self.combatDirection = combatDirection
+            self.damagedOnly = damagedOnly
+            self.fortifiedOnly = fortifiedOnly
+            self.roughOnly = roughOnly
+        }
+
+        init(amount: Int, domains: [UnitDomainType], combatDirection: PromotionCombatModifierDirection, damagedOnly: Bool = false, fortifiedOnly: Bool = false, roughOnly: Bool = false) {
+
+            self.amount = amount
+            self.unitClasses = domains
+                .map { $0.unitClasses() }
+                .reduce([], { (result: [UnitClassType], element: [UnitClassType]) -> [UnitClassType] in
+                    return result + element
+                })
+            self.combatDirection = combatDirection
+            self.damagedOnly = damagedOnly
+            self.fortifiedOnly = fortifiedOnly
+            self.roughOnly = roughOnly
+        }
+    }
 
     private struct PromotionData {
 
@@ -122,6 +216,7 @@ public enum UnitPromotionType: Int, Codable {
         let consumable: Bool
         let enemyRoute: Bool
         let ignoreZoneOfControl: Bool
+        let combatModifier: PromotionCombatModifierData?
         let flavours: [Flavor]
 
         init(name: String,
@@ -132,6 +227,7 @@ public enum UnitPromotionType: Int, Codable {
              consumable: Bool,
              enemyRoute: Bool = false,
              ignoreZoneOfControl: Bool = false,
+             combatModifier: PromotionCombatModifierData? = nil,
              flavours: [Flavor]) {
 
             self.name = name
@@ -142,6 +238,7 @@ public enum UnitPromotionType: Int, Codable {
             self.consumable = consumable
             self.enemyRoute = enemyRoute
             self.ignoreZoneOfControl = ignoreZoneOfControl
+            self.combatModifier = combatModifier
             self.flavours = flavours
         }
     }
@@ -163,7 +260,7 @@ public enum UnitPromotionType: Int, Codable {
         return self.data().tier
     }
 
-    func unitClass() -> UnitClassType {
+    public func unitClass() -> UnitClassType {
 
         return self.data().unitClass
     }
@@ -188,9 +285,73 @@ public enum UnitPromotionType: Int, Codable {
         return self.data().ignoreZoneOfControl
     }
 
+    func attackStrengthModifier(against defender: AbstractUnit) -> CombatModifier? {
+
+        guard let combatModifier = self.data().combatModifier else {
+            return nil
+        }
+
+        guard combatModifier.combatDirection != .defend else {
+            return nil
+        }
+
+        if combatModifier.damagedOnly && defender.damage() == 0 {
+            return nil
+        }
+
+        if combatModifier.fortifiedOnly && !defender.isFortified() {
+            return nil
+        }
+
+        if combatModifier.unitClasses.contains(where: { $0 == defender.unitClassType() }) {
+            return CombatModifier(value: combatModifier.amount, title: self.name())
+        }
+
+        return nil
+    }
+
+    func defenderStrengthModifier(against attacker: AbstractUnit) -> CombatModifier? {
+
+        guard let combatModifier = self.data().combatModifier else {
+            return nil
+        }
+
+        guard combatModifier.combatDirection != .attack else {
+            return nil
+        }
+
+        if combatModifier.damagedOnly && attacker.damage() == 0 {
+            return nil
+        }
+
+        if combatModifier.unitClasses.contains(where: { $0 == attacker.unitClassType() }) {
+            return CombatModifier(value: combatModifier.amount, title: self.name())
+        }
+
+        return nil
+    }
+
+    func defenderStrengthModifier(on tile: AbstractTile) -> CombatModifier? {
+
+        guard let combatModifier = self.data().combatModifier else {
+            return nil
+        }
+
+        guard combatModifier.combatDirection == .attack else {
+            return nil
+        }
+
+        let tileIsRough = tile.has(feature: .forest) || tile.has(feature: .rainforest) || tile.hasHills() || tile.has(feature: .marsh)
+        guard combatModifier.roughOnly && tileIsRough else {
+            return nil
+        }
+
+        return CombatModifier(value: combatModifier.amount, title: self.name())
+    }
+
     // MARK: private methods
 
-    // swiftlint:disable function_body_length
+    // swiftlint:disable function_body_length cyclomatic_complexity
     private func data() -> PromotionData {
 
         switch self {
@@ -316,6 +477,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .recon,
                 required: [.guerrilla],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 20, combatDirection: .both),
                 flavours: [
                     Flavor(type: .offense, value: 2)
                 ]
@@ -346,11 +508,13 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .melee,
                 required: [],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 7, unitClasses: [.melee, .ranged], combatDirection: .both),
                 flavours: [
                     Flavor(type: .offense, value: 2),
                     Flavor(type: .ranged, value: 1)
                 ]
             )
+
         case .tortoise:
             // https://civilization.fandom.com/wiki/Tortoise_(Civ6)
             return PromotionData(
@@ -360,6 +524,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .melee,
                 required: [],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 10, unitClasses: [.ranged], combatDirection: .defend),
                 flavours: [
                     Flavor(type: .offense, value: 3),
                     Flavor(type: .ranged, value: 1)
@@ -401,6 +566,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .melee,
                 required: [.tortoise, .amphibious],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 7, unitClasses: [.antiCavalry], combatDirection: .both),
                 flavours: [
                     Flavor(type: .offense, value: 3)
                 ]
@@ -447,6 +613,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .ranged,
                 required: [],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 5, domain: .land, combatDirection: .attack), // only ranged attack!
                 flavours: [
                     Flavor(type: .offense, value: 3)
                 ]
@@ -475,6 +642,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .ranged,
                 required: [.volley],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 7, domains: [.land, .sea], combatDirection: .attack), // only ranged attack!
                 flavours: [
                     Flavor(type: .offense, value: 3),
                     Flavor(type: .naval, value: 2)
@@ -550,6 +718,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .antiCavalry,
                 required: [],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 5, unitClasses: [.lightCavalry, .heavyCavalry], combatDirection: .both),
                 flavours: [
                     Flavor(type: .offense, value: 3)
                 ]
@@ -564,6 +733,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .antiCavalry,
                 required: [],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 10, unitClasses: [.melee], combatDirection: .both),
                 flavours: [
                     Flavor(type: .offense, value: 4)
                 ]
@@ -593,6 +763,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .antiCavalry,
                 required: [.thrust],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 10, unitClasses: [.melee], combatDirection: .defend),
                 flavours: [
                     Flavor(type: .offense, value: 4)
                 ]
@@ -621,6 +792,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .antiCavalry,
                 required: [.square, .schiltron],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 7, combatDirection: .defend, roughOnly: true),
                 flavours: [
                     Flavor(type: .defense, value: 4)
                 ]
@@ -653,6 +825,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .lightCavalry,
                 required: [],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 5, unitClasses: [.antiCavalry], combatDirection: .both),
                 flavours: [
                     Flavor(type: .offense, value: 4)
                 ]
@@ -667,6 +840,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .lightCavalry,
                 required: [],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 5, unitClasses: [.ranged, .siege], combatDirection: .attack),
                 flavours: [
                     Flavor(type: .offense, value: 2)
                 ]
@@ -710,6 +884,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .lightCavalry,
                 required: [.depredation, .doubleEnvelopment],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 7, unitClasses: [.siege], combatDirection: .both),
                 flavours: [
                     Flavor(type: .offense, value: 2),
                     Flavor(type: .defense, value: 2)
@@ -745,6 +920,222 @@ public enum UnitPromotionType: Int, Codable {
             )
 
             // ---------------------
+            // heavyCavalry
+
+        case .charge:
+            // https://civilization.fandom.com/wiki/Charge_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_CHARGE_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_CHARGE_EFFECT",
+                tier: 1,
+                unitClass: .heavyCavalry,
+                required: [],
+                consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 10, combatDirection: .attack, fortifiedOnly: true),
+                flavours: [
+                    Flavor(type: .offense, value: 4)
+                ]
+            )
+
+        case .barding:
+            // https://civilization.fandom.com/wiki/Barding_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_BARDING_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_BARDING_EFFECT",
+                tier: 1,
+                unitClass: .heavyCavalry,
+                required: [],
+                consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 7, unitClasses: [.ranged], combatDirection: .defend),
+                flavours: [
+                    Flavor(type: .defense, value: 3)
+                ]
+            )
+
+        case .marauding:
+            // https://civilization.fandom.com/wiki/Marauding_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_MARAUDING_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_MARAUDING_EFFECT",
+                tier: 2,
+                unitClass: .heavyCavalry,
+                required: [.charge, .rout],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 3)
+                ]
+            )
+
+        case .rout:
+            // https://civilization.fandom.com/wiki/Rout_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_ROUT_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_ROUT_EFFECT",
+                tier: 2,
+                unitClass: .heavyCavalry,
+                required: [.barding, .marauding],
+                consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 7, combatDirection: .both, damagedOnly: true),
+                flavours: [
+                    Flavor(type: .offense, value: 4)
+                ]
+            )
+
+        case .armorPiercing:
+            // https://civilization.fandom.com/wiki/Armor_Piercing_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_ARMOR_PIERCING_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_ARMOR_PIERCING_EFFECT",
+                tier: 3,
+                unitClass: .heavyCavalry,
+                required: [.marauding, .rout],
+                consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 7, unitClasses: [.heavyCavalry], combatDirection: .both),
+                flavours: [
+                    Flavor(type: .offense, value: 3)
+                ]
+            )
+
+        case .reactiveArmor:
+            // https://civilization.fandom.com/wiki/Reactive_Armor_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_REACTIVE_ARMOR_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_REACTIVE_ARMOR_EFFECT",
+                tier: 3,
+                unitClass: .heavyCavalry,
+                required: [.rout],
+                consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 7, unitClasses: [.heavyCavalry, .antiCavalry], combatDirection: .defend),
+                flavours: [
+                    Flavor(type: .defense, value: 3)
+                ]
+            )
+
+        case .breakthrough:
+            // https://civilization.fandom.com/wiki/Breakthrough_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_BREAKTHROUGH_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_BREAKTHROUGH_EFFECT",
+                tier: 4,
+                unitClass: .heavyCavalry,
+                required: [.armorPiercing, .reactiveArmor],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .mobile, value: 2),
+                    Flavor(type: .offense, value: 2)
+                ]
+            )
+
+            // ---------------------
+            // siege
+
+        case .grapeShot:
+            // https://civilization.fandom.com/wiki/Grape_Shot_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_GRAPE_SHOT_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_GRAPE_SHOT_EFFECT",
+                tier: 1,
+                unitClass: .siege,
+                required: [],
+                consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 7, domain: .land, combatDirection: .both),
+                flavours: [
+                    Flavor(type: .ranged, value: 2),
+                    Flavor(type: .offense, value: 2)
+                ]
+            )
+
+        case .crewWeapons:
+            // https://civilization.fandom.com/wiki/Crew_Weapons_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_CREW_WEAPONS_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_CREW_WEAPONS_EFFECT",
+                tier: 1,
+                unitClass: .siege,
+                required: [],
+                consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 7, combatDirection: .defend),
+                flavours: [
+                    Flavor(type: .defense, value: 4)
+                ]
+            )
+
+        case .shrapnel:
+            // https://civilization.fandom.com/wiki/Shrapnel_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_SHRAPNEL_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_SHRAPNEL_EFFECT",
+                tier: 2,
+                unitClass: .siege,
+                required: [.grapeShot],
+                consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 10, domain: .land, combatDirection: .both),
+                flavours: [
+                    Flavor(type: .ranged, value: 2),
+                    Flavor(type: .offense, value: 3)
+                ]
+            )
+
+        case .shells:
+            // https://civilization.fandom.com/wiki/Shells_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_SHELLS_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_SHELLS_EFFECT",
+                tier: 2,
+                unitClass: .siege,
+                required: [.crewWeapons],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .offense, value: 4)
+                ]
+            )
+
+        case .advancedRangefinding:
+            // https://civilization.fandom.com/wiki/Advanced_Rangefinding_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_ADVANCED_RANGEFINDING_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_ADVANCED_RANGEFINDING_EFFECT",
+                tier: 3,
+                unitClass: .siege,
+                required: [.shrapnel, .shells],
+                consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 10, domain: .sea, combatDirection: .both),
+                flavours: [
+                    Flavor(type: .naval, value: 3)
+                ]
+            )
+
+        case .expertCrew:
+            // https://civilization.fandom.com/wiki/Expert_Crew_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_EXPERT_CREW_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_EXPERT_CREW_EFFECT",
+                tier: 3,
+                unitClass: .siege,
+                required: [.shrapnel, .shells],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .mobile, value: 2),
+                    Flavor(type: .offense, value: 2)
+                ]
+            )
+
+        case .forwardObservers:
+            // https://civilization.fandom.com/wiki/Forward_Observers_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_FORWARD_OBSERVERS_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_FORWARD_OBSERVERS_EFFECT",
+                tier: 4,
+                unitClass: .siege,
+                required: [.advancedRangefinding, .expertCrew],
+                consumable: false,
+                flavours: [
+                    Flavor(type: .ranged, value: 3),
+                    Flavor(type: .offense, value: 1)
+                ]
+            )
+
+            // ---------------------
             // navalMelee
 
         case .helmsman:
@@ -771,6 +1162,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .navalMelee,
                 required: [],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 7, domain: .sea, combatDirection: .both),
                 flavours: [
                     Flavor(type: .offense, value: 3)
                 ]
@@ -799,6 +1191,7 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .navalMelee,
                 required: [.embolon],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 10, unitClasses: [.ranged, .navalRanged], combatDirection: .defend),
                 flavours: [
                     Flavor(type: .defense, value: 4)
                 ]
@@ -841,11 +1234,119 @@ public enum UnitPromotionType: Int, Codable {
                 unitClass: .navalMelee,
                 required: [.convoy, .auxiliaryShips],
                 consumable: false,
+                combatModifier: PromotionCombatModifierData(amount: 14, unitClasses: [.navalRaider], combatDirection: .both),
                 flavours: [
                     Flavor(type: .offense, value: 3)
                 ]
             )
 
+            // ---------------------
+            // navalRanged
+
+        case .lineOfBattle:
+            // https://civilization.fandom.com/wiki/Line_of_Battle_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_LINE_OF_BATTLE_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_LINE_OF_BATTLE_EFFECT",
+                tier: 1,
+                unitClass: .navalRanged,
+                required: [],
+                consumable: true,
+                combatModifier: PromotionCombatModifierData(amount: 7, domain: .sea, combatDirection: .both),
+                flavours: [
+                    Flavor(type: .naval, value: 3),
+                    Flavor(type: .navalGrowth, value: 1)
+                ]
+            )
+
+        case .bombardment:
+            // https://civilization.fandom.com/wiki/Bombardment_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_BOMBARDMENT_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_BOMBARDMENT_EFFECT",
+                tier: 1,
+                unitClass: .navalRanged,
+                required: [],
+                consumable: true,
+                flavours: [
+                    Flavor(type: .naval, value: 2),
+                    Flavor(type: .defense, value: 3)
+                ]
+            )
+
+        case .preparatoryFire:
+            // https://civilization.fandom.com/wiki/Preparatory_Fire_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_PREPARATORY_FIRE_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_PREPARATORY_FIRE_EFFECT",
+                tier: 2,
+                unitClass: .navalRanged,
+                required: [.lineOfBattle],
+                consumable: true,
+                combatModifier: PromotionCombatModifierData(amount: 7, domain: .land, combatDirection: .both),
+                flavours: [
+                    Flavor(type: .offense, value: 3),
+                    Flavor(type: .defense, value: 1)
+                ]
+            )
+
+        case .rollingBarrage:
+            // https://civilization.fandom.com/wiki/Rolling_Barrage_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_ROLLING_BARRAGE_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_ROLLING_BARRAGE_EFFECT",
+                tier: 2,
+                unitClass: .navalRanged,
+                required: [.bombardment],
+                consumable: true,
+                flavours: [
+                    Flavor(type: .offense, value: 4)
+                ]
+            )
+
+        case .supplyFleet:
+            // https://civilization.fandom.com/wiki/Supply_Fleet_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_SUPPLY_FLEET_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_SUPPLY_FLEET_EFFECT",
+                tier: 3,
+                unitClass: .navalRanged,
+                required: [.preparatoryFire, .rollingBarrage],
+                consumable: true,
+                flavours: [
+                    Flavor(type: .defense, value: 3)
+                ]
+            )
+
+        case .proximityFuses:
+            // https://civilization.fandom.com/wiki/Proximity_Fuses_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_PROXIMITY_FUSES_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_PROXIMITY_FUSES_EFFECT",
+                tier: 3,
+                unitClass: .navalRanged,
+                required: [.preparatoryFire, .rollingBarrage],
+                consumable: true,
+                combatModifier: PromotionCombatModifierData(amount: 7, domain: .air, combatDirection: .defend),
+                flavours: [
+                    Flavor(type: .defense, value: 3)
+                ]
+            )
+
+        case .coincidenceRangefinding:
+            // https://civilization.fandom.com/wiki/Coincidence_Rangefinding_(Civ6)
+            return PromotionData(
+                name: "TXT_KEY_UNIT_PROMOTION_COINCIDENCE_RANGEFINDING_NAME",
+                effect: "TXT_KEY_UNIT_PROMOTION_COINCIDENCE_RANGEFINDING_EFFECT",
+                tier: 4,
+                unitClass: .navalRanged,
+                required: [.supplyFleet, .proximityFuses],
+                consumable: true,
+                flavours: [
+                    Flavor(type: .ranged, value: 3),
+                    Flavor(type: .naval, value: 2)
+                ]
+            )
         }
     }
 

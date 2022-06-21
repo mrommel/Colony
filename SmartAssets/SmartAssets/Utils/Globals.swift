@@ -158,6 +158,10 @@ public extension Globals {
             return Icons.loadCachedTexture(with: "rangedStrength")
         }
 
+        public static var range: NSImage {
+            return Icons.loadCachedTexture(with: "range")
+        }
+
         public static var religiousStrength: NSImage {
             return Icons.loadCachedTexture(with: "religiousStrength")
         }

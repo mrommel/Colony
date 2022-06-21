@@ -78,6 +78,36 @@ class MapModelTests: XCTestCase {
         XCTAssertEqual(oceans.count, 1)
     }
 
+    func testCanSeeWrappedWorld() {
+
+        // GIVEN
+        self.objectToTest = MapUtils.mapFilled(with: .grass, sized: .custom(width: 16, height: 12), seed: 42)
+
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let playerAlexander = Player(leader: .alexander, isHuman: true)
+        playerAlexander.initialize()
+
+        let tile = Tile(point: HexPoint(x: 0, y: 6), terrain: .grass, hills: false)
+        let target = Tile(point: HexPoint(x: 15, y: 6), terrain: .grass, hills: false)
+
+        // game
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAlexander],
+            on: self.objectToTest!
+        )
+
+        // WHEN
+        let canSeeWrapped = tile.canSee(tile: target, for: playerAlexander, range: 3, in: gameModel)
+
+        // THEN
+        XCTAssertEqual(canSeeWrapped, true)
+    }
+
     func testCanSeeThru() {
 
         // GIVEN
