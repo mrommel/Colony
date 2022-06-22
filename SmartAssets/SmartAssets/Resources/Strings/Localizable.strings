@@ -73,6 +73,17 @@
 // government dialog
 "TXT_KEY_SELECT_GOVERNMENT" = "Select Government";
 
+// governor dialog
+"TXT_KEY_GOVERNOR_ABILITIES" = "Abilities";
+"TXT_KEY_GOVERNOR_ESTABLISHED_IN" = "Established in:";
+"TXT_KEY_GOVERNOR_NEEDS_ASSIGNMENT" = "Needs Assignment";
+"TXT_KEY_GOVERNOR_CANDIDATE" = "Candidate";
+"TXT_KEY_GOVERNOR_PROMOTE" = "Promote";
+"TXT_KEY_GOVERNOR_REASSIGN" = "Reassign";
+"TXT_KEY_GOVERNOR_ASSIGN" = "Assign";
+"TXT_KEY_GOVERNOR_VIEW_PROMOTIONS" = "View promotions";
+"TXT_KEY_GOVERNOR_APPOINT" = "Appoint";
+
 // raze or liberate dialog
 "TXT_KEY_CITY_RAZE_OR_LIBERATE_TITLE" = "City captured";
 "TXT_KEY_CITY_NAME_LABEL" = "City Name:";

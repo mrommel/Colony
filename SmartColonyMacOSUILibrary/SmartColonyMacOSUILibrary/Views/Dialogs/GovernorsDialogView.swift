@@ -33,17 +33,14 @@ struct GovernorsDialogView: View {
                 }
                 .frame(height: 12, alignment: .center)
 
-                ScrollView(.vertical, showsIndicators: true, content: {
+                HStack(spacing: 4) {
 
-                    LazyHStack(spacing: 4) {
+                    ForEach(Array(self.viewModel.governorViewModels.enumerated()), id: \.element) { index, governorViewModel in
 
-                        ForEach(self.viewModel.governorViewModels, id: \.self) { governorViewModel in
-
-                            GovernorView(viewModel: governorViewModel)
-                        }
+                        GovernorView(viewModel: governorViewModel)
                     }
-                    .padding(.top, 8)
-                })
+                }
+                .padding(.top, 8)
             }
         }
     }

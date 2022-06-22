@@ -109,6 +109,7 @@ struct BaseDialogView<Content>: View where Content: View {
                 self.content
                     .frame(width: self.mode.contentWidth, height: self.mode.contentHeight, alignment: .center)
                     .border(Color.gray)
+                    .zIndex(0)
 
                 Button(action: {
                     self.viewModel.closeDialog()

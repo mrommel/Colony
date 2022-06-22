@@ -26,12 +26,7 @@ struct GovernorView: View {
 
     var body: some View {
 
-        ZStack {
-
-            RoundedRectangle(cornerRadius: self.cornerRadius)
-                .strokeBorder(Color(Globals.Colors.dialogBorder), lineWidth: 1)
-                .frame(width: self.cardWidth, height: self.cardHeight)
-                .background(Color(self.viewModel.appointed ? Globals.Colors.dialogBackground : .black))
+        VStack {
 
             VStack(alignment: .center, spacing: 4) {
 
@@ -57,29 +52,41 @@ struct GovernorView: View {
                     .background(Color(Globals.Colors.dialogBorder))
                     .padding(.horizontal, 6)
 
-                Text("Abilities")
+                Text("TXT_KEY_GOVERNOR_ABILITIES".localized())
                     .font(.system(size: 8))
 
-                LazyVStack(spacing: 1) {
+                VStack(spacing: 1) {
 
-                    ForEach(self.viewModel.governorAbilityViewModels, id: \.self) { governorAbilityViewModel in
+                    ForEach(Array(self.viewModel.governorAbilityViewModels.enumerated()), id: \.element) { index, governorAbilityViewModel in
 
                         GovernorAbilityView(viewModel: governorAbilityViewModel)
+                            .zIndex(400.0 - Double(index)) // needed for tooltip (from top to bottom smaller)
                     }
                 }
+                .zIndex(400)
 
                 Spacer()
                     .frame(minHeight: 0, maxHeight: 50)
 
                 self.assignmentView
+                    .zIndex(0)
 
                 self.buttonView
+                    .zIndex(0)
             }
             .frame(width: self.cardWidth, height: self.cardHeight - 8, alignment: .center)
             .padding(.bottom, 8)
         }
         .frame(width: self.cardWidth, height: self.cardHeight, alignment: .center)
-        .cornerRadius(self.cornerRadius)
+        // .cornerRadius(self.cornerRadius)
+        .background(
+            RoundedRectangle(cornerRadius: self.cornerRadius)
+                .strokeBorder(Color(Globals.Colors.dialogBorder), lineWidth: 1)
+                .frame(width: self.cardWidth, height: self.cardHeight)
+                .background(Color(self.viewModel.appointed ? Globals.Colors.dialogBackground : .black))
+                .zIndex(0)
+        )
+        .zIndex(0)
     }
 
     private var imageInfoView: AnyView {
@@ -123,21 +130,27 @@ struct GovernorView: View {
                 if self.viewModel.appointed {
                     if self.viewModel.assigned {
                         VStack(alignment: .center, spacing: 0) {
-                            Text("Established in:")
+                            Text("TXT_KEY_GOVERNOR_ESTABLISHED_IN".localized())
                                 .font(.system(size: 7))
+                                .zIndex(0)
 
                             Text(self.viewModel.assignedCity)
                                 .font(.system(size: 7))
+                                .zIndex(0)
                         }
+                        .zIndex(0)
                     } else {
-                        Text("Needs Assignment")
+                        Text("TXT_KEY_GOVERNOR_NEEDS_ASSIGNMENT".localized())
                             .font(.system(size: 7))
+                            .zIndex(0)
                     }
                 } else {
-                    Text("Candidate")
+                    Text("TXT_KEY_GOVERNOR_CANDIDATE".localized())
                         .font(.system(size: 7))
+                        .zIndex(0)
                 }
             }
+                .zIndex(0)
         )
     }
 
@@ -146,46 +159,56 @@ struct GovernorView: View {
         AnyView(
             Group {
                 if self.viewModel.appointed {
-                    Button("Promote",
+                    Button("TXT_KEY_GOVERNOR_PROMOTE".localized(),
                            action: {
                             self.viewModel.clickedPromote()
                            }
                     )
                     .buttonStyle(DialogButtonStyle())
                     .disabled(self.viewModel.hasTitles == false)
+                    .zIndex(0)
 
                     if self.viewModel.assigned {
-                        Button("Reassign",
-                               action: {
+                        Button(
+                            "TXT_KEY_GOVERNOR_REASSIGN".localized(),
+                            action: {
                                 self.viewModel.clickedReassign()
-                               }
+                            }
                         )
                         .buttonStyle(DialogButtonStyle(state: .highlighted))
+                        .zIndex(0)
                     } else {
-                        Button("Assign",
-                               action: {
+                        Button(
+                            "TXT_KEY_GOVERNOR_ASSIGN".localized(),
+                            action: {
                                 self.viewModel.clickedAssign()
-                               }
+                            }
                         )
                         .buttonStyle(DialogButtonStyle(state: .highlighted))
+                        .zIndex(0)
                     }
                 } else {
-                    Button("View promotions",
-                           action: {
+                    Button(
+                        "TXT_KEY_GOVERNOR_VIEW_PROMOTIONS".localized(),
+                        action: {
                             self.viewModel.clickedViewPromotions()
                            }
                     )
                     .buttonStyle(DialogButtonStyle())
+                    .zIndex(0)
 
-                    Button("Appoint",
-                           action: {
+                    Button(
+                        "TXT_KEY_GOVERNOR_APPOINT".localized(),
+                        action: {
                             self.viewModel.clickedAppoint()
-                           }
+                        }
                     )
                     .buttonStyle(DialogButtonStyle(state: .highlighted))
                     .disabled(self.viewModel.hasTitles == false)
+                    .zIndex(0)
                 }
             }
+                .zIndex(0)
         )
     }
 }
