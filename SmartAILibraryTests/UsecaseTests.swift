@@ -78,8 +78,8 @@ class UsecaseTests: XCTestCase {
         MapUtils.discover(mapModel: &mapModel, by: playerTrajan, in: gameModel)
         MapUtils.discover(mapModel: &mapModel, by: playerBarbarian, in: gameModel)
 
-        let numCitiesBefore = gameModel.cities(of: playerTrajan).count
-        let numOfUnitsBefore = gameModel.units(of: playerTrajan).count
+        let numberOfCitiesBefore = gameModel.cities(of: playerTrajan).count
+        let numberOfUnitsBefore = gameModel.units(of: playerTrajan).count
 
         // WHEN
         repeat {
@@ -92,12 +92,12 @@ class UsecaseTests: XCTestCase {
         } while !(playerAlexander.hasProcessedAutoMoves() && playerAlexander.turnFinished())
 
         // THEN
-        XCTAssertEqual(numCitiesBefore, 0)
-        XCTAssertEqual(numOfUnitsBefore, 2)
-        let numCitiesAfter = gameModel.cities(of: playerTrajan).count
-        let numOfUnitsAfter = gameModel.units(of: playerTrajan).count
-        XCTAssertEqual(numCitiesAfter, 1)
-        XCTAssertEqual(numOfUnitsAfter, 1)
+        XCTAssertEqual(numberOfCitiesBefore, 0)
+        XCTAssertEqual(numberOfUnitsBefore, 2)
+        let numberOfCitiesAfter = gameModel.cities(of: playerTrajan).count
+        let numberOfUnitsAfter = gameModel.units(of: playerTrajan).count
+        XCTAssertEqual(numberOfCitiesAfter, 1)
+        XCTAssertEqual(numberOfUnitsAfter, 1)
 
         XCTAssertEqual(playerAugustusWarrior.activityType(), .none) // warriro has skipped
         // XCTAssertEqual(playerAugustusWarrior.peekMission()!.buildType, BuildType.repair)

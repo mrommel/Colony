@@ -556,7 +556,7 @@ enum CityStrategyType: Int, Codable {
             fatalError("cant get militaryAI")
         }
 
-        let currentNumCities = gameModel.cities(of: player).count
+        let currentNumberOfCities = gameModel.cities(of: player).count
 
         if let lastTurnBuilderDisbanded = player.economicAI?.lastTurnBuilderDisbanded() {
             if lastTurnBuilderDisbanded > 0 && gameModel.currentTurn - lastTurnBuilderDisbanded <= 25 {
@@ -565,10 +565,10 @@ enum CityStrategyType: Int, Codable {
             }
         }
 
-        let numBuilders = gameModel.units(of: player).count(where: { $0!.task() == .work })
+        let numberOfBuilders = gameModel.units(of: player).count(where: { $0!.task() == .work })
 
-        let numCities = max(1, (currentNumCities * 3) / 4)
-        if numBuilders >= numCities {
+        let numberOfCities = max(1, (currentNumberOfCities * 3) / 4)
+        if numberOfBuilders >= numberOfCities {
             return false
         }
 
@@ -578,18 +578,18 @@ enum CityStrategyType: Int, Codable {
         }
 
         // If we're under attack from Barbs and have 1 or fewer Cities and no credible defense then training more Workers will only hurt us
-        if currentNumCities <= 1 {
+        if currentNumberOfCities <= 1 {
 
             if militaryAI.adopted(militaryStrategy: .eradicateBarbarians) && militaryAI.adopted(militaryStrategy: .empireDefenseCritical) {
                 return false
             }
         }
 
-        let moddedNumBuilders = numBuilders * 67
-        let moddedNumCities = currentNumCities + gameModel.cities(of: player).count(where: { $0!.isFeatureSurrounded() })
+        let moddedNumberOfBuilders = numberOfBuilders * 67
+        let moddedNumberOfCities = currentNumberOfCities + gameModel.cities(of: player).count(where: { $0!.isFeatureSurrounded() })
 
         // We have fewer than we think we should, or we have none at all
-        if moddedNumBuilders <= moddedNumCities || moddedNumBuilders == 0 {
+        if moddedNumberOfBuilders <= moddedNumberOfCities || moddedNumberOfBuilders == 0 {
 
             // If we don't have any Workers by turn 30 we really need to get moving
             if gameModel.currentTurn > 30 { // AI_CITYSTRATEGY_NEED_TILE_IMPROVERS_DESPERATE_TURN
@@ -618,7 +618,7 @@ enum CityStrategyType: Int, Codable {
             fatalError("cant get militaryAI")
         }*/
 
-        let currentNumCities = gameModel.cities(of: player).count
+        let currentNumberOfCities = gameModel.cities(of: player).count
 
         if let lastTurnBuilderDisbanded = player.economicAI?.lastTurnBuilderDisbanded() {
             if lastTurnBuilderDisbanded > 0 && gameModel.currentTurn - lastTurnBuilderDisbanded <= 25 {
@@ -630,8 +630,8 @@ enum CityStrategyType: Int, Codable {
         let numSettlers = gameModel.units(of: player).count(where: { $0!.task() == .settle })
         let numBuilders = gameModel.units(of: player).count(where: { $0!.task() == .work })
 
-        let numCities = max(1, (currentNumCities * 3) / 4)
-        if numBuilders >= numCities {
+        let numberOfCities = max(1, (currentNumberOfCities * 3) / 4)
+        if numBuilders >= numberOfCities {
             return false
         }
 
@@ -679,7 +679,7 @@ enum CityStrategyType: Int, Codable {
             }
 
             let manyUnimproveResources = (2 * (numResources - numImprovedResources)) > numResources
-            var multiplier = numCities
+            var multiplier = numberOfCities
             multiplier += gameModel.cities(of: player).count(where: { $0!.isFeatureSurrounded() })
             if manyUnimproveResources {
                 multiplier += 1
@@ -730,7 +730,7 @@ enum CityStrategyType: Int, Codable {
             return false
         }
 
-        let numBuilders = player.countUnitsWith(defaultTask: .work, in: gameModel)
+        let numberOfBuilders = player.countUnitsWith(defaultTask: .work, in: gameModel)
 
         // If it's a minor with at least 1 worker per city, always return true
         /*if(GET_PLAYER(pCity->getOwner()).isMinorCiv())
@@ -744,11 +744,11 @@ enum CityStrategyType: Int, Codable {
         let weightThresholdModifier = cityStrategy.weightThresholdModifier(for: player) // 10 Extra Weight per TILE_IMPROVEMENT Flavor
         let perCityThreshold = cityStrategy.weightThreshold() + weightThresholdModifier    // 100
 
-        let moddedNumCities = player.numCities(in: gameModel) + player.countCitiesFeatureSurrounded(in: gameModel)
-        let weightThreshold = (perCityThreshold * moddedNumCities)
+        let moddedNumberOfCities = player.numberOfCities(in: gameModel) + player.countCitiesFeatureSurrounded(in: gameModel)
+        let weightThreshold = (perCityThreshold * moddedNumberOfCities)
 
         // Average Player wants no more than 1.50 Builders per City [150 Weight is Average; range is 100 to 200]
-        if numBuilders * 100 >= weightThreshold {
+        if numberOfBuilders * 100 >= weightThreshold {
             return true
         }
 
@@ -955,11 +955,11 @@ enum CityStrategyType: Int, Codable {
             return false
         }
 
-        let numCities = gameModel.cities(of: player).count
-        let numSettlers = gameModel.units(of: player).count(where: { $0!.task() == .settle })
-        let numCitiesAndSettlers = numCities + numSettlers
+        let numberOfCities = gameModel.cities(of: player).count
+        let numberOfSettlers = gameModel.units(of: player).count(where: { $0!.task() == .settle })
+        let numberOfCitiesAndSettlers = numberOfCities + numberOfSettlers
 
-        if numCitiesAndSettlers < 3 {
+        if numberOfCitiesAndSettlers < 3 {
 
             if gameModel.currentTurn > 100 && cityStrategy.adopted(cityStrategy: .capitalUnderThreat) {
 
@@ -973,12 +973,12 @@ enum CityStrategyType: Int, Codable {
             let weightThresholdModifier = self.weightThresholdModifier(for: player)
             let weightThreshold = self.weightThreshold() + weightThresholdModifier
 
-            if numCitiesAndSettlers == 1 && gameModel.currentTurn * 4 > weightThreshold {
+            if numberOfCitiesAndSettlers == 1 && gameModel.currentTurn * 4 > weightThreshold {
 
                 return true
             }
 
-            if numCitiesAndSettlers == 2 && gameModel.currentTurn > weightThreshold {
+            if numberOfCitiesAndSettlers == 2 && gameModel.currentTurn > weightThreshold {
 
                 return true
             }

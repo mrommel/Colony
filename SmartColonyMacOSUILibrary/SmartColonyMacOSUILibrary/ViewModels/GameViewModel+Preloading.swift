@@ -618,7 +618,7 @@ extension GameViewModel {
             )
         }
 
-        let promotionTextureNames = UnitPromotionType.all.map { $0.iconTexture() }
+        let promotionTextureNames = UnitPromotionType.all.map { $0.iconTexture() } + ["promotion-default"]
         print("- load \(promotionTextureNames.count) promotion type textures")
         for textureName in promotionTextureNames {
             ImageCache.shared.add(

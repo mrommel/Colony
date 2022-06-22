@@ -490,12 +490,12 @@ extension City {
                         productionValue += 1.0
                     }
 
-                    // godOfTheSea - 1 [Production] Production from Fishing Boats.
+                    // godOfTheSea - 1 Production from Fishing Boats.
                     if workedTile.improvement() == .fishingBoats && player.religion?.pantheon() == .godOfTheSea {
                         productionValue += 1.0
                     }
 
-                    // ladyOfTheReedsAndMarshes - +2 [Production] Production from Marsh, Oasis, and Desert Floodplains.
+                    // ladyOfTheReedsAndMarshes - +2 Production from Marsh, Oasis, and Desert Floodplains.
                     if (workedTile.has(feature: .marsh) || workedTile.has(feature: .oasis) || workedTile.has(feature: .floodplains)) &&
                         self.player?.religion?.pantheon() == .ladyOfTheReedsAndMarshes {
                         productionValue += 1.0
@@ -564,7 +564,7 @@ extension City {
             // +1 to all yields for each government building and Palace in a city.
             if government.currentGovernment() == .autocracy {
 
-                productionFromGovernmentType += Double(buildings.numOfBuildings(of: BuildingCategoryType.government))
+                productionFromGovernmentType += Double(buildings.numberOfBuildings(of: BuildingCategoryType.government))
             }
 
             // urbanPlanning: +1 Production in all cities.
@@ -790,7 +790,7 @@ extension City {
             // +1 to all yields for each government building and Palace in a city.
             if government.currentGovernment() == .autocracy {
 
-                faithFromGovernmentValue += Double(buildings.numOfBuildings(of: BuildingCategoryType.government))
+                faithFromGovernmentValue += Double(buildings.numberOfBuildings(of: BuildingCategoryType.government))
             }
 
             // godKing
@@ -1038,7 +1038,7 @@ extension City {
                         cultureFromTiles += 1.0
                     }
 
-                    // goddessOfFestivals - +1 [Culture] Culture from Plantations.
+                    // goddessOfFestivals - +1 Culture from Plantations.
                     if adjacentTile.improvement() == .plantation && self.player?.religion?.pantheon() == .goddessOfFestivals {
                         cultureFromTiles += 1.0
                     }
@@ -1068,7 +1068,7 @@ extension City {
             // +1 to all yields for each government building and Palace in a city.
             if government.currentGovernment() == .autocracy {
 
-                cultureFromGovernmentValue += Double(buildings.numOfBuildings(of: BuildingCategoryType.government))
+                cultureFromGovernmentValue += Double(buildings.numberOfBuildings(of: BuildingCategoryType.government))
             }
         }
 
@@ -1352,7 +1352,7 @@ extension City {
             // +1 to all yields for each government building and Palace in a city.
             if government.currentGovernment() == .autocracy {
 
-                goldFromGovernmentValue += Double(buildings.numOfBuildings(of: BuildingCategoryType.government))
+                goldFromGovernmentValue += Double(buildings.numberOfBuildings(of: BuildingCategoryType.government))
             }
 
             // godKing
@@ -1501,7 +1501,7 @@ extension City {
         for tradeRoute in tradeRoutes {
             goldFromTradeRoutes += tradeRoute.yields(in: gameModel).gold
 
-            // +3 Gold per turn for each foreign Trade Route Trade Route passing through the city.
+            // landAcquisition - +3 Gold per turn for each foreign Trade Route passing through the city.
             if self.hasGovernorTitle(of: .landAcquisition) && tradeRoute.isInternational(in: gameModel) {
                 goldFromTradeRoutes += 3
             }
@@ -1642,7 +1642,7 @@ extension City {
             // +1 to all yields for each government building and Palace in a city.
             if government.currentGovernment() == .autocracy {
 
-                scienceFromGovernmentValue += Double(buildings.numOfBuildings(of: BuildingCategoryType.government))
+                scienceFromGovernmentValue += Double(buildings.numberOfBuildings(of: BuildingCategoryType.government))
             }
         }
 
@@ -1960,7 +1960,7 @@ extension City {
             // +1 to all yields for each government building and Palace in a city.
             if government.currentGovernment() == .autocracy {
 
-                foodFromGovernmentValue += Double(buildings.numOfBuildings(of: BuildingCategoryType.government))
+                foodFromGovernmentValue += Double(buildings.numberOfBuildings(of: BuildingCategoryType.government))
             }
         }
 
@@ -2297,7 +2297,7 @@ extension City {
         var housingValue: Double = 0.0
 
         // Established Governors with at least 2 Promotions provide +1 Amenity and +2 Housing.
-        if government.has(card: .civilPrestige) && self.numOfGovernorTitles() >= 2 {
+        if government.has(card: .civilPrestige) && self.numberOfGovernorTitles() >= 2 {
 
             housingValue += 2.0
         }

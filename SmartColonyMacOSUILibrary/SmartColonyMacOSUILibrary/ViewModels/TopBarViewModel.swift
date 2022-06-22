@@ -138,35 +138,35 @@ public class TopBarViewModel: ObservableObject {
         self.envoysLabelText = "\(humanPlayer.numberOfAvailableEnvoys())"
 
         // gather resource
-        let numHorses = humanPlayer.numStockpile(of: .horses)
-        let numIron = humanPlayer.numStockpile(of: .iron)
-        let numNiter = humanPlayer.numStockpile(of: .niter)
-        let numCoal = humanPlayer.numStockpile(of: .coal)
-        let numOil = humanPlayer.numStockpile(of: .oil)
-        let numAluminum = humanPlayer.numStockpile(of: .aluminum)
-        let numUranium = humanPlayer.numStockpile(of: .uranium)
+        let numberOfHorses = humanPlayer.numberOfItemsInStockpile(of: .horses)
+        let numberOfIron = humanPlayer.numberOfItemsInStockpile(of: .iron)
+        let numberOfNiter = humanPlayer.numberOfItemsInStockpile(of: .niter)
+        let numberOfCoal = humanPlayer.numberOfItemsInStockpile(of: .coal)
+        let numberOfOil = humanPlayer.numberOfItemsInStockpile(of: .oil)
+        let numberOfAluminum = humanPlayer.numberOfItemsInStockpile(of: .aluminum)
+        let numberOfUranium = humanPlayer.numberOfItemsInStockpile(of: .uranium)
 
-        self.showResources = numHorses + numIron + numNiter + numCoal + numOil + numAluminum + numUranium > 0
+        self.showResources = numberOfHorses + numberOfIron + numberOfNiter + numberOfCoal + numberOfOil + numberOfAluminum + numberOfUranium > 0
 
-        self.horsesValueViewModel.value = numHorses
+        self.horsesValueViewModel.value = numberOfHorses
         self.horsesValueViewModel.tooltip = self.resourceTooltip(of: .horses, for: humanPlayer)
 
-        self.ironValueViewModel.value = numIron
+        self.ironValueViewModel.value = numberOfIron
         self.ironValueViewModel.tooltip = self.resourceTooltip(of: .iron, for: humanPlayer)
 
-        self.niterValueViewModel.value = numNiter
+        self.niterValueViewModel.value = numberOfNiter
         self.niterValueViewModel.tooltip = self.resourceTooltip(of: .niter, for: humanPlayer)
 
-        self.coalValueViewModel.value = numCoal
+        self.coalValueViewModel.value = numberOfCoal
         self.coalValueViewModel.tooltip = self.resourceTooltip(of: .coal, for: humanPlayer)
 
-        self.oilValueViewModel.value = numOil
+        self.oilValueViewModel.value = numberOfOil
         self.oilValueViewModel.tooltip = self.resourceTooltip(of: .oil, for: humanPlayer)
 
-        self.aluminumValueViewModel.value = numAluminum
+        self.aluminumValueViewModel.value = numberOfAluminum
         self.aluminumValueViewModel.tooltip = self.resourceTooltip(of: .aluminum, for: humanPlayer)
 
-        self.uraniumValueViewModel.value = numUranium
+        self.uraniumValueViewModel.value = numberOfUranium
         self.uraniumValueViewModel.tooltip = self.resourceTooltip(of: .uranium, for: humanPlayer)
 
         self.turnYearText = gameModel.turnYear()
@@ -582,8 +582,8 @@ extension TopBarViewModel {
         )
         tooltipText.append(title)
 
-        let stockpileValue = player.numStockpile(of: resource)
-        let stockCapacity = player.numMaxStockpile(of: resource)
+        let stockpileValue = player.numberOfItemsInStockpile(of: resource)
+        let stockCapacity = player.numberOfStockpileCapacity(of: resource)
         let stockpile = NSAttributedString(
             string: "\n\(stockpileValue)/\(stockCapacity) in stockpile",
             attributes: Globals.Attributs.tooltipContentAttributs

@@ -51,8 +51,8 @@ class CityCitizensTests: XCTestCase {
         // WHEN
         city.cityCitizens?.doTurn(with: gameModel)
 
-        let numUnassignedCitizens = city.cityCitizens!.numUnassignedCitizens()
-        let numCitizensWorkingPlots = city.cityCitizens!.numCitizensWorkingPlots()
+        let numUnassignedCitizens = city.cityCitizens!.numberOfUnassignedCitizens()
+        let numCitizensWorkingPlots = city.cityCitizens!.numberOfCitizensWorkingPlots()
 
         var count = 0
         for pt in city.cityCitizens!.workingTileLocations() {

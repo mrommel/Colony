@@ -107,10 +107,10 @@ class LeaderViewModel: ObservableObject {
 
         // cities / population
         let cities = gameModel.cities(of: player)
-        let numCities = cities.count
-        let numPopulation = cities.map { $0?.population() ?? 0 }.reduce(0, +)
+        let numberOfCities = cities.count
+        let numberOfPeople = cities.map { $0?.population() ?? 0 }.reduce(0, +)
         let citiesName = NSAttributedString(
-            string: "\nCities: \(numCities)\nPopulation: \(numPopulation)",
+            string: "\nCities: \(numberOfCities)\nPopulation: \(numberOfPeople)",
             attributes: Globals.Attributs.tooltipContentAttributs
         )
         tooltipText.append(citiesName)

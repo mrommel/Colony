@@ -1226,10 +1226,10 @@ open class GameModel: Codable {
             let totalCities = self.cities(of: player).count
             self.rankingData.add(totalCities: totalCities, for: player.leader)
 
-            let totalCitiesFounded = player.numOfCitiesFounded()
+            let totalCitiesFounded = player.numberOfCitiesFounded()
             self.rankingData.add(totalCitiesFounded: totalCitiesFounded, for: player.leader)
 
-            let totalCitiesLost = player.numOfCitiesLost()
+            let totalCitiesLost = player.numberOfCitiesLost()
             self.rankingData.add(totalCitiesLost: totalCitiesLost, for: player.leader)
 
             let totalDistrictsConstructed = self.cities(of: player)
@@ -1243,7 +1243,7 @@ open class GameModel: Codable {
             self.rankingData.add(totalWondersConstructed: totalWondersConstructed, for: player.leader)
 
             let totalBuildingsConstructed = self.cities(of: player)
-                .map { $0?.buildings?.numberOfBuiltBuildings() ?? 0 }
+                .map { $0?.buildings?.numberOfBuildings() ?? 0 }
                 .reduce(0, +)
             self.rankingData.add(totalBuildingsConstructed: totalBuildingsConstructed, for: player.leader)
 
@@ -1261,7 +1261,7 @@ open class GameModel: Codable {
             let totalReligionsFounded = player.religion?.currentReligion() == Optional<ReligionType>.none ? 0 : 1
             self.rankingData.add(totalReligionsFounded: totalReligionsFounded, for: player.leader)
 
-            let totalGreatPeopleEarned = player.greatPeople?.numOfSpawnedGreatPersons() ?? 0
+            let totalGreatPeopleEarned = player.greatPeople?.numberOfSpawnedGreatPersons() ?? 0
             self.rankingData.add(totalGreatPeopleEarned: totalGreatPeopleEarned, for: player.leader)
 
             let totalWarDeclarationsReceived = player.diplomacyAI?.atWarCount() ?? 0

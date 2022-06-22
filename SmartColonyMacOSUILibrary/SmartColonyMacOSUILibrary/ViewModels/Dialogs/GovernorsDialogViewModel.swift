@@ -140,7 +140,9 @@ extension GovernorsDialogViewModel: GovernorViewModelDelegate {
             SelectableItem(
                 iconTexture: governorTitleType.iconTexture(),
                 title: governorTitleType.name(),
-                subtitle: governorTitleType.effects().joined(separator: "\n")
+                subtitle: governorTitleType.effects()
+                    .map { $0.localized() }
+                    .joined(separator: "\n")
             )
         }
 

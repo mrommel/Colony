@@ -20,6 +20,7 @@ public protocol AbstractTradeRoutes {
     func canEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, in gameModel: GameModel?) -> Bool
 
     func numberOfTradeRoutes() -> Int
+    func hasTradeRoute(from: HexPoint, to: HexPoint) -> Bool
     func tradeRoute(at index: Int) -> TradeRoute?
     func tradeRoutesStarting(at city: AbstractCity?) -> [TradeRoute]
     func clearTradeRoutes(at point: HexPoint)
@@ -82,6 +83,14 @@ public class TradeRoutes: Codable, AbstractTradeRoutes {
             }
 
             return otherPlayer.isEqual(to: startCity.player) || otherPlayer.isEqual(to: endCity.player)
+        })
+    }
+
+    public func hasTradeRoute(from: HexPoint, to: HexPoint) -> Bool {
+
+        return self.routes.contains(where: { route in
+
+            return route.start == from && route.end == to
         })
     }
 

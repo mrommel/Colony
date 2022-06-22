@@ -293,11 +293,11 @@ class PlayerGovernors: AbstractPlayerGovernors {
             fatalError("cant get player")
         }
 
-        let numOfCities = gameModel?.cities(of: player).count ?? 0
-        let numOfActiveGovernors = self.numActiveGovernors(in: gameModel)
+        let numberOfCities = gameModel?.cities(of: player).count ?? 0
+        let numberOfActiveGovernors = self.numActiveGovernors(in: gameModel)
 
         // appoint new or promote existing governors
-        if 0 < numOfActiveGovernors && (numOfCities <= numOfActiveGovernors || numOfActiveGovernors >= GovernorType.all.count) {
+        if 0 < numberOfActiveGovernors && (numberOfCities <= numberOfActiveGovernors || numberOfActiveGovernors >= GovernorType.all.count) {
             // promote
             self.promoteGovernor()
         } else {

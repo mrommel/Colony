@@ -463,6 +463,11 @@ class UnitLayer: SKNode {
             return
         }
 
+        guard let gameModel = self.gameModel else {
+            return
+        }
+
+        let wrapX: Int = gameModel.wrappedX() ? gameModel.mapSize().width() : -1
         var isReallyMovementLeft: Bool = true
 
         let (firstPoint, _) = path[0]
@@ -470,7 +475,7 @@ class UnitLayer: SKNode {
 
         let isMovementLeft = movementInCurrentTurn > secondCost
 
-        if let dir = firstPoint.direction(towards: secondPoint) {
+        if let dir = firstPoint.direction(towards: secondPoint, wrapX: wrapX) {
             let textureName = "path-start-\(dir.short())"
 
             let pathImage = ImageCache.shared.image(for: textureName)
@@ -496,8 +501,8 @@ class UnitLayer: SKNode {
             costSum += currentCost
             let isMovementLeft = movementInCurrentTurn > costSum
 
-            if let dir = currentPoint.direction(towards: previousPoint),
-                let dir2 = currentPoint.direction(towards: nextPoint) {
+            if let dir = currentPoint.direction(towards: previousPoint, wrapX: wrapX),
+                let dir2 = currentPoint.direction(towards: nextPoint, wrapX: wrapX) {
 
                 var textureName = "path-\(dir.short())-\(dir2.short())"
                 if dir.rawValue > dir2.rawValue {
@@ -533,7 +538,7 @@ class UnitLayer: SKNode {
 
         costSum += lastCost
 
-        if let dir = lastPoint.direction(towards: secondlastItem) {
+        if let dir = lastPoint.direction(towards: secondlastItem, wrapX: wrapX) {
             var textureName = "path-start-\(dir.short())"
 
             if !isReallyMovementLeft {

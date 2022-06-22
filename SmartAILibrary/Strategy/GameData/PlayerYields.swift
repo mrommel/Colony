@@ -149,8 +149,8 @@ extension Player {
         // antananarivo suzerain bonus
         // Your Civilization gains +2% [Culture] Culture for each [GreatPerson] Great Person it has ever earned (up to 30%).
         if self.isSuzerain(of: .antananarivo, in: gameModel) {
-            let numOfSpawnedGreatPersons = self.greatPeople?.numOfSpawnedGreatPersons() ?? 0
-            cultureModifier += min(0.02 * Double(numOfSpawnedGreatPersons), 0.3)
+            let numberOfSpawnedGreatPersons = self.greatPeople?.numberOfSpawnedGreatPersons() ?? 0
+            cultureModifier += min(0.02 * Double(numberOfSpawnedGreatPersons), 0.3)
         }
 
         return YieldValues(value: cultureVal, percentage: cultureModifier)

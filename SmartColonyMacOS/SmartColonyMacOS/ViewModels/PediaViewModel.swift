@@ -590,7 +590,7 @@ class PediaViewModel: ObservableObject {
             )
         }
 
-        let promotionTextureNames = UnitPromotionType.all.map { $0.iconTexture() }
+        let promotionTextureNames = UnitPromotionType.all.map { $0.iconTexture() } + ["promotion-default"]
         print("- load \(promotionTextureNames.count) promotions")
         for textureName in promotionTextureNames {
             ImageCache.shared.add(

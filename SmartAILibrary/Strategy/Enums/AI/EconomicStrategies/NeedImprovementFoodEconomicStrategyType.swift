@@ -80,12 +80,12 @@ class NeedImprovementEconomicStrategyType: EconomicStrategyTypeData {
         }
 
         // if enough cities are worried about this problem
-        let numCities = player.numCities(in: gameModel)
-        if numCities == 0 {
+        let numberOfCities = player.numberOfCities(in: gameModel)
+        if numberOfCities == 0 {
             return false // no cities, no problem!
         }
 
-        var numCitiesConcerned = 0
+        var numberOfCitiesConcerned = 0
         for cityRef in gameModel.cities(of: player) {
 
             guard let cityStrategy = cityRef?.cityStrategy else {
@@ -93,14 +93,14 @@ class NeedImprovementEconomicStrategyType: EconomicStrategyTypeData {
             }
 
             if cityStrategy.adopted(cityStrategy: cityStrategyType) {
-                numCitiesConcerned += 1
+                numberOfCitiesConcerned += 1
             }
         }
 
         let warningRatio = 0.34 // AI_STRATEGY_NEED_IMPROVEMENT_CITY_RATIO
 
         // if not enough cities are upset
-        if (Double(numCitiesConcerned) / Double(numCities)) < warningRatio {
+        if (Double(numberOfCitiesConcerned) / Double(numberOfCities)) < warningRatio {
             return false
         }
 

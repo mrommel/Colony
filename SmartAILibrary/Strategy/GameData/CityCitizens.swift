@@ -100,19 +100,19 @@ public class CityCitizens: Codable {
     private var automated: Bool
     private var inited: Bool
 
-    private var numCitizensWorkingPlotsValue: Int = 0
-    private var numForcedWorkingPlotsValue: Int = 0
-    private var numUnassignedCitizensValue: Int = 0
-    private var numDefaultSpecialistsValue: Int = 0
-    private var numForcedSpecialistsValue: Int = 0
+    private var numberOfCitizensWorkingPlotsValue: Int = 0
+    private var numberOfForcedWorkingPlotsValue: Int = 0
+    private var numberOfUnassignedCitizensValue: Int = 0
+    private var numberOfDefaultSpecialistsValue: Int = 0
+    private var numberOfForcedSpecialistsValue: Int = 0
 
     private var noAutoAssignSpecialistsValue: Bool = false
     private var avoidGrowthValue: Bool = false
     private var forceAvoidGrowthValue: Bool = false
 
-    private var numSpecialists: SpecialistCountList // m_aiSpecialistCounts
-    private var numSpecialistsInBuilding: [SpecialistBuildingTuple]
-    private var numForcedSpecialistsInBuilding: [SpecialistBuildingTuple]
+    private var numberOfSpecialists: SpecialistCountList // m_aiSpecialistCounts
+    private var numberOfSpecialistsInBuilding: [SpecialistBuildingTuple]
+    private var numberOfForcedSpecialistsInBuilding: [SpecialistBuildingTuple]
 
     private var specialistGreatPersonProgress: GreatPersonProgressList
 
@@ -202,11 +202,11 @@ public class CityCitizens: Codable {
         self.focusTypeValue = .productionGrowth
         self.workingPlots = []
 
-        self.numSpecialists = SpecialistCountList()
-        self.numSpecialists.fill()
+        self.numberOfSpecialists = SpecialistCountList()
+        self.numberOfSpecialists.fill()
 
-        self.numSpecialistsInBuilding = []
-        self.numForcedSpecialistsInBuilding = []
+        self.numberOfSpecialistsInBuilding = []
+        self.numberOfForcedSpecialistsInBuilding = []
 
         self.specialistGreatPersonProgress = GreatPersonProgressList()
         self.specialistGreatPersonProgress.fill()
@@ -222,19 +222,19 @@ public class CityCitizens: Codable {
         self.automated = try container.decode(Bool.self, forKey: .automated)
         self.inited = try container.decode(Bool.self, forKey: .inited)
 
-        self.numCitizensWorkingPlotsValue = try container.decode(Int.self, forKey: .numCitizensWorkingPlots)
-        self.numForcedWorkingPlotsValue = try container.decode(Int.self, forKey: .numForcedWorkingPlots)
-        self.numUnassignedCitizensValue = try container.decode(Int.self, forKey: .numUnassignedCitizens)
-        self.numDefaultSpecialistsValue = try container.decode(Int.self, forKey: .numDefaultSpecialists)
-        self.numForcedSpecialistsValue = try container.decode(Int.self, forKey: .numForcedSpecialists)
+        self.numberOfCitizensWorkingPlotsValue = try container.decode(Int.self, forKey: .numCitizensWorkingPlots)
+        self.numberOfForcedWorkingPlotsValue = try container.decode(Int.self, forKey: .numForcedWorkingPlots)
+        self.numberOfUnassignedCitizensValue = try container.decode(Int.self, forKey: .numUnassignedCitizens)
+        self.numberOfDefaultSpecialistsValue = try container.decode(Int.self, forKey: .numDefaultSpecialists)
+        self.numberOfForcedSpecialistsValue = try container.decode(Int.self, forKey: .numForcedSpecialists)
 
         self.noAutoAssignSpecialistsValue = try container.decode(Bool.self, forKey: .noAutoAssignSpecialists)
         self.avoidGrowthValue = try container.decode(Bool.self, forKey: .avoidGrowth)
         self.forceAvoidGrowthValue = try container.decode(Bool.self, forKey: .forceAvoidGrowth)
 
-        self.numSpecialists = try container.decode(SpecialistCountList.self, forKey: .numSpecialists)
-        self.numSpecialistsInBuilding = try container.decode([SpecialistBuildingTuple].self, forKey: .numSpecialistsInBuilding)
-        self.numForcedSpecialistsInBuilding = try container.decode([SpecialistBuildingTuple].self, forKey: .numForcedSpecialistsInBuilding)
+        self.numberOfSpecialists = try container.decode(SpecialistCountList.self, forKey: .numSpecialists)
+        self.numberOfSpecialistsInBuilding = try container.decode([SpecialistBuildingTuple].self, forKey: .numSpecialistsInBuilding)
+        self.numberOfForcedSpecialistsInBuilding = try container.decode([SpecialistBuildingTuple].self, forKey: .numForcedSpecialistsInBuilding)
 
         self.specialistGreatPersonProgress = try container.decode(GreatPersonProgressList.self, forKey: .specialistGreatPersonProgress)
     }
@@ -249,19 +249,19 @@ public class CityCitizens: Codable {
         try container.encode(self.automated, forKey: .automated)
         try container.encode(self.inited, forKey: .inited)
 
-        try container.encode(self.numCitizensWorkingPlotsValue, forKey: .numCitizensWorkingPlots)
-        try container.encode(self.numForcedWorkingPlotsValue, forKey: .numForcedWorkingPlots)
-        try container.encode(self.numUnassignedCitizensValue, forKey: .numUnassignedCitizens)
-        try container.encode(self.numDefaultSpecialistsValue, forKey: .numDefaultSpecialists)
-        try container.encode(self.numForcedSpecialistsValue, forKey: .numForcedSpecialists)
+        try container.encode(self.numberOfCitizensWorkingPlotsValue, forKey: .numCitizensWorkingPlots)
+        try container.encode(self.numberOfForcedWorkingPlotsValue, forKey: .numForcedWorkingPlots)
+        try container.encode(self.numberOfUnassignedCitizensValue, forKey: .numUnassignedCitizens)
+        try container.encode(self.numberOfDefaultSpecialistsValue, forKey: .numDefaultSpecialists)
+        try container.encode(self.numberOfForcedSpecialistsValue, forKey: .numForcedSpecialists)
 
         try container.encode(self.noAutoAssignSpecialistsValue, forKey: .noAutoAssignSpecialists)
         try container.encode(self.avoidGrowthValue, forKey: .avoidGrowth)
         try container.encode(self.forceAvoidGrowthValue, forKey: .forceAvoidGrowth)
 
-        try container.encode(self.numSpecialists, forKey: .numSpecialists)
-        try container.encode(self.numSpecialistsInBuilding, forKey: .numSpecialistsInBuilding)
-        try container.encode(self.numForcedSpecialistsInBuilding, forKey: .numForcedSpecialistsInBuilding)
+        try container.encode(self.numberOfSpecialists, forKey: .numSpecialists)
+        try container.encode(self.numberOfSpecialistsInBuilding, forKey: .numSpecialistsInBuilding)
+        try container.encode(self.numberOfForcedSpecialistsInBuilding, forKey: .numForcedSpecialistsInBuilding)
 
         try container.encode(self.specialistGreatPersonProgress, forKey: .specialistGreatPersonProgress)
     }
@@ -420,7 +420,7 @@ public class CityCitizens: Codable {
 
         self.doReallocateCitizens(in: gameModel)
 
-        assert((self.numCitizensWorkingPlots() + self.totalSpecialistCount() + self.numUnassignedCitizens()) <= city.population(), "Gameplay: More workers than population in the city.")
+        assert((self.numberOfCitizensWorkingPlots() + self.totalSpecialistCount() + self.numberOfUnassignedCitizens()) <= city.population(), "Gameplay: More workers than population in the city.")
         // print("working: \(self.numCitizensWorkingPlots()) + spec: \(self.totalSpecialistCount()) + unassigned: \(self.numUnassignedCitizens()) for \(city.population())")
     }
 
@@ -447,8 +447,8 @@ public class CityCitizens: Codable {
         self.doValidateForcedWorkingPlots(in: gameModel)
 
         // Remove all of the allocated guys
-        let numCitizensToRemove = self.numCitizensWorkingPlots()
-        for _ in 0..<numCitizensToRemove {
+        let numberOfCitizensToRemove = self.numberOfCitizensWorkingPlots()
+        for _ in 0..<numberOfCitizensToRemove {
             self.doRemoveWorstCitizen(in: gameModel)
         }
 
@@ -475,7 +475,7 @@ public class CityCitizens: Codable {
         }
 
         // Now put all of the unallocated guys back
-        let numToAllocate = self.numUnassignedCitizens()
+        let numToAllocate = self.numberOfUnassignedCitizens()
         for _ in 0..<numToAllocate {
             self.doAddBestCitizenFromUnassigned(in: gameModel)
         }
@@ -484,7 +484,7 @@ public class CityCitizens: Codable {
     /// Make sure we don't have more forced working plots than we have citizens to work
     public func doValidateForcedWorkingPlots(in gameModel: GameModel?) {
 
-        let numForcedWorkingPlotsToDemote = self.numForcedWorkingPlots() - self.numCitizensWorkingPlots()
+        let numForcedWorkingPlotsToDemote = self.numberOfForcedWorkingPlots() - self.numberOfCitizensWorkingPlots()
 
         if numForcedWorkingPlotsToDemote > 0 {
             for _ in 0..<numForcedWorkingPlotsToDemote {
@@ -547,7 +547,7 @@ public class CityCitizens: Codable {
         if numSpecialistsAssigned > 0 {
 
             // Decrease count for the whole city
-            self.numSpecialists.decrease(of: specialistType)
+            self.numberOfSpecialists.decrease(of: specialistType)
             self.decreaseNumberOfSpecialists(in: buildingType)
 
             if forced {
@@ -560,7 +560,7 @@ public class CityCitizens: Codable {
             if eliminatePopulation {
                 city.change(population: -1, reassignCitizen: false, in: gameModel)
             } else {
-                self.changeNumUnassignedCitizens(change: 1)
+                self.changeNumberOfUnassignedCitizens(by: 1)
             }
 
             /* FIXME notify ui
@@ -579,7 +579,7 @@ public class CityCitizens: Codable {
 
     func numSpecialists(in buildingType: BuildingType) -> Int {
 
-        if let specialistsTuple = self.numSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
+        if let specialistsTuple = self.numberOfSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
             return specialistsTuple.specialists
         }
 
@@ -589,19 +589,19 @@ public class CityCitizens: Codable {
     func increaseNumberOfSpecialists(in buildingType: BuildingType) {
 
         // update
-        if let specialistsTuple = self.numSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
+        if let specialistsTuple = self.numberOfSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
             specialistsTuple.specialists += 1
             return
         }
 
         // create new entry
-        self.numSpecialistsInBuilding.append(CityCitizens.SpecialistBuildingTuple(buildingType: buildingType, specialists: 1))
+        self.numberOfSpecialistsInBuilding.append(CityCitizens.SpecialistBuildingTuple(buildingType: buildingType, specialists: 1))
     }
 
     func decreaseNumberOfSpecialists(in buildingType: BuildingType) {
 
         // update
-        if let specialistsTuple = self.numSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
+        if let specialistsTuple = self.numberOfSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
             specialistsTuple.specialists -= 1
             return
         }
@@ -612,19 +612,19 @@ public class CityCitizens: Codable {
     func increaseNumberOfForcedSpecialists(in buildingType: BuildingType) {
 
         // update
-        if let specialistsTuple = self.numForcedSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
+        if let specialistsTuple = self.numberOfForcedSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
             specialistsTuple.specialists += 1
             return
         }
 
         // create new entry
-        self.numForcedSpecialistsInBuilding.append(CityCitizens.SpecialistBuildingTuple(buildingType: buildingType, specialists: 1))
+        self.numberOfForcedSpecialistsInBuilding.append(CityCitizens.SpecialistBuildingTuple(buildingType: buildingType, specialists: 1))
     }
 
     func decreaseNumberOfForcedSpecialists(in buildingType: BuildingType) {
 
         // update
-        if let specialistsTuple = self.numForcedSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
+        if let specialistsTuple = self.numberOfForcedSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
             specialistsTuple.specialists -= 1
             return
         }
@@ -634,7 +634,7 @@ public class CityCitizens: Codable {
 
     func numForcedSpecialists(in buildingType: BuildingType) -> Int {
 
-        if let specialistsTuple = self.numForcedSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
+        if let specialistsTuple = self.numberOfForcedSpecialistsInBuilding.first(where: { $0.buildingType == buildingType}) {
             return specialistsTuple.specialists
         }
 
@@ -644,19 +644,19 @@ public class CityCitizens: Codable {
     /// Changes how many Default Specialists are assigned in this City
     func changeNumDefaultSpecialists(change: Int) {
 
-        self.numDefaultSpecialistsValue += change
+        self.numberOfDefaultSpecialistsValue += change
 
         let specialistType: SpecialistType = .citizen
-        self.numSpecialists.add(weight: change, for: specialistType)
+        self.numberOfSpecialists.add(weight: change, for: specialistType)
         self.city?.processSpecialist(specialistType: specialistType, change: change)
 
-        self.changeNumUnassignedCitizens(change: -change)
+        self.changeNumberOfUnassignedCitizens(by: -change)
     }
 
     /// How many Default Specialists have been forced assigned in this City?
     func changeNumForcedDefaultSpecialists(change: Int) {
 
-        self.numDefaultSpecialistsValue += change
+        self.numberOfDefaultSpecialistsValue += change
     }
 
     public func set(focusType: CityFocusType) {
@@ -688,7 +688,7 @@ public class CityCitizens: Codable {
     func doClearForcedSpecialists() {
 
         // Loop through all Buildings
-        self.numForcedSpecialistsInBuilding.removeAll()
+        self.numberOfForcedSpecialistsInBuilding.removeAll()
     }
 
     func setForcedAvoidGrowth(_ forcedAvoidGrowth: Bool, in gameModel: GameModel?) {
@@ -730,7 +730,7 @@ public class CityCitizens: Codable {
 
                 // Change the count of how many are forced
                 if newValue {
-                    self.changeNumForcedWorkingPlots(change: 1)
+                    self.changeNumberOfForcedWorkingPlots(by: 1)
 
                     // More forced plots than we have citizens working?
                     // If so, then pick someone to lose their forced status
@@ -738,7 +738,7 @@ public class CityCitizens: Codable {
                     self.doValidateForcedWorkingPlots(in: gameModel)
                     // }
                 } else {
-                    self.changeNumForcedWorkingPlots(change: -1)
+                    self.changeNumberOfForcedWorkingPlots(by: -1)
                 }
 
                 self.doReallocateCitizens(in: gameModel)
@@ -768,16 +768,16 @@ public class CityCitizens: Codable {
 
                     // Alter the count of Plots being worked by Citizens
                     if worked {
-                        self.changeNumCitizensWorkingPlots(change: 1)
+                        self.changeNumberOfCitizensWorkingPlots(by: 1)
 
                         if useUnassignedPool {
-                            self.changeNumUnassignedCitizens(change: -1)
+                            self.changeNumberOfUnassignedCitizens(by: -1)
                         }
                     } else {
-                        self.changeNumCitizensWorkingPlots(change: -1)
+                        self.changeNumberOfCitizensWorkingPlots(by: -1)
 
                         if useUnassignedPool {
-                            self.changeNumUnassignedCitizens(change: 1)
+                            self.changeNumberOfUnassignedCitizens(by: 1)
                         }
                     }
                 }
@@ -830,42 +830,42 @@ public class CityCitizens: Codable {
     }
 
     /// How many Citizens need to be given a job?
-    func numUnassignedCitizens() -> Int {
+    func numberOfUnassignedCitizens() -> Int {
 
-        return self.numUnassignedCitizensValue
+        return self.numberOfUnassignedCitizensValue
     }
 
     /// Changes how many Citizens need to be given a job
-    func changeNumUnassignedCitizens(change: Int) {
+    func changeNumberOfUnassignedCitizens(by change: Int) {
 
-        self.numUnassignedCitizensValue += change
+        self.numberOfUnassignedCitizensValue += change
 
-        guard self.numUnassignedCitizensValue >= 0 else {
+        guard self.numberOfUnassignedCitizensValue >= 0 else {
             fatalError("unassigned citizen must be positiv")
         }
     }
 
     /// How many Citizens are working Plots?
-    func numCitizensWorkingPlots() -> Int {
+    func numberOfCitizensWorkingPlots() -> Int {
 
-        return self.numCitizensWorkingPlotsValue
+        return self.numberOfCitizensWorkingPlotsValue
     }
 
     /// Changes how many Citizens are working Plots
-    func changeNumCitizensWorkingPlots(change: Int) {
+    func changeNumberOfCitizensWorkingPlots(by change: Int) {
 
-        self.numCitizensWorkingPlotsValue += change
+        self.numberOfCitizensWorkingPlotsValue += change
     }
 
     /// How many plots have we forced to be worked?
-    func numForcedWorkingPlots() -> Int {
+    func numberOfForcedWorkingPlots() -> Int {
 
-        return self.numForcedWorkingPlotsValue
+        return self.numberOfForcedWorkingPlotsValue
     }
 
-    func changeNumForcedWorkingPlots(change: Int) {
+    func changeNumberOfForcedWorkingPlots(by change: Int) {
 
-        self.numForcedWorkingPlotsValue += change
+        self.numberOfForcedWorkingPlotsValue += change
     }
 
     /// What is the Building Type the AI likes the Specialist of most right now?
@@ -978,7 +978,7 @@ public class CityCitizens: Codable {
     func doAddBestCitizenFromUnassigned(in gameModel: GameModel?) -> Bool {
 
         // We only assign the unassigned here, folks
-        if self.numUnassignedCitizens() == 0 {
+        if self.numberOfUnassignedCitizens() == 0 {
             return false
         }
 
@@ -1034,11 +1034,11 @@ public class CityCitizens: Codable {
             }
 
             // If we don't already have an Unassigned Citizen to turn into a Specialist, find one from somewhere
-            if self.numUnassignedCitizens() == 0 {
+            if self.numberOfUnassignedCitizens() == 0 {
 
                 self.doRemoveWorstCitizen(removeForcedStatus: true, dontChangeSpecialist: specialistType, in: gameModel)
 
-                if self.numUnassignedCitizens() == 0 {
+                if self.numberOfUnassignedCitizens() == 0 {
                     // Still nobody, all the citizens may be assigned to the eSpecialist we are looking for, try again
                     if !self.doRemoveWorstSpecialist(dontRemoveFromBuilding: buildingType, in: gameModel) {
                         return // For some reason we can't do this, we must exit, else we will be going over the population count
@@ -1047,7 +1047,7 @@ public class CityCitizens: Codable {
             }
 
             // Increase count for the whole city
-            self.numSpecialists.increase(of: specialistType)
+            self.numberOfSpecialists.increase(of: specialistType)
             self.increaseNumberOfSpecialists(in: buildingType)
 
             if forced {
@@ -1056,7 +1056,7 @@ public class CityCitizens: Codable {
 
             city.processSpecialist(specialistType: specialistType, change: 1)
 
-            self.changeNumUnassignedCitizens(change: -1)
+            self.changeNumberOfUnassignedCitizens(by: -1)
 
             /*
              FIXME: notify UI
@@ -1355,7 +1355,7 @@ public class CityCitizens: Codable {
         }
 
         // Are all of our guys already not working Plots?
-        if self.numUnassignedCitizens() == city.population() {
+        if self.numberOfUnassignedCitizens() == city.population() {
             return false
         }
 
@@ -1424,12 +1424,12 @@ public class CityCitizens: Codable {
 
     func numDefaultSpecialists() -> Int {
 
-        return self.numDefaultSpecialistsValue
+        return self.numberOfDefaultSpecialistsValue
     }
 
     func numForcedDefaultSpecialists() -> Int {
 
-        return self.numForcedSpecialistsValue
+        return self.numberOfForcedSpecialistsValue
     }
 
     func workableTiles(in gameModel: GameModel?) -> [AbstractTile?] {
@@ -1699,6 +1699,6 @@ public class CityCitizens: Codable {
 
     func specialistCount(of specialistType: SpecialistType) -> Int {
 
-        return self.numSpecialists.amount(of: specialistType)
+        return self.numberOfSpecialists.amount(of: specialistType)
     }
 }

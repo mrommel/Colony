@@ -3676,38 +3676,11 @@ public class Unit: AbstractUnit {
             return []
         }
 
-        guard let unitPlayer = self.player,
-            let unitPlayerTradeRoutes = unitPlayer.tradeRoutes else {
+        guard let unitPlayer = self.player else {
             fatalError("unit doesnt have a player")
         }
 
-        var cities: [AbstractCity?] = []
-
-        for player in gameModel.players {
-            for city in gameModel.cities(of: player) {
-
-                guard let cityLocation = city?.location,
-                    let cityTile = gameModel.tile(at: cityLocation) else {
-
-                        continue
-                }
-
-                if self.origin == cityLocation {
-                    continue
-                }
-
-                if cityTile.isDiscovered(by: unitPlayer) {
-
-                    // check if is within reach
-                    if unitPlayerTradeRoutes.canEstablishTradeRoute(from: originCity, to: city, in: gameModel) {
-
-                        cities.append(city)
-                    }
-                }
-            }
-        }
-
-        return cities
+        return unitPlayer.possibleTradeRouteTargets(from: originCity, in: gameModel)
     }
 
     @discardableResult

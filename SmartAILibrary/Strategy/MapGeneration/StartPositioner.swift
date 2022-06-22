@@ -190,7 +190,7 @@ class StartPositioner {
 
                 // Divide this landmass in to number of regions equal to civs assigned here.
                 if numberOfCivsOnCurrentArea > 0 && numberOfCivsOnCurrentArea <= 12 {
-                    self.divideIntoRegions(numOfDivisions: Int(numberOfCivsPerAreaItem.1), area: area)
+                    self.divideIntoRegions(numberOfDivisions: Int(numberOfCivsPerAreaItem.1), area: area)
                 }
             }
         }
@@ -298,12 +298,12 @@ class StartPositioner {
          */
     }
 
-    private func divideIntoRegions(numOfDivisions: Int, area: HexArea) {
+    private func divideIntoRegions(numberOfDivisions: Int, area: HexArea) {
 
         var numDivides = 0
         var subDivisions = 0
 
-        switch numOfDivisions {
+        switch numberOfDivisions {
         case 1:
             let averageFertility = Double(area.points.map({ self.fertilityMap[$0]! }).reduce(0, +)) / Double(area.points.count)
 
@@ -337,7 +337,7 @@ class StartPositioner {
             numDivides = 3
             subDivisions = 4
         default:
-            fatalError("Erroneous number of regional divisions : \(numOfDivisions)")
+            fatalError("Erroneous number of regional divisions : \(numberOfDivisions)")
         }
 
         if numDivides == 2 {
@@ -351,8 +351,8 @@ class StartPositioner {
                 (area1, area2) = area.divideVertically(at: boundingBox.minY + boundingBox.height / 2)
             }
 
-            self.divideIntoRegions(numOfDivisions: subDivisions, area: area1)
-            self.divideIntoRegions(numOfDivisions: subDivisions, area: area2)
+            self.divideIntoRegions(numberOfDivisions: subDivisions, area: area1)
+            self.divideIntoRegions(numberOfDivisions: subDivisions, area: area2)
         } else if numDivides == 3 {
 
             let area1, area2, area3, areaTmp: HexArea
@@ -369,9 +369,9 @@ class StartPositioner {
                 (area2, area3) = areaTmp.divideVertically(at: boundingBox.minY + 2 * boundingBox.height / 3)
             }
 
-            self.divideIntoRegions(numOfDivisions: subDivisions, area: area1)
-            self.divideIntoRegions(numOfDivisions: subDivisions, area: area2)
-            self.divideIntoRegions(numOfDivisions: subDivisions, area: area3)
+            self.divideIntoRegions(numberOfDivisions: subDivisions, area: area1)
+            self.divideIntoRegions(numberOfDivisions: subDivisions, area: area2)
+            self.divideIntoRegions(numberOfDivisions: subDivisions, area: area3)
         } else {
             fatalError("wrong number of sub divisions")
         }

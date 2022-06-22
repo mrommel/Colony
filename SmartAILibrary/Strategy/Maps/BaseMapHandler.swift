@@ -64,7 +64,7 @@ public class BaseMapHandler {
             fatalError("cant get grid")
         }
 
-        var resourceCount = self.numOfResourcesToAdd(for: resource, on: grid)
+        var resourceCount = self.numberOfResourcesToAdd(for: resource, on: grid)
 
         if resourceCount == 0 {
             return
@@ -116,7 +116,7 @@ public class BaseMapHandler {
         let alreadyPlaced: Int
     }
 
-    internal func numOfResources(for resource: ResourceType, on grid: MapModel?) -> ResourcesInfo {
+    internal func numberOfResources(for resource: ResourceType, on grid: MapModel?) -> ResourcesInfo {
 
         guard let grid = grid else {
             fatalError("cant get grid")
@@ -148,14 +148,14 @@ public class BaseMapHandler {
     }
 
     // https://github.com/Gedemon/Civ5-YnAEMP/blob/db7cd1bc6a0684411aba700838184bcc6272b166/Override/WorldBuilderRandomItems.lua
-    internal func numOfResourcesToAdd(for resource: ResourceType, on grid: MapModel?) -> Int {
+    internal func numberOfResourcesToAdd(for resource: ResourceType, on grid: MapModel?) -> Int {
 
         guard let grid = grid else {
             fatalError("cant get grid")
         }
 
         // get info about current resource in map
-        let info = self.numOfResources(for: resource, on: grid)
+        let info = self.numberOfResources(for: resource, on: grid)
 
         let mapFactor = grid.size.numberOfTiles() * 100 / MapSize.standard.numberOfTiles()
 

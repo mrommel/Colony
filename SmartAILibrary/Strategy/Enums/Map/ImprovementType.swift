@@ -298,17 +298,6 @@ public enum ImprovementType: Int, Codable, Hashable {
                 yield.production += 1
             }
 
-            // +1 Production Production +1 Faith Faith with God of Craftsmen Pantheon when built on Strategic Resources
-            if religion.pantheon() == .godOfCraftsmen && resource.usage() == .strategic {
-                yield.production += 1
-                yield.faith += 1
-            }
-
-            // +2 Faith Faith with Religious Idols Pantheon when built on Bonus or Luxury Resources
-            if religion.pantheon() == .religiousIdols && (resource.usage() == .bonus || resource.usage() == .luxury) {
-                yield.faith += 2
-            }
-
             // Provides adjacency bonus for Industrial Zones (+1 Production Production, ½ in GS-Only.png).
 
             // +1 additional Production Production (requires Smart Materials)
@@ -356,12 +345,6 @@ public enum ImprovementType: Int, Codable, Hashable {
                 yield.gold += 2
             }
 
-            // +1 Food Food and +1 Production Production with Goddess of the Hunt Pantheon
-            if religion.pantheon() == .goddessOfTheHunt {
-                yield.food += 1
-                yield.production += 1
-            }
-
             return yield
 
         case .pasture:
@@ -379,17 +362,7 @@ public enum ImprovementType: Int, Codable, Hashable {
                 yield.food += 1
             }
 
-            // +1 Production Production from every adjacent Outback Station (requires Steam Power)
-
-            // +1 Culture Culture with God of the Open Sky Pantheon
-            if religion.pantheon() == .godOfTheOpenSky {
-                yield.culture += 1
-            }
-
-            // +1 Production Production and +1 Faith Faith with God of Craftsmen Pantheon when built on Horses Horses
-            if religion.pantheon() == .godOfCraftsmen && resource == .horses {
-                yield.production += 1
-            }
+            // +1 Production from every adjacent Outback Station (requires Steam Power)
 
             // +1 additional Production Production (requires Replaceable Parts)
             if techs.has(tech: .replaceableParts) {
@@ -406,19 +379,14 @@ public enum ImprovementType: Int, Codable, Hashable {
                 yield.food += 1
             }
 
-            // +1 Food Food (Scientific Theory)
+            // +1 Food (Scientific Theory)
             if techs.has(tech: .scientificTheory) {
                 yield.food += 1
             }
 
-            // +2 Gold Gold (Globalization)
+            // +2 Gold (Globalization)
             if civics.has(civic: .globalization) {
                 yield.gold += 2
-            }
-
-            // 'goddess of festivals' pantheon
-            if religion.pantheon() == .goddessOfFestivals {
-                yield.culture += 1
             }
 
             return yield
@@ -439,22 +407,11 @@ public enum ImprovementType: Int, Codable, Hashable {
                 yield.food += 1
             }
 
-            // 'god of the sea' pantheon
-            if religion.pantheon() == .godOfTheSea {
-                yield.production += 1
-            }
-
             return yield
 
         case .oilWell:
             // https://civilization.fandom.com/wiki/Oil_Well_(Civ6)
             let yield =  Yields(food: 0, production: 2, gold: 0, appeal: -1)
-
-            // +1 Production Production and +1 Faith Faith with God of Craftsmen Pantheon
-            if religion.pantheon() == .godOfCraftsmen {
-                yield.production += 1
-                yield.faith += 1
-            }
 
             // +1 Production Production (requires Predictive Systems)
             /*if techs.has(tech: .predictiveSystems) {
@@ -489,6 +446,30 @@ public enum ImprovementType: Int, Codable, Hashable {
 
         case .fort: return 1
         case .citadelle: return 1
+        }
+    }
+
+    func buildType() -> BuildType? {
+
+        switch self {
+
+        case .none: return nil
+
+        case .barbarianCamp: return nil
+        case .goodyHut: return nil
+        case .ruins: return nil
+
+        case .farm: return BuildType.farm
+        case .mine: return BuildType.mine
+        case .quarry: return BuildType.quarry
+        case .camp: return BuildType.camp
+        case .pasture: return BuildType.pasture
+        case .plantation: return BuildType.plantation
+        case .fishingBoats: return BuildType.fishingBoats
+        case .oilWell: return nil // #
+
+        case .fort: return nil
+        case .citadelle: return nil
         }
     }
 

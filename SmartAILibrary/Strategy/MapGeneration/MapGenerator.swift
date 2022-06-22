@@ -217,19 +217,19 @@ public class MapGenerator: BaseMapHandler {
             let heightMap = HeightMap(width: self.width, height: self.height, octaves: 20, zoom: 1.0, andPersistence: 0.52)
             let waterLevel = heightMap.findThresholdBelow(percentage: self.options.waterPercentage)
 
-            var numOfIslands = self.width * self.height * 3 / 100 // 2% new islands
+            var numberOfIslands = self.width * self.height * 3 / 100 // 2% new islands
             var points = self.points().shuffled
 
-            print("=== place \(numOfIslands) additional islands ===")
+            print("=== place \(numberOfIslands) additional islands ===")
 
-            while numOfIslands > 0 {
+            while numberOfIslands > 0 {
 
                 if let firstPoint = points.first {
 
                     if (heightMap[firstPoint] ?? 0.0) < waterLevel {
 
                         heightMap[firstPoint]! = waterLevel + 0.3
-                        numOfIslands -= 1
+                        numberOfIslands -= 1
                     }
 
                     // pick a random neighbor

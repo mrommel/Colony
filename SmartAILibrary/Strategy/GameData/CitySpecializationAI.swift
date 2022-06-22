@@ -217,20 +217,20 @@ public class CitySpecializationAI {
 
             //   Food
             let tilesInCapitalArea = gameModel.tiles(in: capitalArea)
-            let numUnownedTiles = tilesInCapitalArea.filter({ !($0?.hasOwner() ?? true) }).count
-            let numCities = gameModel.cities(of: player).count
-            let numSettlers = gameModel.units(of: player).count(where: { $0!.task() == .settle })
+            let numberOfUnownedTiles = tilesInCapitalArea.filter({ !($0?.hasOwner() ?? true) }).count
+            let numberOfCities = gameModel.cities(of: player).count
+            let numberOfSettlers = gameModel.units(of: player).count(where: { $0!.task() == .settle })
 
             if economicAI.adopted(economicStrategy: .earlyExpansion) {
                 foodYieldWeight += 500.0 /* AI_CITY_SPECIALIZATION_FOOD_WEIGHT_EARLY_EXPANSION */
             }
             foodYieldWeight += flavorExpansion * 5.0 /* AI_CITY_SPECIALIZATION_FOOD_WEIGHT_FLAVOR_EXPANSION */
-            foodYieldWeight += (Double(numUnownedTiles) * 100.0) / Double(tilesInCapitalArea.count) * 5.0
+            foodYieldWeight += (Double(numberOfUnownedTiles) * 100.0) / Double(tilesInCapitalArea.count) * 5.0
                 /* AI_CITY_SPECIALIZATION_FOOD_WEIGHT_PERCENT_CONTINENT_UNOWNED */
-            foodYieldWeight += Double(numCities) * -50.0 /* AI_CITY_SPECIALIZATION_FOOD_WEIGHT_NUM_CITIES */
-            foodYieldWeight += Double(numSettlers) * -40.0 /* AI_CITY_SPECIALIZATION_FOOD_WEIGHT_NUM_SETTLERS */
+            foodYieldWeight += Double(numberOfCities) * -50.0 /* AI_CITY_SPECIALIZATION_FOOD_WEIGHT_NUM_CITIES */
+            foodYieldWeight += Double(numberOfSettlers) * -40.0 /* AI_CITY_SPECIALIZATION_FOOD_WEIGHT_NUM_SETTLERS */
 
-            if numCities + numSettlers == 1 {
+            if numberOfCities + numberOfSettlers == 1 {
                 foodYieldWeight *= 3.0  // Really want to get up over 1 city
             }
 

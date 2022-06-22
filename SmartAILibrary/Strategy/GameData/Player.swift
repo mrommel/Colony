@@ -244,8 +244,8 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func doLiberate(city: AbstractCity?, forced: Bool, in gameModel: GameModel?) -> Bool
     func disband(city: AbstractCity?, in gameModel: GameModel?)
     func delete(city: AbstractCity?, in gameModel: GameModel?)
-    func numOfCitiesFounded() -> Int
-    func numOfCitiesLost() -> Int
+    func numberOfCitiesFounded() -> Int
+    func numberOfCitiesLost() -> Int
 
     func capitalCity(in gameModel: GameModel?) -> AbstractCity?
     func set(capitalCity newCapitalCity: AbstractCity?, in gameModel: GameModel?)
@@ -281,8 +281,8 @@ public protocol AbstractPlayer: AnyObject, Codable {
 
     func numAvailable(resource: ResourceType) -> Int
     func changeNumAvailable(resource: ResourceType, change: Int)
-    func numStockpile(of resource: ResourceType) -> Int
-    func numMaxStockpile(of resource: ResourceType) -> Int
+    func numberOfItemsInStockpile(of resource: ResourceType) -> Int
+    func numberOfStockpileCapacity(of resource: ResourceType) -> Int
 
     // units
     func canTrain(unitType: UnitType, continueFlag: Bool, testVisible: Bool, ignoreCost: Bool, ignoreUniqueUnitStatus: Bool) -> Bool
@@ -293,7 +293,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func countUnitsWith(defaultTask: UnitTaskType, in gameModel: GameModel?) -> Int
     func hasBusyUnitOrCity() -> Bool
     func changeTrainedSettlers(by value: Int)
-    func numOfTrainedSettlers() -> Int
+    func numberOfTrainedSettlers() -> Int
     func productionCost(of unitType: UnitType) -> Int
 
     // buildings / districts
@@ -342,8 +342,12 @@ public protocol AbstractPlayer: AnyObject, Codable {
     // trade routes
     func tradingCapacity() -> Int
     func numberOfTradeRoutes() -> Int
+    func numberOfUnassignedTraders(in gameModel: GameModel?) -> Int
     func canEstablishTradeRoute() -> Bool
+    func possibleTradeRouteTargets(from originCity: AbstractCity?, in gameModel: GameModel?) -> [AbstractCity?]
+    func possibleTradeRoutes(from originCityRef: AbstractCity?, in gameModel: GameModel?) -> [TradeRoute]
     func doUpdateTradeRouteCapacity(in gameModel: GameModel?)
+    func hasTradeRoute(from: HexPoint, to: HexPoint) -> Bool
 
     @discardableResult
     func doEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, with trader: AbstractUnit?, in gameModel: GameModel?) -> Bool
@@ -357,7 +361,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
 
     // distance / cities
     func cityDistancePathLength(of point: HexPoint, in gameModel: GameModel?) -> Int
-    func numCities(in gameModel: GameModel?) -> Int
+    func numberOfCities(in gameModel: GameModel?) -> Int
     func countCitiesFeatureSurrounded(in gameModel: GameModel?) -> Int
 
     // victory checks
@@ -2088,14 +2092,14 @@ public class Player: AbstractPlayer {
 
             if !self.isBarbarian() && !self.isFreeCity() {
 
-                if self.numCities(in: gameModel) == 0 && self.numUnits(in: gameModel) == 0 {
+                if self.numberOfCities(in: gameModel) == 0 && self.numUnits(in: gameModel) == 0 {
 
                     self.set(alive: false, in: gameModel)
                 }
             }
         } else {
             // if dead but has received units / cities - revive
-            if self.numUnits(in: gameModel) > 0 || self.numCities(in: gameModel) > 0 {
+            if self.numUnits(in: gameModel) > 0 || self.numberOfCities(in: gameModel) > 0 {
                 self.set(alive: true, in: gameModel)
             }
         }
@@ -2657,7 +2661,7 @@ public class Player: AbstractPlayer {
 
             gameModel.invalidate(greatPerson: greatPerson)
             self.greatPeople?.resetPoint(for: greatPerson.type())
-            self.greatPeople?.increaseNumOfSpawned(greatPersonType: greatPerson.type())
+            self.greatPeople?.increaseNumberOfSpawned(greatPersonType: greatPerson.type())
         }
     }
 
@@ -3383,7 +3387,7 @@ public class Player: AbstractPlayer {
                     continue
                 }
 
-                score += cityBuildings.numOfBuildings()
+                score += cityBuildings.numberOfBuildings()
             }
 
             // weight with map size
@@ -3509,7 +3513,7 @@ public class Player: AbstractPlayer {
             // 10 points for founding a religion.
             score += 10
 
-            var numCitiesFollingReligion = 0
+            var numberOfCitiesFollingReligion = 0
             for player in gameModel.players {
 
                 if player.isEqual(to: self) {
@@ -3523,13 +3527,13 @@ public class Player: AbstractPlayer {
                     }
 
                     if city.religiousMajority() == religion.currentReligion() {
-                        numCitiesFollingReligion += 1
+                        numberOfCitiesFollingReligion += 1
                     }
                 }
             }
 
             // 2 points for each foreign city following the player's religion.
-            score += numCitiesFollingReligion * 2
+            score += numberOfCitiesFollingReligion * 2
         }
 
         return score
@@ -4525,7 +4529,7 @@ public class Player: AbstractPlayer {
         resourceInventory.add(weight: change, for: resource)
     }
 
-    public func numStockpile(of resource: ResourceType) -> Int {
+    public func numberOfItemsInStockpile(of resource: ResourceType) -> Int {
 
         if let resourceStockpile = self.resourceStockpile {
             return Int(resourceStockpile.weight(of: resource))
@@ -4534,7 +4538,7 @@ public class Player: AbstractPlayer {
         return 0
     }
 
-    public func numMaxStockpile(of resource: ResourceType) -> Int {
+    public func numberOfStockpileCapacity(of resource: ResourceType) -> Int {
 
         if let resourceMaxStockpile = self.resourceMaxStockpile {
             return Int(resourceMaxStockpile.weight(of: resource))
@@ -4604,7 +4608,7 @@ public class Player: AbstractPlayer {
         self.trainedSettlersValue += value
     }
 
-    public func numOfTrainedSettlers() -> Int {
+    public func numberOfTrainedSettlers() -> Int {
 
         return self.trainedSettlersValue
     }
@@ -4780,6 +4784,15 @@ public class Player: AbstractPlayer {
         }
     }
 
+    public func hasTradeRoute(from: HexPoint, to: HexPoint) -> Bool {
+
+        guard let tradeRoutes = self.tradeRoutes else {
+            fatalError("cant get tradeRoutes")
+        }
+
+        return tradeRoutes.hasTradeRoute(from: from, to: to)
+    }
+
     public func numberOfTradeRoutes() -> Int {
 
         guard let tradeRoutes = self.tradeRoutes else {
@@ -4787,6 +4800,28 @@ public class Player: AbstractPlayer {
         }
 
         return tradeRoutes.numberOfTradeRoutes()
+    }
+
+    public func numberOfUnassignedTraders(in gameModel: GameModel?) -> Int {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        var unassignedTraders: Int = 0
+
+        for loopUnitRef in gameModel.units(of: self) {
+
+            guard let loopUnit = loopUnitRef else {
+                continue
+            }
+
+            if loopUnit.type == .trader && !loopUnit.isTrading() {
+                unassignedTraders += 1
+            }
+        }
+
+        return unassignedTraders
     }
 
     public func canEstablishTradeRoute() -> Bool {
@@ -4799,6 +4834,96 @@ public class Player: AbstractPlayer {
         }
 
         return true
+    }
+
+    public func possibleTradeRouteTargets(from originCityRef: AbstractCity?, in gameModel: GameModel?) -> [AbstractCity?] {
+
+        guard let gameModel = gameModel else {
+            fatalError("cat get gameModel")
+        }
+
+        guard let tradeRoutes = self.tradeRoutes else {
+            fatalError("unit doesnt have a player")
+        }
+
+        guard let originCity = originCityRef else {
+            fatalError("cat get origin city")
+        }
+
+        var cities: [AbstractCity?] = []
+
+        for player in gameModel.players {
+            for city in gameModel.cities(of: player) {
+
+                guard let cityLocation = city?.location,
+                    let cityTile = gameModel.tile(at: cityLocation) else {
+
+                        continue
+                }
+
+                if originCity.location == cityLocation {
+                    continue
+                }
+
+                if cityTile.isDiscovered(by: self) {
+
+                    // check if is within reach
+                    if tradeRoutes.canEstablishTradeRoute(from: originCity, to: city, in: gameModel) {
+
+                        cities.append(city)
+                    }
+                }
+            }
+        }
+
+        return cities
+    }
+
+    public func possibleTradeRoutes(from originCityRef: AbstractCity?, in gameModel: GameModel?) -> [TradeRoute] {
+
+        guard let gameModel = gameModel else {
+            fatalError("cat get gameModel")
+        }
+
+        var routes: [TradeRoute] = []
+
+        let pathFinderDataSource = gameModel.unitAwarePathfinderDataSource(
+            for: .walk,
+            for: self,
+            ignoreOwner: true,
+            unitMapType: .civilian,
+            canEmbark: false,
+            canEnterOcean: false
+        )
+        let pathFinder = AStarPathfinder(with: pathFinderDataSource)
+
+        guard let originCity = originCityRef else {
+            return []
+        }
+
+        let cityTargets = self.possibleTradeRouteTargets(from: originCity, in: gameModel)
+
+        for cityTargetRef in cityTargets {
+
+            guard let cityTarget = cityTargetRef else {
+                continue
+            }
+
+            if var path = pathFinder.shortestPath(fromTileCoord: originCity.location, toTileCoord: cityTarget.location) {
+
+                path.prepend(point: originCity.location, cost: 0.0)
+
+                if path.last?.0 != cityTarget.location {
+                    path.append(point: cityTarget.location, cost: 0.0)
+                }
+
+                routes.append(TradeRoute(path: path))
+            } else {
+                print("Player.possibleTradeRoutes - cant get route from \(originCity.name) to \(cityTarget.name)")
+            }
+        }
+
+        return routes
     }
 
     public func doEstablishTradeRoute(from originCity: AbstractCity?, to targetCity: AbstractCity?, with trader: AbstractUnit?, in gameModel: GameModel?) -> Bool {
@@ -4926,7 +5051,7 @@ public class Player: AbstractPlayer {
         return minDistance
     }
 
-    public func numCities(in gameModel: GameModel?) -> Int {
+    public func numberOfCities(in gameModel: GameModel?) -> Int {
 
         guard let gameModel = gameModel else {
             fatalError("cant get game")
@@ -5273,8 +5398,8 @@ public class Player: AbstractPlayer {
         gameModel.add(city: newCity)
 
         // If the old owner is "killed," then notify everyone's Grand Strategy AI
-        let numCities = gameModel.cities(of: oldPlayer).count
-        if numCities == 0 {
+        let numberOfCities = gameModel.cities(of: oldPlayer).count
+        if numberOfCities == 0 {
 
             if !self.isCityState() && !self.isBarbarian() {
 
@@ -5879,12 +6004,12 @@ public class Player: AbstractPlayer {
         gameModel?.remove(city: city)
     }
 
-    public func numOfCitiesFounded() -> Int {
+    public func numberOfCitiesFounded() -> Int {
 
         return self.citiesFoundValue
     }
 
-    public func numOfCitiesLost() -> Int {
+    public func numberOfCitiesLost() -> Int {
 
         return self.citiesLostValue
     }
@@ -6667,22 +6792,22 @@ public class Player: AbstractPlayer {
             fatalError("cant get gameModel")
         }
 
-        var numCitiesFollowingReligion: Double = 0.0
-        var numCitiesAll: Double = 0.0
+        var numberOfCitiesFollowingReligion: Double = 0.0
+        var numberOfCitiesAll: Double = 0.0
         for cityRef in gameModel.cities(of: self) {
 
             guard let city = cityRef else {
                 continue
             }
 
-            numCitiesAll += 1.0
+            numberOfCitiesAll += 1.0
 
             if city.religiousMajority() == religion {
-                numCitiesFollowingReligion += 1.0
+                numberOfCitiesFollowingReligion += 1.0
             }
         }
 
-        return numCitiesFollowingReligion >= numCitiesAll / 2.0
+        return numberOfCitiesFollowingReligion >= numberOfCitiesAll / 2.0
     }
 
     public func doFound(religion: ReligionType, at city: AbstractCity?, in gameModel: GameModel?) {

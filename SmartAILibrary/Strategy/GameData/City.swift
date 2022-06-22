@@ -1640,7 +1640,7 @@ public class City: AbstractCity {
         return false
     }
 
-    func numOfGovernorTitles() -> Int {
+    func numberOfGovernorTitles() -> Int {
 
         if let governor = self.governor() {
             return governor.titles.count - 1 // default title is already included
@@ -2955,12 +2955,12 @@ public class City: AbstractCity {
                 }
 
                 // Fixup the unassigned workers
-                let unassignedWorkers = cityCitizens.numUnassignedCitizens()
-                cityCitizens.changeNumUnassignedCitizens(change: max(populationChange, -unassignedWorkers))
+                let unassignedWorkers = cityCitizens.numberOfUnassignedCitizens()
+                cityCitizens.changeNumberOfUnassignedCitizens(by: max(populationChange, -unassignedWorkers))
             }
 
             if populationChange > 0 {
-                self.cityCitizens?.changeNumUnassignedCitizens(change: populationChange)
+                self.cityCitizens?.changeNumberOfUnassignedCitizens(by: populationChange)
             }
         }
 
@@ -3907,7 +3907,11 @@ public class City: AbstractCity {
         }
 
         if unitType == .trader {
-            if player.numberOfTradeRoutes() >= player.tradingCapacity() {
+            if player.isCityState() || player.isBarbarian() || player.isFreeCity() {
+                return false
+            }
+
+            if (player.numberOfTradeRoutes() + player.numberOfUnassignedTraders(in: gameModel)) >= player.tradingCapacity() {
                 return false
             }
         }
@@ -5445,7 +5449,9 @@ public class City: AbstractCity {
             }
         }*/
 
-        // governor
+        // governor effects
+
+        // landAcquisition - Acquire new tiles in the city faster.
         if self.hasGovernorTitle(of: .landAcquisition) {
 
             cultureThreshold *= 80

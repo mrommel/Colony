@@ -29,7 +29,7 @@ struct Civ5MapHeader {
     let type: Civ5MapType // UInt8
     let width: Int32
     let height: Int32
-    let numOfPlayers: UInt8
+    let numberOfPlayers: UInt8
     let wrap: Int32
 
     let lengthOfTerrainTypeList: Int32 // int -- Length of Terrain type list
@@ -57,7 +57,7 @@ struct Civ5MapHeader {
 
         self.width = try reader.read()
         self.height = try reader.read()
-        self.numOfPlayers = try reader.read()
+        self.numberOfPlayers = try reader.read()
         self.wrap = try reader.read()
         self.lengthOfTerrainTypeList = try reader.read()
         self.lengthOf1StFeatureTypeList = try reader.read()

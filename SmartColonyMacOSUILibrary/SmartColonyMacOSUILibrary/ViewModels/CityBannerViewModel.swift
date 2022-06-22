@@ -204,11 +204,13 @@ class CityBannerViewModel: ObservableObject {
         self.accent = city.leader.civilization().accent
         self.civilizationTextureName = city.leader.civilization().iconTexture()
 
+        let labelTokenzier = LabelTokenizer()
+
         if let buildableItem = city.currentBuildableItem() {
             self.productionTextureName = buildableItem.iconTexture()
             self.productionTitle = buildableItem.name().localized()
             self.productionEffects = buildableItem.effects()
-                .map { NSAttributedString(string: $0.localized(), attributes: Globals.Attributs.cityBannerAttributs) }
+                .map { labelTokenzier.convert(text: $0.localized(), with: Globals.Attributs.cityBannerAttributs) }
         } else {
             self.productionTextureName = "questionmark"
             self.productionTitle = "TXT_KEY_CITY_NO_PRODUCTION".localized()

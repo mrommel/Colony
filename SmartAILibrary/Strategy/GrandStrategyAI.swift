@@ -288,15 +288,15 @@ public class GrandStrategyAI: Codable {
         // Tally up how many players, we think are pusuing each Grand Strategy
         for type in GrandStrategyAIType.all {
 
-            var numOfPlayersWithStrategy = 0
+            var numberOfPlayersWithStrategy = 0
             for playerToCheck in gameModel.players {
 
                 if self.guessedActiveStrategy(for: playerToCheck) == type {
-                    numOfPlayersWithStrategy += 1
+                    numberOfPlayersWithStrategy += 1
                 }
             }
 
-            guessedUserDict.add(value: numOfPlayersWithStrategy, for: type)
+            guessedUserDict.add(value: numberOfPlayersWithStrategy, for: type)
         }
 
         // Now modify our preferences based on how many people are going for stuff
@@ -372,19 +372,19 @@ public class GrandStrategyAI: Codable {
 
         var averageMilitaryStrength = 0.0
         var averageCultureStrength = 0.0
-        var numOfPlayersAlive = 0.0
+        var numberOfPlayersAlive = 0.0
 
         for playerToCheck in gameModel.players {
 
             if playerToCheck.isAlive() {
                 averageMilitaryStrength += gameModel.militaryStrength(for: playerToCheck)
                 averageCultureStrength += gameModel.cultureStrength(for: playerToCheck)
-                numOfPlayersAlive += 1.0
+                numberOfPlayersAlive += 1.0
             }
         }
 
-        averageMilitaryStrength /= numOfPlayersAlive
-        averageCultureStrength /= numOfPlayersAlive
+        averageMilitaryStrength /= numberOfPlayersAlive
+        averageCultureStrength /= numberOfPlayersAlive
 
         for playerToCheck in gameModel.players {
 

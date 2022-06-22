@@ -88,7 +88,7 @@ class MapGeneratorTests: XCTestCase {
         // GIVEN
 
         // WHEN
-        let fishCount = baseHandler.numOfResources(for: .fish, on: self.map)
+        let fishCount = baseHandler.numberOfResources(for: .fish, on: self.map)
 
         // THEN
         XCTAssertEqual(fishCount.alreadyPlaced, 0)
@@ -99,7 +99,7 @@ class MapGeneratorTests: XCTestCase {
         // GIVEN
 
         // WHEN
-        let fishCount = baseHandler.numOfResourcesToAdd(for: .fish, on: self.map)
+        let fishCount = baseHandler.numberOfResourcesToAdd(for: .fish, on: self.map)
 
         // THEN
         XCTAssertEqual(fishCount, 7)
@@ -110,7 +110,7 @@ class MapGeneratorTests: XCTestCase {
         // GIVEN
 
         // WHEN
-        let citrusCount = baseHandler.numOfResourcesToAdd(for: .citrus, on: self.map)
+        let citrusCount = baseHandler.numberOfResourcesToAdd(for: .citrus, on: self.map)
 
         // THEN
         XCTAssertEqual(citrusCount, 1)
@@ -121,7 +121,7 @@ class MapGeneratorTests: XCTestCase {
         // GIVEN
 
         // WHEN
-        let cocoaCount = baseHandler.numOfResourcesToAdd(for: .cocoa, on: self.map)
+        let cocoaCount = baseHandler.numberOfResourcesToAdd(for: .cocoa, on: self.map)
 
         // THEN
         XCTAssertEqual(cocoaCount, 1)
@@ -132,7 +132,7 @@ class MapGeneratorTests: XCTestCase {
         // GIVEN
 
         // WHEN
-        let gemsCount = baseHandler.numOfResourcesToAdd(for: .gems, on: self.map)
+        let gemsCount = baseHandler.numberOfResourcesToAdd(for: .gems, on: self.map)
 
         // THEN
         XCTAssertEqual(gemsCount, 1)
@@ -143,7 +143,7 @@ class MapGeneratorTests: XCTestCase {
         // GIVEN
 
         // WHEN
-        let riceCount = baseHandler.numOfResourcesToAdd(for: .rice, on: self.map)
+        let riceCount = baseHandler.numberOfResourcesToAdd(for: .rice, on: self.map)
 
         // THEN
         XCTAssertEqual(riceCount, 2)
@@ -154,7 +154,7 @@ class MapGeneratorTests: XCTestCase {
         // GIVEN
 
         // WHEN
-        let saltCount = baseHandler.numOfResourcesToAdd(for: .salt, on: self.map)
+        let saltCount = baseHandler.numberOfResourcesToAdd(for: .salt, on: self.map)
 
         // THEN
         XCTAssertEqual(saltCount, 1)
@@ -165,7 +165,7 @@ class MapGeneratorTests: XCTestCase {
         // GIVEN
 
         // WHEN
-        let silverCount = baseHandler.numOfResourcesToAdd(for: .silver, on: self.map)
+        let silverCount = baseHandler.numberOfResourcesToAdd(for: .silver, on: self.map)
 
         // THEN
         XCTAssertEqual(silverCount, 2)
@@ -176,7 +176,7 @@ class MapGeneratorTests: XCTestCase {
         // GIVEN
 
         // WHEN
-        let stoneCount = baseHandler.numOfResourcesToAdd(for: .stone, on: self.map)
+        let stoneCount = baseHandler.numberOfResourcesToAdd(for: .stone, on: self.map)
 
         // THEN
         XCTAssertEqual(stoneCount, 2)
@@ -193,7 +193,7 @@ class MapGeneratorTests: XCTestCase {
             }
 
             // WHEN
-            let resourceCount = baseHandler.numOfResourcesToAdd(for: resource, on: self.map)
+            let resourceCount = baseHandler.numberOfResourcesToAdd(for: resource, on: self.map)
 
             // THEN
             XCTAssertTrue(resourceCount > 0, "no \(resource) to add")
