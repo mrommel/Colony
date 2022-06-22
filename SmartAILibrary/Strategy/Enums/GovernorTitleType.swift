@@ -113,7 +113,6 @@ public enum GovernorTitleType: Int, Codable {
 
     // swiftlint:disable function_body_length
     // swiftlint:disable line_length
-    // swiftlint:disable cyclomatic_complexity
     private func data() -> GovernorTitleTypeData {
 
         switch self {
@@ -121,10 +120,10 @@ public enum GovernorTitleType: Int, Codable {
         // Reyna
         case .landAcquisition:
             return GovernorTitleTypeData(
-                name: "Land Acquisition",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_LAND_ACQUISITION_TITLE",
                 effects: [
-                    "Acquire new tiles in the city faster.",
-                    "+3 [Gold] Gold per turn from each foreign [TradeRoute] Trade Route passing through the city."
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_ACQUISITION_EFFECT1",
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_ACQUISITION_EFFECT2"
                 ],
                 tier: 0,
                 requiredOr: [],
@@ -132,9 +131,9 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .harbormaster:
             return GovernorTitleTypeData(
-                name: "Harbormaster",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_HARBORMASTER_TITLE",
                 effects: [
-                    "Double adjacency bonuses from Commercial Hubs and Harbors in the city." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_HARBORMASTER_EFFECT1"
                 ],
                 tier: 1,
                 requiredOr: [],
@@ -142,10 +141,10 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .forestryManagement:
             return GovernorTitleTypeData(
-                name: "Forestry Management",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_FORESTRY_MANAGEMENT_TITLE",
                 effects: [
-                    "This city receives +2 [Gold] Gold for each unimproved feature.", // #
-                    "Tiles adjacent to unimproved features receive +1 Appeal in this city." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_FORESTRY_MANAGEMENT_EFFECT1",
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_FORESTRY_MANAGEMENT_EFFECT2"
                 ],
                 tier: 1,
                 requiredOr: [],
@@ -153,9 +152,9 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .taxCollector:
             return GovernorTitleTypeData(
-                name: "Tax Collector",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_TAX_COLLECTOR_TITLE",
                 effects: [
-                    "+2 [Gold] Gold per turn for each Citizen in the city." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_TAX_COLLECTOR_EFFECT1"
                 ],
                 tier: 2,
                 requiredOr: [.harbormaster, .forestryManagement],
@@ -163,9 +162,9 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .contractor:
             return GovernorTitleTypeData(
-                name: "Contractor",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_CONTRACTOR_TITLE",
                 effects: [
-                    "Allows city to purchase Districts with [Gold] Gold." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_CONTRACTOR_EFFECT1"
                 ],
                 tier: 3,
                 requiredOr: [.taxCollector],
@@ -173,22 +172,24 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .renewableSubsidizer:
             return GovernorTitleTypeData(
-                name: "Renewable Subsidizer",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_RENEWABLE_SUBSIDIZER_TITLE",
                 effects: [
-                    "All Offshore Wind Farms, Solar Farms, Wind Farms, Geothermal Plants and Hydroelectric Dams in this city receive +2 [Power] Power and +2 [Gold] Gold."
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_RENEWABLE_SUBSIDIZER_EFFECT1"
                 ],
                 tier: 3,
                 requiredOr: [.taxCollector],
                 flavors: [Flavor(type: .energy, value: 6), Flavor(type: .tileImprovement, value: 4)]
             )
 
+            // ----------------------------------
             // Victor
+
         case .redoubt:
             return GovernorTitleTypeData(
-                name: "Redoubt",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_REDOUBT_TITLE",
                 effects: [
-                    "Increase city garrison [Strength] Combat Strength by 5.",
-                    "Established in 3 turns." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_REDOUBT_EFFECT1",
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_REDOUBT_EFFECT2"
                 ],
                 tier: 0,
                 requiredOr: [],
@@ -196,10 +197,10 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .garrisonCommander:
             return GovernorTitleTypeData(
-                name: "Garrison Commander",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_GARRISON_COMMANDER_TITLE",
                 effects: [
-                    "Units defending within the city's territory get +5 [Strength] Combat Strength.", // #
-                    "Your other cities within 9 tiles gain +4 Loyalty per turn towards your civilization." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_GARRISON_COMMANDER_EFFECT1",
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_GARRISON_COMMANDER_EFFECT2"
                 ],
                 tier: 1,
                 requiredOr: [],
@@ -207,10 +208,10 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .defenseLogistics:
             return GovernorTitleTypeData(
-                name: "Defense Logistics",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_DEFENSE_LOGISTICS_TITLE",
                 effects: [
-                    "City cannot be put under siege.", // #
-                    "Accumulating Strategic resources gain an additional +1 per turn." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_DEFENSE_LOGISTICS_EFFECT1",
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_DEFENSE_LOGISTICS_EFFECT2"
                 ],
                 tier: 1,
                 requiredOr: [],
@@ -218,10 +219,10 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .embrasure:
             return GovernorTitleTypeData(
-                name: "Embrasure",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_EMBRASURE_TITLE",
                 effects: [
-                    "City gains an additional Ranged Strike per turn.", // #
-                    "Military units trained in this city start with a free promotion that do not already start with a free promotion." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_EMBRASURE_EFFECT1",
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_EMBRASURE_EFFECT2"
                 ],
                 tier: 2,
                 requiredOr: [.garrisonCommander, .defenseLogistics],
@@ -229,9 +230,9 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .airDefenseInitiative:
             return GovernorTitleTypeData(
-                name: "Air Defense Initiative",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_AIR_DEFENSE_INITIATIVE_TITLE",
                 effects: [
-                    "+25 [Strength] Combat Strength to anti-air support units within the city's territory when defending against aircraft and ICBMs." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_AIR_DEFENSE_INITIATIVE_EFFECT1"
                 ],
                 tier: 3,
                 requiredOr: [.embrasure],
@@ -239,9 +240,9 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .armsRaceProponent:
             return GovernorTitleTypeData(
-                name: "Arms Race Proponent",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_ARMS_RACE_PROPONENT_TITLE",
                 effects: [
-                    "30% [Production] Production increase to all nuclear armament projects in the city." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_ARMS_RACE_PROPONENT_EFFECT1"
                 ],
                 tier: 3,
                 requiredOr: [.embrasure],
@@ -251,9 +252,9 @@ public enum GovernorTitleType: Int, Codable {
             // Amani
         case .messenger:
             return GovernorTitleTypeData(
-                name: "Messenger",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_MESSENGER_TITLE",
                 effects: [
-                    "Can be assigned to a City-state, where she acts as 2 [Envoy] Envoys." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_MESSENGER_EFFECT1"
                 ],
                 tier: 0,
                 requiredOr: [],
@@ -261,9 +262,9 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .emissary:
             return GovernorTitleTypeData(
-                name: "Emissary",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_EMISSARY_TITLE",
                 effects: [
-                    "Other cities within 9 tiles and not owned by you gain +2 Loyalty per turn towards your civilization." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_EMISSARY_EFFECT1"
                 ],
                 tier: 1,
                 requiredOr: [],
@@ -271,9 +272,9 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .affluence:
             return GovernorTitleTypeData(
-                name: "Affluence",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_AFFLUENCE_TITLE",
                 effects: [
-                    "While established in a city-state, provides a copy of its Luxury resources to you." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_AFFLUENCE_EFFECT1"
                 ],
                 tier: 1,
                 requiredOr: [],
@@ -281,9 +282,9 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .localInformants:
             return GovernorTitleTypeData(
-                name: "Local Informants",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_LOCAL_INFORMANTS_TITLE",
                 effects: [
-                    "Enemy Spies operate at 3 levels below normal in this city." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_LOCAL_INFORMANTS_EFFECT1"
                 ],
                 tier: 2,
                 requiredOr: [.emissary],
@@ -291,10 +292,10 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .foreignInvestor:
             return GovernorTitleTypeData(
-                name: "Foreign Investor",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_FOREIGN_INVESTOR_TITLE",
                 effects: [
-                    "While established in a city-state, accumulate its Strategic resources.", // #
-                    "When suzerain receive double the amount of accumulated strategic resources." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_FOREIGN_INVESTOR_EFFECT1",
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_FOREIGN_INVESTOR_EFFECT2"
                 ],
                 tier: 2,
                 requiredOr: [.affluence],
@@ -302,21 +303,22 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .puppeteer:
             return GovernorTitleTypeData(
-                name: "Puppeteer",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_PUPPETEER_TITLE",
                 effects: [
-                    "While established in a city-state, doubles the number of [Envoy] Envoys you have there." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_PUPPETEER_EFFECT1"
                 ],
                 tier: 3,
                 requiredOr: [.localInformants, .foreignInvestor],
                 flavors: [Flavor(type: .diplomacy, value: 6)]
             )
 
-        // magnus
+            // ----------------------------------
+            // Magnus
         case .groundbreaker:
             return GovernorTitleTypeData(
-                name: "Groundbreaker",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_GROUNDBREAKER_TITLE",
                 effects: [
-                    "+50% yields from plot harvests and feature removals in the city." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_GROUNDBREAKER_EFFECT1"
                 ],
                 tier: 0,
                 requiredOr: [],
@@ -324,10 +326,10 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .surplusLogistics:
             return GovernorTitleTypeData(
-                name: "Surplus Logistics",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_SURPLUS_LOGISTICS_TITLE",
                 effects: [
-                    "+20% [Food] Food Growth in the city.", // #
-                    "Your [TradeRoute] Trade Routes ending here provide +2 [Food] Food to their starting city." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_SURPLUS_LOGISTICS_EFFECT1",
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_SURPLUS_LOGISTICS_EFFECT2"
                 ],
                 tier: 1,
                 requiredOr: [],
@@ -335,9 +337,9 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .provision:
             return GovernorTitleTypeData(
-                name: "Provision",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_PROVISION_TITLE",
                 effects: [
-                    "Settlers trained in the city do not consume a [Citizen] Citizen Population." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_PROVISION_EFFECT1"
                 ],
                 tier: 1,
                 requiredOr: [],
@@ -345,9 +347,9 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .industrialist:
             return GovernorTitleTypeData(
-                name: "Industrialist",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_INDUSTRIALIST_TITLE",
                 effects: [
-                    "Increase the Power provided by each resource of the Coal Power Plant, Oil Power Plant and Nuclear Power Plant by 1 and the [Production] Production by 2." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_INDUSTRIALIST_EFFECT1"
                 ],
                 tier: 2,
                 requiredOr: [.surplusLogistics],
@@ -355,9 +357,9 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .blackMarketeer:
             return GovernorTitleTypeData(
-                name: "Black Marketeer",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_BLACK_MARKETEER_TITLE",
                 effects: [
-                    "Strategic resources for units are discounted 80%." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_BLACK_MARKETEER_EFFECT1"
                 ],
                 tier: 2,
                 requiredOr: [.provision],
@@ -365,9 +367,9 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .verticalIntegration:
             return GovernorTitleTypeData(
-                name: "Vertical Integration",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_VERTICAL_INTEGRATION_TITLE",
                 effects: [
-                    "This city receives [Production] Production from any number of Industrial Zones within 6 tiles, not just the first." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_VERTICAL_INTEGRATION_EFFECT1"
                 ],
                 tier: 3,
                 requiredOr: [.industrialist, .blackMarketeer],
@@ -377,10 +379,10 @@ public enum GovernorTitleType: Int, Codable {
             // moksha
         case .bishop:
             return GovernorTitleTypeData(
-                name: "Bishop",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_BISHOP_TITLE",
                 effects: [
-                    "Religious pressure to adjacent cities is 100% stronger from this city.", // #
-                    "+2 [Faith] Faith per specialty district in this city." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_BISHOP_EFFECT1",
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_BISHOP_EFFECT2"
                 ],
                 tier: 0,
                 requiredOr: [],
@@ -388,9 +390,9 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .grandInquisitor:
             return GovernorTitleTypeData(
-                name: "Grand Inquisitor",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_GRAD_INQUISITOR_TITLE",
                 effects: [
-                    "+10 [ReligiousStrength] Religious Strength in theological combat in tiles of this city." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_GRAD_INQUISITOR_EFFECT1"
                 ],
                 tier: 1,
                 requiredOr: [],
@@ -398,9 +400,9 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .layingOnOfHands:
             return GovernorTitleTypeData(
-                name: "Laying On Of Hands",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_LAYING_ON_OF_HANDS_TITLE",
                 effects: [
-                    "All Governor's units heal fully in one turn in tiles of this city." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_LAYING_ON_OF_HANDS_EFFECT1"
                 ],
                 tier: 1,
                 requiredOr: [],
@@ -408,10 +410,10 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .citadelOfGod:
             return GovernorTitleTypeData(
-                name: "Citadel of God",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_CITADEL_OF_GOD_TITLE",
                 effects: [
-                    "City ignores pressure and combat effects from Religions not founded by the Governor's player.", // #
-                    "Gain [Faith] Faith equal to 25% of the construction cost when finishing buildings." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_CITADEL_OF_GOD_EFFECT1",
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_CITADEL_OF_GOD_EFFECT2"
                 ],
                 tier: 2,
                 requiredOr: [.grandInquisitor, .layingOnOfHands],
@@ -419,9 +421,9 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .patronSaint:
             return GovernorTitleTypeData(
-                name: "Patron Saint",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_PATRON_SAINT_TITLE",
                 effects: [
-                    "Apostles and Warrior Monks trained in the city receive 1 extra Promotion when receiving their first promotion." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_PATRON_SAINT_EFFECT1"
                 ],
                 tier: 3,
                 requiredOr: [.citadelOfGod],
@@ -429,21 +431,22 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .divineArchitect:
             return GovernorTitleTypeData(
-                name: "Divine Architect",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_DIVINE_ARCHITECT_TITLE",
                 effects: [
-                    "Allows city to purchase Districts with [Faith] Faith." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_DIVINE_ARCHITECT_EFFECT1"
                 ],
                 tier: 3,
                 requiredOr: [.citadelOfGod],
                 flavors: [Flavor(type: .religion, value: 5)]
             )
 
-            // liang
+            // ----------------------------------
+            // Liang
         case .guildmaster:
             return GovernorTitleTypeData(
-                name: "Guildmaster",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_GUILDMASTER_TITLE",
                 effects: [
-                    "All Builders trained in city get +1 build charge." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_GUILDMASTER_EFFECT1"
                 ],
                 tier: 0,
                 requiredOr: [],
@@ -451,9 +454,9 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .zoningCommissioner:
             return GovernorTitleTypeData(
-                name: "Zoning Commissioner",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_ZONING_COMMISSIONER_TITLE",
                 effects: [
-                    "+20% [Production] Production towards constructing Districts in the city." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_ZONING_COMMISSIONER_EFFECT1"
                 ],
                 tier: 1,
                 requiredOr: [],
@@ -461,11 +464,11 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .aquaculture:
             return GovernorTitleTypeData(
-                name: "Aquaculture",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_AQUACULTURE_TITLE",
                 effects: [
-                    "The Fishery unique improvement can be built in the city on coastal plots.", // #
-                    "Yields 1 [Food] Food, +1 [Food] Food for each adjacent sea resource.", // #
-                    "Fisheries provide +1 [Production] Production if Liang is in the city." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_AQUACULTURE_EFFECT1",
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_AQUACULTURE_EFFECT2",
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_AQUACULTURE_EFFECT3"
                 ],
                 tier: 1,
                 requiredOr: [],
@@ -473,9 +476,9 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .reinforcedMaterials:
             return GovernorTitleTypeData(
-                name: "Reinforced Materials",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_REINFORCED_MATERIALS_TITLE",
                 effects: [
-                    "This city's improvements, buildings and Districts cannot be damaged by Environmental Effects." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_REINFORCED_MATERIALS_EFFECT1"
                 ],
                 tier: 2,
                 requiredOr: [.zoningCommissioner],
@@ -483,10 +486,10 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .waterWorks:
             return GovernorTitleTypeData(
-                name: "Water Works",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_WATER_WORKS_TITLE",
                 effects: [
-                    "+2 [Housing] Housing for every Neighborhood and Aqueduct district in this city.", // #
-                    "+1 [Amenity] Amenity for every Canal and Dam district in this city." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_WATER_WORKS_EFFECT1",
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_WATER_WORKS_EFFECT2"
                 ],
                 tier: 2,
                 requiredOr: [.aquaculture],
@@ -494,12 +497,12 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .parksAndRecreation:
             return GovernorTitleTypeData(
-                name: "Parks and Recreation",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_PARKS_AND_RECREATION_TITLE",
                 effects: [
-                    "The City Park unique improvement can be built in the city.", // #
-                    "Yields 2 Appeal and 1 [Culture] Culture.", // #
-                    "+1 [Amenity] Amenity if adjacent to water.", // #
-                    "City Parks provide 3 [Culture] Culture if Liang is in the city." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_PARKS_AND_RECREATION_EFFECT1",
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_PARKS_AND_RECREATION_EFFECT2",
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_PARKS_AND_RECREATION_EFFECT3",
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_PARKS_AND_RECREATION_EFFECT4"
                 ],
                 tier: 3,
                 requiredOr: [.reinforcedMaterials, .waterWorks],
@@ -509,12 +512,14 @@ public enum GovernorTitleType: Int, Codable {
                 ]
             )
 
+            // ----------------------------------
             // Pingala
+
         case .librarian:
             return GovernorTitleTypeData(
-                name: "Librarian",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_LIBRARIAN_TITLE",
                 effects: [
-                    "15% increase in [Science] Science and [Culture] Culture generated by the city." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_LIBRARIAN_EFFECT1"
                 ],
                 tier: 0,
                 requiredOr: [],
@@ -522,9 +527,9 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .connoisseur:
             return GovernorTitleTypeData(
-                name: "Connoisseur",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_CONNOISSEUR_TITLE",
                 effects: [
-                    "+1 [Culture] Culture per turn for each Citizen in the city." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_CONNOISSEUR_EFFECT1"
                 ],
                 tier: 1,
                 requiredOr: [],
@@ -532,9 +537,9 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .researcher:
             return GovernorTitleTypeData(
-                name: "Researcher",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_RESEARCHER_TITLE",
                 effects: [
-                    "+1 [Science] Science per turn for each Citizen in the city." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_RESEARCHER_EFFECT1"
                 ],
                 tier: 1,
                 requiredOr: [],
@@ -542,9 +547,9 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .grants:
             return GovernorTitleTypeData(
-                name: "Grants",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_GRANTS_TITLE",
                 effects: [
-                    "+100% [GreatPeople] Great People points generated per turn in the city." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_GRANTS_EFFECT1"
                 ],
                 tier: 2,
                 requiredOr: [.connoisseur, .researcher],
@@ -552,9 +557,9 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .spaceInitiative:
             return GovernorTitleTypeData(
-                name: "Space Initiative",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_SPACE_INITIATIVE_TITLE",
                 effects: [
-                    "30% [Production] Production increase to all space-program projects in the city." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_SPACE_INITIATIVE_EFFECT1"
                 ],
                 tier: 3,
                 requiredOr: [.grants],
@@ -562,9 +567,9 @@ public enum GovernorTitleType: Int, Codable {
             )
         case .curator:
             return GovernorTitleTypeData(
-                name: "Curator",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_CURATOR_TITLE",
                 effects: [
-                    "+100% [Tourism] Tourism from Great Works of Art, Music, and Writing in the city." // #
+                    "TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_CURATOR_EFFECT1"
                 ],
                 tier: 3,
                 requiredOr: [.grants],

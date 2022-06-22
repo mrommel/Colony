@@ -110,8 +110,8 @@ class CityLoyaltyViewModel: ObservableObject {
 
             if let governor = city.governorType() {
                 self.hasGovernor = true
-                self.governorName = governor.name()
-                self.governorSummary = governor.title()
+                self.governorName = governor.name().localized()
+                self.governorSummary = governor.title().localized()
             } else {
                 self.hasGovernor = false
                 self.governorName = ""

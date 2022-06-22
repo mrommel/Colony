@@ -6,6 +6,9 @@
   
 */
 
+// ----------------------
+// governments
+
 // chiefdom
 "TXT_KEY_GOVERNMENT_CHIEFDOM_TITLE" = "Chiefdom";
 "TXT_KEY_GOVERNMENT_CHIEFDOM_BONUS1" = "No Bonus.";
@@ -55,3 +58,245 @@
 "TXT_KEY_GOVERNMENT_DEMOCRACY_TITLE" = "Democracy";
 "TXT_KEY_GOVERNMENT_DEMOCRACY_BONUS1" = "+1 [Production] Production and +1 [Housing] Housing per District.";
 "TXT_KEY_GOVERNMENT_DEMOCRACY_BONUS2" = "25% Discount on Purchases with [Gold] Gold.";
+
+
+// ----------------------
+// governors
+
+// reyna
+"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_NAME" = "Reyna";
+"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_TITLE" = "The Financier";
+
+// victor
+"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_NAME" = "Victor";
+"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_TITLE" = "The Castellan";
+
+// amani
+"TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_NAME" = "Amani";
+"TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_TITLE" = "The Diplomat";
+
+// magnus
+"TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_NAME" = "Magnus";
+"TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_TITLE" = "The Steward";
+
+// moksha
+"TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_NAME" = "Moksha";
+"TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_TITLE" = "The Cardinal";
+
+// liang
+"TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_NAME" = "Liang";
+"TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_TITLE" = "The Surveyor";
+
+// pingala
+"TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_NAME" = "Pingala";
+"TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_TITLE" = "The Educator";
+
+// ----------------------
+// governor Reyna titles
+
+// landAcquisition
+"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_LAND_ACQUISITION_TITLE" = "Land Acquisition";
+"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_ACQUISITION_EFFECT1" = "Acquire new tiles in the city faster.";
+"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_ACQUISITION_EFFECT2" = "+3 [Gold] Gold per turn from each foreign [TradeRoute] Trade Route passing through the city.";
+
+// harbormaster
+"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_HARBORMASTER_TITLE" = "Harbormaster";
+"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_HARBORMASTER_EFFECT1" = "Double adjacency bonuses from Commercial Hubs and Harbors in the city."; // #
+
+// forestryManagement
+"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_FORESTRY_MANAGEMENT_TITLE" = "Forestry Management";
+"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_FORESTRY_MANAGEMENT_EFFECT1" = "This city receives +2 [Gold] Gold for each unimproved feature."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_FORESTRY_MANAGEMENT_EFFECT2" = "Tiles adjacent to unimproved features receive +1 Appeal in this city."; // #
+
+// taxCollector
+"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_TAX_COLLECTOR_TITLE" = "Tax Collector";
+"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_TAX_COLLECTOR_EFFECT1" = "+2 [Gold] Gold per turn for each Citizen in the city."; // #
+
+// contractor
+"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_CONTRACTOR_TITLE" = "Contractor";
+"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_CONTRACTOR_EFFECT1" = "Allows city to purchase Districts with [Gold] Gold."; // #
+
+// renewableSubsidizer
+"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_RENEWABLE_SUBSIDIZER_TITLE" = "Renewable Subsidizer";
+"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_RENEWABLE_SUBSIDIZER_EFFECT1" = "All Offshore Wind Farms, Solar Farms, Wind Farms, Geothermal Plants and Hydroelectric Dams in this city receive +2 [Power] Power and +2 [Gold] Gold."; // #
+
+// ----------------------
+// governor Victor titles
+
+// redoubt
+"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_REDOUBT_TITLE" = "Redoubt";
+"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_REDOUBT_EFFECT1" = "Increase city garrison [Strength] Combat Strength by 5.";
+"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_REDOUBT_EFFECT2" = "Established in 3 turns."; // #
+
+// garrisonCommander
+"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_GARRISON_COMMANDER_TITLE" = "Garrison Commander";
+"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_GARRISON_COMMANDER_EFFECT1" = "Units defending within the city's territory get +5 [Strength] Combat Strength."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_GARRISON_COMMANDER_EFFECT2" = "Your other cities within 9 tiles gain +4 Loyalty per turn towards your civilization."; // #
+
+// defenseLogistics
+"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_DEFENSE_LOGISTICS_TITLE" = "Defense Logistics";
+"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_DEFENSE_LOGISTICS_EFFECT1" = "City cannot be put under siege."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_DEFENSE_LOGISTICS_EFFECT2" = "Accumulating Strategic resources gain an additional +1 per turn."; // #
+
+// embrasure
+"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_EMBRASURE_TITLE" = "Embrasure";
+"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_EMBRASURE_EFFECT1" = "City gains an additional Ranged Strike per turn."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_EMBRASURE_EFFECT2" = "Military units trained in this city start with a free promotion that do not already start with a free promotion."; // #
+
+// airDefenseInitiative
+"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_AIR_DEFENSE_INITIATIVE_TITLE" = "Air Defense Initiative";
+"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_AIR_DEFENSE_INITIATIVE_EFFECT1" = "+25 [Strength] Combat Strength to anti-air support units within the city's territory when defending against aircraft and ICBMs."; // #
+
+// armsRaceProponent
+"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_ARMS_RACE_PROPONENT_TITLE" = "Arms Race Proponent";
+"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_ARMS_RACE_PROPONENT_EFFECT1" = "30% [Production] Production increase to all nuclear armament projects in the city."; // #
+
+
+// ----------------------
+// governor Amani titles
+
+// messenger
+"TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_MESSENGER_TITLE" = "Messenger";
+"TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_MESSENGER_EFFECT1" = "Can be assigned to a City-state, where she acts as 2 [Envoy] Envoys."; // #
+
+// emissary
+"TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_EMISSARY_TITLE" = "Emissary";
+"TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_EMISSARY_EFFECT1" = "Other cities within 9 tiles and not owned by you gain +2 Loyalty per turn towards your civilization."; // #
+
+// affluence
+"TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_AFFLUENCE_TITLE" = "Affluence";
+"TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_AFFLUENCE_EFFECT1" = "While established in a city-state, provides a copy of its Luxury resources to you."; // #
+
+// localInformants
+"TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_LOCAL_INFORMANTS_TITLE" = "Local Informants";
+"TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_LOCAL_INFORMANTS_EFFECT1" = "Enemy Spies operate at 3 levels below normal in this city."; // #
+
+// foreignInvestor
+"TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_FOREIGN_INVESTOR_TITLE" = "Foreign Investor";
+"TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_FOREIGN_INVESTOR_EFFECT1" = "While established in a city-state, accumulate its Strategic resources."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_FOREIGN_INVESTOR_EFFECT2" = "When suzerain receive double the amount of accumulated strategic resources."; // #
+
+// puppeteer
+"TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_PUPPETEER_TITLE" = "Puppeteer";
+"TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_PUPPETEER_EFFECT1" = "While established in a city-state, doubles the number of [Envoy] Envoys you have there."; // #
+
+
+// ----------------------
+// governor Magnus titles
+
+// groundbreaker
+"TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_GROUNDBREAKER_TITLE" = "Groundbreaker";
+"TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_GROUNDBREAKER_EFFECT1" = "+50% yields from plot harvests and feature removals in the city."; // #
+
+// surplusLogistics
+"TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_SURPLUS_LOGISTICS_TITLE" = "Surplus Logistics";
+"TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_SURPLUS_LOGISTICS_EFFECT1" = "+20% [Food] Food Growth in the city."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_SURPLUS_LOGISTICS_EFFECT2" = "Your [TradeRoute] Trade Routes ending here provide +2 [Food] Food to their starting city."; // #
+
+// provision
+"TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_PROVISION_TITLE" = "Provision";
+"TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_PROVISION_EFFECT1" = "Settlers trained in the city do not consume a [Citizen] Citizen Population."; // #
+
+// industrialist
+"TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_INDUSTRIALIST_TITLE" = "Industrialist";
+"TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_INDUSTRIALIST_EFFECT1" = "Increase the Power provided by each resource of the Coal Power Plant, Oil Power Plant and Nuclear Power Plant by 1 and the [Production] Production by 2."; // #
+
+// blackMarketeer
+"TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_BLACK_MARKETEER_TITLE" = "Black Marketeer";
+"TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_BLACK_MARKETEER_EFFECT1" = "Strategic resources for units are discounted 80%."; // #
+
+// verticalIntegration
+"TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_VERTICAL_INTEGRATION_TITLE" = "Vertical Integration";
+"TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_VERTICAL_INTEGRATION_EFFECT1" = "This city receives [Production] Production from any number of Industrial Zones within 6 tiles, not just the first."; // #
+
+
+// ----------------------
+// governor Moksha titles
+
+// bishop
+"TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_BISHOP_TITLE" = "Bishop";
+"TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_BISHOP_EFFECT1" = "Religious pressure to adjacent cities is 100% stronger from this city."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_BISHOP_EFFECT2" = "+2 [Faith] Faith per specialty district in this city."; // #
+
+// grandInquisitor
+"TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_GRAD_INQUISITOR_TITLE" = "Grand Inquisitor";
+"TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_GRAD_INQUISITOR_EFFECT1" = "+10 [ReligiousStrength] Religious Strength in theological combat in tiles of this city."; // #
+
+// layingOnOfHands
+"TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_LAYING_ON_OF_HANDS_TITLE" = "Laying On Of Hands";
+"TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_LAYING_ON_OF_HANDS_EFFECT1" = "All Governor's units heal fully in one turn in tiles of this city."; // #
+
+// citadelOfGod
+"TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_CITADEL_OF_GOD_TITLE" = "Citadel of God";
+"TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_CITADEL_OF_GOD_EFFECT1" = "City ignores pressure and combat effects from Religions not founded by the Governor's player."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_CITADEL_OF_GOD_EFFECT2" = "Gain [Faith] Faith equal to 25% of the construction cost when finishing buildings."; // #
+
+// patronSaint
+"TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_PATRON_SAINT_TITLE" = "Patron Saint";
+"TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_PATRON_SAINT_EFFECT1" = "Apostles and Warrior Monks trained in the city receive 1 extra Promotion when receiving their first promotion."; // #
+
+// divineArchitect
+"TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_DIVINE_ARCHITECT_TITLE" = "Divine Architect";
+"TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_DIVINE_ARCHITECT_EFFECT1" = "Allows city to purchase Districts with [Faith] Faith."; // #
+
+
+// ----------------------
+// governor Liang titles
+
+// guildmaster
+"TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_GUILDMASTER_TITLE" = "Guildmaster";
+"TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_GUILDMASTER_EFFECT1" = "All Builders trained in city get +1 build charge."; // #
+
+// zoningCommissioner
+"TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_ZONING_COMMISSIONER_TITLE" = "Zoning Commissioner";
+"TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_ZONING_COMMISSIONER_EFFECT1" = "+20% [Production] Production towards constructing Districts in the city."; // #
+
+// aquaculture
+"TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_AQUACULTURE_TITLE" = "Aquaculture";
+"TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_AQUACULTURE_EFFECT1" = "The Fishery unique improvement can be built in the city on coastal plots."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_AQUACULTURE_EFFECT2" = "Yields 1 [Food] Food, +1 [Food] Food for each adjacent sea resource."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_AQUACULTURE_EFFECT3" = "Fisheries provide +1 [Production] Production if Liang is in the city."; // #
+
+// reinforcedMaterials
+"TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_REINFORCED_MATERIALS_TITLE" = "Reinforced Materials";
+"TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_REINFORCED_MATERIALS_EFFECT1" = "This city's improvements, buildings and Districts cannot be damaged by Environmental Effects."; // #
+
+// waterWorks
+"TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_WATER_WORKS_TITLE" = "Water Works";
+"TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_WATER_WORKS_EFFECT1" = "+2 [Housing] Housing for every Neighborhood and Aqueduct district in this city."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_WATER_WORKS_EFFECT2" = "+1 [Amenity] Amenity for every Canal and Dam district in this city."; // #
+
+// parksAndRecreation:
+"TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_PARKS_AND_RECREATION_TITLE" = "Parks and Recreation";
+"TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_PARKS_AND_RECREATION_EFFECT1" = "The City Park unique improvement can be built in the city."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_PARKS_AND_RECREATION_EFFECT2" = "Yields 2 Appeal and 1 [Culture] Culture."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_PARKS_AND_RECREATION_EFFECT3" = "+1 [Amenity] Amenity if adjacent to water."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_PARKS_AND_RECREATION_EFFECT4" = "City Parks provide 3 [Culture] Culture if Liang is in the city."; // #
+
+
+// ----------------------
+// governor Pingala titles
+
+// librarian
+"TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_LIBRARIAN_TITLE" = "Librarian";
+"TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_LIBRARIAN_EFFECT1" = "15% increase in [Science] Science and [Culture] Culture generated by the city."; // #
+
+// connoisseur
+"TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_CONNOISSEUR_TITLE" = "Connoisseur";
+"TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_CONNOISSEUR_EFFECT1" = "+1 [Culture] Culture per turn for each Citizen in the city."; // #
+
+// researcher
+"TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_RESEARCHER_TITLE" = "Researcher";
+"TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_RESEARCHER_EFFECT1" = "+1 [Science] Science per turn for each Citizen in the city."; // #
+
+// grants
+"TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_GRANTS_TITLE" = "Grants";
+"TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_GRANTS_EFFECT1" = "+100% [GreatPeople] Great People points generated per turn in the city."; // #
+
+// spaceInitiative
+"TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_SPACE_INITIATIVE_TITLE" = "Space Initiative";
+"TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_SPACE_INITIATIVE_EFFECT1" = "30% [Production] Production increase to all space-program projects in the city."; // #
+
+// curator
+"TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_CURATOR_TITLE" = "Curator";
+"TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_CURATOR_EFFECT1" = "+100% [Tourism] Tourism from Great Works of Art, Music, and Writing in the city."; // #

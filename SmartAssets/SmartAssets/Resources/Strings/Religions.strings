@@ -6,6 +6,10 @@
   
 */
 
+
+// ----------------------
+// pantheons
+
 // cityPatronGoddess
 "TXT_KEY_RELIGION_PANTHEON_CITY_PATRON_GODDESS_TITLE" = "City Patron Goddess";
 "TXT_KEY_RELIGION_PANTHEON_CITY_PATRON_GODDESS_BONUS" = "+25% [Production] Production toward districts in cities without a specialty district.";
