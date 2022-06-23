@@ -5527,7 +5527,12 @@ public class City: AbstractCity {
 
         for point in self.location.areaWith(radius: maxRange) {
 
-            if let loopPlot = gameModel.tile(at: point) {
+            var loopPoint: HexPoint = point
+            if gameModel.wrappedX() {
+                loopPoint = gameModel.wrap(point: point)
+            }
+
+            if let loopPlot = gameModel.tile(at: loopPoint) {
 
                 guard !loopPlot.hasOwner() else {
                     continue
@@ -5539,7 +5544,7 @@ public class City: AbstractCity {
 
                 // we can use the faster, but slightly inaccurate pathfinder here - after all we are using a rand in the equation
                 var influenceCost = gameModel.calculateInfluenceDistance(
-                    from: self.location, to: point, limit: maxRange, abc: false) * iPLOT_INFLUENCE_DISTANCE_MULTIPLIER
+                    from: self.location, to: loopPoint, limit: maxRange, abc: false) * iPLOT_INFLUENCE_DISTANCE_MULTIPLIER
 
                 if influenceCost > 0 {
                     // Modifications for tie-breakers in a ring
@@ -5591,11 +5596,14 @@ public class City: AbstractCity {
                     var unownedNaturalWonderAdjacentCount = false
                     for dir in HexDirection.all {
 
-                        let neightbor = point.neighbor(in: dir)
+                        var adjacentPoint = loopPoint.neighbor(in: dir)
+                        if gameModel.wrappedX() {
+                            adjacentPoint = gameModel.wrap(point: adjacentPoint)
+                        }
 
-                        if let adjacentPlot = gameModel.tile(at: neightbor) {
+                        if let adjacentPlot = gameModel.tile(at: adjacentPoint) {
                             if !adjacentPlot.hasOwner() {
-                                let plotDistance = self.location.distance(to: neightbor)
+                                let plotDistance = self.location.distance(to: adjacentPoint)
                                 let adjacentResource = adjacentPlot.resource(for: self.player)
                                 if adjacentResource != .none {
                                     // if we are close enough to work, or this is not a bonus resource
@@ -5623,7 +5631,12 @@ public class City: AbstractCity {
                     var foundAdjacentOwnedByCity = false
                     for dir in HexDirection.all {
 
-                        if let adjacentPlot = gameModel.tile(at: point.neighbor(in: dir)) {
+                        var adjacentPoint = loopPoint.neighbor(in: dir)
+                        if gameModel.wrappedX() {
+                            adjacentPoint = gameModel.wrap(point: adjacentPoint)
+                        }
+
+                        if let adjacentPlot = gameModel.tile(at: adjacentPoint) {
                             // Have to check plot ownership first because the City IDs match between different players!!!
                             if adjacentPlot.ownerLeader() == leader && adjacentPlot.workingCityName() == self.name {
                                 foundAdjacentOwnedByCity = true
@@ -5641,12 +5654,12 @@ public class City: AbstractCity {
 
                         // clear reset list
                         aiPlotList.removeAll()
-                        aiPlotList.append(point)
+                        aiPlotList.append(loopPoint)
                         lowestCost = influenceCost
                     }
 
                     if influenceCost == lowestCost {
-                        aiPlotList.append(point)
+                        aiPlotList.append(loopPoint)
                     }
                 }
             }
