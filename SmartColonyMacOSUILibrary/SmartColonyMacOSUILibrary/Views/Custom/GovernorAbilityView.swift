@@ -38,7 +38,7 @@ struct GovernorAbilityView: View {
                 .background(Color.gray.opacity(self.viewModel.enabled ? 0.2 : 0.8))
         )
         .cornerRadius(self.cornerRadius)
-        .tooltip(self.viewModel.toolTip(), side: .trailingBottom)
+        .tooltip(self.viewModel.toolTip(), side: .leadingBottom)
     }
 }
 
