@@ -1326,6 +1326,15 @@ extension City {
                         // +2 Food, +2 Gold, and +1 Production on all Desert tiles for this city (non-Floodplains).
                         goldValue += 2.0
                     }
+
+                    // Reyna + forestryManagement - This city receives +2 Gold for each unimproved feature.
+                    if adjacentTile.has(feature: .forest) && !adjacentTile.hasAnyImprovement() {
+                        if let governor = self.governor() {
+                            if governor.type == .reyna && governor.has(title: .forestryManagement) {
+                                goldValue = 2.0
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -1362,6 +1371,15 @@ extension City {
             }
         }
 
+        // yields from governors
+        if let governor = self.governor() {
+
+            // Reyna + taxCollector - +2 Gold per turn for each Citizen in the city.
+            if governor.type == .reyna && governor.has(title: .taxCollector) {
+                goldFromGovernmentValue += 2.0 * Double(self.population())
+            }
+        }
+
         return goldFromGovernmentValue
     }
 
@@ -1371,11 +1389,25 @@ extension City {
             fatalError("cant get gameModel")
         }
 
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
         guard let districts = self.districts else {
             fatalError("cant get districts")
         }
 
         var goldFromDistricts: Double = 0.0
+        var governorModifier: Double = 1.0
+
+        // yields from governors
+        if let governor = self.governor() {
+
+            // Reyna + harbormaster - Double adjacency bonuses from Commercial Hubs and Harbors in the city.
+            if governor.type == .reyna && governor.has(title: .harbormaster) {
+                governorModifier = 2.0
+            }
+        }
 
         if districts.has(district: .harbor) {
 
@@ -1389,17 +1421,17 @@ extension City {
 
                     // Major bonus (+2 Gold) for being adjacent to the City Center
                     if neighborTile.point == self.location {
-                        goldFromDistricts += 2.0
+                        goldFromDistricts += 2.0 * governorModifier
                     }
 
                     // Standard bonus (+1 Gold) for each adjacent Sea resource
                     if neighborTile.isWater() && neighborTile.hasAnyResource(for: self.player) {
-                        goldFromDistricts += 1.0
+                        goldFromDistricts += 1.0 * governorModifier
                     }
 
                     // Minor bonus (+½ Gold) for each adjacent District
                     if neighborTile.district() != .none {
-                        goldFromDistricts += 0.5
+                        goldFromDistricts += 0.5 * governorModifier
                     }
                 }
             }
@@ -1426,7 +1458,7 @@ extension City {
 
                     // Minor bonus (+½ Gold) for each nearby District.",
                     if neighborTile.district() != .none {
-                        goldFromDistricts += 0.5
+                        goldFromDistricts += 0.5 * governorModifier
                     }
                 }
 
@@ -1436,7 +1468,7 @@ extension City {
                 }
 
                 if harborOrRiver {
-                    goldFromDistricts += 2.0
+                    goldFromDistricts += 2.0 * governorModifier
                 }
             }
         }

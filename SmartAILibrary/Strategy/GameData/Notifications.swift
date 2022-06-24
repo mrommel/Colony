@@ -420,7 +420,7 @@ public class NotificationItem: Codable, Equatable {
                 fatalError("cant get city at \(location)")
             }
 
-            return city.madeAttack()
+            return city.isOutOfAttacks(in: gameModel)
 
         case .cityAcquired(cityName: _, location: _):
             return false

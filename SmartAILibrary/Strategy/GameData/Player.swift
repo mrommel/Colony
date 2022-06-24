@@ -5249,7 +5249,7 @@ public class Player: AbstractPlayer {
         let everCapital = oldCity.isEverCapital()
         let oldName = oldCity.name
         let oldCultureLevel = oldCity.cultureLevel()
-        let hasMadeAttack = oldCity.madeAttack()
+        let hasMadeAttack = oldCity.isOutOfAttacks(in: gameModel)
 
         var oldBattleDamage = oldCity.damage()
 

@@ -101,20 +101,20 @@
 
 // harbormaster
 "TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_HARBORMASTER_TITLE" = "Harbormaster";
-"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_HARBORMASTER_EFFECT1" = "Double adjacency bonuses from Commercial Hubs and Harbors in the city."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_HARBORMASTER_EFFECT1" = "Double adjacency bonuses from Commercial Hubs and Harbors in the city.";
 
 // forestryManagement
 "TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_FORESTRY_MANAGEMENT_TITLE" = "Forestry Management";
-"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_FORESTRY_MANAGEMENT_EFFECT1" = "This city receives +2 [Gold] Gold for each unimproved feature."; // #
-"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_FORESTRY_MANAGEMENT_EFFECT2" = "Tiles adjacent to unimproved features receive +1 Appeal in this city."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_FORESTRY_MANAGEMENT_EFFECT1" = "This city receives +2 [Gold] Gold for each unimproved feature.";
+"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_FORESTRY_MANAGEMENT_EFFECT2" = "Tiles adjacent to unimproved features receive +1 Appeal in this city.";
 
 // taxCollector
 "TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_TAX_COLLECTOR_TITLE" = "Tax Collector";
-"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_TAX_COLLECTOR_EFFECT1" = "+2 [Gold] Gold per turn for each Citizen in the city."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_TAX_COLLECTOR_EFFECT1" = "+2 [Gold] Gold per turn for each Citizen in the city.";
 
 // contractor
 "TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_CONTRACTOR_TITLE" = "Contractor";
-"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_CONTRACTOR_EFFECT1" = "Allows city to purchase Districts with [Gold] Gold."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_CONTRACTOR_EFFECT1" = "Allows city to purchase Districts with [Gold] Gold.";
 
 // renewableSubsidizer
 "TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_RENEWABLE_SUBSIDIZER_TITLE" = "Renewable Subsidizer";
@@ -126,12 +126,12 @@
 // redoubt
 "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_REDOUBT_TITLE" = "Redoubt";
 "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_REDOUBT_EFFECT1" = "Increase city garrison [Strength] Combat Strength by 5.";
-"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_REDOUBT_EFFECT2" = "Established in 3 turns."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_REDOUBT_EFFECT2" = "Established in 3 turns.";
 
 // garrisonCommander
 "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_GARRISON_COMMANDER_TITLE" = "Garrison Commander";
-"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_GARRISON_COMMANDER_EFFECT1" = "Units defending within the city's territory get +5 [Strength] Combat Strength."; // #
-"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_GARRISON_COMMANDER_EFFECT2" = "Your other cities within 9 tiles gain +4 Loyalty per turn towards your civilization."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_GARRISON_COMMANDER_EFFECT1" = "Units defending within the city's territory get +5 [Strength] Combat Strength.";
+"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_GARRISON_COMMANDER_EFFECT2" = "Your other cities within 9 tiles gain +4 Loyalty per turn towards your civilization.";
 
 // defenseLogistics
 "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_DEFENSE_LOGISTICS_TITLE" = "Defense Logistics";
@@ -140,8 +140,8 @@
 
 // embrasure
 "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_EMBRASURE_TITLE" = "Embrasure";
-"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_EMBRASURE_EFFECT1" = "City gains an additional Ranged Strike per turn."; // #
-"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_EMBRASURE_EFFECT2" = "Military units trained in this city start with a free promotion that do not already start with a free promotion."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_EMBRASURE_EFFECT1" = "City gains an additional Ranged Strike per turn.";
+"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_EMBRASURE_EFFECT2" = "Military units trained in this city start with a free promotion that do not already start with a free promotion.";
 
 // airDefenseInitiative
 "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_AIR_DEFENSE_INITIATIVE_TITLE" = "Air Defense Initiative";
@@ -161,7 +161,7 @@
 
 // emissary
 "TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_EMISSARY_TITLE" = "Emissary";
-"TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_EMISSARY_EFFECT1" = "Other cities within 9 tiles and not owned by you gain +2 Loyalty per turn towards your civilization."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_EMISSARY_EFFECT1" = "Other cities within 9 tiles and not owned by you gain +2 Loyalty per turn towards your civilization.";
 
 // affluence
 "TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_AFFLUENCE_TITLE" = "Affluence";

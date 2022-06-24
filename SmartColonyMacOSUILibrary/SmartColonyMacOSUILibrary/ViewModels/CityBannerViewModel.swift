@@ -237,7 +237,7 @@ class CityBannerViewModel: ObservableObject {
         self.faithYieldViewModel.tooltip = city.faithPerTurnToolTip(in: gameModel)
 
         var tmpCommands: [CityCommandType] = []
-        if city.isEnemyInRange(in: gameModel) && !city.madeAttack() && !city.canRangeStrike() {
+        if city.isEnemyInRange(in: gameModel) && !city.isOutOfAttacks(in: gameModel) && !city.canRangeStrike() {
             tmpCommands.append(.showRangedAttackTargets(city: city))
         }
         self.commands = tmpCommands

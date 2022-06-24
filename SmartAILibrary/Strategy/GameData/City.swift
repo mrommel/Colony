@@ -97,17 +97,20 @@ public protocol AbstractCity: AnyObject, Codable {
     func startBuilding(project: ProjectType, at point: HexPoint, in gameModel: GameModel?)
 
     func canPurchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
+    func canPurchase(district districtType: DistrictType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
     func canPurchase(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
 
     func faithPurchaseCost(of unitType: UnitType, in gameModel: GameModel?) -> Double
+    func faithPurchaseCost(of districtType: DistrictType) -> Double
     func faithPurchaseCost(of buildingType: BuildingType) -> Double
     func goldPurchaseCost(of unitType: UnitType, in gameModel: GameModel?) -> Double
+    func goldPurchaseCost(of districtType: DistrictType) -> Double
     func goldPurchaseCost(of buildingType: BuildingType) -> Double
 
     @discardableResult
     func purchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
     @discardableResult
-    func purchase(district districtType: DistrictType, at location: HexPoint, in gameModel: GameModel?) -> Bool
+    func purchase(district districtType: DistrictType, with yieldType: YieldType, at location: HexPoint, in gameModel: GameModel?) -> Bool
     @discardableResult
     func purchase(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
     @discardableResult
@@ -201,8 +204,8 @@ public protocol AbstractCity: AnyObject, Codable {
     func rangedCombatStrength(against defender: AbstractUnit?, on toTile: AbstractTile?) -> Int
     func defensiveStrength(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool, in gameModel: GameModel?) -> Int
     func doRangeAttack(at location: HexPoint, in gameModel: GameModel?) -> Bool
+    func isOutOfAttacks(in gameModel: GameModel?) -> Bool
     func setMadeAttack(to madeAttack: Bool)
-    func madeAttack() -> Bool
 
     func work(tile: AbstractTile) throws
     func isCoastal(in gameModel: GameModel?) -> Bool
@@ -326,7 +329,7 @@ public class City: AbstractCity {
 
         case cityStrategy
 
-        case madeAttack
+        case numberOfAttacksMade
         case routeToCapitalConnectedThisTurn
         case routeToCapitalConnectedLastTurn
         case lastTurnGarrisonAssigned
@@ -386,7 +389,7 @@ public class City: AbstractCity {
 
     public var cityStrategy: CityStrategyAI?
 
-    private var madeAttackValue: Bool = false
+    private var numberOfAttacksMade: Int = 1
     private var routeToCapitalConnectedThisTurn: Bool = false
     private var routeToCapitalConnectedLastTurn: Bool = false
     private var lastTurnGarrisonAssignedValue: Int = 0
@@ -510,7 +513,7 @@ public class City: AbstractCity {
 
         self.cityStrategy = try container.decode(CityStrategyAI.self, forKey: .cityStrategy)
 
-        self.madeAttackValue = try container.decode(Bool.self, forKey: .madeAttack)
+        self.numberOfAttacksMade = try container.decode(Int.self, forKey: .numberOfAttacksMade)
         self.routeToCapitalConnectedThisTurn = try container.decode(Bool.self, forKey: .routeToCapitalConnectedThisTurn)
         self.routeToCapitalConnectedLastTurn = try container.decode(Bool.self, forKey: .routeToCapitalConnectedLastTurn)
         self.lastTurnGarrisonAssignedValue = try container.decode(Int.self, forKey: .lastTurnGarrisonAssigned)
@@ -584,7 +587,7 @@ public class City: AbstractCity {
 
         try container.encode(self.cityStrategy, forKey: .cityStrategy)
 
-        try container.encode(self.madeAttackValue, forKey: .madeAttack)
+        try container.encode(self.numberOfAttacksMade, forKey: .numberOfAttacksMade)
         try container.encode(self.routeToCapitalConnectedThisTurn, forKey: .routeToCapitalConnectedThisTurn)
         try container.encode(self.routeToCapitalConnectedLastTurn, forKey: .routeToCapitalConnectedLastTurn)
         try container.encode(self.lastTurnGarrisonAssignedValue, forKey: .lastTurnGarrisonAssigned)
@@ -949,7 +952,7 @@ public class City: AbstractCity {
             return
         }
 
-        if self.madeAttack() {
+        if self.isOutOfAttacks(in: gameModel) {
             return
         }
 
@@ -1315,6 +1318,13 @@ public class City: AbstractCity {
 
     public func loyaltyFromGovernors(in gameModel: GameModel?) -> Double {
 
+        guard let gameModel = gameModel else {
+            fatalError("cant get game")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
         // The effect of domestic and foreign Governors.
         var loyaltyFromGovernors = 0.0
         // +8 Loyalty per turn for having any Governor assigned to that city (activated from the moment you assign the Governor, not the moment they actually become established).
@@ -1322,9 +1332,26 @@ public class City: AbstractCity {
             loyaltyFromGovernors += 8.0
         }
 
-        // -2 Loyalty per turn if a foreign city has their Governor Amani, with the Emissary title, established in a city within 9 tiles.
-        // +2 Loyalty per turn for having Governor Amani, with the Prestige title, established in another city within 9 tiles.
-        // +4 Loyalty per turn for having Governor Victor, with the Garrison Commander title, established in another city within 9 tiles.
+        // check nearby cities for governor effects
+        for loopPoint in self.location.areaWith(radius: 9) {
+
+            guard let loopCity = gameModel.city(at: loopPoint) else {
+                continue
+            }
+
+            if let loopGovernor = loopCity.governor() {
+
+                // -2 Loyalty per turn if a foreign city has their Governor Amani, with the Emissary title, established in a city within 9 tiles.
+                if !player.isEqual(to: loopCity.player) && loopGovernor.type == .amani && loopGovernor.has(title: .emissary) {
+                    loyaltyFromGovernors -= 2.0
+                }
+
+                // +4 Loyalty per turn for having Governor Victor, with the Garrison Commander title, established in another city within 9 tiles.
+                if player.isEqual(to: loopCity.player) && loopGovernor.type == .victor && loopGovernor.has(title: .garrisonCommander) {
+                    loyaltyFromGovernors += 4.0
+                }
+            }
+        }
 
         return loyaltyFromGovernors
     }
@@ -3084,6 +3111,19 @@ public class City: AbstractCity {
         unit.set(experienceModifier: experienceModifier)
         secondUnit?.set(experienceModifier: experienceModifier)
 
+        // Victor - embrasure - Military units trained in this city start with a free promotion that do not already start with a free promotion.
+        if let governor = self.governor() {
+            if governor.type == .victor && governor.has(title: .embrasure) {
+                if unit.gainedPromotions().isEmpty {
+                    unit.changeExperienceUntilPromotion(in: gameModel)
+                }
+
+                if secondUnit?.gainedPromotions().isEmpty ?? false {
+                    secondUnit?.changeExperienceUntilPromotion(in: gameModel)
+                }
+            }
+        }
+
         gameModel?.add(unit: unit)
         gameModel?.userInterface?.show(unit: unit, at: unitLocation)
 
@@ -4146,6 +4186,50 @@ public class City: AbstractCity {
         return true
     }
 
+    public func canPurchase(district districtType: DistrictType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
+
+        // todo reyna effect
+
+        guard yieldType == .faith || yieldType == .gold else {
+            fatalError("invalid yield type: \(yieldType)")
+        }
+
+        guard let playerReligion = self.player?.religion else {
+            fatalError("cant get player religion")
+        }
+
+        guard let playerTreasury = self.player?.treasury else {
+            fatalError("cant get player treasury")
+        }
+
+        if !self.canBuild(district: districtType, in: gameModel) {
+            return false
+        }
+
+        if yieldType == .gold {
+            if self.goldPurchaseCost(of: districtType) > playerTreasury.value() {
+                return false
+            }
+
+        } else if yieldType == .faith {
+            if self.faithPurchaseCost(of: districtType) > playerReligion.faith() {
+                return false
+            }
+
+        } else {
+            return false
+        }
+
+        if let governor = self.governor() {
+            // reyna - contractor - Allows city to purchase Districts with [Gold] Gold.
+            if yieldType == .gold && governor.type == .reyna && governor.has(title: .contractor) {
+                return true
+            }
+        }
+
+        return false // districts cannot be purchased per default
+    }
+
     public func canPurchase(building buildingType: BuildingType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
 
         guard yieldType == .faith || yieldType == .gold else {
@@ -4259,9 +4343,21 @@ public class City: AbstractCity {
         return Double(cost) * modifier
     }
 
+    public func goldPurchaseCost(of districtType: DistrictType) -> Double {
+
+        let cost = districtType.productionCost()
+        return Double(cost)
+    }
+
     public func goldPurchaseCost(of building: BuildingType) -> Double {
 
         let cost = building.purchaseCost()
+        return Double(cost)
+    }
+
+    public func faithPurchaseCost(of districtType: DistrictType) -> Double {
+
+        let cost = districtType.productionCost()
         return Double(cost)
     }
 
@@ -4312,16 +4408,25 @@ public class City: AbstractCity {
         return true
     }
 
-    /// --- WARNING: THIS IS FOR TESTING ONLY ---
-    public func purchase(district districtType: DistrictType, at location: HexPoint, in gameModel: GameModel?) -> Bool {
+    public func purchase(district districtType: DistrictType, with yieldType: YieldType, at location: HexPoint, in gameModel: GameModel?) -> Bool {
 
-        if !Thread.current.isRunningXCTest {
-            fatalError("--- WARNING: THIS IS FOR TESTING ONLY ---")
+        guard self.canPurchase(district: districtType, with: yieldType, in: gameModel) else {
+            return false
         }
 
         if !self.canBuild(district: districtType, at: location, in: gameModel) {
             print("cant build district: \(districtType) at: \(location)")
             return false
+        }
+
+        if yieldType == .gold {
+            let purchaseCost = self.goldPurchaseCost(of: districtType)
+            self.player?.treasury?.changeGold(by: -purchaseCost)
+        } else if yieldType == .faith {
+            let faithCost = self.faithPurchaseCost(of: districtType)
+            self.player?.religion?.change(faith: -faithCost)
+        } else {
+            fatalError("cant buy unit with \(yieldType)")
         }
 
         self.build(district: districtType, at: location, in: gameModel)
@@ -5212,19 +5317,38 @@ public class City: AbstractCity {
 
         Combat.doRangedAttack(between: self, and: defender, in: gameModel)
 
-        self.setMadeAttack(to: true)
-
         return true
+    }
+
+    func numberOfAttacksPerTurn(in gameModel: GameModel?) -> Int {
+
+        var numberOfAttacksPerTurnValue: Int = 0
+
+        // initially units have 1 attack
+        numberOfAttacksPerTurnValue += 1
+
+        // Victor - embrasure - City gains an additional Ranged Strike per turn.
+        if let governor = self.governor() {
+            if governor.type == .victor && governor.has(title: .embrasure) {
+                numberOfAttacksPerTurnValue += 1
+            }
+        }
+
+        return numberOfAttacksPerTurnValue
+    }
+
+    public func isOutOfAttacks(in gameModel: GameModel?) -> Bool {
+
+        return self.numberOfAttacksMade >= self.numberOfAttacksPerTurn(in: gameModel)
     }
 
     public func setMadeAttack(to madeAttack: Bool) {
 
-        self.madeAttackValue = madeAttack
-    }
-
-    public func madeAttack() -> Bool {
-
-        return self.madeAttackValue
+        if madeAttack {
+            self.numberOfAttacksMade += 1
+        } else {
+            self.numberOfAttacksMade = 0
+        }
     }
 
     public func lastTurnGarrisonAssigned() -> Int {

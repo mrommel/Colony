@@ -1275,58 +1275,70 @@ public class Unit: AbstractUnit {
                     result.append(CombatModifier(value: 10, title: UnitPromotionType.rollingBarrage.name()))
                 }
             }*/
+        }
 
-            // city attacks us
-            if city != nil {
+        // city attacks us
+        if city != nil {
 
-                if promotions.has(promotion: .emplacement) {
-                    // +10 Combat Strength when defending vs. city attacks.
-                    result.append(CombatModifier(value: +10, title: UnitPromotionType.emplacement.name()))
-                }
+            if promotions.has(promotion: .emplacement) {
+                // +10 Combat Strength when defending vs. city attacks.
+                result.append(CombatModifier(value: +10, title: UnitPromotionType.emplacement.name()))
             }
+        }
 
-            // //////////
-            // support
-            // //////////
-
-            var supportUnitCount: Int = 0
-
-            // only melee units can gain Flanking bonus && unlocked only after researching Military Tradition
-            if self.type.unitClass() != .airFighter &&
-                self.type.unitClass() != .airBomber &&
-                civics.has(civic: .militaryTradition) {
-
-                for neighborLocation in self.location.neighbors() {
-
-                    for loopUnitRef in gameModel.units(at: neighborLocation) {
-
-                        guard let loopUnit = loopUnitRef else {
-                            continue
-                        }
-
-                        // All non-air military units can provide Flanking
-                        if loopUnit.type.unitClass() == .airFighter || loopUnit.type.unitClass() == .airBomber {
-                            continue
-                        }
-
-                        // Only units that are currently owned by the same player can provide Flanking to one another
-                        if loopUnit.player?.leader != self.leader {
-                            continue
-                        }
-
-                        // square - Double Support bonus
-                        if loopUnit.has(promotion: .square) {
-                            supportUnitCount += 1
-                        }
-
-                        supportUnitCount += 1
+        // governor effects
+        if let tile = toTile {
+            if let workingCity = tile.workingCity() {
+                if let governor = workingCity.governor() {
+                    // Victor - garrisonCommander - Units defending within the city's territory get +5 Combat Strength.
+                    if governor.type == .victor && governor.has(title: .garrisonCommander) {
+                        result.append(CombatModifier(value: 5, title: "Governor Victor"))
                     }
                 }
             }
+        }
 
-            if supportUnitCount > 0 {
-                result.append(CombatModifier(value: 2 * supportUnitCount, title: "Support Bonus"))
+        // //////////
+        // support
+        // //////////
+
+        var supportUnitCount: Int = 0
+
+        // only melee units can gain Flanking bonus && unlocked only after researching Military Tradition
+        if self.type.unitClass() != .airFighter &&
+            self.type.unitClass() != .airBomber &&
+            civics.has(civic: .militaryTradition) {
+
+            for neighborLocation in self.location.neighbors() {
+
+                for loopUnitRef in gameModel.units(at: neighborLocation) {
+
+                    guard let loopUnit = loopUnitRef else {
+                        continue
+                    }
+
+                    // All non-air military units can provide Flanking
+                    if loopUnit.type.unitClass() == .airFighter || loopUnit.type.unitClass() == .airBomber {
+                        continue
+                    }
+
+                    // Only units that are currently owned by the same player can provide Flanking to one another
+                    if loopUnit.player?.leader != self.leader {
+                        continue
+                    }
+
+                    // square - Double Support bonus
+                    if loopUnit.has(promotion: .square) {
+                        supportUnitCount += 1
+                    }
+
+                    supportUnitCount += 1
+                }
             }
+        }
+
+        if supportUnitCount > 0 {
+            result.append(CombatModifier(value: 2 * supportUnitCount, title: "Support Bonus"))
         }
 
         return result
