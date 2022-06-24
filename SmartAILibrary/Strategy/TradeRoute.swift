@@ -203,6 +203,13 @@ public class TradeRoute: Codable {
             yields.science += 2.0
         }
 
+        if let endCityGovernor = endCity.governor() {
+            // Your [TradeRoute] Trade Routes ending here provide +2 [Food] Food to their starting city.
+            if endCityGovernor.type == .magnus && endCityGovernor.has(title: .surplusLogistics) {
+                yields.food += 2.0
+            }
+        }
+
         /*
         // posts - currently no implemented
         yields.gold += Double(self.posts.count)

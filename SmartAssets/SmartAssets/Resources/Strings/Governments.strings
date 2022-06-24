@@ -191,11 +191,11 @@
 // surplusLogistics
 "TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_SURPLUS_LOGISTICS_TITLE" = "Surplus Logistics";
 "TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_SURPLUS_LOGISTICS_EFFECT1" = "+20% [Food] Food Growth in the city."; // #
-"TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_SURPLUS_LOGISTICS_EFFECT2" = "Your [TradeRoute] Trade Routes ending here provide +2 [Food] Food to their starting city."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_SURPLUS_LOGISTICS_EFFECT2" = "Your [TradeRoute] Trade Routes ending here provide +2 [Food] Food to their starting city.";
 
 // provision
 "TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_PROVISION_TITLE" = "Provision";
-"TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_PROVISION_EFFECT1" = "Settlers trained in the city do not consume a [Citizen] Citizen Population."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_PROVISION_EFFECT1" = "Settlers trained in the city do not consume a [Citizen] Citizen Population.";
 
 // industrialist
 "TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_INDUSTRIALIST_TITLE" = "Industrialist";
@@ -216,7 +216,7 @@
 // bishop
 "TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_BISHOP_TITLE" = "Bishop";
 "TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_BISHOP_EFFECT1" = "Religious pressure to adjacent cities is 100% stronger from this city."; // #
-"TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_BISHOP_EFFECT2" = "+2 [Faith] Faith per specialty district in this city."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_BISHOP_EFFECT2" = "+2 [Faith] Faith per specialty district in this city.";
 
 // grandInquisitor
 "TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_GRAD_INQUISITOR_TITLE" = "Grand Inquisitor";

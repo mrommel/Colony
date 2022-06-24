@@ -3058,6 +3058,24 @@ public class City: AbstractCity {
 
         if unitType == .settler {
             player.changeTrainedSettlers(by: 1)
+
+            guard self.population() > 1 else {
+                print("cannot train settler if only 1 people left")
+                return
+            }
+
+            var settlerWillReducePopulation: Bool = true
+
+            if let governor = self.governor() {
+                // magnus - provision - Settlers trained in the city do not consume a [Citizen] Citizen Population.
+                if governor.type == .magnus && governor.has(title: .provision) {
+                    settlerWillReducePopulation = false
+                }
+            }
+
+            if settlerWillReducePopulation {
+                self.set(population: self.population() - 1, in: gameModel)
+            }
         }
 
         if unitType == .builder {
@@ -4387,23 +4405,7 @@ public class City: AbstractCity {
             fatalError("cant buy unit with \(yieldType)")
         }
 
-        // check quests
-        for quest in player.ownQuests(in: gameModel) {
-
-            if quest.type == .trainUnit(type: unitType) && quest.leader == player.leader {
-                let cityStatePlayer = gameModel?.cityStatePlayer(for: quest.cityState)
-                cityStatePlayer?.fulfillQuest(by: player.leader, in: gameModel)
-            }
-        }
-
-        // send gossip
-        if unitType == .settler {
-            gameModel?.sendGossip(type: .settlerTrained(cityName: self.name), of: self.player)
-        }
-
-        let unit = Unit(at: self.location, type: unitType, owner: self.player)
-        gameModel?.add(unit: unit)
-        gameModel?.userInterface?.show(unit: unit, at: self.location)
+        self.train(unit: unitType, in: gameModel)
 
         return true
     }

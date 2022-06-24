@@ -856,24 +856,31 @@ extension City {
 
                     if self.player?.religion?.pantheon() == .danceOfTheAurora {
                         if neighborTile.terrain() == .tundra {
-                            // Holy Site districts get +1 [Faith] Faith from adjacent Tundra tiles.
+                            // Holy Site districts get +1 Faith from adjacent Tundra tiles.
                             faithFromDistricts += 1.0
                         }
                     }
 
                     if self.player?.religion?.pantheon() == .desertFolklore {
                         if neighborTile.terrain() == .desert {
-                            // Holy Site districts get +1 [Faith] Faith from adjacent Desert tiles.
+                            // Holy Site districts get +1 Faith from adjacent Desert tiles.
                             faithFromDistricts += 1.0
                         }
                     }
 
                     if self.player?.religion?.pantheon() == .desertFolklore {
                         if neighborTile.has(feature: .rainforest) {
-                            // Holy Site districts get +1 [Faith] Faith from adjacent Rainforest tiles.
+                            // Holy Site districts get +1 Faith from adjacent Rainforest tiles.
                             faithFromDistricts += 1.0
                         }
                     }
+                }
+            }
+
+            if let governor = self.governor() {
+                // moksha - bishop - +2 Faith per specialty district in this city.
+                if governor.type == .moksha && governor.has(title: .bishop) {
+                    faithFromDistricts += 2.0 * Double(districts.numberOfSpecialtyDistricts())
                 }
             }
         }
