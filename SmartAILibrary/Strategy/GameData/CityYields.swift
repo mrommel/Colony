@@ -1412,10 +1412,6 @@ extension City {
             fatalError("cant get gameModel")
         }
 
-        guard let player = self.player else {
-            fatalError("cant get player")
-        }
-
         guard let districts = self.districts else {
             fatalError("cant get districts")
         }
@@ -2405,5 +2401,256 @@ extension City {
         }
 
         return result
+    }
+
+    // MARK: amenities functions
+
+    public func amenitiesPerTurn(in gameModel: GameModel?) -> Double {
+
+        var amenitiesPerTurn: Double = 0.0
+
+        amenitiesPerTurn += self.amenitiesFromTiles(in: gameModel)
+        amenitiesPerTurn += self.amenitiesFromLuxuries()
+        amenitiesPerTurn += self.amenitiesFromDistrict(in: gameModel)
+        amenitiesPerTurn += self.amenitiesFromBuildings()
+        amenitiesPerTurn += self.amenitiesFromWonders(in: gameModel)
+        amenitiesPerTurn += self.amenitiesFromCivics(in: gameModel)
+
+        return amenitiesPerTurn
+    }
+
+    public func amenitiesFromLuxuries() -> Double {
+
+        return Double(self.luxuries.count)
+    }
+
+    public func amenitiesFromBuildings() -> Double {
+
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
+        }
+
+        var amenitiesFromBuildings: Double = 0.0
+
+        // gather amenities from buildingss
+        for building in BuildingType.all {
+            if buildings.has(building: building) {
+                amenitiesFromBuildings += Double(building.amenities())
+            }
+        }
+
+        // audienceChamber - +2 Amenities and +4 Housing in Cities with Governors.
+        if buildings.has(building: .audienceChamber) && self.governor() != nil {
+            amenitiesFromBuildings += 2
+        }
+
+        return amenitiesFromBuildings
+    }
+
+    public func amenitiesFromWonders(in gameModel: GameModel?) -> Double {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        var locationOfColosseum: HexPoint = .invalid
+
+        for cityRef in gameModel.cities(of: player) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            if city.has(wonder: .colosseum) {
+                locationOfColosseum = city.location
+            }
+        }
+
+        var amenitiesFromWonders: Double = 0.0
+
+        // gather amenities from buildingss
+        for wonder in WonderType.all {
+            if self.has(wonder: wonder) {
+                amenitiesFromWonders += Double(wonder.amenities())
+            }
+        }
+
+        // temple of artemis
+        if self.has(wonder: .templeOfArtemis) {
+            for loopPoint in self.location.areaWith(radius: 3) {
+
+                guard let loopTile = gameModel.tile(at: loopPoint) else {
+                    continue
+                }
+                if loopTile.has(improvement: .camp) || loopTile.has(improvement: .pasture) || loopTile.has(improvement: .plantation) {
+                    // Each Camp, Pasture, and Plantation improvement within 4 tiles of this wonder provides +1 Amenities6 Amenity.
+                    amenitiesFromWonders += 1.0
+                }
+            }
+        }
+
+        // colosseum - +2 [Culture] Culture, +2 Loyalty, +2 [Amenities] Amenities from entertainment
+        // to each City Center within 6 tiles.
+        if self.has(wonder: .colosseum) || locationOfColosseum.distance(to: self.location) <= 6 {
+            amenitiesFromWonders += 2.0
+        }
+
+        return amenitiesFromWonders
+    }
+
+    // amenities from districts
+    public func amenitiesFromDistrict(in gameModel: GameModel?) -> Double {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+
+        guard let districts = self.districts else {
+            fatalError("cant get districts")
+        }
+
+        var amenitiesFromDistrict: Double = 0.0
+
+        // "All cities with a district receive +1 Housing6 Housing and +1 Amenities6 Amenity."
+        if government.currentGovernment() == .classicalRepublic {
+
+            if districts.hasAny() {
+                amenitiesFromDistrict += 1.0
+            }
+        }
+
+        if self.has(district: .holySite) {
+
+            // riverGoddess - +2 [Amenities] Amenities and +2 [Housing] Housing to cities if they have a Holy Site district adjacent to a River.
+            if let holySiteLocation = self.location(of: .holySite) {
+
+                var isHolySiteAdjacentToRiver = false
+
+                for neighbor in holySiteLocation.neighbors() {
+
+                    if gameModel.river(at: neighbor) {
+                        isHolySiteAdjacentToRiver = true
+                        break
+                    }
+                }
+
+                if isHolySiteAdjacentToRiver {
+                    amenitiesFromDistrict += 2.0
+                }
+            }
+        }
+
+        return amenitiesFromDistrict
+    }
+
+    private func amenitiesFromTiles(in gameModel: GameModel?) -> Double {
+
+        guard let gameModel = gameModel else {
+            fatalError("no game model provided")
+        }
+
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("no cityCitizens provided")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        var amenitiesFromTiles: Double = 0.0
+
+        var hueyTeocalliLocation: HexPoint = .invalid
+        if player.has(wonder: .hueyTeocalli, in: gameModel) {
+            for point in cityCitizens.workingTileLocations() {
+                if cityCitizens.isWorked(at: point) {
+                    if let adjacentTile = gameModel.tile(at: point) {
+                        if adjacentTile.has(wonder: .hueyTeocalli) {
+                            hueyTeocalliLocation = point
+                        }
+                    }
+                }
+            }
+        }
+
+        // +1 Amenity from entertainment for each Lake tile within one tile of Huey Teocalli.
+        // (This includes the Lake tile where the wonder is placed.)
+        for point in cityCitizens.workingTileLocations() {
+            if cityCitizens.isWorked(at: point) {
+                // if let adjacentTile = gameModel.tile(at: point) {
+                if point == hueyTeocalliLocation || point.isNeighbor(of: hueyTeocalliLocation) {
+                    amenitiesFromTiles += 1
+                }
+                // }
+            }
+        }
+
+        return amenitiesFromTiles
+    }
+
+    public func amenitiesFromCivics(in gameModel: GameModel?) -> Double {
+
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+
+        guard let districts = self.districts else {
+            fatalError("cant get districts")
+        }
+
+        var amenitiesFromCivics: Double = 0.0
+
+        // Retainers - +1 Amenity in cities with a garrisoned unit.
+        if government.has(card: .retainers) {
+            if self.garrisonedUnitValue != nil {
+                amenitiesFromCivics += 1
+            }
+        }
+
+        // Civil Prestige - +1 Amenity and +2 Housing in cities with established Governors with 2+ promotions.
+        if government.has(card: .retainers) {
+            if let governor = self.governor() {
+                if governor.titles().count >= 2 {
+                    amenitiesFromCivics += 1
+                }
+            }
+        }
+
+        // Liberalism - +1 Amenity in cities with 2+ specialty districts.
+        if government.has(card: .liberalism) {
+            if districts.numberOfBuiltDistricts() >= 2 {
+                amenitiesFromCivics += 1
+            }
+        }
+
+        // Police State - -2 Spy operation level in your lands. -1 Amenity in all cities.
+        if government.has(card: .policyState) {
+            amenitiesFromCivics -= 1
+        }
+
+        // New Deal - +2 Amenities and +4 Housing in all cities with 3+ specialty districts.
+        if government.has(card: .newDeal) {
+            if districts.numberOfBuiltDistricts() >= 3 {
+                amenitiesFromCivics += 2
+            }
+        }
+
+        /*
+         - Sports Media    +100% Theater Square adjacency bonuses, and Stadiums generate +1 Amenities Amenity.
+         - Music Censorship    Other civs' Rock Bands cannot enter your territory. -1 Amenities Amenity in all cities.
+         - Robber Barons    +50% Gold Gold in cities with a Stock Exchange. +25% Production Production in cities with a Factory.
+            BUT: -2 Amenities Amenities in all cities.
+         - Automated Workforce    +20% Production Production towards city projects.
+            BUT: -1 Amenities Amenity and -5 Loyalty in all cities.
+         */
+
+        return amenitiesFromCivics
     }
 }
