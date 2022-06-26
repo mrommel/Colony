@@ -50,6 +50,8 @@ extension City {
         greatPeoplePerTurn.add(other: self.greatPeoplePointsFromBuildings())
         greatPeoplePerTurn.add(other: self.greatPeoplePointsFromDistricts(in: gameModel))
 
+        greatPeoplePerTurn.modify(by: self.greatPeopleModifierFromGovernors())
+
         return greatPeoplePerTurn
     }
 
@@ -394,6 +396,20 @@ extension City {
         }
 
         return greatPeoplePoints
+    }
+
+    private func greatPeopleModifierFromGovernors() -> Double {
+
+        var greatPeopleModifier: Double = 1.0
+
+        if let governor = self.governor() {
+            // Pingala - grants - +100% [GreatPeople] Great People points generated per turn in the city.
+            if governor.type == .pingala && governor.has(title: .grants) {
+                greatPeopleModifier += 1.0
+            }
+        }
+
+        return greatPeopleModifier
     }
 
     // MARK: production functions
@@ -1234,7 +1250,7 @@ extension City {
 
         var cultureFromGovernors: YieldValues = YieldValues(value: 0.0, percentage: 0.0)
 
-        // +1 Culture per turn for each Citizen Citizen in the city.
+        // connoisseur - +1 Culture per turn for each Citizen Citizen in the city.
         if self.hasGovernorTitle(of: .connoisseur) {
             cultureFromGovernors += YieldValues(value: Double(self.population()))
         }
@@ -2339,6 +2355,15 @@ extension City {
         if government.has(card: .civilPrestige) && self.numberOfGovernorTitles() >= 2 {
 
             housingValue += 2.0
+        }
+
+        if let governor = self.governor() {
+            // Liang - waterWorks - +2 Housing for every Neighborhood and Aqueduct district in this city.
+            if governor.type == .liang && governor.has(title: .waterWorks) {
+                let numberOfNeighborhoods = self.has(district: .neighborhood) ? 1.0 : 0.0
+                let numberOfAqueducts = self.has(district: .aqueduct) ? 1.0 : 0.0
+                housingValue += 2.0 * (numberOfNeighborhoods + numberOfAqueducts)
+            }
         }
 
         return housingValue

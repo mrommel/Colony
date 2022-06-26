@@ -2832,10 +2832,13 @@ public class City: AbstractCity {
                 }
             }
 
-            // Zoning Commissioner - +20% Production towards constructing Districts in the city.
-            if self.hasGovernorTitle(of: .zoningCommissioner) {
-                if self.buildQueue.isCurrentlyBuildingDistrict() {
-                    modifierPercentage += 0.20
+            // governor effects
+            if let governor = self.governor() {
+                // Liang - zoningCommissioner - +20% Production towards constructing Districts in the city.
+                if self.hasGovernorTitle(of: .zoningCommissioner) {
+                    if self.buildQueue.isCurrentlyBuildingDistrict() {
+                        modifierPercentage += 0.20
+                    }
                 }
             }
 
@@ -4206,8 +4209,6 @@ public class City: AbstractCity {
 
     public func canPurchase(district districtType: DistrictType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
 
-        // todo reyna effect
-
         guard yieldType == .faith || yieldType == .gold else {
             fatalError("invalid yield type: \(yieldType)")
         }
@@ -4241,6 +4242,11 @@ public class City: AbstractCity {
         if let governor = self.governor() {
             // reyna - contractor - Allows city to purchase Districts with [Gold] Gold.
             if yieldType == .gold && governor.type == .reyna && governor.has(title: .contractor) {
+                return true
+            }
+
+            // moksha - divineArchitect - Allows city to purchase Districts with [Faith] Faith.
+            if yieldType == .faith && governor.type == .moksha && governor.has(title: .divineArchitect) {
                 return true
             }
         }
@@ -4386,10 +4392,6 @@ public class City: AbstractCity {
     }
 
     public func purchase(unit unitType: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool {
-
-        guard let player = self.player else {
-            fatalError("cant get player")
-        }
 
         guard self.canPurchase(unit: unitType, with: yieldType, in: gameModel) else {
             return false
