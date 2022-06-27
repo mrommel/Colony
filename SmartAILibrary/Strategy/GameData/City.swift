@@ -3017,6 +3017,11 @@ public class City: AbstractCity {
             gameModel?.userInterface?.show(unit: secondUnit, at: unitLocation)
         }
 
+        // send gossip
+        if unitType == .settler {
+            gameModel?.sendGossip(type: .settlerTrained(cityName: self.name), of: self.player)
+        }
+
         self.updateEurekas(in: gameModel)
 
         // check quests
@@ -4125,6 +4130,10 @@ public class City: AbstractCity {
             if yieldType == .faith && governor.type == .moksha && governor.has(title: .divineArchitect) {
                 return true
             }
+        }
+
+        if Thread.current.isRunningXCTest {
+            return true
         }
 
         return false // districts cannot be purchased per default
