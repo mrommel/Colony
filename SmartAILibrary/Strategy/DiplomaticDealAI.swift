@@ -595,7 +595,7 @@ public class DiplomaticDealAI: Codable {
                 continue
             }
 
-            var resourceQuantity = losingPlayer.numAvailable(resource: resource)
+            var resourceQuantity = losingPlayer.numberOfAvailable(resource: resource)
 
             // Don't bother looking at this Resource if the other player doesn't even have any of it
             if resourceQuantity == 0 {
@@ -865,7 +865,7 @@ public class DiplomaticDealAI: Codable {
                         continue
                     }
 
-                    var resourceQuantity = player.numAvailable(resource: resource)
+                    var resourceQuantity = player.numberOfAvailable(resource: resource)
 
                     // Don't bother looking at this Resource if the other player doesn't even have any of it
                     if resourceQuantity <= 0 {
@@ -904,7 +904,7 @@ public class DiplomaticDealAI: Codable {
                         continue
                     }
 
-                    var resourceQuantity = player.numAvailable(resource: resource)
+                    var resourceQuantity = player.numberOfAvailable(resource: resource)
 
                     // Don't bother looking at this Resource if the other player doesn't even have any of it
                     if resourceQuantity <= 0 {
@@ -950,7 +950,7 @@ public class DiplomaticDealAI: Codable {
 
                 for resource in ResourceType.all {
 
-                    var resourceQuantity = player.numAvailable(resource: resource)
+                    var resourceQuantity = player.numberOfAvailable(resource: resource)
 
                     // Don't bother looking at this Resource if we don't even have any of it
                     if resourceQuantity == 0 {

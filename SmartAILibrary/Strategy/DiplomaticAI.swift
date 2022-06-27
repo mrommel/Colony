@@ -2643,7 +2643,7 @@ public class DiplomaticAI: Codable {
                         if gameModel.countMajorCivilizationsMet(with: cityState) == 1 {
 
                             // first player gets a free envoy
-                            activePlayer.changeEnvoys(by: 1)
+                            activePlayer.changeUnassignedEnvoys(by: 1)
 
                             // this free envoy is assigned to
                             activePlayer.assignEnvoy(to: cityState, in: gameModel)
@@ -2669,7 +2669,7 @@ public class DiplomaticAI: Codable {
                         if gameModel.countMajorCivilizationsMet(with: cityState) == 1 {
 
                             // first player gets a free envoy
-                            player.changeEnvoys(by: 1)
+                            player.changeUnassignedEnvoys(by: 1)
 
                             // this free envoy is assigned to
                             player.assignEnvoy(to: cityState, in: gameModel)

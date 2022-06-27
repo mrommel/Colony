@@ -590,7 +590,7 @@ extension TopBarViewModel {
         )
         tooltipText.append(stockpile)
 
-        let stockAccumulating = player.numAvailable(resource: resource)
+        let stockAccumulating = player.numberOfAvailable(resource: resource)
         let accumulating = NSAttributedString(
             string: "\nAccumulating: +\(stockAccumulating) per turn.",
             attributes: Globals.Attributs.tooltipContentAttributs

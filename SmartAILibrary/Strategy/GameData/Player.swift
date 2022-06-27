@@ -160,7 +160,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func proximity(to otherPlayer: AbstractPlayer?) -> PlayerProximityType
 
     // envoys / suzerain methods
-    func changeEnvoys(by value: Int)
+    func changeUnassignedEnvoys(by value: Int)
     func numberOfAvailableEnvoys() -> Int
     func envoysAssigned(to cityState: CityStateType) -> Int
     @discardableResult func assignEnvoy(to cityState: CityStateType, in gameModel: GameModel?) -> Bool
@@ -279,8 +279,8 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func buyPlotCost() -> Int
     func changeNumPlotsBought(change: Int)
 
-    func numAvailable(resource: ResourceType) -> Int
-    func changeNumAvailable(resource: ResourceType, change: Int)
+    func numberOfAvailable(resource: ResourceType) -> Int
+    func changeNumberOfAvailable(resource: ResourceType, change: Int)
     func numberOfItemsInStockpile(of resource: ResourceType) -> Int
     func numberOfStockpileCapacity(of resource: ResourceType) -> Int
 
@@ -1443,7 +1443,7 @@ public class Player: AbstractPlayer {
         return diplomacyAI.proximity(to: otherPlayer)
     }
 
-    public func changeEnvoys(by value: Int) {
+    public func changeUnassignedEnvoys(by value: Int) {
 
         guard let playerEnvoys = self.envoys else {
             fatalError("cant get playerEnvoys")
@@ -1477,6 +1477,10 @@ public class Player: AbstractPlayer {
             fatalError("cant get gameModel")
         }
 
+        guard let government = self.government else {
+            fatalError("cant get government")
+        }
+
         guard let playerEnvoys = self.envoys else {
             fatalError("cant get playerEnvoys")
         }
@@ -1485,9 +1489,19 @@ public class Player: AbstractPlayer {
             fatalError("cant get player for city state")
         }
 
+        let previouslyAssignedEnvoys = playerEnvoys.envoys(in: cityState)
+
         let result = playerEnvoys.assignEnvoy(to: cityState)
 
         if result {
+
+            if previouslyAssignedEnvoys == 0 {
+                // diplomaticLeague - The first [Envoy] Envoy you send to each city-state counts as two [Envoy] Envoys.
+                if government.has(card: .diplomaticLeague) {
+                    self.changeUnassignedEnvoys(by: 1)
+                    _ = playerEnvoys.assignEnvoy(to: cityState) // ignore return value
+                }
+            }
 
             let cityStateSuzerain = cityStatePlayer.suzerain() != nil ? gameModel.player(for: cityStatePlayer.suzerain()!) : nil
 
@@ -1634,7 +1648,7 @@ public class Player: AbstractPlayer {
         self.questsValue.removeAll(where: { $0.leader == leader })
 
         if let player = gameModel?.player(for: leader) {
-            player.changeEnvoys(by: 1)
+            player.changeUnassignedEnvoys(by: 1)
 
             if player.isHuman() {
                 // inform player
@@ -2505,7 +2519,7 @@ public class Player: AbstractPlayer {
 
             if self.influencePointsValue > currentGovernmentType.envoyPerInflucencePoints() {
 
-                self.changeEnvoys(by: currentGovernmentType.envoysFromInflucencePoints())
+                self.changeUnassignedEnvoys(by: currentGovernmentType.envoysFromInflucencePoints())
                 self.influencePointsValue = 0
             }
         }
@@ -2717,6 +2731,10 @@ public class Player: AbstractPlayer {
             fatalError("cant get stock piles")
         }
 
+        guard let government = self.government else {
+            fatalError("cant get government")
+        }
+
         // check max stockpile
         for resource in ResourceType.strategic {
 
@@ -2731,7 +2749,15 @@ public class Player: AbstractPlayer {
 
         for resource in ResourceType.strategic {
 
-            let newResource = self.numAvailable(resource: resource)
+            var newResource = self.numberOfAvailable(resource: resource)
+
+            // equestrianOrders - All improved Horses and Iron resources yield 1 additional resource per turn.
+            if government.has(card: .equestrianOrders) {
+                if resource == .horses || resource == .iron {
+                    newResource += 1
+                }
+            }
+
             resourceStockpile.add(weight: newResource, for: resource)
 
             // limit
@@ -4502,7 +4528,7 @@ public class Player: AbstractPlayer {
         self.numPlotsBoughtValue += change
     }
 
-    public func numAvailable(resource: ResourceType) -> Int {
+    public func numberOfAvailable(resource: ResourceType) -> Int {
 
         if let resourceInventory = self.resourceProduction {
             return Int(resourceInventory.weight(of: resource))
@@ -4520,7 +4546,7 @@ public class Player: AbstractPlayer {
         return 0
     }
 
-    public func changeNumAvailable(resource: ResourceType, change: Int) {
+    public func changeNumberOfAvailable(resource: ResourceType, change: Int) {
 
         guard let resourceInventory = self.resourceProduction else {
             fatalError("cant get resourceInventory")
@@ -6431,7 +6457,7 @@ public class Player: AbstractPlayer {
             print("Diplomatic favor")
 
         case .freeEnvoy:
-            self.changeEnvoys(by: 1)
+            self.changeUnassignedEnvoys(by: 1)
 
         case .diplomacyMajorBoost:
             self.governors?.addTitle()
@@ -6656,7 +6682,7 @@ public class Player: AbstractPlayer {
             // Resource Requirements
             if let resource = unitType.requiredResource() {
 
-                if self.numAvailable(resource: resource) <= 0 {
+                if self.numberOfAvailable(resource: resource) <= 0 {
                     return false
                 }
             }

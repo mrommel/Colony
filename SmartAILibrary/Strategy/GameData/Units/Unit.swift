@@ -3932,7 +3932,7 @@ public class Unit: AbstractUnit {
             if tile.resource(for: self.player) != .none {
                 if let player = tile.owner() {
                     let resourceQuantity = tile.resourceQuantity()
-                    player.changeNumAvailable(resource: tile.resource(for: self.player), change: resourceQuantity)
+                    player.changeNumberOfAvailable(resource: tile.resource(for: self.player), change: resourceQuantity)
                 }
             }
         }
@@ -4331,7 +4331,7 @@ public class Unit: AbstractUnit {
                 if tile.resource(for: player) != .none {
                     if let player = tile.owner() {
                         let resourceQuantity = tile.resourceQuantity()
-                        player.changeNumAvailable(resource: tile.resource(for: player), change: -resourceQuantity)
+                        player.changeNumberOfAvailable(resource: tile.resource(for: player), change: -resourceQuantity)
                     }
                 }
 

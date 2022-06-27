@@ -2507,7 +2507,7 @@ public class City: AbstractCity {
                 }
             }
 
-            // +15% Production toward Ancient and Classical wonders.
+            // corvee - +15% Production toward Ancient and Classical wonders.
             if government.has(card: .corvee) {
                 if let wonderType = self.productionWonderType() {
                     if wonderType.era() == .ancient || wonderType.era() == .classical {
@@ -2516,28 +2516,28 @@ public class City: AbstractCity {
                 }
             }
 
-            // +30% Production toward Builders.
+            // ilkum - +30% Production toward Builders.
             if government.has(card: .ilkum) {
                 if self.buildQueue.isCurrentlyTrainingUnit(of: .builder) {
                     modifierPercentage += 0.30
                 }
             }
 
-            // +50% Production toward Settlers.
+            // colonization - +50% Production toward Settlers.
             if government.has(card: .colonization) {
                 if self.buildQueue.isCurrentlyTrainingUnit(of: .settler) {
                     modifierPercentage += 0.50
                 }
             }
 
-            // +50% Production toward Ancient and Classical era heavy and light cavalry units.
+            // maneuver - +50% Production toward Ancient and Classical era heavy and light cavalry units.
             if government.has(card: .maneuver) {
                 if self.buildQueue.isCurrentlyTrainingUnit(of: .heavyCavalry) || self.buildQueue.isCurrentlyTrainingUnit(of: .lightCavalry) {
                     modifierPercentage += 0.50
                 }
             }
 
-            // +100% Production toward Ancient and Classical era naval units.
+            // maritimeIndustries - +100% Production toward Ancient and Classical era naval units.
             if government.has(card: .maritimeIndustries) {
                 if let unitType = self.productionUnitType() {
                     if unitType.unitClass() == .navalMelee && (unitType.era() == .ancient || unitType.era() == .classical) {
@@ -2546,7 +2546,16 @@ public class City: AbstractCity {
                 }
             }
 
-            // +50% Production toward Ancient and Classical era melee, ranged units and anti-cavalry units.
+            // limes - +100% [Production] Production toward defensive buildings.
+            if government.has(card: .limes) {
+                if let buildingType = self.productionBuildingType() {
+                    if buildingType.defense() > 0 {
+                        modifierPercentage += 1.0
+                    }
+                }
+            }
+
+            // agoge - +50% Production toward Ancient and Classical era melee, ranged units and anti-cavalry units.
             if government.has(card: .agoge) {
                 if let unitType = self.productionUnitType() {
                     if (unitType.unitClass() == .melee || unitType.unitClass() == .ranged || unitType.unitClass() == .antiCavalry) &&
@@ -2556,7 +2565,30 @@ public class City: AbstractCity {
                 }
             }
 
-            // cityPatronGoddess - +25% [Production] Production toward districts in cities without a specialty district.
+            // veterancy - +30% Production toward Encampment and Harbor districts and buildings for those districts.
+            if government.has(card: .veterancy) {
+                if let districtType = self.productionDistrictType() {
+                    if districtType == .encampment || districtType == .harbor {
+                        modifierPercentage += 0.30
+                    }
+                } else if let buildingType = self.productionBuildingType() {
+                    if buildingType.district() == .encampment || buildingType.district() == .harbor {
+                        modifierPercentage += 0.30
+                    }
+                }
+            }
+
+            // feudalContract - +50% Production toward Ancient, Classical, Medieval and Renaissance era melee, ranged and anti-cavalry units.
+            if government.has(card: .feudalContract) {
+                if let unitType = self.productionUnitType() {
+                    if (unitType.unitClass() == .melee || unitType.unitClass() == .ranged || unitType.unitClass() == .antiCavalry) &&
+                        (unitType.era() == .ancient || unitType.era() == .classical || unitType.era() == .medieval || unitType.era() == .renaissance) {
+                        modifierPercentage += 0.50
+                    }
+                }
+            }
+
+            // cityPatronGoddess - +25% Production toward districts in cities without a specialty district.
             if player.religion?.pantheon() == .cityPatronGoddess {
                 if !districts.hasAnySpecialtyDistrict() {
                     if self.buildQueue.isCurrentlyBuildingDistrict() {
@@ -2565,7 +2597,7 @@ public class City: AbstractCity {
                 }
             }
 
-            // godOfTheForge - +25% [Production] Production toward Ancient and Classical military units.
+            // godOfTheForge - +25% Production toward Ancient and Classical military units.
             if player.religion?.pantheon() == .godOfTheForge {
                 if let unitType = self.productionUnitType() {
                     if (unitType.unitClass() == .melee || unitType.unitClass() == .ranged) &&
@@ -3202,7 +3234,7 @@ public class City: AbstractCity {
             // apadana
             if wonders.has(wonder: .apadana) {
                 // +2 [Envoy] Envoys when you build a wonder, including Apadana, in this city.
-                player.changeEnvoys(by: 2)
+                player.changeUnassignedEnvoys(by: 2)
 
                 // notify player about envoy to spend
                 if player.isHuman() {
@@ -3213,7 +3245,7 @@ public class City: AbstractCity {
             // kilwaKisiwani
             if wonderType == .kilwaKisiwani {
                 // +3 [Envoy] Envoys when built.
-                player.changeEnvoys(by: 3)
+                player.changeUnassignedEnvoys(by: 3)
 
                 // notify player about envoy to spend
                 if player.isHuman() {
@@ -3858,6 +3890,18 @@ public class City: AbstractCity {
 
             if currentProduction.type == .district {
                 return currentProduction.districtType
+            }
+        }
+
+        return nil
+    }
+
+    func productionBuildingType() -> BuildingType? {
+
+        if let currentProduction = self.buildQueue.peek() {
+
+            if currentProduction.type == .building {
+                return currentProduction.buildingType
             }
         }
 
@@ -5693,7 +5737,7 @@ public class City: AbstractCity {
                         var luxuryValue = 40 /* AI_PLOT_VALUE_LUXURY_RESOURCE */
 
                         // Luxury we don't have yet?
-                        if player.numAvailable(resource: resource) == 0 {
+                        if player.numberOfAvailable(resource: resource) == 0 {
                             luxuryValue *= 2
                         }
 

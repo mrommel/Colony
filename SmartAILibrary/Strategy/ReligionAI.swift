@@ -429,7 +429,7 @@ public class ReligionAI {
         for resourceLoop in ResourceType.all {
 
             if resourceLoop.usage() == .luxury &&
-                (city.numLocalResources(of: resourceLoop, in: gameModel) > 0 || player.numAvailable(resource: resourceLoop) > 0) {
+                (city.numLocalResources(of: resourceLoop, in: gameModel) > 0 || player.numberOfAvailable(resource: resourceLoop) > 0) {
 
                 numLuxuries += 1
             }
