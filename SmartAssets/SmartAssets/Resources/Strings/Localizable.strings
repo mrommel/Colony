@@ -597,7 +597,7 @@
 
 // card - professionalArmy
 "TXT_KEY_POLICY_CARD_PROFESSIONAL_ARMY_TITLE" = "Professional Army";
-"TXT_KEY_POLICY_CARD_PROFESSIONAL_ARMY_BONUS" = "50% [Gold] Gold discount on all unit upgrades."; // #
+"TXT_KEY_POLICY_CARD_PROFESSIONAL_ARMY_BONUS" = "50% [Gold] Gold discount on all unit upgrades.";
 
 // card - retinues
 "TXT_KEY_POLICY_CARD_RETINUES_TITLE" = "Retinues";
@@ -605,15 +605,15 @@
 
 // card - tradeConfederation
 "TXT_KEY_POLICY_CARD_TRADE_CONFEDERATION_TITLE" = "Trade Confederation";
-"TXT_KEY_POLICY_CARD_TRADE_CONFEDERATION_BONUS" = "+1 [Culture] Culture and +1 [Science] Science from international [TradeRoute] Trade Routes."; // #
+"TXT_KEY_POLICY_CARD_TRADE_CONFEDERATION_BONUS" = "+1 [Culture] Culture and +1 [Science] Science from international [TradeRoute] Trade Routes.";
 
 // card - merchantConfederation
 "TXT_KEY_POLICY_CARD_MERCHANT_CONFEDERATION_TITLE" = "Merchant Confederation";
-"TXT_KEY_POLICY_CARD_MERCHANT_CONFEDERATION_BONUS" = "+1 [Gold] Gold from each of your [Envoy] Envoys at city-states."; // #
+"TXT_KEY_POLICY_CARD_MERCHANT_CONFEDERATION_BONUS" = "+1 [Gold] Gold from each of your [Envoy] Envoys at city-states.";
 
 // card - aesthetics
 "TXT_KEY_POLICY_CARD_AESTHETICS_TITLE" = "Aesthetics";
-"TXT_KEY_POLICY_CARD_AESTHETICS_BONUS" = "+100% Theater Square district adjacency bonuses."; // #
+"TXT_KEY_POLICY_CARD_AESTHETICS_BONUS" = "+100% Theater Square district adjacency bonuses.";
 
 // card - medinaQuarter
 "TXT_KEY_POLICY_CARD_MEDINA_QUARTER_TITLE" = "Medina Quarter";
@@ -625,7 +625,7 @@
 
 // card - townCharters
 "TXT_KEY_POLICY_CARD_TOWN_CHARTERS_TITLE" = "Town Charters";
-"TXT_KEY_POLICY_CARD_TOWN_CHARTERS_BONUS" = "+100% Commercial Hub adjacency bonuses."; // #
+"TXT_KEY_POLICY_CARD_TOWN_CHARTERS_BONUS" = "+100% Commercial Hub adjacency bonuses.";
 
 // card - travelingMerchants
 "TXT_KEY_POLICY_CARD_TRAVELING_MERCHANTS_TITLE" = "Traveling Merchants";

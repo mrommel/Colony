@@ -289,7 +289,7 @@ extension City {
                 greatPeoplePoints.greatProphet += 1
             }
 
-            // stockhol suzerain bonus
+            // stockholm suzerain bonus
             // Your districts with a building provide +1 [GreatPerson] Great Person point of their type ([GreatWriter] Great Writer,
             // [GreatArtist] Great Artist, and [GreatMusician] Great Musician for Theater Square districts with a building).
             if player.isSuzerain(of: .stockholm, in: gameModel) {
@@ -1127,15 +1127,15 @@ extension City {
         var policyCardModifier: Double = 1.0
 
         // yields from cards
-        // naturalPhilosophy - +100% Campus district adjacency bonuses.
-        if government.has(card: .naturalPhilosophy) {
+        // aesthetics - +100% Theater Square district adjacency bonuses.
+        if government.has(card: .aesthetics) {
             policyCardModifier += 1.0
         }
 
         // district
-        if districts.has(district: .campus) {
+        if districts.has(district: .theatherSquare) {
 
-            if let campusLocation = self.location(of: .campus) {
+            if let campusLocation = self.location(of: .theatherSquare) {
 
                 for neighbor in campusLocation.neighbors() {
 
@@ -1444,7 +1444,8 @@ extension City {
 
         var goldFromDistricts: Double = 0.0
         var governorModifier: Double = 1.0
-        var policyCardModifier: Double = 1.0
+        var policyCardHarborModifier: Double = 1.0
+        var policyCardCommercialHubModifier: Double = 1.0
 
         // yields from governors
         if let governor = self.governor() {
@@ -1458,9 +1459,15 @@ extension City {
         // yields from cards
         // navalInfrastructure - +100% Harbor district adjacency bonus.
         if government.has(card: .navalInfrastructure) {
-            policyCardModifier += 1.0
+            policyCardHarborModifier += 1.0
         }
 
+        // townCharters - +100% Commercial Hub adjacency bonuses.
+        if government.has(card: .townCharters) {
+            policyCardCommercialHubModifier += 1.0
+        }
+
+        // harbor
         if districts.has(district: .harbor) {
 
             if let harborLocation = self.location(of: .harbor) {
@@ -1473,22 +1480,23 @@ extension City {
 
                     // Major bonus (+2 Gold) for being adjacent to the City Center
                     if neighborTile.point == self.location {
-                        goldFromDistricts += 2.0 * governorModifier * policyCardModifier
+                        goldFromDistricts += 2.0 * governorModifier * policyCardHarborModifier
                     }
 
                     // Standard bonus (+1 Gold) for each adjacent Sea resource
                     if neighborTile.isWater() && neighborTile.hasAnyResource(for: self.player) {
-                        goldFromDistricts += 1.0 * governorModifier * policyCardModifier
+                        goldFromDistricts += 1.0 * governorModifier * policyCardHarborModifier
                     }
 
                     // Minor bonus (+½ Gold) for each adjacent District
                     if neighborTile.district() != .none {
-                        goldFromDistricts += 0.5 * governorModifier * policyCardModifier
+                        goldFromDistricts += 0.5 * governorModifier * policyCardHarborModifier
                     }
                 }
             }
         }
 
+        // commercialHub
         if districts.has(district: .commercialHub) {
 
             if let commercialHubLocation = self.location(of: .commercialHub) {
@@ -1510,7 +1518,7 @@ extension City {
 
                     // Minor bonus (+½ Gold) for each nearby District.",
                     if neighborTile.district() != .none {
-                        goldFromDistricts += 0.5 * governorModifier
+                        goldFromDistricts += 0.5 * governorModifier * policyCardCommercialHubModifier
                     }
                 }
 
@@ -1520,7 +1528,7 @@ extension City {
                 }
 
                 if harborOrRiver {
-                    goldFromDistricts += 2.0 * governorModifier
+                    goldFromDistricts += 2.0 * governorModifier * policyCardCommercialHubModifier
                 }
             }
         }
@@ -1739,11 +1747,22 @@ extension City {
             fatalError("Cant get player")
         }
 
+        guard let government = player.government else {
+            fatalError("Cant get government")
+        }
+
         guard let districts = self.districts else {
             fatalError("cant get districts")
         }
 
         var scienceFromDistricts: Double = 0.0
+        var policyCardModifier: Double = 1.0
+
+        // yields from cards
+        // naturalPhilosophy - +100% Campus district adjacency bonuses.
+        if government.has(card: .naturalPhilosophy) {
+            policyCardModifier += 1.0
+        }
 
         // district
         if districts.has(district: .campus) {
@@ -1758,22 +1777,22 @@ extension City {
 
                     // Major bonus (+2 Science) for each adjacent Geothermal Fissure and Reef tile.
                     if neighborTile.has(feature: .geyser) || neighborTile.has(feature: .reef) {
-                        scienceFromDistricts += 2.0
+                        scienceFromDistricts += 2.0 * policyCardModifier
                     }
 
                     // Major bonus (+2 Science) for each adjacent Great Barrier Reef tile.
                     if neighborTile.has(feature: .greatBarrierReef) {
-                        scienceFromDistricts += 2.0
+                        scienceFromDistricts += 2.0 * policyCardModifier
                     }
 
                     // Standard bonus (+1 Science) for each adjacent Mountain tile.
                     if neighborTile.has(feature: .mountains) {
-                        scienceFromDistricts += 1.0
+                        scienceFromDistricts += 1.0 * policyCardModifier
                     }
 
                     // Minor bonus (+½ Science) for each adjacent Rainforest and district tile.
                     if neighborTile.has(feature: .rainforest) || neighborTile.district() != .none {
-                        scienceFromDistricts += 0.5
+                        scienceFromDistricts += 0.5 * policyCardModifier
                     }
                 }
             }
