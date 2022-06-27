@@ -718,11 +718,13 @@ public class HomelandAI {
                 // See how many moves of this type we can execute
                 for target in self.targetedNavalResources {
 
-                    guard unit.canBuild(build: target.improvement.buildType()!, at: target.target ?? HexPoint.zero, testVisible: true, testGold: true, in: gameModel) else {
+                    let build = target.improvement.buildType()!
+                    let targetLocation = target.target ?? HexPoint.zero
+                    guard unit.canBuild(build: build, at: targetLocation, testVisible: true, testGold: true, in: gameModel) else {
                         continue
                     }
 
-                    let moves = pathFinder.turnsToReachTarget(for: unit, to: target.target ?? HexPoint.zero, in: gameModel)
+                    let moves = pathFinder.turnsToReachTarget(for: unit, to: targetLocation, in: gameModel)
                     if moves < targetMoves {
                         targetMoves = moves
                         targetIndex = target
@@ -738,7 +740,15 @@ public class HomelandAI {
 
                         unit.push(mission: UnitMission(type: .moveTo, at: targetLocation), in: gameModel)
                         if unit.location == targetLocation {
-                            unit.push(mission: UnitMission(type: .build, buildType: target.improvement.buildType(), at: targetLocation, follow: path, options: .none), in: gameModel)
+                            let target = target.improvement.buildType()
+                            let mission = UnitMission(
+                                type: .build,
+                                buildType: target,
+                                at: targetLocation,
+                                follow: path,
+                                options: .none
+                            )
+                            unit.push(mission: mission, in: gameModel)
                             result = true
                         } else {
                             unit.finishMoves()
@@ -748,7 +758,14 @@ public class HomelandAI {
                         self.unitProcessed(unit: unit)
                     } else {
                         if unit.location == targetLocation {
-                            unit.push(mission: UnitMission(type: .build, buildType: target.improvement.buildType(), at: targetLocation, follow: nil, options: .none), in: gameModel)
+                            let mission = UnitMission(
+                                type: .build,
+                                buildType: target.improvement.buildType(),
+                                at: targetLocation,
+                                follow: nil,
+                                options: .none
+                            )
+                            unit.push(mission: mission, in: gameModel)
                             result = true
                         }
                     }

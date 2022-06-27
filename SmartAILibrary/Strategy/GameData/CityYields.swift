@@ -653,7 +653,10 @@ extension City {
                     }
 
                     // Major bonus (+2 Production) for each adjacent Aqueduct, Dam, Canal or Bath
-                    if neighborTile.district() == .aqueduct /*|| neighborTile.district() == .dam || neighborTile.district() == .canal || neighborTile.district() == .bath */ {
+                    if neighborTile.district() == .aqueduct /*||
+                        neighborTile.district() == .dam ||
+                        neighborTile.district() == .canal ||
+                        neighborTile.district() == .bath */ {
                         productionFromDistricts += 2.0 * policyCardModifier
                         continue
                     }

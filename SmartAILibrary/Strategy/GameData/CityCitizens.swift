@@ -420,7 +420,8 @@ public class CityCitizens: Codable {
 
         self.doReallocateCitizens(in: gameModel)
 
-        assert((self.numberOfCitizensWorkingPlots() + self.totalSpecialistCount() + self.numberOfUnassignedCitizens()) <= city.population(), "Gameplay: More workers than population in the city.")
+        let sum = self.numberOfCitizensWorkingPlots() + self.totalSpecialistCount() + self.numberOfUnassignedCitizens()
+        assert(sum <= city.population(), "Gameplay: More workers than population in the city.")
         // print("working: \(self.numCitizensWorkingPlots()) + spec: \(self.totalSpecialistCount()) + unassigned: \(self.numUnassignedCitizens()) for \(city.population())")
     }
 

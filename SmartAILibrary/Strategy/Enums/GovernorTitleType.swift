@@ -112,7 +112,6 @@ public enum GovernorTitleType: Int, Codable {
     }
 
     // swiftlint:disable function_body_length
-    // swiftlint:disable line_length
     private func data() -> GovernorTitleTypeData {
 
         switch self {
