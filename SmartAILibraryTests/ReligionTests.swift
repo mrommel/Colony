@@ -87,7 +87,7 @@ class ReligionTests: XCTestCase {
 
         let playerTrajanCity = City(name: "Trajan City", at: HexPoint(x: 15, y: 15), capital: true, owner: playerTrajan)
         playerTrajanCity.initialize(in: gameModel)
-        _ = playerTrajanCity.purchase(district: .holySite, at: HexPoint(x: 15, y: 14), in: gameModel)
+        _ = playerTrajanCity.purchase(district: .holySite, with: .gold, at: HexPoint(x: 15, y: 14), in: gameModel)
         _ = playerTrajanCity.purchase(building: .shrine, with: .gold, in: gameModel)
         gameModel.add(city: playerTrajanCity)
 

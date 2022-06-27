@@ -538,7 +538,7 @@ class CityTests: XCTestCase {
         try playerAlexander.techs?.discover(tech: .bronzeWorking, in: gameModel)
         try playerAlexander.techs?.discover(tech: .horsebackRiding, in: gameModel)
         try playerAlexander.techs?.discover(tech: .militaryEngineering, in: gameModel)
-        self.objectToTest?.purchase(district: .encampment, at: HexPoint(x: 6, y: 5), in: gameModel)
+        self.objectToTest?.purchase(district: .encampment, with: .gold, at: HexPoint(x: 6, y: 5), in: gameModel)
 
         let canBuildStableBefore = self.objectToTest!.canBuild(building: .stable, in: gameModel)
         let canBuildArmoryBefore = self.objectToTest!.canBuild(building: .armory, in: gameModel)

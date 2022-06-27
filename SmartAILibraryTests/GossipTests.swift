@@ -620,7 +620,7 @@ class GossipTests: XCTestCase {
 
         // WHEN
         playerAlexander.diplomacyAI?.increaseAccessLevel(towards: playerTrajan)
-        playerTrajan.doRaze(city: vicorianCity, in: gameModel)
+        _ = playerTrajan.doRaze(city: vicorianCity, in: gameModel)
         let gossipItems: [GossipItem] = playerAlexander.diplomacyAI!.gossipItems(for: playerTrajan)
 
         // THEN
@@ -885,7 +885,7 @@ class GossipTests: XCTestCase {
         // WHEN
         playerAlexander.diplomacyAI?.increaseAccessLevel(towards: playerTrajan)
         playerAlexander.diplomacyAI?.increaseAccessLevel(towards: playerTrajan)
-        trajanCity?.purchase(district: .campus, at: HexPoint(x: 11, y: 10), in: gameModel)
+        trajanCity?.purchase(district: .campus, with: .gold, at: HexPoint(x: 11, y: 10), in: gameModel)
         let gossipItems: [GossipItem] = playerAlexander.diplomacyAI!.gossipItems(for: playerTrajan)
 
         // THEN
