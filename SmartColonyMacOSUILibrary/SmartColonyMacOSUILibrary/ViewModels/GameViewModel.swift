@@ -1309,6 +1309,9 @@ extension GameViewModel: GameViewModelDelegate {
         case .razeOrReturnCity:
             self.showRazeOrReturnCity(for: city)
 
+        case .moments:
+            self.showMomentsDialog()
+
         default:
             print("screen: \(screenType) not handled")
         }

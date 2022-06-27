@@ -768,13 +768,17 @@ public class City: AbstractCity {
         return
     }
 
-    func sameContinentAsCapital(in gameModel: GameModel?) -> Bool {
+    public func sameContinentAsCapital(in gameModel: GameModel?) -> Bool {
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
 
         if self.isCapital() {
             return true
         }
 
-        guard let capitalCity = gameModel?.capital(of: self.player) else {
+        guard let capitalCity = gameModel?.capital(of: player) else {
             print("cant get capital location")
             return false
         }
@@ -1880,20 +1884,15 @@ public class City: AbstractCity {
 
         var wonderModifier: Double = 0.0
 
-        // hanging gardens
+        // hangingGardens - Increases growth by 15% in all cities.
         if player.has(wonder: .hangingGardens, in: gameModel) {
-            // Increases growth by 15% in all cities.
             wonderModifier += 0.15
         }
 
         return wonderModifier
     }
 
-    public func religionGrowthModifier(in gameModel: GameModel?) -> Double {
-
-        guard let gameModel = gameModel else {
-            fatalError("cant get gameModel")
-        }
+    public func religionGrowthModifier() -> Double {
 
         guard let player = self.player else {
             fatalError("cant get player")
@@ -1901,20 +1900,15 @@ public class City: AbstractCity {
 
         var religionModifier: Double = 0.0
 
-        // fertilityRites
+        // fertilityRites - City growth rate is 10% higher.
         if player.religion?.pantheon() == .fertilityRites {
-            // City growth rate is 10% higher.
-            religionModifier = 0.10
+            religionModifier += 0.10
         }
 
         return religionModifier
     }
 
-    public func governmentGrowthModifier(in gameModel: GameModel?) -> Double {
-
-        guard let gameModel = gameModel else {
-            fatalError("cant get gameModel")
-        }
+    public func governmentGrowthModifier() -> Double {
 
         guard let government = self.player?.government else {
             fatalError("cant get government")
@@ -1924,10 +1918,10 @@ public class City: AbstractCity {
 
         // colonialOffices - +15% faster growth and 3 Loyalty per turn for cities not on your original [Capital] Capital's continent.
         if government.has(card: .colonialOffices) {
-            government = 0.15
+            governmentModifier += 0.15
         }
 
-        return government
+        return governmentModifier
     }
 
     public func doGrowth(in gameModel: GameModel?) {
@@ -1964,8 +1958,8 @@ public class City: AbstractCity {
         // modifier
         var modifier = self.housingGrowthModifier(in: gameModel) * self.amenitiesGrowthModifier(in: gameModel)
         modifier += self.wonderGrowthModifier(in: gameModel)
-        modifier += self.religionGrowthModifier(in: gameModel)
-        modifier += self.governmentGrowthModifier(in: gameModel)
+        modifier += self.religionGrowthModifier()
+        modifier += self.governmentGrowthModifier()
 
         foodDiff *= modifier
 

@@ -414,14 +414,14 @@ extension City {
         // invention - +4 [GreatEngineer] Great Engineer points per turn. +2 additional [GreatEngineer] Great Engineer points for every Workshop.
         if government.has(card: .invention) {
             if buildings.has(building: .workshop) {
-                greatPeoplePoints.greatEngineer += 2.0
+                greatPeoplePoints.greatEngineer += 2
             }
         }
 
         // frescoes - +2 [GreatArtist] Great Artist points per turn. +2 additional [GreatArtist] Great Artist points for every Art Museum.
         if government.has(card: .frescoes) {
             if buildings.has(building: .artMuseum) {
-                greatPeoplePoints.greatArtist += 2.0
+                greatPeoplePoints.greatArtist += 2
             }
         }
 
