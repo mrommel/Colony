@@ -49,6 +49,7 @@ extension City {
         greatPeoplePerTurn.add(other: self.greatPeoplePointsFromWonders())
         greatPeoplePerTurn.add(other: self.greatPeoplePointsFromBuildings())
         greatPeoplePerTurn.add(other: self.greatPeoplePointsFromDistricts(in: gameModel))
+        greatPeoplePerTurn.add(other: self.greatPeoplePointsFromGovernments())
 
         greatPeoplePerTurn.modify(by: self.greatPeopleModifierFromGovernors())
 
@@ -398,6 +399,35 @@ extension City {
         return greatPeoplePoints
     }
 
+    private func greatPeoplePointsFromGovernments() -> GreatPersonPoints {
+
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+
+        guard let buildings = self.buildings else {
+            fatalError("cant get city buildings")
+        }
+
+        let greatPeoplePoints: GreatPersonPoints = GreatPersonPoints()
+
+        // invention - +4 [GreatEngineer] Great Engineer points per turn. +2 additional [GreatEngineer] Great Engineer points for every Workshop.
+        if government.has(card: .invention) {
+            if buildings.has(building: .workshop) {
+                greatPeoplePoints.greatEngineer += 2.0
+            }
+        }
+
+        // frescoes - +2 [GreatArtist] Great Artist points per turn. +2 additional [GreatArtist] Great Artist points for every Art Museum.
+        if government.has(card: .frescoes) {
+            if buildings.has(building: .artMuseum) {
+                greatPeoplePoints.greatArtist += 2.0
+            }
+        }
+
+        return greatPeoplePoints
+    }
+
     private func greatPeopleModifierFromGovernors() -> Double {
 
         var greatPeopleModifier: Double = 1.0
@@ -595,11 +625,22 @@ extension City {
 
     public func productionFromDistricts(in gameModel: GameModel?) -> Double {
 
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+
         guard let districts = self.districts else {
             fatalError("cant get districts")
         }
 
         var productionFromDistricts: Double = 0.0
+        var policyCardModifier: Double = 1.0
+
+        // yields from cards
+        // craftsmen - +100% Industrial Zone adjacency bonuses.
+        if government.has(card: .craftsmen) {
+            policyCardModifier += 1.0
+        }
 
         if districts.has(district: .industrialZone) {
 
@@ -611,14 +652,29 @@ extension City {
                         continue
                     }
 
-                    // Standard bonus (+1 Production) for each adjacent Mine or a Quarry
-                    if neighborTile.has(improvement: .mine) || neighborTile.has(improvement: .quarry) {
-                        productionFromDistricts += 1
+                    // Major bonus (+2 Production) for each adjacent Aqueduct, Dam, Canal or Bath
+                    if neighborTile.district() == .aqueduct /*|| neighborTile.district() == .dam || neighborTile.district() == .canal || neighborTile.district() == .bath */ {
+                        productionFromDistricts += 2.0 * policyCardModifier
+                        continue
                     }
 
-                    // Minor bonus (+½ Production) for each adjacent district tile
+                    // Standard bonus (+1 Production) for each adjacent Strategic Resource and Quarry
+                    if neighborTile.has(improvement: .quarry) {
+                        productionFromDistricts += 1.0 * policyCardModifier
+                        continue
+                    }
+
+                    if neighborTile.resource(for: player).usage() == .strategic {
+                        productionFromDistricts += 1.0 * policyCardModifier
+                    }
+
+                    // Minor bonus (+½ Production) for each adjacent district tile, Mine or Lumber Mill
+                    if neighborTile.has(improvement: .mine) /*|| neighborTile.has(improvement: .lumberMill)*/ {
+                        productionFromDistricts += 0.5 * policyCardModifier
+                    }
+
                     if neighborTile.district() != .none {
-                        productionFromDistricts += 0.5
+                        productionFromDistricts += 0.5 * policyCardModifier
                     }
                 }
             }
@@ -1130,6 +1186,11 @@ extension City {
         // aesthetics - +100% Theater Square district adjacency bonuses.
         if government.has(card: .aesthetics) {
             policyCardModifier += 1.0
+        }
+
+        // meritocracy - Each city receives +1 [Culture] Culture for each specialty District it constructs.
+        if government.has(card: .meritocracy) {
+            cultureFromDistricts += 1.0 * Double(districts.numberOfSpecialtyDistricts())
         }
 
         // district
@@ -2197,6 +2258,14 @@ extension City {
             fatalError("cant get gameModel")
         }
 
+        guard let districts = self.districts else {
+            fatalError("cant get districts")
+        }
+
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+
         var housingFromDistricts: Double = 0.0
 
         // district
@@ -2260,6 +2329,13 @@ extension City {
                 if isHolySiteAdjacentToRiver {
                     housingFromDistricts += 2.0
                 }
+            }
+        }
+
+        // medinaQuarter - +2 [Housing] Housing in all cities with at least 3 specialty Districts.
+        if government.has(card: .medinaQuarter) {
+            if districts.numberOfSpecialtyDistricts() >= 3 {
+                housingFromDistricts += 2.0
             }
         }
 

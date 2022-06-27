@@ -2633,6 +2633,16 @@ public class Player: AbstractPlayer {
             greatPeoplePointsFromPolicyCards.greatMerchant += 2
         }
 
+        // invention - +4 [GreatEngineer] Great Engineer points per turn. +2 additional [GreatEngineer] Great Engineer points for every Workshop.
+        if government.has(card: .invention) {
+            greatPeoplePointsFromPolicyCards.greatEngineer += 4
+        }
+
+        // frescoes - +2 [GreatArtist] Great Artist points per turn. +2 additional [GreatArtist] Great Artist points for every Art Museum.
+        if government.has(card: .frescoes) {
+            greatPeoplePointsFromPolicyCards.greatArtist += 2
+        }
+
         return greatPeoplePointsFromPolicyCards
     }
 

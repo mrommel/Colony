@@ -487,15 +487,15 @@
 
 // card - strategos
 "TXT_KEY_POLICY_CARD_STRATEGOS_TITLE" = "Strategos";
-"TXT_KEY_POLICY_CARD_STRATEGOS_BONUS" = "+2 [GreatGeneral] Great General points per turn."; // #
+"TXT_KEY_POLICY_CARD_STRATEGOS_BONUS" = "+2 [GreatGeneral] Great General points per turn.";
 
 // card - conscription
 "TXT_KEY_POLICY_CARD_CONSCRIPTION_TITLE" = "Conscription";
-"TXT_KEY_POLICY_CARD_CONSCRIPTION_BONUS" = "Unit maintenance reduced by 1 [Gold] Gold per turn, per unit."; // #
+"TXT_KEY_POLICY_CARD_CONSCRIPTION_BONUS" = "Unit maintenance reduced by 1 [Gold] Gold per turn, per unit.";
 
 // card - corvee
 "TXT_KEY_POLICY_CARD_CORVEE_TITLE" = "Corvee";
-"TXT_KEY_POLICY_CARD_CORVEE_BONUS" = "+15% [Production] Production toward Ancient and Classical wonders."; // #
+"TXT_KEY_POLICY_CARD_CORVEE_BONUS" = "+15% [Production] Production toward Ancient and Classical wonders.";
 
 // card - landSurveyors
 "TXT_KEY_POLICY_CARD_LAND_SURVEYORS_TITLE" = "Land Surveyors";
@@ -585,11 +585,11 @@
 
 // card - meritocracy
 "TXT_KEY_POLICY_CARD_MERITOCRACY_TITLE" = "Meritocracy";
-"TXT_KEY_POLICY_CARD_MERITOCRACY_BONUS" = "Each city receives +1 [Culture] Culture for each specialty District it constructs."; // #
+"TXT_KEY_POLICY_CARD_MERITOCRACY_BONUS" = "Each city receives +1 [Culture] Culture for each specialty District it constructs.";
 
 // card - retainers
 "TXT_KEY_POLICY_CARD_RETAINERS_TITLE" = "Retainers";
-"TXT_KEY_POLICY_CARD_RETAINERS_BONUS" = "+1 [Amenities] Amenity for cities with a garrisoned unit."; // #
+"TXT_KEY_POLICY_CARD_RETAINERS_BONUS" = "+1 [Amenities] Amenity for cities with a garrisoned unit.";
 
 // card - sack
 "TXT_KEY_POLICY_CARD_SACK_TITLE" = "Sack";
@@ -617,11 +617,11 @@
 
 // card - medinaQuarter
 "TXT_KEY_POLICY_CARD_MEDINA_QUARTER_TITLE" = "Medina Quarter";
-"TXT_KEY_POLICY_CARD_MEDINA_QUARTER_BONUS" = "+2 [Housing] Housing in all cities with at least 3 specialty Districts."; // #
+"TXT_KEY_POLICY_CARD_MEDINA_QUARTER_BONUS" = "+2 [Housing] Housing in all cities with at least 3 specialty Districts.";
 
 // card - craftsmen
 "TXT_KEY_POLICY_CARD_CRAFTSMEN_TITLE" = "Craftsmen";
-"TXT_KEY_POLICY_CARD_CRAFTSMEN_BONUS" = "+100% Industrial Zone adjacency bonuses."; // #
+"TXT_KEY_POLICY_CARD_CRAFTSMEN_BONUS" = "+100% Industrial Zone adjacency bonuses.";
 
 // card - townCharters
 "TXT_KEY_POLICY_CARD_TOWN_CHARTERS_TITLE" = "Town Charters";
@@ -629,15 +629,15 @@
 
 // card - travelingMerchants
 "TXT_KEY_POLICY_CARD_TRAVELING_MERCHANTS_TITLE" = "Traveling Merchants";
-"TXT_KEY_POLICY_CARD_TRAVELING_MERCHANTS_BONUS" = "+2 [GreatMerchant] Great Merchant points per turn."; // #
+"TXT_KEY_POLICY_CARD_TRAVELING_MERCHANTS_BONUS" = "+2 [GreatMerchant] Great Merchant points per turn.";
 
 // card - chivalry
 "TXT_KEY_POLICY_CARD_CHIVALRY_TITLE" = "Chivalry";
-"TXT_KEY_POLICY_CARD_CHIVALRY_BONUS" = "+50% [Production] Production toward Industrial era and earlier heavy and light cavalry units."; // #
+"TXT_KEY_POLICY_CARD_CHIVALRY_BONUS" = "+50% [Production] Production toward Industrial era and earlier heavy and light cavalry units.";
 
 // card - gothicArchitecture
 "TXT_KEY_POLICY_CARD_GOTHIC_ARCHITECTURE_TITLE" = "Gothic Architecture";
-"TXT_KEY_POLICY_CARD_GOTHIC_ARCHITECTURE_BONUS" = "+15% [Production] Production toward Ancient, Classical, Medieval and Renaissance wonders."; // #
+"TXT_KEY_POLICY_CARD_GOTHIC_ARCHITECTURE_BONUS" = "+15% [Production] Production toward Ancient, Classical, Medieval and Renaissance wonders.";
 
 // card - civilPrestige:
 "TXT_KEY_POLICY_CARD_CIVIL_PRESTIGE_TITLE" = "Civil Prestige";
@@ -647,15 +647,15 @@
 
 // card - colonialOffices
 "TXT_KEY_POLICY_CARD_COLONIAL_OFFICE_TITLE" = "Colonial Offices";
-"TXT_KEY_POLICY_CARD_COLONIAL_OFFICE_BONUS" = "+15% faster growth and 3 Loyalty per turn for cities not on your original [Capital] Capital's continent."; // #
+"TXT_KEY_POLICY_CARD_COLONIAL_OFFICE_BONUS" = "+15% faster growth and 3 Loyalty per turn for cities not on your original [Capital] Capital's continent.";
 
 // card - invention
 "TXT_KEY_POLICY_CARD_INVENTION_TITLE" = "Invention";
-"TXT_KEY_POLICY_CARD_INVENTION_BONUS" = "+4 [GreatEngineer] Great Engineer points per turn. +2 additional [GreatEngineer] Great Engineer points for every Workshop."; // #
+"TXT_KEY_POLICY_CARD_INVENTION_BONUS" = "+4 [GreatEngineer] Great Engineer points per turn. +2 additional [GreatEngineer] Great Engineer points for every Workshop.";
 
 // card - frescoes
 "TXT_KEY_POLICY_CARD_FRESCOES_TITLE" = "Frescoes";
-"TXT_KEY_POLICY_CARD_FRESCOES_BONUS" = "+2 [GreatArtist] Great Artist points per turn. +2 additional [GreatArtist] Great Artist points for every Art Museum."; // #
+"TXT_KEY_POLICY_CARD_FRESCOES_BONUS" = "+2 [GreatArtist] Great Artist points per turn. +2 additional [GreatArtist] Great Artist points for every Art Museum.";
 
 // card - machiavellianism
 "TXT_KEY_POLICY_CARD_MACHIAVELLIANISM_TITLE" = "Machiavellianism";
@@ -675,7 +675,7 @@
 
 // card - logistics
 "TXT_KEY_POLICY_CARD_LOGISTICS_TITLE" = "Logistics";
-"TXT_KEY_POLICY_CARD_LOGISTICS_BONUS" = "+1 [Movement] Movement if starting turn in friendly territory."; // #
+"TXT_KEY_POLICY_CARD_LOGISTICS_BONUS" = "+1 [Movement] Movement if starting turn in friendly territory.";
 
 // card - triangularTrade
 "TXT_KEY_POLICY_CARD_TRIANGULAR_TRADE_TITLE" = "Triangular Trade";

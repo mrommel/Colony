@@ -57,6 +57,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func previousLeader() -> LeaderType
     func set(previousLeader: LeaderType)
     func doFoundMessage()
+    func sameContinentAsCapital(in gameModel: GameModel?) -> Bool
 
     func isEverCapital() -> Bool
     func cultureLevel() -> Int
@@ -767,6 +768,28 @@ public class City: AbstractCity {
         return
     }
 
+    func sameContinentAsCapital(in gameModel: GameModel?) -> Bool {
+
+        if self.isCapital() {
+            return true
+        }
+
+        guard let capitalCity = gameModel?.capital(of: self.player) else {
+            print("cant get capital location")
+            return false
+        }
+
+        guard let capitalTile = gameModel?.tile(at: capitalCity.location) else {
+            fatalError("cant get capital tile")
+        }
+
+        guard let cityTile = gameModel?.tile(at: self.location) else {
+            fatalError("cant get city tile")
+        }
+
+        return capitalTile.sameContinent(as: cityTile)
+    }
+
     public func isCapital() -> Bool {
 
         return self.capitalValue
@@ -1442,8 +1465,13 @@ public class City: AbstractCity {
         if government.has(card: .praetorium) && governor() != nil {
             otherFactors += 2.0
         }
+
         // +1-6 with the Communications Office policy card and if the city has a Governor.
+
         // +3 with the Colonial Offices policy card and if the city is not on your Capital Capital's continent.
+        if government.has(card: .colonialOffices) && !self.sameContinentAsCapital(in: gameModel) {
+            otherFactors += 3.0
+        }
 
         // ////////////////////////////
         // buildings
@@ -1471,8 +1499,16 @@ public class City: AbstractCity {
         // -5 if the city is Occupied (which may be negated by keeping a unit garrisoned in it).
         // Variable penalty to Loyalty if the city has been conquered and you have lots of Grievances Grievances with its founder.
         // -4 if the city is facing starvation (for example, if its Farms have been pillaged).
+
         // +10 as a base level for Free Cities.
+        if player.isFreeCity() {
+            otherFactors += 20
+        }
+
         // +20 as a base level for city-states.
+        if player.isCityState() {
+            otherFactors += 20
+        }
 
         // ////////////////////////////
         // finally
@@ -1842,7 +1878,7 @@ public class City: AbstractCity {
             fatalError("cant get player")
         }
 
-        var wonderModifier: Double = 1.0
+        var wonderModifier: Double = 0.0
 
         // hanging gardens
         if player.has(wonder: .hangingGardens, in: gameModel) {
@@ -1863,7 +1899,7 @@ public class City: AbstractCity {
             fatalError("cant get player")
         }
 
-        var religionModifier: Double = 1.0
+        var religionModifier: Double = 0.0
 
         // fertilityRites
         if player.religion?.pantheon() == .fertilityRites {
@@ -1872,6 +1908,26 @@ public class City: AbstractCity {
         }
 
         return religionModifier
+    }
+
+    public func governmentGrowthModifier(in gameModel: GameModel?) -> Double {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+
+        var governmentModifier: Double = 0.0
+
+        // colonialOffices - +15% faster growth and 3 Loyalty per turn for cities not on your original [Capital] Capital's continent.
+        if government.has(card: .colonialOffices) {
+            government = 0.15
+        }
+
+        return government
     }
 
     public func doGrowth(in gameModel: GameModel?) {
@@ -1906,10 +1962,12 @@ public class City: AbstractCity {
         }
 
         // modifier
-        foodDiff *= self.housingGrowthModifier(in: gameModel)
-        foodDiff *= self.amenitiesGrowthModifier(in: gameModel)
-        foodDiff *= self.wonderGrowthModifier(in: gameModel)
-        foodDiff *= self.religionGrowthModifier(in: gameModel)
+        var modifier = self.housingGrowthModifier(in: gameModel) * self.amenitiesGrowthModifier(in: gameModel)
+        modifier += self.wonderGrowthModifier(in: gameModel)
+        modifier += self.religionGrowthModifier(in: gameModel)
+        modifier += self.governmentGrowthModifier(in: gameModel)
+
+        foodDiff *= modifier
 
         self.setLastTurn(foodEarned: foodDiff)
 
@@ -2582,8 +2640,34 @@ public class City: AbstractCity {
             if government.has(card: .feudalContract) {
                 if let unitType = self.productionUnitType() {
                     if (unitType.unitClass() == .melee || unitType.unitClass() == .ranged || unitType.unitClass() == .antiCavalry) &&
-                        (unitType.era() == .ancient || unitType.era() == .classical || unitType.era() == .medieval || unitType.era() == .renaissance) {
+                        (unitType.era() == .ancient || unitType.era() == .classical ||
+                         unitType.era() == .medieval || unitType.era() == .renaissance) {
+
                         modifierPercentage += 0.50
+                    }
+                }
+            }
+
+            // chivalry - +50% [Production] Production toward Industrial era and earlier heavy and light cavalry units.
+            if government.has(card: .chivalry) {
+                if let unitType = self.productionUnitType() {
+                    if (unitType.unitClass() == .lightCavalry || unitType.unitClass() == .heavyCavalry) &&
+                        (unitType.era() == .ancient || unitType.era() == .classical ||
+                         unitType.era() == .medieval || unitType.era() == .renaissance ||
+                         unitType.era() == .industrial) {
+
+                        modifierPercentage += 0.50
+                    }
+                }
+            }
+
+            // gothicArchitecture - +15% [Production] Production toward Ancient, Classical, Medieval and Renaissance wonders.
+            if government.has(card: .gothicArchitecture) {
+                if let wonderType = self.productionWonderType() {
+                    if wonderType.era() == .ancient || wonderType.era() == .classical ||
+                        wonderType.era() == .medieval || wonderType.era() == .renaissance {
+
+                        modifierPercentage += 0.15
                     }
                 }
             }
@@ -2617,7 +2701,7 @@ public class City: AbstractCity {
             }
 
             // governor effects
-            if let governor = self.governor() {
+            if self.governor() != nil {
                 // Liang - zoningCommissioner - +20% Production towards constructing Districts in the city.
                 if self.hasGovernorTitle(of: .zoningCommissioner) {
                     if self.buildQueue.isCurrentlyBuildingDistrict() {
@@ -2647,7 +2731,9 @@ public class City: AbstractCity {
             // ancestralHall - 50% increased Production toward Settlers in this city
             if self.has(building: .ancestralHall) {
                 if let unitType = self.productionUnitType() {
-                    modifierPercentage += 0.50
+                    if unitType == .settler {
+                        modifierPercentage += 0.5
+                    }
                 }
             }
 

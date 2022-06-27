@@ -35,7 +35,7 @@ struct GovernorsDialogView: View {
 
                 HStack(spacing: 4) {
 
-                    ForEach(Array(self.viewModel.governorViewModels.enumerated()), id: \.element) { index, governorViewModel in
+                    ForEach(Array(self.viewModel.governorViewModels.enumerated()), id: \.element) { _, governorViewModel in
 
                         GovernorView(viewModel: governorViewModel)
                     }

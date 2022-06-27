@@ -2859,6 +2859,10 @@ public class Unit: AbstractUnit {
             fatalError("cant get player")
         }
 
+        guard let government = player.government else {
+            fatalError("cant get player government")
+        }
+
         var moveVal = self.baseMoves(in: gameModel)
 
         if (self.type.era() == .classical || self.type.era() == .medieval) && self.domain() == .land {
@@ -2905,6 +2909,17 @@ public class Unit: AbstractUnit {
         // helmsman - +1 Movement.
         if self.has(promotion: .helmsman) {
             moveVal += 1
+        }
+
+        // logistics - +1 [Movement] Movement if starting turn in friendly territory.
+        if government.has(card: .logistics) {
+            guard let unitTile = gameModel.tile(at: self.location) else {
+                fatalError("cant get unit tile")
+            }
+
+            if unitTile.isFriendlyTerritory(for: self.player, in: gameModel) {
+                moveVal += 1
+            }
         }
 
         return moveVal
