@@ -1352,6 +1352,11 @@ public class City: AbstractCity {
         guard let player = self.player else {
             fatalError("cant get player")
         }
+
+        guard let government = player.government else {
+            fatalError("cant get player government")
+        }
+
         // The effect of domestic and foreign Governors.
         var loyaltyFromGovernors = 0.0
         // +8 Loyalty per turn for having any Governor assigned to that city (activated from the moment you assign the Governor, not the moment they actually become established).
@@ -1377,6 +1382,14 @@ public class City: AbstractCity {
                 if player.isEqual(to: loopCity.player) && loopGovernor.type == .victor && loopGovernor.has(title: .garrisonCommander) {
                     loyaltyFromGovernors += 4.0
                 }
+            }
+        }
+
+        // despoticPaternalism - +4 Loyalty per turn in cities with [Governor] Governors.
+        //   BUT: -15% [Science] Science and -15% [Culture] Culture in all cities without an established [Governor] Governor.
+        if government.has(card: .despoticPaternalism) {
+            if self.governor() != nil {
+                loyaltyFromGovernors += 4.0
             }
         }
 
@@ -1475,6 +1488,18 @@ public class City: AbstractCity {
         // +3 with the Colonial Offices policy card and if the city is not on your Capital Capital's continent.
         if government.has(card: .colonialOffices) && !self.sameContinentAsCapital(in: gameModel) {
             otherFactors += 3.0
+        }
+
+        // - Automated Workforce    +20% Production towards city projects.
+        //    BUT: -1 Amenities  and -5 Loyalty in all cities.
+        if government.has(card: .automatedWorkforce) {
+            otherFactors -= 3.0
+        }
+
+        // - Decentralization    Cities with 6 or less [Citizen] population receive +4 Loyalty per turn.
+        //    BUT: Cities with more than 6 Citizen population receive -15% [Gold] Gold.
+        if government.has(card: .decentralization) && self.population() <= 6 {
+            otherFactors += 4.0
         }
 
         // ////////////////////////////
@@ -2666,6 +2691,16 @@ public class City: AbstractCity {
                 }
             }
 
+            // - Automated Workforce    +20% Production towards city projects.
+            //    BUT: -1 Amenities  and -5 Loyalty in all cities.
+            if government.has(card: .automatedWorkforce) {
+                if let projectType = self.productionProjectType() {
+                    if projectType.unique() {
+                        modifierPercentage += 0.20
+                    }
+                }
+            }
+
             // cityPatronGoddess - +25% Production toward districts in cities without a specialty district.
             if player.religion?.pantheon() == .cityPatronGoddess {
                 if !districts.hasAnySpecialtyDistrict() {
@@ -3810,6 +3845,10 @@ public class City: AbstractCity {
             fatalError("cant get player")
         }
 
+        guard let government = player.government else {
+            fatalError("cant get player government")
+        }
+
         guard let districts = self.districts else {
             fatalError("cant get city districts")
         }
@@ -3859,6 +3898,12 @@ public class City: AbstractCity {
             if !self.isCoastal(in: gameModel) && !districts.has(district: .harbor) {
                 return false
             }
+        }
+
+        // isolationism - Domestic routes provide +2 [Food] Food, +2 [Production] Production.
+        //    BUT: Can't train or buy Settlers nor settle new cities.
+        if government.has(card: .isolationism) {
+            return false
         }
 
         return true
@@ -3987,6 +4032,18 @@ public class City: AbstractCity {
 
             if currentProduction.type == .building {
                 return currentProduction.buildingType
+            }
+        }
+
+        return nil
+    }
+
+    func productionProjectType() -> ProjectType? {
+
+        if let currentProduction = self.buildQueue.peek() {
+
+            if currentProduction.type == .project {
+                return currentProduction.projectType
             }
         }
 
@@ -4660,20 +4717,20 @@ public class City: AbstractCity {
 
     public func canRangeStrike() -> Bool {
 
-        if !self.has(building: .ancientWalls) {
-            return false
+        if self.has(building: .ancientWalls) {
+            return true
         }
 
-        return true
+        return false
     }
 
     public func canRangeStrike(towards point: HexPoint) -> Bool {
 
-        if self.location.distance(to: point) > self.strikeRange() {
+        if !self.canRangeStrike() {
             return false
         }
 
-        if !self.has(building: .ancientWalls) {
+        if self.location.distance(to: point) > self.strikeRange() {
             return false
         }
 

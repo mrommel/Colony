@@ -367,7 +367,9 @@ extension GameScene: UserInterfaceDelegate {
                 tmpText += "\n\(improvement.name().localized())"
             }
 
-            // Movement Cost
+            let movementCost = tile.movementCost(for: .walk, from: tile, wrapX: -1)
+            tmpText += "\nMovement Cost: \(movementCost)"
+
             // Defense Modifier
 
             if humanPlayer.isEqual(to: tile.owner()) {
@@ -394,6 +396,22 @@ extension GameScene: UserInterfaceDelegate {
 
                 if yields.gold > 0.0 {
                     tmpText += "\n\(yields.gold) [Gold] Gold"
+                }
+
+                if yields.science > 0.0 {
+                    tmpText += "\n\(yields.science) [Science] Science"
+                }
+
+                if yields.faith > 0.0 {
+                    tmpText += "\n\(yields.faith) [Faith] Faith"
+                }
+
+                if let city = tile.workingCity() {
+                    if let citizen = city.cityCitizens {
+                        if citizen.isWorked(at: tile.point) {
+                            tmpText += "\n\nWorked by 1 [Citizen] Citizen"
+                        }
+                    }
                 }
             }
 

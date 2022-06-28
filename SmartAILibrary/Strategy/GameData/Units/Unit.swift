@@ -640,6 +640,10 @@ public class Unit: AbstractUnit {
 
     public func canHeal(in gameModel: GameModel?) -> Bool {
 
+        guard let government = self.player?.government else {
+            fatalError("cant get player government")
+        }
+
         // No barb healing
         if self.isBarbarian() {
             return false
@@ -657,6 +661,17 @@ public class Unit: AbstractUnit {
 
         if self.healRate(at: self.location, in: gameModel) == 0 {
             return false
+        }
+
+        // twilightValor - All units +5 [Strength] Combat Strength for all melee attack units.
+        //         BUT: Cannot heal outside your territory.
+        if government.has(card: .twilightValor) {
+
+            guard let unitTile = gameModel?.tile(at: self.location) else {
+                fatalError("cant get unit tile")
+            }
+
+            return unitTile.isFriendlyTerritory(for: self.player, in: gameModel)
         }
 
         return true
@@ -969,6 +984,12 @@ public class Unit: AbstractUnit {
             result.append(CombatModifier(value: 5, title: "Government Bonus"))
         }
 
+        // twilightValor - All units +5 [Strength] Combat Strength for all melee attack units.
+        //         BUT: Cannot heal outside your territory.
+        if government.has(card: .twilightValor) && self.unitClassType() == .melee {
+            result.append(CombatModifier(value: 5, title: PolicyCardType.twilightValor.name()))
+        }
+
         ////////////////////////
         // KNOWN DEFENDER UNIT
         ////////////////////////
@@ -1189,6 +1210,10 @@ public class Unit: AbstractUnit {
             fatalError("cant get civics")
         }
 
+        guard let government = self.player?.government else {
+            fatalError("cant get player government")
+        }
+
         guard let promotions = self.promotions else {
             fatalError("cant get promotions")
         }
@@ -1197,6 +1222,12 @@ public class Unit: AbstractUnit {
 
         if self.isBarbarian() {
             return result
+        }
+
+        // twilightValor - All units +5 [Strength] Combat Strength for all melee attack units.
+        //         BUT: Cannot heal outside your territory.
+        if government.has(card: .twilightValor) && self.unitClassType() == .melee {
+            result.append(CombatModifier(value: 5, title: PolicyCardType.twilightValor.name()))
         }
 
         ////////////////////////
@@ -1410,12 +1441,9 @@ public class Unit: AbstractUnit {
             fatalError("cant get diplomacyAI")
         }
 
-        guard let path = self.pathIgnoreUnits(towards: destination, in: gameModel) else {
-            return false
-        }
-
         var attack = false
-        let adjacent = path.count == 2
+        let wrapX: Int = gameModel.wrappedX() ? gameModel.mapSize().width() : -1
+        let adjacent = self.location.isNeighbor(of: destination, wrapX: wrapX)
 
         if adjacent {
 
@@ -3592,11 +3620,21 @@ public class Unit: AbstractUnit {
             fatalError("cant get player")
         }
 
+        guard let government = player.government else {
+            fatalError("cant get player government")
+        }
+
         if !self.type.canFound() {
             return false
         }
 
         if !player.canFound(at: location, in: gameModel) {
+            return false
+        }
+
+        // isolationism - Domestic routes provide +2 [Food] Food, +2 [Production] Production.
+        //    BUT: Can't train or buy Settlers nor settle new cities.
+        if government.has(card: .isolationism) {
             return false
         }
 

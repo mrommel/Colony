@@ -35,8 +35,14 @@ func + (left: YieldValues, right: YieldValues) -> YieldValues {
     return YieldValues(value: left.value + right.value, percentage: left.percentage + right.percentage)
 }
 
+func + (left: YieldValues, right: Double) -> YieldValues {
+
+    return YieldValues(value: left.value + right, percentage: left.percentage)
+}
+
 // infix operator +=
 func += (lhs: inout YieldValues, rhs: YieldValues) { lhs = (lhs + rhs) }
+func += (lhs: inout YieldValues, rhs: Double) { lhs = (lhs + rhs) }
 
 extension City {
 
@@ -609,13 +615,11 @@ extension City {
             // https://civilization.fandom.com/wiki/Autocracy_(Civ6)
             // +1 to all yields for each government building and Palace in a city.
             if government.currentGovernment() == .autocracy {
-
                 productionFromGovernmentType += Double(buildings.numberOfBuildings(of: BuildingCategoryType.government))
             }
 
             // urbanPlanning: +1 Production in all cities.
             if government.has(card: .urbanPlanning) {
-
                 productionFromGovernmentType += 1
             }
         }
@@ -1066,7 +1070,7 @@ extension City {
         var culturePerTurn: YieldValues = YieldValues(value: 0.0, percentage: 1.0)
 
         culturePerTurn += YieldValues(value: self.cultureFromTiles(in: gameModel))
-        culturePerTurn += YieldValues(value: self.cultureFromGovernmentType())
+        culturePerTurn += self.cultureFromGovernmentType()
         culturePerTurn += YieldValues(value: self.cultureFromDistricts(in: gameModel))
         culturePerTurn += YieldValues(value: self.cultureFromBuildings())
         culturePerTurn += YieldValues(value: self.cultureFromWonders(in: gameModel))
@@ -1142,7 +1146,7 @@ extension City {
         return cultureFromTiles
     }
 
-    public func cultureFromGovernmentType() -> Double {
+    public func cultureFromGovernmentType() -> YieldValues {
 
         guard let player = self.player else {
             fatalError("Cant get player")
@@ -1152,7 +1156,7 @@ extension City {
             fatalError("cant get buildings")
         }
 
-        var cultureFromGovernmentValue: Double = 0.0
+        var cultureFromGovernmentValue: YieldValues = YieldValues(value: 0.0, percentage: 0.0)
 
         // yields from government
         if let government = player.government {
@@ -1162,6 +1166,20 @@ extension City {
             if government.currentGovernment() == .autocracy {
 
                 cultureFromGovernmentValue += Double(buildings.numberOfBuildings(of: BuildingCategoryType.government))
+            }
+
+            // despoticPaternalism - +4 Loyalty per turn in cities with [Governor] Governors.
+            //   BUT: -15% [Science] Science and -15% [Culture] Culture in all cities without an established [Governor] Governor.
+            if government.has(card: .despoticPaternalism) {
+                if self.governor() == nil {
+                    cultureFromGovernmentValue.percentage -= 0.15
+                }
+            }
+
+            // monasticism - +75% [Science] Science in cities with a Holy Site.
+            //        BUT: -25% [Culture] Culture in all cities.
+            if government.has(card: .monasticism) {
+                cultureFromGovernmentValue.percentage -= 0.25
             }
         }
 
@@ -1392,7 +1410,7 @@ extension City {
         var goldPerTurn: YieldValues = YieldValues(value: 0.0, percentage: 1.0)
 
         goldPerTurn += YieldValues(value: self.goldFromTiles(in: gameModel))
-        goldPerTurn += YieldValues(value: self.goldFromGovernmentType())
+        goldPerTurn += self.goldFromGovernmentType()
         goldPerTurn += YieldValues(value: self.goldFromDistricts(in: gameModel))
         goldPerTurn += YieldValues(value: self.goldFromBuildings())
         goldPerTurn += YieldValues(value: self.goldFromWonders())
@@ -1451,7 +1469,7 @@ extension City {
         return goldValue
     }
 
-    public func goldFromGovernmentType() -> Double {
+    public func goldFromGovernmentType() -> YieldValues {
 
         guard let player = self.player else {
             fatalError("no player provided")
@@ -1461,7 +1479,7 @@ extension City {
             fatalError("cant get buildings")
         }
 
-        var goldFromGovernmentValue: Double = 0.0
+        var goldFromGovernmentValue: YieldValues = YieldValues(value: 0.0, percentage: 0.0)
 
         // yields from government
         if let government = player.government {
@@ -1469,14 +1487,18 @@ extension City {
             // https://civilization.fandom.com/wiki/Autocracy_(Civ6)
             // +1 to all yields for each government building and Palace in a city.
             if government.currentGovernment() == .autocracy {
-
                 goldFromGovernmentValue += Double(buildings.numberOfBuildings(of: BuildingCategoryType.government))
             }
 
             // godKing
             if government.has(card: .godKing) && self.capitalValue == true {
-
                 goldFromGovernmentValue += 1.0
+            }
+
+            // - Decentralization    Cities with 6 or less [Citizen] population receive +4 Loyalty per turn.
+            //    BUT: Cities with more than 6 Citizen population receive -15% [Gold] Gold.
+            if government.has(card: .decentralization) && self.population() > 6 {
+                goldFromGovernmentValue += YieldValues(value: 0.0, percentage: -0.15)
             }
         }
 
@@ -1714,9 +1736,9 @@ extension City {
         var sciencePerTurn: YieldValues = YieldValues(value: 0.0, percentage: 1.0)
 
         sciencePerTurn += YieldValues(value: self.scienceFromTiles(in: gameModel))
-        sciencePerTurn += YieldValues(value: self.scienceFromGovernmentType())
+        sciencePerTurn += self.scienceFromGovernmentType()
         sciencePerTurn += YieldValues(value: self.scienceFromBuildings())
-        sciencePerTurn += YieldValues(value: self.scienceFromDistricts(in: gameModel))
+        sciencePerTurn += self.scienceFromDistricts(in: gameModel)
         sciencePerTurn += YieldValues(value: self.scienceFromWonders())
         sciencePerTurn += YieldValues(value: self.scienceFromPopulation())
         sciencePerTurn += YieldValues(value: self.scienceFromTradeRoutes(in: gameModel))
@@ -1779,7 +1801,7 @@ extension City {
         return scienceFromTiles
     }
 
-    public func scienceFromGovernmentType() -> Double {
+    public func scienceFromGovernmentType() -> YieldValues {
 
         guard let player = self.player else {
             fatalError("Cant get player")
@@ -1789,7 +1811,7 @@ extension City {
             fatalError("cant get buildings")
         }
 
-        var scienceFromGovernmentValue: Double = 0.0
+        var scienceFromGovernmentValue: YieldValues = YieldValues(value: 0.0, percentage: 0.0)
 
         // yields from government
         if let government = player.government {
@@ -1800,12 +1822,20 @@ extension City {
 
                 scienceFromGovernmentValue += Double(buildings.numberOfBuildings(of: BuildingCategoryType.government))
             }
+
+            // despoticPaternalism - +4 Loyalty per turn in cities with [Governor] Governors.
+            //   BUT: -15% [Science] Science and -15% [Culture] Culture in all cities without an established [Governor] Governor.
+            if government.has(card: .despoticPaternalism) {
+                if self.governor() == nil {
+                    scienceFromGovernmentValue.percentage += -0.15
+                }
+            }
         }
 
         return scienceFromGovernmentValue
     }
 
-    public func scienceFromDistricts(in gameModel: GameModel?) -> Double {
+    public func scienceFromDistricts(in gameModel: GameModel?) -> YieldValues {
 
         guard let player = self.player else {
             fatalError("Cant get player")
@@ -1819,7 +1849,7 @@ extension City {
             fatalError("cant get districts")
         }
 
-        var scienceFromDistricts: Double = 0.0
+        var scienceFromDistricts: YieldValues = YieldValues(value: 0.0, percentage: 0.0)
         var policyCardModifier: Double = 1.0
 
         // yields from cards
@@ -1871,6 +1901,12 @@ extension City {
             if districts.has(district: .harbor) {
                 scienceFromDistricts += 2.0 // not exactly what the bonus says
             }
+        }
+
+        // monasticism - +75% [Science] Science in cities with a Holy Site.
+        //        BUT: -25% [Culture] Culture in all cities.
+        if government.has(card: .monasticism) && districts.has(district: .holySite) {
+            scienceFromDistricts.percentage += 0.75
         }
 
         return scienceFromDistricts
@@ -2790,6 +2826,9 @@ extension City {
 
         // - Automated Workforce    +20% Production towards city projects.
         //    BUT: -1 Amenities  and -5 Loyalty in all cities.
+        if government.has(card: .automatedWorkforce) {
+            amenitiesFromCivics -= 1
+        }
 
         return amenitiesFromCivics
     }

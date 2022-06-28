@@ -148,6 +148,13 @@ public class TradeRoute: Codable {
                 yields.faith += 1.0
             }
 
+            // isolationism - Domestic routes provide +2 [Food] Food, +2 [Production] Production.
+            //    BUT: Can't train or buy Settlers nor settle new cities.
+            if startPlayerGovernment.has(card: .isolationism) {
+                yields.food += 2
+                yields.production += 2
+            }
+
         } else {
 
             yields += endDistricts.foreignTradeYields()
@@ -168,7 +175,7 @@ public class TradeRoute: Codable {
             }
 
             // kumasi suzerain bonus
-            // Your [TradeRoute] Trade Routes to any city-state provide +2 [Culture] Culture and +1 [Gold] Gold for every specialty district in the origin city.
+            // Your Trade Routes to any city-state provide +2 Culture and +1 Gold for every specialty district in the origin city.
             if startPlayer.isSuzerain(of: .kumasi, in: gameModel) && endCity.player?.isCityState() == true {
 
                 guard let startCityDistricts = startCity.districts else {
@@ -187,6 +194,7 @@ public class TradeRoute: Codable {
             }
         }
 
+        // caravansaries - +2 Gold from all Trade Routes.
         if startPlayerGovernment.has(card: .caravansaries) {
             yields.gold += 2.0
         }
@@ -196,6 +204,13 @@ public class TradeRoute: Codable {
 
             yields.culture += 1.0
             yields.science += 1.0
+        }
+
+        // triangularTrade - +4 Gold and +1 Faith from all Trade Routes.
+        if startPlayerGovernment.has(card: .triangularTrade) {
+
+            yields.gold += 4.0
+            yields.faith += 1.0
         }
 
         // universityOfSankore - +2 Science for every Trade Route to this city

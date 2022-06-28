@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "city-command-button-build@3x.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

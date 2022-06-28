@@ -546,6 +546,8 @@ extension GameScene: MouseAwareDelegate {
         if self.viewModel?.delegate?.selectedUnit != nil {
             self.unselect()
             self.viewModel?.unitSelectionMode = .pick
+        } else {
+            self.viewModel?.unitSelectionMode = .pick
         }
     }
 
