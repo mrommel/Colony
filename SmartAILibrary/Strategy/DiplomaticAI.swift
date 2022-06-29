@@ -5667,7 +5667,7 @@ public class DiplomaticAI: Codable {
                         continue
                     }
 
-                    aggressionScore += loopCity.numPlotsAcquired(by: loopPlayer)
+                    aggressionScore += loopCity.numberOfPlotsAcquired(by: loopPlayer)
                 }
 
                 // Now See what our new Dispute Level should be

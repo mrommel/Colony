@@ -312,9 +312,14 @@ class Treasury: AbstractTreasury {
 
             var unitMaintenanceCost: Double = Double(unit.type.maintenanceCost())
 
-            // Unit maintenance reduced by 1 Gold per turn, per unit.
+            // conscription - Unit maintenance reduced by 1 Gold per turn, per unit.
             if government.has(card: .conscription) {
                 unitMaintenanceCost = max(0.0, unitMaintenanceCost - 1.0)
+            }
+
+            // leveeEnMasse - Unit maintenance cost reduced by 2 [Gold] Gold per unit.
+            if government.has(card: .leveeEnMasse) {
+                unitMaintenanceCost = max(0.0, unitMaintenanceCost - 2.0)
             }
 
             // eliteForces - +100% combat experience for all units.

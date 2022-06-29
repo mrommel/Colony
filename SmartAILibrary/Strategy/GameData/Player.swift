@@ -252,7 +252,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
 
     // yields
     func science(in gameModel: GameModel?) -> Double
-    func scienceFromCities(in gameModel: GameModel?) -> Double
+    func scienceFromCities(in gameModel: GameModel?) -> YieldValues
     func culture(in gameModel: GameModel?, consume: Bool) -> Double
     func cultureFromCities(in gameModel: GameModel?) -> YieldValues
     func cultureFromCityStates(in gameModel: GameModel?) -> YieldValues
@@ -279,10 +279,10 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func buyPlotCost() -> Int
     func changeNumPlotsBought(change: Int)
 
-    func numberOfAvailable(resource: ResourceType) -> Int
-    func changeNumberOfAvailable(resource: ResourceType, change: Int)
-    func numberOfItemsInStockpile(of resource: ResourceType) -> Int
-    func numberOfStockpileCapacity(of resource: ResourceType) -> Int
+    func numberOfAvailable(resource: ResourceType) -> Double
+    func changeNumberOfAvailable(resource: ResourceType, change: Double)
+    func numberOfItemsInStockpile(of resource: ResourceType) -> Double
+    func numberOfStockpileCapacity(of resource: ResourceType) -> Double
 
     // units
     func canTrain(unitType: UnitType, continueFlag: Bool, testVisible: Bool, ignoreCost: Bool, ignoreUniqueUnitStatus: Bool) -> Bool
@@ -2643,6 +2643,11 @@ public class Player: AbstractPlayer {
             greatPeoplePointsFromPolicyCards.greatArtist += 2
         }
 
+        // nobelPrize - +4 [GreatScientist] Great Scientist points per turn.
+        if government.has(card: .nobelPrize) {
+            greatPeoplePointsFromPolicyCards.greatArtist += 4
+        }
+
         return greatPeoplePointsFromPolicyCards
     }
 
@@ -2838,7 +2843,7 @@ public class Player: AbstractPlayer {
                 continue
             }
 
-            let amountOfResource = self.numForCityAvailable(resource: resource)
+            let amountOfResource = Int(self.numForCityAvailable(resource: resource))
 
             for _ in 0..<amountOfResource {
                 luxuriesToDistribute.append(resource)
@@ -4538,25 +4543,25 @@ public class Player: AbstractPlayer {
         self.numPlotsBoughtValue += change
     }
 
-    public func numberOfAvailable(resource: ResourceType) -> Int {
+    public func numberOfAvailable(resource: ResourceType) -> Double {
 
         if let resourceInventory = self.resourceProduction {
-            return Int(resourceInventory.weight(of: resource))
+            return resourceInventory.weight(of: resource)
         }
 
-        return 0
+        return 0.0
     }
 
-    public func numForCityAvailable(resource: ResourceType) -> Int {
+    public func numForCityAvailable(resource: ResourceType) -> Double {
 
         if let resourceInventory = self.resourceProduction {
-            return Int(resourceInventory.weight(of: resource)) * resource.amenities()
+            return resourceInventory.weight(of: resource) * Double(resource.amenities())
         }
 
-        return 0
+        return 0.0
     }
 
-    public func changeNumberOfAvailable(resource: ResourceType, change: Int) {
+    public func changeNumberOfAvailable(resource: ResourceType, change: Double) {
 
         guard let resourceInventory = self.resourceProduction else {
             fatalError("cant get resourceInventory")
@@ -4565,22 +4570,22 @@ public class Player: AbstractPlayer {
         resourceInventory.add(weight: change, for: resource)
     }
 
-    public func numberOfItemsInStockpile(of resource: ResourceType) -> Int {
+    public func numberOfItemsInStockpile(of resource: ResourceType) -> Double {
 
         if let resourceStockpile = self.resourceStockpile {
-            return Int(resourceStockpile.weight(of: resource))
+            return resourceStockpile.weight(of: resource)
         }
 
-        return 0
+        return 0.0
     }
 
-    public func numberOfStockpileCapacity(of resource: ResourceType) -> Int {
+    public func numberOfStockpileCapacity(of resource: ResourceType) -> Double {
 
         if let resourceMaxStockpile = self.resourceMaxStockpile {
-            return Int(resourceMaxStockpile.weight(of: resource))
+            return resourceMaxStockpile.weight(of: resource)
         }
 
-        return 0
+        return 0.0
     }
 
     public func numberOfUnitsNeededToBeBuilt() -> Int {
@@ -4651,9 +4656,21 @@ public class Player: AbstractPlayer {
 
     public func productionCost(of unitType: UnitType) -> Int {
 
+        guard let government = self.government else {
+            fatalError("cant get player government")
+        }
+
         if unitType == .settler {
+
+            var policyCardModifier: Double = 1.0
+
+            // expropriation - Settler cost reduced by 50%. Plot purchase cost reduced by 20%.
+            if government.has(card: .expropriation) {
+                policyCardModifier -= 0.5
+            }
+
             // The Production Production cost of a Settler scales according to the following formula, in which x is the number of Settlers you've trained (including your initial one): 30*x+50
-            return 30 * self.trainedSettlersValue + 50
+            return Int(Double(30 * self.trainedSettlersValue + 50) * policyCardModifier)
         }
 
         return unitType.productionCost()

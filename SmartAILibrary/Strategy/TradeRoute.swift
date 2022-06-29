@@ -137,10 +137,16 @@ public class TradeRoute: Codable {
 
             yields += endDistricts.domesticTradeYields()
 
+            // satrapies - Domestic Trade Routes provide +2 Gold and +1 Culture.
             if startPlayer.leader.civilization().ability() == .satrapies {
-                // Domestic Trade Routes provide +2 Gold and +1 Culture.
                 yields.gold += 2.0
                 yields.culture += 1.0
+            }
+
+            // collectivization - +2 [Production] Production and +4 [Food] Food from domestic [TradeRoute] Trade Routes.
+            if startPlayerGovernment.has(card: .collectivization) {
+                yields.production += 2.0
+                yields.food += 4.0
             }
 
             // universityOfSankore - Domestic Trade Routes give an additional +1 Faith to this city
@@ -211,6 +217,13 @@ public class TradeRoute: Codable {
 
             yields.gold += 4.0
             yields.faith += 1.0
+        }
+
+        // ecommerce - +2 [Production] Production and +5 [Gold] Gold from all [TradeRoute] Trade Routes.
+        if startPlayerGovernment.has(card: .ecommerce) {
+
+            yields.production += 2.0
+            yields.gold += 5.0
         }
 
         // universityOfSankore - +2 Science for every Trade Route to this city

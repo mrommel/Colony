@@ -148,25 +148,25 @@ public class TopBarViewModel: ObservableObject {
 
         self.showResources = numberOfHorses + numberOfIron + numberOfNiter + numberOfCoal + numberOfOil + numberOfAluminum + numberOfUranium > 0
 
-        self.horsesValueViewModel.value = numberOfHorses
+        self.horsesValueViewModel.value = Int(numberOfHorses)
         self.horsesValueViewModel.tooltip = self.resourceTooltip(of: .horses, for: humanPlayer)
 
-        self.ironValueViewModel.value = numberOfIron
+        self.ironValueViewModel.value = Int(numberOfIron)
         self.ironValueViewModel.tooltip = self.resourceTooltip(of: .iron, for: humanPlayer)
 
-        self.niterValueViewModel.value = numberOfNiter
+        self.niterValueViewModel.value = Int(numberOfNiter)
         self.niterValueViewModel.tooltip = self.resourceTooltip(of: .niter, for: humanPlayer)
 
-        self.coalValueViewModel.value = numberOfCoal
+        self.coalValueViewModel.value = Int(numberOfCoal)
         self.coalValueViewModel.tooltip = self.resourceTooltip(of: .coal, for: humanPlayer)
 
-        self.oilValueViewModel.value = numberOfOil
+        self.oilValueViewModel.value = Int(numberOfOil)
         self.oilValueViewModel.tooltip = self.resourceTooltip(of: .oil, for: humanPlayer)
 
-        self.aluminumValueViewModel.value = numberOfAluminum
+        self.aluminumValueViewModel.value = Int(numberOfAluminum)
         self.aluminumValueViewModel.tooltip = self.resourceTooltip(of: .aluminum, for: humanPlayer)
 
-        self.uraniumValueViewModel.value = numberOfUranium
+        self.uraniumValueViewModel.value = Int(numberOfUranium)
         self.uraniumValueViewModel.tooltip = self.resourceTooltip(of: .uranium, for: humanPlayer)
 
         self.turnYearText = gameModel.turnYear()
@@ -218,7 +218,7 @@ extension TopBarViewModel {
 
         if !cities.isEmpty {
 
-            let scienceFromCities = String(format: "%.1f", player.scienceFromCities(in: gameModel))
+            let scienceFromCities = String(format: "%.1f", player.scienceFromCities(in: gameModel).calc())
             let citiesYield = NSAttributedString(
                 string: "\n+\(scienceFromCities) from Cities",
                 attributes: Globals.Attributs.tooltipContentAttributs

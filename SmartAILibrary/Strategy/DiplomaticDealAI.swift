@@ -616,9 +616,9 @@ public class DiplomaticDealAI: Codable {
                 resourceQuantity = 1
             }
 
-            if deal.isPossibleToTradeItem(from: losingPlayer, to: winningPlayer, item: .resource, value: resourceQuantity, resource: resource, in: gameModel) {
+            if deal.isPossibleToTradeItem(from: losingPlayer, to: winningPlayer, item: .resource, value: Int(resourceQuantity), resource: resource, in: gameModel) {
 
-                deal.addResourceTrade(from: losingPlayer, resource: resource, amount: resourceQuantity, duration: duration, in: gameModel)
+                deal.addResourceTrade(from: losingPlayer, resource: resource, amount: Int(resourceQuantity), duration: duration, in: gameModel)
             }
         }
 
@@ -880,17 +880,17 @@ public class DiplomaticDealAI: Codable {
                     resourceQuantity = 1
 
                     // See if they can actually trade it to us
-                    if deal.isPossibleToTradeItem(from: otherPlayer, to: self.player, item: .resource, value: resourceQuantity, resource: resource, in: gameModel) {
+                    if deal.isPossibleToTradeItem(from: otherPlayer, to: self.player, item: .resource, value: Int(resourceQuantity), resource: resource, in: gameModel) {
 
-                        let itemValue = DiplomaticDeal.valueFor(tradeItemType: .resource, from: otherLeader, to: player.leader, resource: resource, amount: resourceQuantity, duration: dealDuration, useEvenValue: useEvenValue, in: gameModel)
+                        let itemValue = DiplomaticDeal.valueFor(tradeItemType: .resource, from: otherLeader, to: player.leader, resource: resource, amount: Int(resourceQuantity), duration: dealDuration, useEvenValue: useEvenValue, in: gameModel)
 
                         // If adding this to the deal doesn't take it over the limit, do it
                         if itemValue + totalValue <= amountOverWeWillRequest {
 
                             // Try to change the current item, if it already exists, otherwise add it
-                            if !deal.changeResourceTrade(from: otherPlayer, resource: resource, amount: resourceQuantity, duration: dealDuration, in: gameModel) {
+                            if !deal.changeResourceTrade(from: otherPlayer, resource: resource, amount: Int(resourceQuantity), duration: dealDuration, in: gameModel) {
 
-                                deal.addResourceTrade(from: otherPlayer, resource: resource, amount: resourceQuantity, duration: dealDuration, in: gameModel)
+                                deal.addResourceTrade(from: otherPlayer, resource: resource, amount: Int(resourceQuantity), duration: dealDuration, in: gameModel)
                                 (totalValue, valueImOffering, valueTheyreOffering) = deal.value(useEvenValue: useEvenValue, in: gameModel)
                             }
                         }
@@ -915,15 +915,21 @@ public class DiplomaticDealAI: Codable {
                     resourceQuantity = min(5, resourceQuantity)    // 5 or what they have, whichever is less
 
                     // See if they can actually trade it to us
-                    if deal.isPossibleToTradeItem(from: otherPlayer, to: self.player, item: .resource, value: resourceQuantity, resource: resource, in: gameModel) {
+                    if deal.isPossibleToTradeItem(
+                        from: otherPlayer,
+                        to: self.player,
+                        item: .resource,
+                        value: Int(resourceQuantity),
+                        resource: resource,
+                        in: gameModel) {
 
-                        let itemValue = DiplomaticDeal.valueFor(tradeItemType: .resource, from: otherLeader, to: player.leader, resource: resource, amount: resourceQuantity, duration: dealDuration, useEvenValue: useEvenValue, in: gameModel)
+                        let itemValue = DiplomaticDeal.valueFor(tradeItemType: .resource, from: otherLeader, to: player.leader, resource: resource, amount: Int(resourceQuantity), duration: dealDuration, useEvenValue: useEvenValue, in: gameModel)
 
                         // If adding this to the deal doesn't take it over the limit, do it
                         if itemValue + totalValue <= amountOverWeWillRequest {
                             // Try to change the current item if it already exists, otherwise add it
-                            if !deal.changeResourceTrade(from: otherPlayer, resource: resource, amount: resourceQuantity, duration: dealDuration, in: gameModel) {
-                                deal.addResourceTrade(from: otherPlayer, resource: resource, amount: resourceQuantity, duration: dealDuration, in: gameModel)
+                            if !deal.changeResourceTrade(from: otherPlayer, resource: resource, amount: Int(resourceQuantity), duration: dealDuration, in: gameModel) {
+                                deal.addResourceTrade(from: otherPlayer, resource: resource, amount: Int(resourceQuantity), duration: dealDuration, in: gameModel)
                                 (totalValue, valueImOffering, valueTheyreOffering) = deal.value(useEvenValue: useEvenValue, in: gameModel)
                             }
                         }
@@ -970,15 +976,15 @@ public class DiplomaticDealAI: Codable {
                     }
 
                     // See if we can actually trade it to them
-                    if deal.isPossibleToTradeItem(from: self.player, to: otherPlayer, item: .resource, value: resourceQuantity, resource: resource, in: gameModel) {
+                    if deal.isPossibleToTradeItem(from: self.player, to: otherPlayer, item: .resource, value: Int(resourceQuantity), resource: resource, in: gameModel) {
 
-                        let itemValue = DiplomaticDeal.valueFor(tradeItemType: .resource, from: player.leader, to: otherLeader, resource: resource, amount: resourceQuantity, duration: dealDuration, useEvenValue: false, in: gameModel)
+                        let itemValue = DiplomaticDeal.valueFor(tradeItemType: .resource, from: player.leader, to: otherLeader, resource: resource, amount: Int(resourceQuantity), duration: dealDuration, useEvenValue: false, in: gameModel)
 
                         // If adding this to the deal doesn't take it under the min limit, do it
-                        if -itemValue + totalValue >= amountUnderWeWillOffer {
+                        if Int(-itemValue) + totalValue >= amountUnderWeWillOffer {
                             // Try to change the current item if it already exists, otherwise add it
-                            if !deal.changeResourceTrade(from: player, resource: resource, amount: resourceQuantity, duration: dealDuration, in: gameModel) {
-                                deal.addResourceTrade(from: player, resource: resource, amount: resourceQuantity, duration: dealDuration, in: gameModel)
+                            if !deal.changeResourceTrade(from: player, resource: resource, amount: Int(resourceQuantity), duration: dealDuration, in: gameModel) {
+                                deal.addResourceTrade(from: player, resource: resource, amount: Int(resourceQuantity), duration: dealDuration, in: gameModel)
 
                                 (totalValue, valueImOffering, valueTheyreOffering) = deal.value(useEvenValue: useEvenValue, in: gameModel)
                             }

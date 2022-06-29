@@ -58,10 +58,11 @@ extension Player {
     // GetScienceTimes100()
     public func science(in gameModel: GameModel?) -> Double {
 
-        var value = 0.0
+        var value: YieldValues = YieldValues(value: 0.0, percentage: 1.0)
 
         // Science from our Cities
         value += self.scienceFromCities(in: gameModel)
+        value += self.scienceFromCityStates(in: gameModel)
 
         // Science from other players!
         // value += GetScienceFromOtherPlayersTimes100();
@@ -75,16 +76,16 @@ extension Player {
         // If we have a negative Treasury + GPT then it gets removed from Science
         // value += GetScienceFromBudgetDeficitTimes100();
 
-        return max(value, 0)
+        return max(value.calc(), 0)
     }
 
-    public func scienceFromCities(in gameModel: GameModel?) -> Double {
+    public func scienceFromCities(in gameModel: GameModel?) -> YieldValues {
 
         guard let gameModel = gameModel else {
             fatalError("cant get gameModel")
         }
 
-        var scienceVal = 0.0
+        var scienceVal: YieldValues = YieldValues(value: 0.0, percentage: 0.0)
 
         for cityRef in gameModel.cities(of: self) {
 
@@ -96,6 +97,33 @@ extension Player {
         }
 
         return scienceVal
+    }
+
+    public func scienceFromCityStates(in gameModel: GameModel?) -> YieldValues {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let government = self.government else {
+            fatalError("cant get government")
+        }
+
+        let scienceVal = 0.0
+        var scienceModifier = 0.0
+
+        // internationalSpaceAgency - 5% [Science] Science per City-State you are the Suzerain of.
+        if government.has(card: .internationalSpaceAgency) {
+            var numberOfCityStatesMet: Int = 0
+            for cityState in self.metCityStates(in: gameModel) {
+                if self.isSuzerain(of: cityState, in: gameModel) {
+                    numberOfCityStatesMet += 1
+                }
+            }
+            scienceModifier += 0.05 * Double(numberOfCityStatesMet)
+        }
+
+        return YieldValues(value: scienceVal, percentage: scienceModifier)
     }
 
     // MARK: culture functpublic ions
@@ -143,6 +171,10 @@ extension Player {
             fatalError("cant get gameModel")
         }
 
+        guard let government = self.government else {
+            fatalError("cant get government")
+        }
+
         let cultureVal = 0.0
         var cultureModifier = 0.0
 
@@ -151,6 +183,17 @@ extension Player {
         if self.isSuzerain(of: .antananarivo, in: gameModel) {
             let numberOfSpawnedGreatPersons = self.greatPeople?.numberOfSpawnedGreatPersons() ?? 0
             cultureModifier += min(0.02 * Double(numberOfSpawnedGreatPersons), 0.3)
+        }
+
+        // collectiveActivism - 5% [Culture] Culture per City-State you are the Suzerain of.
+        if government.has(card: .collectiveActivism) {
+            var numberOfCityStatesMet: Int = 0
+            for cityState in self.metCityStates(in: gameModel) {
+                if self.isSuzerain(of: cityState, in: gameModel) {
+                    numberOfCityStatesMet += 1
+                }
+            }
+            cultureModifier += 0.05 * Double(numberOfCityStatesMet)
         }
 
         return YieldValues(value: cultureVal, percentage: cultureModifier)

@@ -733,23 +733,59 @@ public class Unit: AbstractUnit {
             modifierUpgradeCost -= 50
         }
 
+        // forceModernization - 50% [Gold] Gold and resource discount on all unit upgrades.
+        if government.has(card: .forceModernization) {
+
+            modifierUpgradeCost -= 50
+        }
+
         baseUpgradeCost *= modifierUpgradeCost
         baseUpgradeCost /= 100
 
         return baseUpgradeCost
     }
 
+    func upgradeResourceAmount(to unitType: UnitType) -> Double {
+
+        guard let government = self.player?.government else {
+            fatalError("cant get player government")
+        }
+
+        if unitType.requiredResource() != nil {
+
+            var modifier: Double = 1.0
+
+            // retinues - 50% resource discount on all unit upgrades.
+            if government.has(card: .retinues) {
+                modifier -= 0.5
+            }
+
+            // forceModernization - 50% [Gold] Gold and resource discount on all unit upgrades.
+            if government.has(card: .forceModernization) {
+                modifier -= 0.5
+            }
+
+            return 1.0 * modifier
+        }
+
+        return 0.0
+    }
+
     public func canUpgrade(to unitType: UnitType, in gameModel: GameModel?) -> Bool {
 
-        guard let techs = self.player?.techs else {
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        guard let techs = player.techs else {
             fatalError("cant get player techs")
         }
 
-        guard let civics = self.player?.civics else {
+        guard let civics = player.civics else {
             fatalError("cant get player civics")
         }
 
-        guard let treasury = self.player?.treasury else {
+        guard let treasury = player.treasury else {
             fatalError("cant get player treasury")
         }
 
@@ -778,6 +814,12 @@ public class Unit: AbstractUnit {
             }
         }
 
+        if let resource = unitType.requiredResource() {
+            if player.numberOfAvailable(resource: resource) < self.upgradeResourceAmount(to: unitType) {
+                return false
+            }
+        }
+
         if treasury.value() < Double(self.upgradeCost(to: unitType)) {
             return false
         }
@@ -789,6 +831,15 @@ public class Unit: AbstractUnit {
 
         guard self.canUpgrade(to: unitType, in: gameModel) else {
             fatalError("cant upgrade")
+        }
+
+        // consume cost
+        let cost = self.upgradeCost(to: unitType)
+        self.player?.treasury?.changeGold(by: -Double(cost))
+
+        if let resource = unitType.requiredResource() {
+            let cost = self.upgradeResourceAmount(to: unitType)
+            self.player?.changeNumberOfAvailable(resource: resource, change: cost)
         }
 
         // backup old unit properties
@@ -2939,6 +2990,13 @@ public class Unit: AbstractUnit {
             moveVal += 1
         }
 
+        // militaryOrganization - +2 [GreatGeneral] Great General points for every Armory and +4 [GreatGeneral] Great General points for every Military Academy. [GreatGeneral] Great Generals receive +2 [Movement] Movement.
+        if government.has(card: .militaryOrganization) {
+            if self.type == .general {
+                moveVal += 2
+            }
+        }
+
         // logistics - +1 [Movement] Movement if starting turn in friendly territory.
         if government.has(card: .logistics) {
             guard let unitTile = gameModel.tile(at: self.location) else {
@@ -3997,7 +4055,7 @@ public class Unit: AbstractUnit {
             if tile.resource(for: self.player) != .none {
                 if let player = tile.owner() {
                     let resourceQuantity = tile.resourceQuantity()
-                    player.changeNumberOfAvailable(resource: tile.resource(for: self.player), change: resourceQuantity)
+                    player.changeNumberOfAvailable(resource: tile.resource(for: self.player), change: Double(resourceQuantity))
                 }
             }
         }
@@ -4396,7 +4454,7 @@ public class Unit: AbstractUnit {
                 if tile.resource(for: player) != .none {
                     if let player = tile.owner() {
                         let resourceQuantity = tile.resourceQuantity()
-                        player.changeNumberOfAvailable(resource: tile.resource(for: player), change: -resourceQuantity)
+                        player.changeNumberOfAvailable(resource: tile.resource(for: player), change: -Double(resourceQuantity))
                     }
                 }
 

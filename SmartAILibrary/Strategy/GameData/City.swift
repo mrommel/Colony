@@ -227,12 +227,12 @@ public protocol AbstractCity: AnyObject, Codable {
 
     @discardableResult
     func doBuyPlot(at point: HexPoint, in gameModel: GameModel?) -> Bool
-    func numPlotsAcquired(by otherPlayer: AbstractPlayer?) -> Int
+    func numberOfPlotsAcquired(by otherPlayer: AbstractPlayer?) -> Int
     func buyPlotCost(at point: HexPoint, in gameModel: GameModel?) -> Int?
     func buyPlotScore(in gameModel: GameModel?) -> (Int, HexPoint)
     func doAcquirePlot(at point: HexPoint, in gameModel: GameModel?)
-    func changeNumPlotsAcquiredBy(otherPlayer: AbstractPlayer?, change: Int)
-    func countNumImprovedPlots(in gameModel: GameModel?) -> Int
+    func changeNumberOfPlotsAcquiredBy(otherPlayer: AbstractPlayer?, change: Int)
+    func countNumberOfImprovedPlots(in gameModel: GameModel?) -> Int
 
     func numLocalResources(of resourceType: ResourceType, in gameModel: GameModel?) -> Int
     func numLocalLuxuryResources(in gameModel: GameModel?) -> Int
@@ -2483,14 +2483,13 @@ public class City: AbstractCity {
                 }
 
                 // Industrial: +2 Production Production in every city with a Factory building when producing wonders, buildings, and districts.
-                if effect.isEqual(category: .industrial, at: .sixth) /*&& self.has(building: .factory)*/ {
-                    fatalError("not handled")
-                    /* if self.buildQueue.isCurrentlyBuildingBuilding() ||
+                if effect.isEqual(category: .industrial, at: .sixth) && self.has(building: .factory) {
+                    if self.buildQueue.isCurrentlyBuildingBuilding() ||
                         self.buildQueue.isCurrentlyBuildingDistrict() ||
                         self.buildQueue.isCurrentlyBuildingWonder() {
 
                         production += 2.0
-                    }*/
+                    }
                 }
 
                 // Militaristic: +2 Production Production in the Capital Capital when producing units.
@@ -2510,12 +2509,11 @@ public class City: AbstractCity {
                 }
 
                 // Militaristic: +2 Production Production in every city with an Armory building when producing units.
-                if effect.isEqual(category: .militaristic, at: .sixth) /*&& self.has(building: .armory)*/ {
-                    fatalError("not handled")
-                    /* if self.buildQueue.isCurrentlyTrainingUnit() {
+                if effect.isEqual(category: .militaristic, at: .sixth) && self.has(building: .armory) {
+                    if self.buildQueue.isCurrentlyTrainingUnit() {
 
                         production += 2.0
-                    }*/
+                    }
                 }
 
                 // brussels suzerain bonus
@@ -2694,6 +2692,36 @@ public class City: AbstractCity {
                         wonderType.era() == .medieval || wonderType.era() == .renaissance {
 
                         modifierPercentage += 0.15
+                    }
+                }
+            }
+
+            // militaryFirst - +50% [Production] Production toward all melee, anti-cavalry and ranged units.
+            if government.has(card: .militaryFirst) {
+                if let unitType = self.productionUnitType() {
+                    if unitType.unitClass() == .melee || unitType.unitClass() == .antiCavalry || unitType.unitClass() == .ranged {
+
+                        modifierPercentage += 0.50
+                    }
+                }
+            }
+
+            // lightningWarfare - +50% [Production] Production for all heavy and light cavalry units.
+            if government.has(card: .lightningWarfare) {
+                if let unitType = self.productionUnitType() {
+                    if unitType.unitClass() == .heavyCavalry || unitType.unitClass() == .lightCavalry {
+
+                        modifierPercentage += 0.5
+                    }
+                }
+            }
+
+            // internationalWaters - +100% [Production] Production towards all naval units, excluding Carriers.
+            if government.has(card: .internationalWaters) {
+                if let unitType = self.productionUnitType() {
+                    if unitType.unitClass() == .navalMelee || unitType.unitClass() == .navalRaider || unitType.unitClass() == .navalRanged {
+
+                        modifierPercentage += 1.0
                     }
                 }
             }
@@ -5340,7 +5368,7 @@ public class City: AbstractCity {
             if let city = gameModel.city(at: tilePoint) {
 
                 if !player.isEqual(to: city.player) {
-                    city.changeNumPlotsAcquiredBy(otherPlayer: city.player, change: 1)
+                    city.changeNumberOfPlotsAcquiredBy(otherPlayer: city.player, change: 1)
                 }
             }
         }
@@ -5493,6 +5521,10 @@ public class City: AbstractCity {
     /// Amount of Culture needed in this City to acquire a new Plot
     func cultureThreshold() -> Double {
 
+        guard let government = self.player?.government else {
+            fatalError("cant get player government")
+        }
+
         var cultureThreshold = 15.0 /* CULTURE_COST_FIRST_PLOT */
 
         let exponent = 1.1 /* CULTURE_COST_LATER_PLOT_EXPONENT */
@@ -5510,21 +5542,6 @@ public class City: AbstractCity {
         cultureThreshold += additionalCost
 
         // Religion modifier
-        /*int iReligionMod = 0;
-        ReligionTypes eMajority = GetCityReligions()->GetReligiousMajority();
-        if(eMajority != NO_RELIGION)
-        {
-            const CvReligion* pReligion = GC.getGame().GetGameReligions()->GetReligion(eMajority, getOwner());
-            if(pReligion)
-            {
-                iReligionMod = pReligion->m_Beliefs.GetPlotCultureCostModifier();
-                BeliefTypes eSecondaryPantheon = GetCityReligions()->GetSecondaryReligionPantheonBelief();
-                if (eSecondaryPantheon != NO_BELIEF)
-                {
-                    iReligionMod += GC.GetGameBeliefs()->GetEntry(eSecondaryPantheon)->GetPlotCultureCostModifier();
-                }
-            }
-        }*/
 
         // governor effects
 
@@ -5535,14 +5552,12 @@ public class City: AbstractCity {
             cultureThreshold /= 100
         }
 
-        // -50 = 50% cost
-        /*let modifier = GET_PLAYER(getOwner()).GetPlotCultureCostModifier() + m_iPlotCultureCostModifier + iReligionMod;
-        if modifier != 0)
-        {
-            iModifier = max(iModifier, /*-85*/ GC.getCULTURE_PLOT_COST_MOD_MINIMUM());    // value cannot reduced by more than 85%
-            iCultureThreshold *= (100 + iModifier);
-            iCultureThreshold /= 100;
-        }*/
+        // expropriation - Settler cost reduced by 50%. Plot purchase cost reduced by 20%.
+        if government.has(card: .expropriation) {
+
+            cultureThreshold *= 80
+            cultureThreshold /= 100
+        }
 
         // Make the number not be funky
         let divisor = 5.0 /* CULTURE_COST_VISIBLE_DIVISOR */
@@ -6022,7 +6037,7 @@ public class City: AbstractCity {
         }
     }
 
-    public func changeNumPlotsAcquiredBy(otherPlayer: AbstractPlayer?, change: Int) {
+    public func changeNumberOfPlotsAcquiredBy(otherPlayer: AbstractPlayer?, change: Int) {
 
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get otherPlayer")
@@ -6031,7 +6046,7 @@ public class City: AbstractCity {
         self.numPlotsAcquiredList.add(weight: change, for: otherPlayer.leader)
     }
 
-    public func numPlotsAcquired(by otherPlayer: AbstractPlayer?) -> Int {
+    public func numberOfPlotsAcquired(by otherPlayer: AbstractPlayer?) -> Int {
 
         guard let otherPlayer = otherPlayer else {
             fatalError("cant get otherPlayer")
@@ -6040,7 +6055,7 @@ public class City: AbstractCity {
         return Int(self.numPlotsAcquiredList.weight(of: otherPlayer.leader))
     }
 
-    public func countNumImprovedPlots(in gameModel: GameModel?) -> Int {
+    public func countNumberOfImprovedPlots(in gameModel: GameModel?) -> Int {
 
         guard let gameModel = gameModel,
               let cityCitizens = self.cityCitizens,

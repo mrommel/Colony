@@ -601,7 +601,7 @@
 
 // card - retinues
 "TXT_KEY_POLICY_CARD_RETINUES_TITLE" = "Retinues";
-"TXT_KEY_POLICY_CARD_RETINUES_BONUS" = "50% resource discount on all unit upgrades."; // #
+"TXT_KEY_POLICY_CARD_RETINUES_BONUS" = "50% resource discount on all unit upgrades.";
 
 // card - tradeConfederation
 "TXT_KEY_POLICY_CARD_TRADE_CONFEDERATION_TITLE" = "Trade Confederation";
@@ -639,9 +639,9 @@
 "TXT_KEY_POLICY_CARD_GOTHIC_ARCHITECTURE_TITLE" = "Gothic Architecture";
 "TXT_KEY_POLICY_CARD_GOTHIC_ARCHITECTURE_BONUS" = "+15% [Production] Production toward Ancient, Classical, Medieval and Renaissance wonders.";
 
-// card - civilPrestige:
+// card - civilPrestige
 "TXT_KEY_POLICY_CARD_CIVIL_PRESTIGE_TITLE" = "Civil Prestige";
-"TXT_KEY_POLICY_CARD_CIVIL_PRESTIGE_BONUS" = "Established [Governor] Governors with at least 2 [Promotion] Promotions provide +1 [Amenities] Amenity and +2 [Housing] Housing."; // #
+"TXT_KEY_POLICY_CARD_CIVIL_PRESTIGE_BONUS" = "Established [Governor] Governors with at least 2 [Promotion] Promotions provide +1 [Amenities] Amenity and +2 [Housing] Housing.";
 
 // renaissance
 
@@ -749,11 +749,11 @@
 
 // card - militaryResearch
 "TXT_KEY_POLICY_CARD_MILITARY_RESEARCH_TITLE" = "Military Research";
-"TXT_KEY_POLICY_CARD_MILITARY_RESEARCH_BONUS" = "Military Academies, Seaports, and Renaissance Walls generate +2 [Science] Science."; // #
+"TXT_KEY_POLICY_CARD_MILITARY_RESEARCH_BONUS" = "Military Academies, Seaports, and Renaissance Walls generate +2 [Science] Science.";
 
 // card - forceModernization
 "TXT_KEY_POLICY_CARD_FORCE_MODERNIZATION_TITLE" = "Force Modernization";
-"TXT_KEY_POLICY_CARD_FORCE_MODERNIZATION_BONUS" = "50% [Gold] Gold and resource discount on all unit upgrades."; // #
+"TXT_KEY_POLICY_CARD_FORCE_MODERNIZATION_BONUS" = "50% [Gold] Gold and resource discount on all unit upgrades.";
 
 // card - totalWar
 "TXT_KEY_POLICY_CARD_TOTAL_WAR_TITLE" = "Total War";
@@ -761,11 +761,11 @@
 
 // card - expropriation
 "TXT_KEY_POLICY_CARD_EXPROPRIATION_TITLE" = "Expropriation";
-"TXT_KEY_POLICY_CARD_EXPROPRIATION_BONUS" = "Settler cost reduced by 50%. Plot purchase cost reduced by 20%."; // #
+"TXT_KEY_POLICY_CARD_EXPROPRIATION_BONUS" = "Settler cost reduced by 50%. Plot purchase cost reduced by 20%.";
 
 // card - militaryOrganization
 "TXT_KEY_POLICY_CARD_MILITARY_ORGANIZATION_TITLE" = "Military Organization";
-"TXT_KEY_POLICY_CARD_MILITARY_ORGANIZATION_BONUS" = "+2 [GreatGeneral] Great General points for every Armory and +4 [GreatGeneral] Great General points for every Military Academy. [GreatGeneral] Great Generals receive +2 [Movement] Movement."; // #
+"TXT_KEY_POLICY_CARD_MILITARY_ORGANIZATION_BONUS" = "+2 [GreatGeneral] Great General points for every Armory and +4 [GreatGeneral] Great General points for every Military Academy. [GreatGeneral] Great Generals receive +2 [Movement] Movement.";
 
 // modern
 
@@ -779,11 +779,11 @@
 
 // card - leveeEnMasse
 "TXT_KEY_POLICY_CARD_LEVEE_EN_MASSE_TITLE" = "Levée en Masse";
-"TXT_KEY_POLICY_CARD_LEVEE_EN_MASSE_BONUS" = "Unit maintenance cost reduced by 2 [Gold] Gold per unit."; // #
+"TXT_KEY_POLICY_CARD_LEVEE_EN_MASSE_BONUS" = "Unit maintenance cost reduced by 2 [Gold] Gold per unit.";
 
 // card - laissezFaire
 "TXT_KEY_POLICY_CARD_LAISSEZ_FAIRE_TITLE" = "Laissez-Faire";
-"TXT_KEY_POLICY_CARD_LAISSEZ_FAIRE_BONUS" = "+2 [GreatMerchant] Great Merchant points for every Bank and +4 [GreatMerchant] Great Merchant points for every Stock Exchange. +2 [GreatAdmiral] Great Admiral points for every Shipyard and +4 [GreatAdmiral] Great Admiral points for every Seaport."; // #
+"TXT_KEY_POLICY_CARD_LAISSEZ_FAIRE_BONUS" = "+2 [GreatMerchant] Great Merchant points for every Bank and +4 [GreatMerchant] Great Merchant points for every Stock Exchange. +2 [GreatAdmiral] Great Admiral points for every Shipyard and +4 [GreatAdmiral] Great Admiral points for every Seaport."; // # - some
 
 // card - marketEconomy
 "TXT_KEY_POLICY_CARD_MARKET_ECONOMY_TITLE" = "Market Economy";
@@ -795,7 +795,7 @@
 
 // card - nobelPrize
 "TXT_KEY_POLICY_CARD_NOBEL_PRIZE_TITLE" = "Nobel Prize";
-"TXT_KEY_POLICY_CARD_NOBEL_PRIZE_BONUS" = "+4 [GreatScientist] Great Scientist points per turn."; // #
+"TXT_KEY_POLICY_CARD_NOBEL_PRIZE_BONUS" = "+4 [GreatScientist] Great Scientist points per turn.";
 
 // card - scienceFoundations
 "TXT_KEY_POLICY_CARD_SCIENCE_FOUNDATIONS_TITLE" = "Science Foundations";
@@ -807,7 +807,7 @@
 
 // card - economicUnion
 "TXT_KEY_POLICY_CARD_ECONOMIC_UNION_TITLE" = "Economic Union";
-"TXT_KEY_POLICY_CARD_ECONOMIC_UNION_BONUS" = "+100% Commercial Hub and Harbor district adjacency bonuses."; // #
+"TXT_KEY_POLICY_CARD_ECONOMIC_UNION_BONUS" = "+100% Commercial Hub and Harbor district adjacency bonuses.";
 
 // card - theirFinestHour
 "TXT_KEY_POLICY_CARD_THEIR_FINEST_HOUR_TITLE" = "Their Finest Hour";
@@ -819,15 +819,15 @@
 
 // card - newDeal
 "TXT_KEY_POLICY_CARD_NEW_DEAL_TITLE" = "New Deal";
-"TXT_KEY_POLICY_CARD_NEW_DEAL_BONUS" = "+4 [Housing] Housing and +2 [Amenities] Amenities to all cities with at least 3 specialty districts."; // #
+"TXT_KEY_POLICY_CARD_NEW_DEAL_BONUS" = "+4 [Housing] Housing and +2 [Amenities] Amenities to all cities with at least 3 specialty districts."; 
 
 // card - lightningWarfare
 "TXT_KEY_POLICY_CARD_LIGHTNING_WARFARE_TITLE" = "Lightning Warfare";
-"TXT_KEY_POLICY_CARD_LIGHTNING_WARFARE_BONUS" = "+50% [Production] Production for all heavy and light cavalry units."; // #
+"TXT_KEY_POLICY_CARD_LIGHTNING_WARFARE_BONUS" = "+50% [Production] Production for all heavy and light cavalry units.";
 
 // card - thirdAlternative
 "TXT_KEY_POLICY_CARD_THIRD_ALTERNATIVE_TITLE" = "Third Alternative";
-"TXT_KEY_POLICY_CARD_THIRD_ALTERNATIVE_BONUS" = "+2 [Culture] Culture and +4 [Gold] Gold from each Research Lab, Military Academy, Coal Power Plant, Oil Power Plant, and Nuclear Power Plant."; // #
+"TXT_KEY_POLICY_CARD_THIRD_ALTERNATIVE_BONUS" = "+2 [Culture] Culture and +4 [Gold] Gold from each Research Lab, Military Academy, Coal Power Plant, Oil Power Plant, and Nuclear Power Plant."; // # - some
 
 // card - martialLaw
 "TXT_KEY_POLICY_CARD_MARTIAL_LAW_TITLE" = "Martial Law";
@@ -839,11 +839,11 @@
 
 // card - fiveYearPlan
 "TXT_KEY_POLICY_CARD_FIVE_YEAR_PLAN_TITLE" = "Five-Year Plan";
-"TXT_KEY_POLICY_CARD_FIVE_YEAR_PLAN_BONUS" = "+100% Campus and Industrial Zone district adjacency bonuses."; // #
+"TXT_KEY_POLICY_CARD_FIVE_YEAR_PLAN_BONUS" = "+100% Campus and Industrial Zone district adjacency bonuses.";
 
 // card - collectivization
 "TXT_KEY_POLICY_CARD_COLLECTIVIZATION_TITLE" = "Collectivization";
-"TXT_KEY_POLICY_CARD_COLLECTIVIZATION_BONUS" = "+2 [Production] Production and +4 [Food] Food from domestic [TradeRoute] Trade Routes."; // #
+"TXT_KEY_POLICY_CARD_COLLECTIVIZATION_BONUS" = "+2 [Production] Production and +4 [Food] Food from domestic [TradeRoute] Trade Routes.";
 
 // card - patrioticWar
 "TXT_KEY_POLICY_CARD_PATRIOTIC_WAR_TITLE" = "Patriotic War";
@@ -861,7 +861,7 @@
 
 // card - internationalWaters
 "TXT_KEY_POLICY_CARD_INTERNATIONAL_WATERS_TITLE" = "International Waters";
-"TXT_KEY_POLICY_CARD_INTERNATIONAL_WATERS_BONUS" = "+100% [Production] Production towards all naval units, excluding Carriers."; // #
+"TXT_KEY_POLICY_CARD_INTERNATIONAL_WATERS_BONUS" = "+100% [Production] Production towards all naval units, excluding Carriers.";
 
 // card - containment
 "TXT_KEY_POLICY_CARD_CONTAINMENT_TITLE" = "Containment";
@@ -877,7 +877,7 @@
 
 // card - militaryFirst
 "TXT_KEY_POLICY_CARD_MILITARY_FIRST_TITLE" = "Military First";
-"TXT_KEY_POLICY_CARD_MILITARY_FIRST_BONUS" = "+50% [Production] Production toward all melee, anti-cavalry and ranged units."; // #
+"TXT_KEY_POLICY_CARD_MILITARY_FIRST_BONUS" = "+50% [Production] Production toward all melee, anti-cavalry and ranged units.";
 
 // card - satelliteBroadcasts
 "TXT_KEY_POLICY_CARD_SATELLITE_BROADCASTS_TITLE" = "Satellite Broadcasts";
@@ -903,11 +903,11 @@
 
 // card - ecommerce
 "TXT_KEY_POLICY_CARD_ECOMMERCE_TITLE" = "Ecommerce";
-"TXT_KEY_POLICY_CARD_ECOMMERCE_BONUS" = "+2 [Production] Production and +5 [Gold] Gold from all [TradeRoute] Trade Routes."; // #
+"TXT_KEY_POLICY_CARD_ECOMMERCE_BONUS" = "+2 [Production] Production and +5 [Gold] Gold from all [TradeRoute] Trade Routes.";
 
 // card - internationalSpaceAgency
 "TXT_KEY_POLICY_CARD_INTERNATIONAL_SPACE_AGENCY_TITLE" = "International Space Agency";
-"TXT_KEY_POLICY_CARD_INTERNATIONAL_SPACE_AGENCY_BONUS" = "5% [Science] Science per City-State you are the Suzerain of."; // #
+"TXT_KEY_POLICY_CARD_INTERNATIONAL_SPACE_AGENCY_BONUS" = "5% [Science] Science per City-State you are the Suzerain of.";
 
 // card - onlineCommunities
 "TXT_KEY_POLICY_CARD_ONLINE_COMMUNITIES_TITLE" = "Online Communities";
@@ -915,7 +915,7 @@
 
 // card - collectiveActivism
 "TXT_KEY_POLICY_CARD_COLLECTIVE_ACTIVISM_TITLE" = "Collective Activism";
-"TXT_KEY_POLICY_CARD_COLLECTIVE_ACTIVISM_BONUS" = "5% [Culture] Culture per City-State you are the Suzerain of."; // #
+"TXT_KEY_POLICY_CARD_COLLECTIVE_ACTIVISM_BONUS" = "5% [Culture] Culture per City-State you are the Suzerain of.";
 
 // card - afterActionReports
 "TXT_KEY_POLICY_CARD_AFTER_ACTION_REPORTS_TITLE" = "After Action Reports";

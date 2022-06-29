@@ -431,6 +431,32 @@ extension City {
             }
         }
 
+        // militaryOrganization - +2 [GreatGeneral] Great General points for every Armory and +4 [GreatGeneral] Great General points for every Military Academy. [GreatGeneral] Great Generals receive +2 [Movement] Movement.
+        if government.has(card: .militaryOrganization) {
+            if buildings.has(building: .armory) {
+                greatPeoplePoints.greatGeneral += 2
+            }
+            if buildings.has(building: .militaryAcademy) {
+                greatPeoplePoints.greatGeneral += 4
+            }
+        }
+
+        // laissezFaire - +2 [GreatMerchant] Great Merchant points for every Bank and +4 [GreatMerchant] Great Merchant points for every Stock Exchange. +2 [GreatAdmiral] Great Admiral points for every Shipyard and +4 [GreatAdmiral] Great Admiral points for every Seaport.
+        if government.has(card: .laissezFaire) {
+            if buildings.has(building: .bank) {
+                greatPeoplePoints.greatMerchant += 2
+            }
+            if buildings.has(building: .stockExchange) {
+                greatPeoplePoints.greatMerchant += 4
+            }
+            if buildings.has(building: .shipyard) {
+                greatPeoplePoints.greatAdmiral += 2
+            }
+            /*if buildings.has(building: .seaport) {
+                greatPeoplePoints.greatAdmiral += 4
+            }*/
+        }
+
         return greatPeoplePoints
     }
 
@@ -653,6 +679,11 @@ extension City {
         // yields from cards
         // craftsmen - +100% Industrial Zone adjacency bonuses.
         if government.has(card: .craftsmen) {
+            policyCardModifier += 1.0
+        }
+
+        // fiveYearPlan - +100% Campus and Industrial Zone district adjacency bonuses.
+        if government.has(card: .fiveYearPlan) {
             policyCardModifier += 1.0
         }
 
@@ -1184,6 +1215,25 @@ extension City {
                 cultureFromGovernmentValue += Double(buildings.numberOfBuildings(of: BuildingCategoryType.government))
             }
 
+            // thirdAlternative- +2 [Culture] Culture and +4 [Gold] Gold from each Research Lab, Military Academy, Coal Power Plant, Oil Power Plant, and Nuclear Power Plant.
+            if government.has(card: .thirdAlternative) {
+                /*if buildings.has(building: .researchLab) {
+                    cultureFromGovernmentValue += 2
+                }*/
+                if buildings.has(building: .militaryAcademy) {
+                    cultureFromGovernmentValue += 2
+                }
+                if buildings.has(building: .coalPowerPlant) {
+                    cultureFromGovernmentValue += 2
+                }
+                /*if buildings.has(building: .oilPowerPlant) {
+                    cultureFromGovernmentValue += 2
+                }
+                if buildings.has(building: .nuclearPowerPlant) {
+                    cultureFromGovernmentValue += 2
+                }*/
+            }
+
             // despoticPaternalism - +4 Loyalty per turn in cities with [Governor] Governors.
             //   BUT: -15% [Science] Science and -15% [Culture] Culture in all cities without an established [Governor] Governor.
             if government.has(card: .despoticPaternalism) {
@@ -1511,6 +1561,25 @@ extension City {
                 goldFromGovernmentValue += 1.0
             }
 
+            // thirdAlternative- +2 [Culture] Culture and +4 [Gold] Gold from each Research Lab, Military Academy, Coal Power Plant, Oil Power Plant, and Nuclear Power Plant.
+            if government.has(card: .thirdAlternative) {
+                /*if buildings.has(building: .researchLab) {
+                 goldFromGovernmentValue += 4
+                }*/
+                if buildings.has(building: .militaryAcademy) {
+                    goldFromGovernmentValue += 4
+                }
+                if buildings.has(building: .coalPowerPlant) {
+                    goldFromGovernmentValue += 4
+                }
+                /*if buildings.has(building: .oilPowerPlant) {
+                 goldFromGovernmentValue += 4
+                }
+                if buildings.has(building: .nuclearPowerPlant) {
+                 goldFromGovernmentValue += 4
+                }*/
+            }
+
             // - Decentralization    Cities with 6 or less [Citizen] population receive +4 Loyalty per turn.
             //    BUT: Cities with more than 6 Citizen population receive -15% [Gold] Gold.
             if government.has(card: .decentralization) && self.population() > 6 {
@@ -1566,6 +1635,12 @@ extension City {
 
         // townCharters - +100% Commercial Hub adjacency bonuses.
         if government.has(card: .townCharters) {
+            policyCardCommercialHubModifier += 1.0
+        }
+
+        // economicUnion - +100% Commercial Hub and Harbor district adjacency bonuses.
+        if government.has(card: .townCharters) {
+            policyCardHarborModifier += 1.0
             policyCardCommercialHubModifier += 1.0
         }
 
@@ -1839,6 +1914,19 @@ extension City {
                 scienceFromGovernmentValue += Double(buildings.numberOfBuildings(of: BuildingCategoryType.government))
             }
 
+            // militaryResearch - Military Academies, Seaports, and Renaissance Walls generate +2 [Science] Science.
+            if government.has(card: .militaryResearch) {
+                if buildings.has(building: .militaryAcademy) {
+                    scienceFromGovernmentValue += 2.0
+                }
+                /*if buildings.has(building: .seaport) {
+                    scienceFromGovernmentValue += 2.0
+                }*/
+                if buildings.has(building: .renaissanceWalls) {
+                    scienceFromGovernmentValue += 2.0
+                }
+            }
+
             // despoticPaternalism - +4 Loyalty per turn in cities with [Governor] Governors.
             //   BUT: -15% [Science] Science and -15% [Culture] Culture in all cities without an established [Governor] Governor.
             if government.has(card: .despoticPaternalism) {
@@ -1871,6 +1959,11 @@ extension City {
         // yields from cards
         // naturalPhilosophy - +100% Campus district adjacency bonuses.
         if government.has(card: .naturalPhilosophy) {
+            policyCardModifier += 1.0
+        }
+
+        // fiveYearPlan - +100% Campus and Industrial Zone district adjacency bonuses.
+        if government.has(card: .fiveYearPlan) {
             policyCardModifier += 1.0
         }
 
@@ -2450,6 +2543,13 @@ extension City {
             }
         }
 
+        // newDeal - +4 [Housing] Housing and +2 [Amenities] Amenities to all cities with at least 3 specialty districts.
+        if government.has(card: .newDeal) {
+            if districts.numberOfBuiltDistricts() >= 3 {
+                housingFromGovernment += 4.0
+            }
+        }
+
         // collectivism - Farms +1 [Food] Food. All cities +2 [Housing] Housing. +100% Industrial Zone adjacency bonuses.
         //          BUT: [GreatPerson] Great People Points earned 50% slower.
         if government.has(card: .collectivism) {
@@ -2558,6 +2658,11 @@ extension City {
                 let numberOfNeighborhoods = self.has(district: .neighborhood) ? 1.0 : 0.0
                 let numberOfAqueducts = self.has(district: .aqueduct) ? 1.0 : 0.0
                 housingValue += 2.0 * (numberOfNeighborhoods + numberOfAqueducts)
+            }
+
+            // civilPrestige - Established [Governor] Governors with at least 2 [Promotion] Promotions provide +1 [Amenities] Amenity and +2 [Housing] Housing.
+            if government.has(card: .civilPrestige) && governor.titles.count >= 2 {
+                housingValue += 2.0
             }
         }
 
@@ -2842,6 +2947,15 @@ extension City {
         if government.has(card: .newDeal) {
             if districts.numberOfBuiltDistricts() >= 3 {
                 amenitiesFromCivics += 2
+            }
+        }
+
+        // civilPrestige - Established [Governor] Governors with at least 2 [Promotion] Promotions provide +1 [Amenities] Amenity and +2 [Housing] Housing.
+        if government.has(card: .civilPrestige) {
+            if let governor = self.governor() {
+                if governor.titles.count >= 2 {
+                    amenitiesFromCivics += 1.0
+                }
             }
         }
 
