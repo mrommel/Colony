@@ -436,6 +436,10 @@ extension City {
 
     private func greatPeopleModifierFromGovernors() -> Double {
 
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+
         var greatPeopleModifier: Double = 1.0
 
         if let governor = self.governor() {
@@ -443,6 +447,12 @@ extension City {
             if governor.type == .pingala && governor.has(title: .grants) {
                 greatPeopleModifier += 1.0
             }
+        }
+
+        // collectivism - Farms +1 [Food] Food. All cities +2 [Housing] Housing. +100% Industrial Zone adjacency bonuses.
+        //          BUT: [GreatPerson] Great People Points earned 50% slower.
+        if government.has(card: .collectivism) {
+            greatPeopleModifier -= 0.5
         }
 
         return greatPeopleModifier
@@ -643,6 +653,12 @@ extension City {
         // yields from cards
         // craftsmen - +100% Industrial Zone adjacency bonuses.
         if government.has(card: .craftsmen) {
+            policyCardModifier += 1.0
+        }
+
+        // collectivism - Farms +1 [Food] Food. All cities +2 [Housing] Housing. +100% Industrial Zone adjacency bonuses.
+        //          BUT: [GreatPerson] Great People Points earned 50% slower.
+        if government.has(card: .collectivism) {
             policyCardModifier += 1.0
         }
 
@@ -2082,6 +2098,10 @@ extension City {
             fatalError("cant get player")
         }
 
+        guard let government = player.government else {
+            fatalError("cant get player government")
+        }
+
         let hasHueyTeocalli = player.has(wonder: .hueyTeocalli, in: gameModel)
         let hasStBasilsCathedral = player.has(wonder: .stBasilsCathedral, in: gameModel)
         var foodValue: Double = 0.0
@@ -2135,6 +2155,12 @@ extension City {
                         adjacentTile.improvement() == .farm &&
                         adjacentTile.resource(for: self.player).usage() == .bonus {
 
+                        foodValue += 1.0
+                    }
+
+                    // collectivism - Farms +1 [Food] Food. All cities +2 [Housing] Housing. +100% Industrial Zone adjacency bonuses.
+                    //          BUT: [GreatPerson] Great People Points earned 50% slower.
+                    if adjacentTile.improvement() == .farm && government.has(card: .collectivism) {
                         foodValue += 1.0
                     }
                 }
@@ -2422,6 +2448,12 @@ extension City {
             if buildings.has(building: .medievalWalls) {
                 housingFromGovernment += 2.0
             }
+        }
+
+        // collectivism - Farms +1 [Food] Food. All cities +2 [Housing] Housing. +100% Industrial Zone adjacency bonuses.
+        //          BUT: [GreatPerson] Great People Points earned 50% slower.
+        if government.has(card: .collectivism) {
+            housingFromGovernment += 2.0
         }
 
         return housingFromGovernment

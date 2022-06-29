@@ -317,6 +317,12 @@ class Treasury: AbstractTreasury {
                 unitMaintenanceCost = max(0.0, unitMaintenanceCost - 1.0)
             }
 
+            // eliteForces - +100% combat experience for all units.
+            //    BUT: +2 [Gold] Gold to maintain each military unit.
+            if unit.type.maintenanceCost() > 0 && government.has(card: .eliteForces) {
+                unitMaintenanceCost += 2.0
+            }
+
             maintenanceCost += unitMaintenanceCost
         }
 

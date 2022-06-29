@@ -107,6 +107,9 @@ protocol GameViewModelDelegate: AnyObject {
 
     func showCityDialog(for city: AbstractCity?)
     func showCityChooseProductionDialog(for city: AbstractCity?)
+    func showCityAquireTilesDialog(for city: AbstractCity?)
+    func showCityPurchaseGoldDialog(for city: AbstractCity?)
+    func showCityPurchaseFaithDialog(for city: AbstractCity?)
     func showCityBuildingsDialog(for city: AbstractCity?)
     func showDiplomaticDialog(with otherPlayer: AbstractPlayer?, data: DiplomaticData?, deal: DiplomaticDeal?)
 

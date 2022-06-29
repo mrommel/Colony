@@ -287,7 +287,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     // units
     func canTrain(unitType: UnitType, continueFlag: Bool, testVisible: Bool, ignoreCost: Bool, ignoreUniqueUnitStatus: Bool) -> Bool
     func canPurchaseInAnyCity(unit: UnitType, with yieldType: YieldType, in gameModel: GameModel?) -> Bool
-    func numUnitsNeededToBeBuilt() -> Int
+    func numberOfUnitsNeededToBeBuilt() -> Int
     func countReadyUnits(in gameModel: GameModel?) -> Int
     func hasUnitsThatNeedAIUpdate(in gameModel: GameModel?) -> Bool
     func countUnitsWith(defaultTask: UnitTaskType, in gameModel: GameModel?) -> Int
@@ -4583,7 +4583,7 @@ public class Player: AbstractPlayer {
         return 0
     }
 
-    public func numUnitsNeededToBeBuilt() -> Int {
+    public func numberOfUnitsNeededToBeBuilt() -> Int {
 
         guard let operations = self.operations else {
             fatalError("cant get operations")

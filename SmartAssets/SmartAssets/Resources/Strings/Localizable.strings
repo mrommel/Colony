@@ -919,11 +919,11 @@
 
 // card - afterActionReports
 "TXT_KEY_POLICY_CARD_AFTER_ACTION_REPORTS_TITLE" = "After Action Reports";
-"TXT_KEY_POLICY_CARD_AFTER_ACTION_REPORTS_BONUS" = "All units gain +50% combat experience."; // #
+"TXT_KEY_POLICY_CARD_AFTER_ACTION_REPORTS_BONUS" = "All units gain +50% combat experience.";
 
 // card - communicationsOffice
 "TXT_KEY_POLICY_CARD_COMMUNICATIONS_OFFICE_TITLE" = "Communications Office";
-"TXT_KEY_POLICY_CARD_COMMUNICATIONS_OFFICE_BONUS" = "Governors provide +1 Loyalty per turn to their city, per Promotion the Governor has."; // #
+"TXT_KEY_POLICY_CARD_COMMUNICATIONS_OFFICE_BONUS" = "Governors provide +1 Loyalty per turn to their city, per Promotion the Governor has.";
 
 // card - aerospaceContractors
 "TXT_KEY_POLICY_CARD_AEROSPACE_CONTRACTORS_TITLE" = "Aerospace Contractors";
@@ -967,7 +967,7 @@
 
 // card - collectivism
 "TXT_KEY_POLICY_CARD_COLLECTIVISM_TITLE" = "Collectivism";
-"TXT_KEY_POLICY_CARD_COLLECTIVISM_BONUS" = "Farms +1 [Food] Food. All cities +2 [Housing] Housing. +100% Industrial Zone adjacency bonuses. BUT: [GreatPerson] Great People Points earned 50% slower."; // #
+"TXT_KEY_POLICY_CARD_COLLECTIVISM_BONUS" = "Farms +1 [Food] Food. All cities +2 [Housing] Housing. +100% Industrial Zone adjacency bonuses. BUT: [GreatPerson] Great People Points earned 50% slower.";
 
 // card - cyberWarfare
 "TXT_KEY_POLICY_CARD_CYBER_WARFARE_TITLE" = "Cyber Warfare";
@@ -987,7 +987,7 @@
 
 // card - eliteForces
 "TXT_KEY_POLICY_CARD_ELITE_FORCES_TITLE" = "Elite Forces";
-"TXT_KEY_POLICY_CARD_ELITE_FORCES_BONUS" = "+100% combat experience for all units. BUT: +2 [Gold] Gold to maintain each military unit."; // #
+"TXT_KEY_POLICY_CARD_ELITE_FORCES_BONUS" = "+100% combat experience for all units. BUT: +2 [Gold] Gold to maintain each military unit.";
 
 // card - flowerPower
 "TXT_KEY_POLICY_CARD_FLOWER_POWER_TITLE" = "Flower Power";

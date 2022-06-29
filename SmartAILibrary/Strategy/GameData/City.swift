@@ -1484,6 +1484,13 @@ public class City: AbstractCity {
         }
 
         // +1-6 with the Communications Office policy card and if the city has a Governor.
+        // Governors provide +1 Loyalty per turn to their city, per Promotion the Governor has.
+        if government.has(card: .communicationsOffice) {
+            if let governor = self.governor() {
+                let numberOfGovernorTitles = governor.titles.count
+                otherFactors += Double(numberOfGovernorTitles)
+            }
+        }
 
         // +3 with the Colonial Offices policy card and if the city is not on your Capital Capital's continent.
         if government.has(card: .colonialOffices) && !self.sameContinentAsCapital(in: gameModel) {

@@ -3167,19 +3167,31 @@ public class Unit: AbstractUnit {
             fatalError("cant get government")
         }
 
-        var experienceDelta: Double = Double(delta)
+        let experienceDelta: Double = Double(delta)
+        var experienceModifier: Double = 1.0
 
         // Doubles experience for recon units.
-        if government.has(card: .survey) {
-            experienceDelta *= 2.0
+        if government.has(card: .survey) && self.unitClassType() == .recon {
+            experienceModifier += 1.0
         }
 
         // +20% Unit Experience.
         if government.currentGovernment() == .oligarchy {
-            experienceDelta *= 1.2
+            experienceModifier += 0.2
         }
 
-        self.experienceValue += Int(experienceDelta)
+        // afterActionReports - All units gain +50% combat experience.
+        if government.has(card: .afterActionReports) {
+            experienceModifier += 0.5
+        }
+
+        // eliteForces - +100% combat experience for all units.
+        //    BUT: +2 [Gold] Gold to maintain each military unit.
+        if government.has(card: .eliteForces) {
+            experienceModifier += 1.0
+        }
+
+        self.experienceValue += Int(experienceDelta * experienceModifier)
 
         let level = self.experienceLevel()
 

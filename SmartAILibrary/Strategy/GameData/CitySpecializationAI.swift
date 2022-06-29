@@ -876,7 +876,7 @@ public class CitySpecializationAI {
         let spaceshipWeight = 0.0
 
         let flavorOffense = Double(player.personalAndGrandStrategyFlavor(for: .offense))
-        let unitsRequested = player.numUnitsNeededToBeBuilt()
+        let unitsRequested = player.numberOfUnitsNeededToBeBuilt()
 
         // LONG-TERM MILITARY BUILD-UP
         militaryTrainingWeight += flavorOffense * 10.0 /* AI_CITY_SPECIALIZATION_PRODUCTION_TRAINING_PER_OFFENSE */

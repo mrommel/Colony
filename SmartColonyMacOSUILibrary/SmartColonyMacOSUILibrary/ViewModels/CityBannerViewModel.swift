@@ -300,6 +300,15 @@ class CityBannerViewModel: ObservableObject {
 
         case .showBuilds(city: let city):
             self.delegate?.showCityChooseProductionDialog(for: city)
+
+        case .aquireTiles(city: let city):
+            self.delegate?.showCityAquireTilesDialog(for: city)
+
+        case .purchaseGold(city: let city):
+            self.delegate?.showCityPurchaseGoldDialog(for: city)
+
+        case .purchaseFaith(city: let city):
+            self.delegate?.showCityPurchaseFaithDialog(for: city)
         }
     }
 }
