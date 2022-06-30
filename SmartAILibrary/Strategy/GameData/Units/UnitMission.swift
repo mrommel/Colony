@@ -247,6 +247,7 @@ public class UnitMission: Codable {
         
     }*/
 
+    // swiftlint:disable cyclomatic_complexity
     func continueMission(steps: Int, in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
@@ -278,14 +279,15 @@ public class UnitMission: Codable {
 
                     if let target = self.target, let tile = gameModel.tile(at: target) {
 
-                        /*if unit.isAutomated() && tile.isDiscovered(by: unitPlayer) && unit.canMove(into: target, options: MoveOptions.attack, in: gameModel) {
+                        if unit.isAutomated() && tile.isDiscovered(by: unitPlayer) &&
+                            unit.canMove(into: target, options: MoveOptions.attack, in: gameModel) {
 
-                            // if we're automated and try to attack, consider this move OVAH
+                            // if we're automated and try to attack, consider this move over
                             done = true
                         } else {
 
                             // configs
-                            let cityAttackInterrupt = false // gDLL->GetAdvisorCityAttackInterrupt();
+                            let cityAttackInterrupt = true // gDLL->GetAdvisorCityAttackInterrupt();
                             let badAttackInterrupt = true // gDLL->GetAdvisorBadAttackInterrupt();
 
                             if unitPlayer.isHuman() && badAttackInterrupt {
@@ -295,43 +297,29 @@ public class UnitMission: Codable {
                                     if tile.isCity() {
 
                                         if cityAttackInterrupt {
-
-                                            // GC.GetEngineUserInterface()->SetDontShowPopups(false);
-
-                                            // FIXME: show tutorial
-                                            /*if(!GC.getGame().isOption(GAMEOPTION_NO_TUTORIAL))
-                                            {
+                                            // show tutorial
+                                            if gameModel.showTutorialInfos() {
                                                 // do city alert
-                                                CvPopupInfo kPopup(BUTTONPOPUP_ADVISOR_MODAL);
-                                                kPopup.iData1 = ADVISOR_MILITARY;
-                                                kPopup.iData2 = pPlot->GetPlotIndex();
-                                                kPopup.iData3 = unit.plot()->GetPlotIndex();
-                                                strcpy_s(kPopup.szText, "TXT_KEY_ADVISOR_CITY_ATTACK_BODY");
-                                                kPopup.bOption1 = true;
-                                                GC.GetEngineUserInterface()->AddPopup(kPopup);
-                                                goto ContinueMissionExit;
-                                            }*/
+                                                let city = gameModel.city(at: target)
+                                                gameModel.userInterface?.showPopup(popupType: .tutorialCityAttack(attacker: unit, city: city))
+                                                // TXT_KEY_ADVISOR_CITY_ATTACK_DISPLAY Attacking cities
+                                                // TXT_KEY_ADVISOR_CITY_ATTACK_BODY Cities are formidable targets that often require 4 or more units to capture. When you attack them they will damage your attacking units. Cities also have a bombing attack weapon which will be used against any besiegers. Are you sure you want to continue the attack?
+                                                return
+                                            }
                                         }
                                     } else if badAttackInterrupt {
 
                                         if let defender = gameModel.visibleEnemy(at: target, for: unitPlayer) {
 
-                                            //CombatPredictionTypes ePrediction = GC.getGame().GetCombatPrediction(hUnit.pointer(), pDefender);
                                             let result = Combat.predictMeleeAttack(between: unit, and: defender, in: gameModel)
                                             if result.value == .totalDefeat || result.value == .majorDefeat {
-                                                // FIXME: show tutorial
-                                                /*if(!GC.getGame().isOption(GAMEOPTION_NO_TUTORIAL))
-                                                {
-                                                    GC.GetEngineUserInterface()->SetDontShowPopups(false);
-                                                    CvPopupInfo kPopup(BUTTONPOPUP_ADVISOR_MODAL);
-                                                    kPopup.iData1 = ADVISOR_MILITARY;
-                                                    kPopup.iData2 = pPlot->GetPlotIndex();
-                                                    kPopup.iData3 = unit.plot()->GetPlotIndex();
-                                                    strcpy_s(kPopup.szText, "TXT_KEY_ADVISOR_BAD_ATTACK_BODY");
-                                                    kPopup.bOption1 = false;
-                                                    GC.GetEngineUserInterface()->AddPopup(kPopup);
-                                                    goto ContinueMissionExit;
-                                                }*/
+                                                // show tutorial
+                                                if gameModel.showTutorialInfos() {
+                                                    gameModel.userInterface?.showPopup(popupType: .tutorialBadUnitAttack(attacker: unit, defender: defender))
+                                                    // TXT_KEY_ADVISOR_BAD_ATTACK_DISPLAY This attack may not end well
+                                                    // TXT_KEY_ADVISOR_BAD_ATTACK_BODY It might be a good idea to reconsider this attack; you will do minimal damage to your opponent and they will do considerable damage to you.
+                                                    return
+                                                }
                                             }
                                         }
                                     }
@@ -341,7 +329,7 @@ public class UnitMission: Codable {
                             if unit.doAttack(into: target, steps: steps, in: gameModel) {
                                 done = true
                             }
-                        }*/
+                        }
                     }
                 }
             }

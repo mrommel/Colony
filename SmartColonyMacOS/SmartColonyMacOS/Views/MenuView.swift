@@ -28,7 +28,7 @@ struct MenuView: View {
 
                 VStack(alignment: .center, spacing: 10) {
                     Button("TXT_KEY_TUTORIALS".localized()) {
-                        print("tutorials")
+                        self.viewModel.showTutorials()
                     }.buttonStyle(GameButtonStyle())
 
                     Button("TXT_KEY_RESUME_GAME".localized()) {

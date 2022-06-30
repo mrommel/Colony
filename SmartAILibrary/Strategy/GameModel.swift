@@ -55,6 +55,8 @@ open class GameModel: Codable {
 
         case spawnedArchaeologySites
         case worldEra
+
+        case showTutorialInfos
     }
 
     public let victoryTypes: [VictoryType]
@@ -86,6 +88,8 @@ open class GameModel: Codable {
     private var barbarianAI: BarbarianAI?
     private var spawnedArchaeologySites: Bool
     private var worldEraValue: EraType = .ancient
+
+    private var showTutorialInfosValue: Bool = false
 
     public init(victoryTypes: [VictoryType], handicap: HandicapType, turnsElapsed: Int, players: [AbstractPlayer], on map: MapModel) {
 
@@ -167,6 +171,8 @@ open class GameModel: Codable {
 
         self.spawnedArchaeologySites = try container.decodeIfPresent(Bool.self, forKey: .spawnedArchaeologySites) ?? false
         self.worldEraValue = try container.decode(EraType.self, forKey: .worldEra)
+
+        self.showTutorialInfosValue = try container.decode(Bool.self, forKey: .showTutorialInfos)
 
         // setup
         self.tacticalAnalysisMapVal = TacticalAnalysisMap(with: self.map.size)
@@ -278,11 +284,23 @@ open class GameModel: Codable {
 
         try container.encode(self.spawnedArchaeologySites, forKey: .spawnedArchaeologySites)
         try container.encode(self.worldEraValue, forKey: .worldEra)
+
+        try container.encode(self.showTutorialInfosValue, forKey: .showTutorialInfos)
     }
 
     public func seed() -> Int {
 
         return self.map.seed()
+    }
+
+    public func enableTutorials() {
+
+        self.showTutorialInfosValue = true
+    }
+
+    public func showTutorialInfos() -> Bool {
+
+        return self.showTutorialInfosValue
     }
 
     public func update() {

@@ -226,6 +226,12 @@ extension GameView {
 
         case .questFulfilled(cityState: _, quest: _):
             return AnyView(GenericPopupView(viewModel: self.viewModel.genericPopupViewModel))
+
+        case .tutorialCityAttack(attacker: _, city: _):
+            return AnyView(GenericPopupView(viewModel: self.viewModel.genericPopupViewModel))
+
+        case .tutorialBadUnitAttack(attacker: _, defender: _):
+            return AnyView(GenericPopupView(viewModel: self.viewModel.genericPopupViewModel))
         }
     }
 }

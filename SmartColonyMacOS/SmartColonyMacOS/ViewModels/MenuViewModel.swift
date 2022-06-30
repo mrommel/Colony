@@ -11,6 +11,7 @@ import SmartAssets
 
 protocol MenuViewModelDelegate: AnyObject {
 
+    func showTutorials()
     func resumeGame()
     func newGameStarted()
     func loadGame()
@@ -35,6 +36,11 @@ class MenuViewModel: ObservableObject {
         ImageCache.shared.add(image: bundle.image(forResource: "grid9-button-active"), for: "grid9-button-active")
         ImageCache.shared.add(image: bundle.image(forResource: "grid9-button-highlighted"), for: "grid9-button-highlighted")
         ImageCache.shared.add(image: bundle.image(forResource: "grid9-button-clicked"), for: "grid9-button-clicked")
+    }
+
+    func showTutorials() {
+
+        self.delegate?.showTutorials()
     }
 
     func resumeGame() {

@@ -13,6 +13,8 @@ import SmartColonyMacOSUILibrary
 enum PresentedViewType {
 
     case menu
+
+    case tutorials
     case newGameMenu
     case loadGameMenu
     case loadingGame // progress
@@ -36,6 +38,7 @@ class MainViewModel: ObservableObject {
 
     // sub view models
     var menuViewModel: MenuViewModel
+    var tutorialsViewModel: TutorialsViewModel
     var createGameMenuViewModel: CreateGameMenuViewModel
     var loadGameViewModel: LoadGameViewModel
     var generateGameViewModel: GenerateGameViewModel
@@ -49,6 +52,7 @@ class MainViewModel: ObservableObject {
 
     init(presentedView: PresentedViewType = .menu,
          menuViewModel: MenuViewModel = MenuViewModel(),
+         tutorialsViewModel: TutorialsViewModel = TutorialsViewModel(),
          createGameMenuViewModel: CreateGameMenuViewModel = CreateGameMenuViewModel(),
          loadGameViewModel: LoadGameViewModel = LoadGameViewModel(),
          generateGameViewModel: GenerateGameViewModel = GenerateGameViewModel(),
@@ -59,6 +63,7 @@ class MainViewModel: ObservableObject {
         self.mapMenuDisabled = true
 
         self.menuViewModel = menuViewModel
+        self.tutorialsViewModel = tutorialsViewModel
         self.createGameMenuViewModel = createGameMenuViewModel
         self.loadGameViewModel = loadGameViewModel
         self.generateGameViewModel = generateGameViewModel
@@ -69,6 +74,7 @@ class MainViewModel: ObservableObject {
 
         // connect delegates
         self.menuViewModel.delegate = self
+        self.tutorialsViewModel.delegate = self
         self.createGameMenuViewModel.delegate = self
         self.loadGameViewModel.delegate = self
         self.generateGameViewModel.delegate = self
@@ -137,6 +143,12 @@ class MainViewModel: ObservableObject {
 
 extension MainViewModel: MenuViewModelDelegate {
 
+    func showTutorials() {
+
+        self.presentedView = .tutorials
+        self.mapMenuDisabled = true
+    }
+
     func resumeGame() {
 
         self.presentedView = .loadingGame
@@ -199,6 +211,16 @@ extension MainViewModel: MenuViewModelDelegate {
 
     func showOptions() {
 
+    }
+}
+
+extension MainViewModel: TutorialsViewModelDelegate {
+
+    func started(tutorial: TutorialType) {
+
+        // todo
+
+        self.mapMenuDisabled = true
     }
 }
 

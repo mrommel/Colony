@@ -37,6 +37,9 @@ public enum PopupType {
     case lostCapital(leader: LeaderType)
 
     case questFulfilled(cityState: CityStateType, quest: CityStateQuestType)
+
+    case tutorialCityAttack(attacker: AbstractUnit?, city: AbstractCity?)
+    case tutorialBadUnitAttack(attacker: AbstractUnit?, defender: AbstractUnit?)
 }
 
 extension PopupType: Equatable {
@@ -103,6 +106,12 @@ extension PopupType: Equatable {
         case (.questFulfilled(cityState: let lhsCityState, quest: let lhsQuest),
             .questFulfilled(cityState: let rhsCityState, quest: let rhsQuest)):
             return lhsCityState == rhsCityState && lhsQuest == rhsQuest
+
+        case (.tutorialCityAttack(attacker: _, city: _), .tutorialCityAttack(attacker: _, city: _)):
+            return true
+
+        case (.tutorialBadUnitAttack(attacker: _, defender: _), .tutorialBadUnitAttack(attacker: _, defender: _)):
+            return true
 
         case (.none, .none):
             return true

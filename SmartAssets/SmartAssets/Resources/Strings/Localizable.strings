@@ -193,6 +193,16 @@
 "TXT_KEY_MISC_FOUND_RELIGION" = "Found Religion";
 "TXT_KEY_MISC_SELECT_TRANSFER_CITY" = "Select City to transfer to";
 
+
+// tutorial texts
+
+"TXT_KEY_ADVISOR_CITY_ATTACK_DISPLAY" = "Attacking cities";
+"TXT_KEY_ADVISOR_CITY_ATTACK_BODY" = "Cities are formidable targets that often require 4 or more units to capture. When you attack them they will damage your attacking units. Cities also have a bombing attack weapon which will be used against any besiegers. Are you sure you want to continue the attack?";
+
+"TXT_KEY_ADVISOR_BAD_ATTACK_DISPLAY" = "This attack may not end well";
+"TXT_KEY_ADVISOR_BAD_ATTACK_BODY" = "It might be a good idea to reconsider this attack; you will do minimal damage to your opponent and they will do considerable damage to you.";
+
+
 // notifications
 
 // techNeeded

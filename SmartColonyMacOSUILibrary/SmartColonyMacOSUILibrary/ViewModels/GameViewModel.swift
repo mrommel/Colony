@@ -663,6 +663,16 @@ public class GameViewModel: ObservableObject {
                     .localizedWithFormat(with: [quest.summary().localized(), cityState.name().localized()])
                 self.genericPopupViewModel.update(with: title, and: summary)
 
+            case .tutorialCityAttack(attacker: _, city: _):
+                let title = "TXT_KEY_ADVISOR_CITY_ATTACK_DISPLAY".localized()
+                let summary = "TXT_KEY_ADVISOR_CITY_ATTACK_BODY".localized()
+                self.genericPopupViewModel.update(with: title, and: summary)
+
+            case .tutorialBadUnitAttack(attacker: _, defender: _):
+                let title = "TXT_KEY_ADVISOR_BAD_ATTACK_DISPLAY".localized()
+                let summary = "TXT_KEY_ADVISOR_BAD_ATTACK_BODY".localized()
+                self.genericPopupViewModel.update(with: title, and: summary)
+
             default:
                 fatalError("not handled: \(firstPopup)")
             }

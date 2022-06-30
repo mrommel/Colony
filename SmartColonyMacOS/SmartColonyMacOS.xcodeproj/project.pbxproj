@@ -33,6 +33,8 @@
 		C99EA75D26BD945C006FAA40 /* PediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99EA75C26BD945B006FAA40 /* PediaView.swift */; };
 		C99EA75F26BD9493006FAA40 /* PediaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99EA75E26BD9493006FAA40 /* PediaViewModel.swift */; };
 		C9B0D6682716B86600F3AA1C /* SmartColonyMacOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B0D6672716B86600F3AA1C /* SmartColonyMacOSTests.swift */; };
+		C9E42A80286DBF7000FADF42 /* TutorialsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E42A7F286DBF7000FADF42 /* TutorialsViewModel.swift */; };
+		C9E42A82286DC80200FADF42 /* TutorialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E42A81286DC80200FADF42 /* TutorialsView.swift */; };
 		C9F6EB1A260790850052140C /* SmartColonyMacOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6EB19260790850052140C /* SmartColonyMacOSApp.swift */; };
 		C9F6EB1C260790850052140C /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F6EB1B260790850052140C /* MainView.swift */; };
 		C9F6EB1E2607908B0052140C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F6EB1D2607908B0052140C /* Assets.xcassets */; };
@@ -102,6 +104,8 @@
 		C99EA75E26BD9493006FAA40 /* PediaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PediaViewModel.swift; sourceTree = "<group>"; };
 		C9B0D6652716B86600F3AA1C /* SmartColonyMacOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartColonyMacOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9B0D6672716B86600F3AA1C /* SmartColonyMacOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartColonyMacOSTests.swift; sourceTree = "<group>"; };
+		C9E42A7F286DBF7000FADF42 /* TutorialsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialsViewModel.swift; sourceTree = "<group>"; };
+		C9E42A81286DC80200FADF42 /* TutorialsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialsView.swift; sourceTree = "<group>"; };
 		C9F6EB16260790850052140C /* SmartColony.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartColony.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9F6EB19260790850052140C /* SmartColonyMacOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartColonyMacOSApp.swift; sourceTree = "<group>"; };
 		C9F6EB1B260790850052140C /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -148,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				C9022F812608C19600C6773A /* MenuViewModel.swift */,
+				C9E42A7F286DBF7000FADF42 /* TutorialsViewModel.swift */,
 				C9022F972609341300C6773A /* CreateGameMenuViewModel.swift */,
 				C91652BF281BB81A0021991A /* LoadGameViewModel.swift */,
 				C9155158260A5C8F003710BE /* GenerateGameViewModel.swift */,
@@ -175,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				C91D829C2608791A00DD5AFE /* MenuView.swift */,
+				C9E42A81286DC80200FADF42 /* TutorialsView.swift */,
 				C9022F8D2608DCA800C6773A /* CreateGameMenuView.swift */,
 				C91652C1281BB8820021991A /* LoadGameView.swift */,
 				C9155152260A5C52003710BE /* GenerateGameView.swift */,
@@ -410,6 +416,7 @@
 			files = (
 				C9F6EB1C260790850052140C /* MainView.swift in Sources */,
 				C9855D672631450800468ED0 /* GameCommandsModel.swift in Sources */,
+				C9E42A82286DC80200FADF42 /* TutorialsView.swift in Sources */,
 				C9855D6B2631452200468ED0 /* GameCommands.swift in Sources */,
 				C9022F8E2608DCA800C6773A /* CreateGameMenuView.swift in Sources */,
 				C91652C0281BB81A0021991A /* LoadGameViewModel.swift in Sources */,
@@ -422,6 +429,7 @@
 				C9911EAF2736DAAE00273C8A /* ReplayGameView.swift in Sources */,
 				C9022F982609341300C6773A /* CreateGameMenuViewModel.swift in Sources */,
 				C91D829D2608791A00DD5AFE /* MenuView.swift in Sources */,
+				C9E42A80286DBF7000FADF42 /* TutorialsViewModel.swift in Sources */,
 				C91D82922607B79B00DD5AFE /* AppDelegate.swift in Sources */,
 				C935FBA2270330FC000CCA49 /* DebugView.swift in Sources */,
 				C935FBA4270333A1000CCA49 /* DebugViewModel.swift in Sources */,
