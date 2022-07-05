@@ -44,6 +44,13 @@ class BoundingBox: Codable {
     }
 }
 
+extension BoundingBox: CustomDebugStringConvertible {
+
+    var debugDescription: String {
+        return "BoundingBox( (\(self.minX), \(self.minY)) -> (\(self.maxX), \(self.maxY)) )"
+    }
+}
+
 public class HexArea: Codable {
 
     let identifier: String

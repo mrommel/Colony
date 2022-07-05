@@ -111,8 +111,8 @@ class StartPositioner {
         let landAreaFert: WeightedStringList = WeightedStringList()
 
         // Obtain info on all landmasses for comparision purposes.
-        var iGlobalFertilityOfLands = 0
-        var iNumLandPlots = 0
+        var globalFertilityOfLands = 0
+        var numberOfLandPlots = 0
 
         let mapSize = map.size
 
@@ -124,15 +124,14 @@ class StartPositioner {
 
                     // Land plot, process it.
                     if plot.terrain().isLand() {
-                        iNumLandPlots += 1
+                        numberOfLandPlots += 1
 
                         if let continentIdentifier = plot.continentIdentifier() {
 
                             // Check for coastal land is enabled.
                             let plotFertility = self.tileFertilityEvaluator.placementFertility(of: plot, checkForCoastalLand: true)
-                            iGlobalFertilityOfLands += plotFertility
+                            globalFertilityOfLands += plotFertility
 
-                            // landAreaPlots.add(weight: 1, for: continentIdentifier)
                             self.fertilityMap[x, y] = plotFertility
                             landAreaFert.add(weight: plotFertility, for: continentIdentifier)
                         } else {
@@ -142,13 +141,6 @@ class StartPositioner {
                 }
             }
         }
-
-        // Sort areas, achieving a list of AreaIDs with best areas first.
-        //
-        // Fertility data in land_area_fert is stored with areaID index keys.
-        // Need to generate a version of this table with indices of 1 to n, where n is number of land areas.
-        // Sort the fertility values stored in the interim table. Sort order in Lua is lowest to highest.
-        // landAreaFert.sortReverse()
 
         // init number of civs on each continent
         let numberOfCivsPerArea: WeightedStringList = WeightedStringList()
@@ -188,12 +180,24 @@ class StartPositioner {
 
                 let area = HexArea(points: continent.points)
 
-                // Divide this landmass in to number of regions equal to civs assigned here.
+                // Divide this landmass into a number of regions equal to civs assigned here.
                 if numberOfCivsOnCurrentArea > 0 && numberOfCivsOnCurrentArea <= 12 {
                     self.divideIntoRegions(numberOfDivisions: Int(numberOfCivsPerAreaItem.1), area: area)
                 }
             }
         }
+
+        self.startAreas.sort(by: { $0.area.points.count > $1.area.points.count })
+
+        // debug
+        print("stats")
+        print("  number of land plots: \(numberOfLandPlots)")
+        print("  global fertility of land plots: \(globalFertilityOfLands)")
+        print("  regions")
+        for startArea in self.startAreas {
+            print("  - start era: \(startArea.area.boundingBox) / \(startArea.area.points.count) points")
+        }
+        print("----")
     }
 
     func chooseLocations(for aiLeaders: [LeaderType], human: LeaderType) {
@@ -209,6 +213,7 @@ class StartPositioner {
 
         for leader in combined.shuffled {
 
+            print("choose location for \(leader.name())")
             let civ = leader.civilization()
 
             var bestArea: StartArea?
@@ -222,29 +227,34 @@ class StartPositioner {
                     continue
                 }
 
-                for startPoint in startArea.area {
+                print("evaluate area with \(startArea.area.points.count) points")
 
-                    var valueSum: Int = 0
-                    var tooClose: Bool = false
+                for startPoint in startArea.area.points {
 
-                    // other start locations
-                    for otherStartLocation in self.startLocations {
+                    // check other start locations
+                    let smallestDistanceOther = self.startLocations
+                        .map { startPoint.distance(to: $0.point, wrapX: wrapX) }
+                        .min() ?? Int.max // this is needed, when the list is empty - the value will be large
 
-                        if startPoint.distance(to: otherStartLocation.point, wrapX: wrapX) < 8 {
-                            tooClose = true
-                            break
-                        }
-                    }
-
-                    if tooClose {
+                    if smallestDistanceOther < 8 {
                         continue
                     }
 
+                    var valueSum: Int = 0
                     for loopPoint in startPoint.areaWith(radius: 2) {
                         if let tile = self.map?.tile(at: loopPoint) {
 
-                            valueSum += self.fertilityMap[tile.point] ?? 0
-                            valueSum += civ.startingBias(for: tile, in: self.map)
+                            var tileValue: Int = 0
+                            // count center 3 times
+                            if loopPoint == startPoint {
+                                tileValue += 3 * (self.fertilityMap[tile.point] ?? 0)
+                                tileValue += 3 * civ.startingBias(for: tile, in: self.map)
+                            } else {
+                                tileValue += self.fertilityMap[tile.point] ?? 0
+                                tileValue += civ.startingBias(for: tile, in: self.map)
+                            }
+                            valueSum += tileValue
+                            // print("value of \(tile.point) => \(tileValue)")
                         }
                     }
 
@@ -253,6 +263,7 @@ class StartPositioner {
                         bestValue = valueSum
                         bestLocation = startPoint
                         bestArea = startArea
+                        print("new best location: \(bestLocation) - \(bestValue)")
                     }
                 }
             }
@@ -273,7 +284,6 @@ class StartPositioner {
         // sort human to the end
         self.startLocations.sort(by: { !$0.isHuman && $1.isHuman })
 
-        /*
         // debug
         var allLeaders = aiLeaders
         allLeaders.append(human)
@@ -295,7 +305,6 @@ class StartPositioner {
                 }
             }
         }
-         */
     }
 
     private func divideIntoRegions(numberOfDivisions: Int, area: HexArea) {
@@ -346,9 +355,11 @@ class StartPositioner {
             let boundingBox = area.boundingBox
 
             if boundingBox.width > boundingBox.height {
-                (area1, area2) = area.divideHorizontally(at: boundingBox.minX + boundingBox.width / 2)
+                let midX = area.center().x
+                (area1, area2) = area.divideHorizontally(at: midX)
             } else {
-                (area1, area2) = area.divideVertically(at: boundingBox.minY + boundingBox.height / 2)
+                let midY = area.center().y
+                (area1, area2) = area.divideVertically(at: midY)
             }
 
             self.divideIntoRegions(numberOfDivisions: subDivisions, area: area1)
@@ -360,12 +371,9 @@ class StartPositioner {
 
             if boundingBox.width > boundingBox.height {
                 (area1, areaTmp) = area.divideHorizontally(at: boundingBox.minX + boundingBox.width / 3)
-
                 (area2, area3) = areaTmp.divideHorizontally(at: boundingBox.minX + 2 * boundingBox.width / 3)
-
             } else {
                 (area1, areaTmp) = area.divideVertically(at: boundingBox.minY + boundingBox.height / 3)
-
                 (area2, area3) = areaTmp.divideVertically(at: boundingBox.minY + 2 * boundingBox.height / 3)
             }
 

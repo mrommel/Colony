@@ -28,12 +28,14 @@ struct TutorialsView: View {
             Button("TXT_KEY_FOUND_FIRST_CITY".localized()) {
                 self.viewModel.startFoundFirstCity()
             }
-            .buttonStyle(GameButtonStyle()).padding(.top, 20)
+            .buttonStyle(GameButtonStyle())
+            .padding(.top, 20)
 
             Button("TXT_KEY_GOTO_WAR".localized()) {
                 self.viewModel.startGotoWar()
             }
-            .buttonStyle(GameButtonStyle()).padding(.top, 20)
+            .buttonStyle(GameButtonStyle())
+            .padding(.top, 20)
 
             Divider()
 
@@ -41,7 +43,8 @@ struct TutorialsView: View {
                 Button("TXT_KEY_CANCEL".localized()) {
                     self.viewModel.cancel()
                 }
-                .buttonStyle(GameButtonStyle()).padding(.top, 20)
+                .buttonStyle(GameButtonStyle())
+                .padding(.top, 20)
             }
 
             Spacer(minLength: 1)

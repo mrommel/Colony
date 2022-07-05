@@ -712,7 +712,7 @@ public class City: AbstractCity {
         // Founded cities start with eight additional tiles.
         if player.leader.civilization().ability() == .motherRussia {
 
-            let tiles = self.location.areaWith(radius: 2).shuffled()
+            let tiles = Array(self.location.areaWith(radius: 2).points).shuffled
             var additional = 0
 
             for pointToClaim in tiles {

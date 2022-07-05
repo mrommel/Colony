@@ -85,7 +85,7 @@ extension Array {
     @discardableResult
     public mutating func shuffle() -> Array {
         indices.dropLast().forEach {
-            guard case let index = Int(drand48() * Double(count - $0)) + $0, index != $0 else { return }
+            guard case let index = Int.random(number: count - $0) + $0, index != $0 else { return }
             self.swapAt($0, index)
         }
         return self

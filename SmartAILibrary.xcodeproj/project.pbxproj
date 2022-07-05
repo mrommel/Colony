@@ -401,6 +401,7 @@
 		C9E96CD226EB69EF001A9666 /* DedicationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E96CD126EB69EF001A9666 /* DedicationType.swift */; };
 		C9EA3CD5281D386D005ECCFF /* MapMarkerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EA3CD4281D386D005ECCFF /* MapMarkerType.swift */; };
 		C9EA3CD9281D38D5005ECCFF /* MapMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EA3CD8281D38D5005ECCFF /* MapMarker.swift */; };
+		C9EB08EB286F127400776745 /* GameGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB08EA286F127300776745 /* GameGenerator.swift */; };
 		C9EB9F642454C6C500F13B02 /* RankingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB9F632454C6C400F13B02 /* RankingData.swift */; };
 		C9EC4E132443AE97001A0597 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E122443AE97001A0597 /* Command.swift */; };
 		C9EC4E152443AECA001A0597 /* CommandType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4E142443AECA001A0597 /* CommandType.swift */; };
@@ -839,6 +840,7 @@
 		C9E96CD126EB69EF001A9666 /* DedicationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DedicationType.swift; sourceTree = "<group>"; };
 		C9EA3CD4281D386D005ECCFF /* MapMarkerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkerType.swift; sourceTree = "<group>"; };
 		C9EA3CD8281D38D5005ECCFF /* MapMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarker.swift; sourceTree = "<group>"; };
+		C9EB08EA286F127300776745 /* GameGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameGenerator.swift; sourceTree = "<group>"; };
 		C9EB9F632454C6C400F13B02 /* RankingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingData.swift; sourceTree = "<group>"; };
 		C9EC4E122443AE97001A0597 /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		C9EC4E142443AECA001A0597 /* CommandType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandType.swift; sourceTree = "<group>"; };
@@ -1316,6 +1318,7 @@
 				C957AA422436411E00203024 /* PerlinGenerator.swift */,
 				C98CBE0924338D47005EE397 /* MapOptions.swift */,
 				C95503C4245864A200D4B3D8 /* StartPositioner.swift */,
+				C9EB08EA286F127300776745 /* GameGenerator.swift */,
 			);
 			path = MapGeneration;
 			sourceTree = "<group>";
@@ -2057,6 +2060,7 @@
 				C960E1DC24E675870049DC83 /* CityTradingPosts.swift in Sources */,
 				C9E0066F274D713F00211300 /* AppealLevel.swift in Sources */,
 				C93D66AC24044EA700F5157B /* TacticalAnalysisMap.swift in Sources */,
+				C9EB08EB286F127400776745 /* GameGenerator.swift in Sources */,
 				C9A2B48C27ABBF4E0037D8C6 /* NeedImprovementProductionEconomicStrategyType.swift in Sources */,
 				C93D66AA2402913100F5157B /* UnitMovementType.swift in Sources */,
 				C9F02101276CED9800AF5E49 /* PlayerMoments.swift in Sources */,

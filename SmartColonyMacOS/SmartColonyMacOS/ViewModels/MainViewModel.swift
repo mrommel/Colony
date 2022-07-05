@@ -216,11 +216,38 @@ extension MainViewModel: MenuViewModelDelegate {
 
 extension MainViewModel: TutorialsViewModelDelegate {
 
+    private func generateFoundFirstCity() -> GameModel? {
+
+        // generate map
+        let mapOptions = MapOptions(withSize: MapSize.duel, type: .continents, leader: .alexander, handicap: .settler, seed: 42)
+
+        let generator = MapGenerator(with: mapOptions)
+        let map = generator.generate()
+
+        let gameGenerator = GameGenerator()
+        let game = gameGenerator.generate(map: map, with: .alexander, on: .settler)
+
+        return game
+    }
+
+    private func generate(tutorial: TutorialType) -> GameModel? {
+
+        switch tutorial {
+        case .foundFirstCity:
+            return self.generateFoundFirstCity()
+        case .gotoWar:
+            return nil
+        }
+    }
+
     func started(tutorial: TutorialType) {
 
-        // todo
-
-        self.mapMenuDisabled = true
+        if let gameModel = self.generate(tutorial: tutorial) {
+            self.prepared(game: gameModel)
+        } else {
+            print("could not generate tutorial: \(tutorial)")
+            self.canceled()
+        }
     }
 }
 
