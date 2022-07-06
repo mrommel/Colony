@@ -1581,7 +1581,13 @@ public class City: AbstractCity {
         loyalty += self.loyaltyFromTradeRoutes(in: gameModel)
         loyalty += self.loyaltyFromOthersEffects(in: gameModel)
 
-        self.loyaltyValue = loyalty
+        // weight
+        self.loyaltyValue = (4 * self.loyaltyValue + loyalty) / 5
+
+        // cap maximum 100
+        if self.loyaltyValue > 100 {
+            self.loyaltyValue = 100
+        }
 
         // https://civilization.fandom.com/wiki/Loyalty_(Civ6)#Free_Cities
         if self.loyaltyValue < 0 {

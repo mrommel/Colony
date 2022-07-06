@@ -279,56 +279,45 @@ public class UnitMission: Codable {
 
                     if let target = self.target, let tile = gameModel.tile(at: target) {
 
-                        if unit.isAutomated() && tile.isDiscovered(by: unitPlayer) &&
-                            unit.canMove(into: target, options: MoveOptions.attack, in: gameModel) {
+                        // configs
+                        let cityAttackInterrupt = true // gDLL->GetAdvisorCityAttackInterrupt();
+                        let badAttackInterrupt = true // gDLL->GetAdvisorBadAttackInterrupt();
 
-                            // if we're automated and try to attack, consider this move over
-                            done = true
-                        } else {
+                        if unitPlayer.isHuman() && badAttackInterrupt {
 
-                            // configs
-                            let cityAttackInterrupt = true // gDLL->GetAdvisorCityAttackInterrupt();
-                            let badAttackInterrupt = true // gDLL->GetAdvisorBadAttackInterrupt();
+                            if unit.canMove(into: target, options: .attack, in: gameModel) && tile.isDiscovered(by: unitPlayer) {
 
-                            if unitPlayer.isHuman() && badAttackInterrupt {
+                                if tile.isCity() {
 
-                                if unit.canMove(into: target, options: .attack, in: gameModel) && tile.isDiscovered(by: unitPlayer) {
+                                    if cityAttackInterrupt {
+                                        // show tutorial
+                                        if gameModel.showTutorialInfos() {
+                                            // do city alert
+                                            let city = gameModel.city(at: target)
+                                            gameModel.userInterface?.showPopup(popupType: .tutorialCityAttack(attacker: unit, city: city))
+                                            return
+                                        }
+                                    }
+                                } else if badAttackInterrupt {
 
-                                    if tile.isCity() {
+                                    if let defender = gameModel.visibleEnemy(at: target, for: unitPlayer) {
 
-                                        if cityAttackInterrupt {
+                                        let result = Combat.predictMeleeAttack(between: unit, and: defender, in: gameModel)
+                                        if result.value == .totalDefeat || result.value == .majorDefeat {
                                             // show tutorial
                                             if gameModel.showTutorialInfos() {
-                                                // do city alert
-                                                let city = gameModel.city(at: target)
-                                                gameModel.userInterface?.showPopup(popupType: .tutorialCityAttack(attacker: unit, city: city))
-                                                // TXT_KEY_ADVISOR_CITY_ATTACK_DISPLAY Attacking cities
-                                                // TXT_KEY_ADVISOR_CITY_ATTACK_BODY Cities are formidable targets that often require 4 or more units to capture. When you attack them they will damage your attacking units. Cities also have a bombing attack weapon which will be used against any besiegers. Are you sure you want to continue the attack?
+                                                let popup = PopupType.tutorialBadUnitAttack(attacker: unit, defender: defender)
+                                                gameModel.userInterface?.showPopup(popupType: popup)
                                                 return
-                                            }
-                                        }
-                                    } else if badAttackInterrupt {
-
-                                        if let defender = gameModel.visibleEnemy(at: target, for: unitPlayer) {
-
-                                            let result = Combat.predictMeleeAttack(between: unit, and: defender, in: gameModel)
-                                            if result.value == .totalDefeat || result.value == .majorDefeat {
-                                                // show tutorial
-                                                if gameModel.showTutorialInfos() {
-                                                    gameModel.userInterface?.showPopup(popupType: .tutorialBadUnitAttack(attacker: unit, defender: defender))
-                                                    // TXT_KEY_ADVISOR_BAD_ATTACK_DISPLAY This attack may not end well
-                                                    // TXT_KEY_ADVISOR_BAD_ATTACK_BODY It might be a good idea to reconsider this attack; you will do minimal damage to your opponent and they will do considerable damage to you.
-                                                    return
-                                                }
                                             }
                                         }
                                     }
                                 }
                             }
+                        }
 
-                            if unit.doAttack(into: target, steps: steps, in: gameModel) {
-                                done = true
-                            }
+                        if unit.doAttack(into: target, steps: steps, in: gameModel) {
+                            done = true
                         }
                     }
                 }

@@ -1548,11 +1548,11 @@ public class Unit: AbstractUnit {
                 }
 
                 // Ranged units that are embarked can't do a move-attack
-                if self.isRanged() && self.isEmbarked() {
+                guard !(self.isRanged() && self.isEmbarked()) else {
                     return false
                 }
 
-                if !unitPlayer.isAtWar(with: defenderUnit.player) && !defenderUnit.isBarbarian() {
+                guard diplomacyAI.isAtWar(with: defenderUnit.player) || defenderUnit.isBarbarian() else {
                     return false
                 }
 

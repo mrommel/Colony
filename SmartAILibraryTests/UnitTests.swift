@@ -129,11 +129,13 @@ class UnitTests: XCTestCase {
         mapGenerator.identifyOceans(on: mapModel)
         mapGenerator.identifyStartPositions(on: mapModel)
 
-        let gameModel = GameModel(victoryTypes: [.domination],
-                                  handicap: .king,
-                                  turnsElapsed: 0,
-                                  players: [barbarianPlayer, aiPlayer, humanPlayer],
-                                  on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .king,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, aiPlayer, humanPlayer],
+            on: mapModel
+        )
 
         // add UI
         let userInterface = TestUI()
