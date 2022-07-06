@@ -2162,6 +2162,7 @@ extension City {
         foodPerTurn += YieldValues(value: self.foodFromBuildings(in: gameModel))
         foodPerTurn += YieldValues(value: self.foodFromWonders(in: gameModel))
         foodPerTurn += YieldValues(value: self.foodFromTradeRoutes(in: gameModel))
+        foodPerTurn += self.foodFromGovernors(in: gameModel)
 
         // cap yields based on loyalty
         foodPerTurn += YieldValues(value: 0.0, percentage: self.loyaltyState().yieldPercentage())
@@ -2347,6 +2348,20 @@ extension City {
         }
 
         return foodFromTradeRoutes
+    }
+
+    private func foodFromGovernors(in gameModel: GameModel?) -> YieldValues {
+
+        var foodFromGovernors: YieldValues = YieldValues(value: 0.0, percentage: 0.0)
+
+        if let governor = self.governor() {
+            // surplusLogistics - +20% [Food] Food Growth in the city.
+            if governor.has(title: .surplusLogistics) {
+                foodFromGovernors.percentage += 0.2
+            }
+        }
+
+        return foodFromGovernors
     }
 
     // MARK: housing functions

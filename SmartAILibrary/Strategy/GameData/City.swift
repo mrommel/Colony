@@ -3063,6 +3063,20 @@ public class City: AbstractCity {
             experienceModifier += 0.25
         }
 
+        // consume strategic resource
+        if let resource = unitType.requiredResource() {
+            var cost = 1.0
+
+            if let governor = self.governor() {
+                // blackMarketeer - Strategic resources for units are discounted 80%.
+                if governor.has(title: .blackMarketeer) {
+                    cost -= 0.8
+                }
+            }
+
+            self.player?.changeNumberOfAvailable(resource: resource, change: cost)
+        }
+
         unit.set(experienceModifier: experienceModifier)
         secondUnit?.set(experienceModifier: experienceModifier)
 
@@ -3908,6 +3922,12 @@ public class City: AbstractCity {
             if self.population() <= 1 {
                 return false
             }
+
+            // isolationism - Domestic routes provide +2 [Food] Food, +2 [Production] Production.
+            //    BUT: Can't train or buy Settlers nor settle new cities.
+            if government.has(card: .isolationism) {
+                return false
+            }
         }
 
         if unitType == .trader {
@@ -3935,10 +3955,11 @@ public class City: AbstractCity {
             }
         }
 
-        // isolationism - Domestic routes provide +2 [Food] Food, +2 [Production] Production.
-        //    BUT: Can't train or buy Settlers nor settle new cities.
-        if government.has(card: .isolationism) {
-            return false
+        // check that enough resources are there
+        if let resource = unitType.requiredResource() {
+            if player.numberOfItemsInStockpile(of: resource) < 1 {
+                return false
+            }
         }
 
         return true

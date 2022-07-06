@@ -2773,6 +2773,15 @@ public class Player: AbstractPlayer {
                 }
             }
 
+            for governorType in GovernorType.all {
+                if let governor = governors?.governor(with: governorType) {
+                    // defenseLogistics - Accumulating Strategic resources gain an additional +1 per turn.
+                    if governor.has(title: .defenseLogistics) {
+                        newResource += 1
+                    }
+                }
+            }
+
             resourceStockpile.add(weight: newResource, for: resource)
 
             // limit
@@ -2843,7 +2852,7 @@ public class Player: AbstractPlayer {
                 continue
             }
 
-            let amountOfResource = Int(self.numForCityAvailable(resource: resource))
+            let amountOfResource = Int(self.numberForCityAvailable(resource: resource))
 
             for _ in 0..<amountOfResource {
                 luxuriesToDistribute.append(resource)
@@ -4552,7 +4561,7 @@ public class Player: AbstractPlayer {
         return 0.0
     }
 
-    public func numForCityAvailable(resource: ResourceType) -> Double {
+    public func numberForCityAvailable(resource: ResourceType) -> Double {
 
         if let resourceInventory = self.resourceProduction {
             return resourceInventory.weight(of: resource) * Double(resource.amenities())

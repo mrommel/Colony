@@ -136,7 +136,7 @@
 // defenseLogistics
 "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_DEFENSE_LOGISTICS_TITLE" = "Defense Logistics";
 "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_DEFENSE_LOGISTICS_EFFECT1" = "City cannot be put under siege."; // #
-"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_DEFENSE_LOGISTICS_EFFECT2" = "Accumulating Strategic resources gain an additional +1 per turn."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_DEFENSE_LOGISTICS_EFFECT2" = "Accumulating Strategic resources gain an additional +1 per turn.";
 
 // embrasure
 "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_EMBRASURE_TITLE" = "Embrasure";
@@ -190,7 +190,7 @@
 
 // surplusLogistics
 "TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_SURPLUS_LOGISTICS_TITLE" = "Surplus Logistics";
-"TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_SURPLUS_LOGISTICS_EFFECT1" = "+20% [Food] Food Growth in the city."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_SURPLUS_LOGISTICS_EFFECT1" = "+20% [Food] Food Growth in the city.";
 "TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_SURPLUS_LOGISTICS_EFFECT2" = "Your [TradeRoute] Trade Routes ending here provide +2 [Food] Food to their starting city.";
 
 // provision
@@ -203,7 +203,7 @@
 
 // blackMarketeer
 "TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_BLACK_MARKETEER_TITLE" = "Black Marketeer";
-"TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_BLACK_MARKETEER_EFFECT1" = "Strategic resources for units are discounted 80%."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_BLACK_MARKETEER_EFFECT1" = "Strategic resources for units are discounted 80%.";
 
 // verticalIntegration
 "TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_VERTICAL_INTEGRATION_TITLE" = "Vertical Integration";
@@ -224,7 +224,7 @@
 
 // layingOnOfHands
 "TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_LAYING_ON_OF_HANDS_TITLE" = "Laying On Of Hands";
-"TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_LAYING_ON_OF_HANDS_EFFECT1" = "All Governor's units heal fully in one turn in tiles of this city."; // #
+"TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_LAYING_ON_OF_HANDS_EFFECT1" = "All Governor's units heal fully in one turn in tiles of this city.";
 
 // citadelOfGod
 "TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_CITADEL_OF_GOD_TITLE" = "Citadel of God";

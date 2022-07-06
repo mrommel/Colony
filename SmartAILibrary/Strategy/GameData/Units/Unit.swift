@@ -694,7 +694,23 @@ public class Unit: AbstractUnit {
             return
         }
 
-        self.healthPointsValue += self.healRate(at: self.location, in: gameModel)
+        var healRate = self.healRate(at: self.location, in: gameModel)
+
+        // governor effect
+        guard let unitTile = gameModel?.tile(at: self.location) else {
+            fatalError("cant get unit tile")
+        }
+
+        if let city = unitTile.workingCity() {
+            if let governor = city.governor() {
+                // layingOnOfHands - All Governor's units heal fully in one turn in tiles of this city.
+                if governor.has(title: .layingOnOfHands) {
+                    healRate = Int(Unit.maxHealth) - self.healthPointsValue
+                }
+            }
+        }
+
+        self.healthPointsValue += healRate
 
         if self.healthPointsValue > Int(Unit.maxHealth) {
             self.healthPointsValue = Int(Unit.maxHealth)
@@ -1533,6 +1549,10 @@ public class Unit: AbstractUnit {
 
                 // Ranged units that are embarked can't do a move-attack
                 if self.isRanged() && self.isEmbarked() {
+                    return false
+                }
+
+                if !unitPlayer.isAtWar(with: defenderUnit.player) && !defenderUnit.isBarbarian() {
                     return false
                 }
 
