@@ -489,8 +489,8 @@ class CityTests: XCTestCase {
 
         // THEN
         XCTAssertEqual(loyaltyBefore, 100)
-        XCTAssertEqual(loyaltyAfter, -28)
-        XCTAssertEqual(playerAfter?.leader, .freeCities)
+        XCTAssertEqual(loyaltyAfter, 74)
+        XCTAssertEqual(playerAfter?.leader, .alexander)
     }
 
     // because barracks are built
