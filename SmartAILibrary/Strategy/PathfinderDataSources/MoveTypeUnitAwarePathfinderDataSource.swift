@@ -152,12 +152,35 @@ class MoveTypeUnitAwarePathfinderDataSource: PathfinderDataSource {
                     // territory
                     if let owner = toTile.owner() {
 
-                        // we cant step into a tile that is owned by another players
+                        // we cant step into a tile that is owned by another player
                         if !player.isEqual(to: owner) && !self.options.ignoreOwner {
 
-                            // unless we are at war, the we can
-                            if !diplomacyAI.isAtWar(with: owner) {
-                                continue
+                            // https://civilization.fandom.com/wiki/Movement_(Civ6)
+                            // Civilization VI subtly changes the way borders are handled. In the beginning of the game all units may enter freely
+                            // all other civilizations' and city-states' territory. This changes only after a civ (or city-state) develops the Early Empire civic -
+                            // this civilization now understands how important is to keep watch on its borders at all times, and establishes border guards,
+                            // closing its borders. From there on, units of one civ may only enter the territory of another civ if they have granted them
+                            // Open Borders - or, in the case of a city-state, if they become its Suzerain.
+                            if player.has(civic: .earlyEmpire) {
+
+                                let atWar = diplomacyAI.isAtWar(with: owner)
+                                let openBorders = owner.isAllowsOpenBorders(with: player)
+                                let isCityState = owner.isCityState()
+
+                                if isCityState {
+                                    if case .cityState(type: let cityStateType) = owner.leader {
+                                        let isSuzerain = player.isSuzerain(of: cityStateType, in: gameModel)
+                                        if !isSuzerain {
+                                            // we cant enter this territoty
+                                            continue
+                                        }
+                                    } else {
+                                        fatalError("should be city state")
+                                    }
+                                } else if !openBorders && !atWar {
+                                    // we cant enter this territoty
+                                    continue
+                                }
                             }
                         }
                     }
