@@ -1623,7 +1623,7 @@ extension City {
 
             // Reyna + harbormaster - Double adjacency bonuses from Commercial Hubs and Harbors in the city.
             if governor.type == .reyna && governor.has(title: .harbormaster) {
-                governorModifier = 2.0
+                governorModifier += 1.0
             }
         }
 
@@ -1686,14 +1686,14 @@ extension City {
                         continue
                     }
 
-                    // Major bonus (+2 Gold) for a nearby River or a Harbor District.",
+                    // Major bonus (+2 Gold) for a nearby River or a Harbor District.
                     if neighborTile.has(district: .harbor) {
                         harborOrRiver = true
                     }
 
-                    // Major bonus (+2 Gold) for each adjacent Pamukkale tile.",
+                    // Major bonus (+2 Gold) for each adjacent Pamukkale tile.
 
-                    // Minor bonus (+½ Gold) for each nearby District.",
+                    // Minor bonus (+½ Gold) for each nearby District.
                     if neighborTile.district() != .none {
                         goldFromDistricts += 0.5 * governorModifier * policyCardCommercialHubModifier
                     }

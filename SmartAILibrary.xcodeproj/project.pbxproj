@@ -278,6 +278,7 @@
 		C9B1D2AC2436131700033791 /* Earth_Duel.Civ5Map in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D2A62436131300033791 /* Earth_Duel.Civ5Map */; };
 		C9B1D2AD2436131700033791 /* Earth_Tiny.Civ5Map in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D2A72436131400033791 /* Earth_Tiny.Civ5Map */; };
 		C9B1D2AE2436131700033791 /* Earth_Small.Civ5Map in Resources */ = {isa = PBXBuildFile; fileRef = C9B1D2A82436131700033791 /* Earth_Small.Civ5Map */; };
+		C9B1D85628771A5900DB31E3 /* GovernorEffectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D85528771A5900DB31E3 /* GovernorEffectTests.swift */; };
 		C9B6321E23DCDAB500E15A5F /* DiplomaticDealAITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B6321D23DCDAB400E15A5F /* DiplomaticDealAITests.swift */; };
 		C9BB750C246D5813004BE448 /* DiplomacyRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BB750B246D5813004BE448 /* DiplomacyRequests.swift */; };
 		C9C003BD23FEDCE00031C7F9 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C003BC23FEDCE00031C7F9 /* Operation.swift */; };
@@ -716,6 +717,7 @@
 		C9B1D2A62436131300033791 /* Earth_Duel.Civ5Map */ = {isa = PBXFileReference; lastKnownFileType = file; path = Earth_Duel.Civ5Map; sourceTree = "<group>"; };
 		C9B1D2A72436131400033791 /* Earth_Tiny.Civ5Map */ = {isa = PBXFileReference; lastKnownFileType = file; path = Earth_Tiny.Civ5Map; sourceTree = "<group>"; };
 		C9B1D2A82436131700033791 /* Earth_Small.Civ5Map */ = {isa = PBXFileReference; lastKnownFileType = file; path = Earth_Small.Civ5Map; sourceTree = "<group>"; };
+		C9B1D85528771A5900DB31E3 /* GovernorEffectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernorEffectTests.swift; sourceTree = "<group>"; };
 		C9B6321D23DCDAB400E15A5F /* DiplomaticDealAITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomaticDealAITests.swift; sourceTree = "<group>"; };
 		C9BB750B246D5813004BE448 /* DiplomacyRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomacyRequests.swift; sourceTree = "<group>"; };
 		C9C003BC23FEDCE00031C7F9 /* Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
@@ -1104,6 +1106,7 @@
 		C92317A423D62A6B001FC723 /* SmartAILibraryTests */ = {
 			isa = PBXGroup;
 			children = (
+				C9B1D85528771A5900DB31E3 /* GovernorEffectTests.swift */,
 				C907085B23ED45C200281161 /* Helpers */,
 				C9B1D2A2243612FF00033791 /* Maps */,
 				C99496912519E41E0049C2D6 /* OperationTests */,
@@ -2235,6 +2238,7 @@
 				C90D2E2F24C317990029AA11 /* AssetExtractionTests.swift in Sources */,
 				C98DBFAA23DF34ED00B6CE25 /* CityTests.swift in Sources */,
 				C900A5A9279DED9400D533B3 /* UnitPathfindingTests.swift in Sources */,
+				C9B1D85628771A5900DB31E3 /* GovernorEffectTests.swift in Sources */,
 				C92317CC23D79F2C001FC723 /* GrandStrategyAITests.swift in Sources */,
 				C9D8DF7623EF6D0B0091C917 /* DiplomacyAITests.swift in Sources */,
 				C9D78DF12590893C0024ECF0 /* ResourcePlacingTests.swift in Sources */,

@@ -90,7 +90,7 @@ public class TradeRoute: Codable {
             return false
         }
 
-        return startLeader != endLeader
+        return startLeader == endLeader
     }
 
     public func isInternational(in gameModel: GameModel?) -> Bool {
