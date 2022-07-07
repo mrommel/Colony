@@ -205,6 +205,7 @@ public protocol AbstractCity: AnyObject, Codable {
     func rangedCombatStrength(against defender: AbstractUnit?, on toTile: AbstractTile?) -> Int
     func defensiveStrength(against attacker: AbstractUnit?, on toTile: AbstractTile?, ranged: Bool, in gameModel: GameModel?) -> Int
     func doRangeAttack(at location: HexPoint, in gameModel: GameModel?) -> Bool
+    func numberOfAttacksPerTurn(in gameModel: GameModel?) -> Int
     func isOutOfAttacks(in gameModel: GameModel?) -> Bool
     func setMadeAttack(to madeAttack: Bool)
 
@@ -5328,7 +5329,7 @@ public class City: AbstractCity {
         return true
     }
 
-    func numberOfAttacksPerTurn(in gameModel: GameModel?) -> Int {
+    public func numberOfAttacksPerTurn(in gameModel: GameModel?) -> Int {
 
         var numberOfAttacksPerTurnValue: Int = 0
 

@@ -2241,7 +2241,9 @@ public class Tile: AbstractTile {
                 neighborTile.has(feature: .oasis) {
 
                 neighborGoodTerrainsCount += 1
-            } else if neighborTile.hasAnyFeature() && !neighborTile.hasAnyImprovement() {
+            }
+
+            if neighborTile.hasAnyFeature() && !neighborTile.hasAnyImprovement() {
                 // check for governor effects of reyna
                 if let city = neighborTile.workingCity() {
                     if let governor = city.governor(), governor.type == .reyna {
