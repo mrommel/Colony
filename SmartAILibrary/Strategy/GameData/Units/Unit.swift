@@ -831,7 +831,7 @@ public class Unit: AbstractUnit {
         }
 
         if let resource = unitType.requiredResource() {
-            if player.numberOfAvailable(resource: resource) < self.upgradeResourceAmount(to: unitType) {
+            if self.upgradeResourceAmount(to: unitType) > player.numberOfItemsInStockpile(of: resource) {
                 return false
             }
         }

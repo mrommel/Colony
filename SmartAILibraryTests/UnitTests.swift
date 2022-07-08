@@ -388,6 +388,7 @@ class UnitTests: XCTestCase {
         humanPlayer.initialize()
 
         humanPlayer.treasury?.changeGold(by: 1000.0)
+        humanPlayer.changeNumberOfItemsInStockpile(of: .iron, by: 1.0)
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .small, seed: 42)
 
