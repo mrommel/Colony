@@ -9,7 +9,7 @@
 import XCTest
 @testable import SmartAILibrary
 
-// swiftlint:disable inclusive_language
+// swiftlint:disable inclusive_language type_body_length
 class GovernorEffectTests: XCTestCase {
 
     var objectToTest: AbstractCity?
