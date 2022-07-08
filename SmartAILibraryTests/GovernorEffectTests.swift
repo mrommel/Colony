@@ -284,8 +284,24 @@ class GovernorEffectTests: XCTestCase {
     func testGovernorVictorDefenseLogistics() throws {
 
         // GIVEN
+        self.playerAlexander?.changeNumberOfAvailable(resource: .iron, change: 1)
+        (self.playerAlexander as? Player)?.doResourceStockpile(in: self.gameModel)
+
+        let availableIronBefore = self.playerAlexander?.numberOfItemsInStockpile(of: .iron)
+
         // WHEN
+        self.playerAlexander?.governors?.addTitle()
+        self.playerAlexander?.governors?.appoint(governor: .victor, in: self.gameModel)
+        self.objectToTest?.assign(governor: .victor)
+        self.objectToTest?.governor()?.promote(with: .defenseLogistics)
+
+        (self.playerAlexander as? Player)?.doResourceStockpile(in: self.gameModel)
+
+        let availableIronAfter = self.playerAlexander?.numberOfItemsInStockpile(of: .iron)
+
         // THEN
+        XCTAssertEqual(availableIronBefore, 1)
+        XCTAssertEqual(availableIronAfter, 3)
     }
 
     // embrasure
@@ -659,8 +675,26 @@ class GovernorEffectTests: XCTestCase {
     func testGovernorLiangZoningCommissioner() throws {
 
         // GIVEN
+        try self.playerAlexander?.techs?.discover(tech: .writing, in: self.gameModel)
+
+        self.objectToTest?.startBuilding(district: .campus, at: HexPoint(x: 3, y: 1), in: self.gameModel)
+        self.objectToTest?.doTurn(in: self.gameModel)
+
+        let productionBefore = self.objectToTest?.currentBuildableItem()?.production
+
         // WHEN
+        self.playerAlexander?.governors?.addTitle()
+        self.playerAlexander?.governors?.appoint(governor: .liang, in: self.gameModel)
+        self.objectToTest?.assign(governor: .liang)
+        self.objectToTest?.governor()?.promote(with: .zoningCommissioner)
+
+        self.objectToTest?.doTurn(in: self.gameModel)
+
+        let productionAfter = self.objectToTest?.currentBuildableItem()?.production
+
         // THEN
+        XCTAssertEqual(productionBefore, 2.0)
+        XCTAssertEqual(productionAfter, 4.4) // 4.0 without governor bonus
     }
 
     // aquaculture
