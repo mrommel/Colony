@@ -412,89 +412,306 @@ class GovernorEffectTests: XCTestCase {
 
     // groundbreaker
     // - +50% yields from plot harvests and feature removals in the city. // #
+    func testGovernorMagnusGroundbreaker() throws {
+
+        // GIVEN
+        // WHEN
+        // THEN
+    }
 
     // surplusLogistics
     // - +20% [Food] Food Growth in the city.
     // - Your [TradeRoute] Trade Routes ending here provide +2 [Food] Food to their starting city.
+    func testGovernorMagnusSurplusLogistics() throws {
+
+        // GIVEN
+        let secondCity = City(name: "Cottbus", at: HexPoint(x: 6, y: 4), owner: self.playerAlexander)
+        secondCity.initialize(in: self.gameModel)
+        self.gameModel?.add(city: secondCity)
+
+        try self.playerAlexander?.civics?.discover(civic: .foreignTrade, in: self.gameModel)
+
+        let traderPurchased = secondCity.purchase(unit: .trader, with: .gold, in: self.gameModel)
+        XCTAssertEqual(traderPurchased, true, "could not purchase trader")
+        guard let trader = self.gameModel?.units(at: HexPoint(x: 6, y: 4)).first else {
+            XCTFail("trader not found")
+            return
+        }
+
+        let tradeRouteEstablished = trader?.doEstablishTradeRoute(to: self.objectToTest, in: self.gameModel)
+        XCTAssertEqual(tradeRouteEstablished, true, "could not established trade route")
+
+        let foodBefore = self.objectToTest?.foodPerTurn(in: self.gameModel)
+        let foodTradeCityBefore = secondCity.foodPerTurn(in: self.gameModel)
+
+        // WHEN
+        self.playerAlexander?.governors?.addTitle()
+        self.playerAlexander?.governors?.appoint(governor: .magnus, in: self.gameModel)
+        self.objectToTest?.assign(governor: .magnus)
+        self.objectToTest?.governor()?.promote(with: .surplusLogistics)
+
+        let foodAfter = self.objectToTest?.foodPerTurn(in: self.gameModel)
+        let foodTradeCityAfter = secondCity.foodPerTurn(in: self.gameModel)
+
+        // THEN
+        XCTAssertEqual(foodBefore, 2.0)
+        XCTAssertEqual(foodAfter, 2.4)
+        XCTAssertEqual(foodTradeCityBefore, 3.0)
+        XCTAssertEqual(foodTradeCityAfter, 5.0)
+    }
 
     // provision
     // - Settlers trained in the city do not consume a [Citizen] Citizen Population.
+    func testGovernorMagnusProvision() throws {
+
+        // GIVEN
+        let populationBefore = self.objectToTest?.population()
+
+        // WHEN
+        self.playerAlexander?.governors?.addTitle()
+        self.playerAlexander?.governors?.appoint(governor: .magnus, in: self.gameModel)
+        self.objectToTest?.assign(governor: .magnus)
+        self.objectToTest?.governor()?.promote(with: .provision)
+
+        self.objectToTest?.purchase(unit: .settler, with: .gold, in: self.gameModel)
+        let populationAfter = self.objectToTest?.population()
+
+        // THEN
+        XCTAssertEqual(populationBefore, 12)
+        XCTAssertEqual(populationAfter, 12)
+    }
 
     // industrialist
     // - Increase the Power provided by each resource of the Coal Power Plant, Oil Power Plant and Nuclear Power Plant by 1 and the [Production] Production by 2. // #
+    func testGovernorMagnusIndustrialist() throws {
+
+        // GIVEN
+        // WHEN
+        // THEN
+    }
 
     // blackMarketeer
     // - Strategic resources for units are discounted 80%.
+    func testGovernorMagnusBlackMarketeer() throws {
+
+        // GIVEN
+        self.playerAlexander?.changeNumberOfItemsInStockpile(of: .iron, by: 2)
+        let ironBefore = self.playerAlexander?.numberOfItemsInStockpile(of: .iron)
+
+        try self.playerAlexander?.techs?.discover(tech: .ironWorking, in: self.gameModel)
+
+        // WHEN
+        self.playerAlexander?.governors?.addTitle()
+        self.playerAlexander?.governors?.appoint(governor: .magnus, in: self.gameModel)
+        self.objectToTest?.assign(governor: .magnus)
+        self.objectToTest?.governor()?.promote(with: .blackMarketeer)
+
+        let swordmanPurchased = self.objectToTest?.purchase(unit: .swordman, with: .gold, in: self.gameModel)
+        XCTAssertEqual(swordmanPurchased, true, "could not purchase swordman")
+        let ironAfter = self.playerAlexander?.numberOfItemsInStockpile(of: .iron)
+
+        // THEN
+        XCTAssertEqual(ironBefore, 2)
+        XCTAssertEqual(ironAfter, 1.8)
+    }
 
     // verticalIntegration
     // - This city receives [Production] Production from any number of Industrial Zones within 6 tiles, not just the first. // #
+    func testGovernorMagnusVerticalIntegration() throws {
+
+        // GIVEN
+        // WHEN
+        // THEN
+    }
 
     // MARK: governor Moksha tests
 
     // bishop
     // - Religious pressure to adjacent cities is 100% stronger from this city. // #
     // - +2 [Faith] Faith per specialty district in this city.
+    func testGovernorMokshaX() throws {
+
+        // GIVEN
+        try self.playerAlexander?.techs?.discover(tech: .writing, in: self.gameModel)
+
+        self.objectToTest?.purchase(district: .campus, with: .gold, at: HexPoint(x: 3, y: 1), in: self.gameModel)
+        XCTAssertEqual(self.objectToTest?.has(district: .campus), true)
+        let faithBefore = self.objectToTest?.faithPerTurn(in: self.gameModel)
+
+        // WHEN
+        self.playerAlexander?.governors?.addTitle()
+        self.playerAlexander?.governors?.appoint(governor: .moksha, in: self.gameModel)
+        self.objectToTest?.assign(governor: .moksha)
+        // self.objectToTest?.governor()?.promote(with: .bishop)
+
+        let faithAfter = self.objectToTest?.faithPerTurn(in: self.gameModel)
+
+        // THEN
+        XCTAssertEqual(faithBefore, 0)
+        XCTAssertEqual(faithAfter, 2)
+    }
 
     // grandInquisitor
     // - +10 [ReligiousStrength] Religious Strength in theological combat in tiles of this city. // #
+    func testGovernorMokshaGrandInquisitor() throws {
+
+        // GIVEN
+        // WHEN
+        // THEN
+    }
 
     // layingOnOfHands
     // - All Governor's units heal fully in one turn in tiles of this city.
+    func testGovernorMokshaLayingOnOfHands() throws {
+
+        // GIVEN
+        // WHEN
+        // THEN
+    }
 
     // citadelOfGod
     // - City ignores pressure and combat effects from Religions not founded by the Governor's player. // #
     // - Gain [Faith] Faith equal to 25% of the construction cost when finishing buildings. // #
+    func testGovernorMokshaCitadelOfGod() throws {
+
+        // GIVEN
+        // WHEN
+        // THEN
+    }
 
     // patronSaint
     // - Apostles and Warrior Monks trained in the city receive 1 extra Promotion when receiving their first promotion. // #
+    func testGovernorMokshaPatronSaint() throws {
+
+        // GIVEN
+        // WHEN
+        // THEN
+    }
 
     // divineArchitect
     // - Allows city to purchase Districts with [Faith] Faith.
+    func testGovernorMokshaDivineArchitect() throws {
+
+        // GIVEN
+        // WHEN
+        // THEN
+    }
 
     // MARK: governor Liang tests
 
     // guildmaster
     // - All Builders trained in city get +1 build charge.
+    func testGovernorLiangGuildmaster() throws {
+
+        // GIVEN
+        // WHEN
+        // THEN
+    }
 
     // zoningCommissioner
     // - +20% [Production] Production towards constructing Districts in the city.
+    func testGovernorLiangZoningCommissioner() throws {
+
+        // GIVEN
+        // WHEN
+        // THEN
+    }
 
     // aquaculture
     // - The Fishery unique improvement can be built in the city on coastal plots. // #
     // - Yields 1 [Food] Food, +1 [Food] Food for each adjacent sea resource. // #
     // - Fisheries provide +1 [Production] Production if Liang is in the city. // #
+    func testGovernorLiangAquaculture() throws {
+
+        // GIVEN
+        // WHEN
+        // THEN
+    }
 
     // reinforcedMaterials
     // - This city's improvements, buildings and Districts cannot be damaged by Environmental Effects. // #
+    func testGovernorLiangReinforcedMaterials() throws {
+
+        // GIVEN
+        // WHEN
+        // THEN
+    }
 
     // waterWorks
     // - +2 [Housing] Housing for every Neighborhood and Aqueduct district in this city.
     // - +1 [Amenity] Amenity for every Canal and Dam district in this city. // #
+    func testGovernorLiangWaterWorks() throws {
+
+        // GIVEN
+        // WHEN
+        // THEN
+    }
 
     // parksAndRecreation:
     // - The City Park unique improvement can be built in the city. // #
     // - Yields 2 Appeal and 1 [Culture] Culture. // #
     // - +1 [Amenity] Amenity if adjacent to water. // #
     // - City Parks provide 3 [Culture] Culture if Liang is in the city. // #
+    func testGovernorLiangParksAndRecreation() throws {
 
+        // GIVEN
+        // WHEN
+        // THEN
+    }
 
     // MARK: governor Pingala tests
 
     // librarian
     // - 15% increase in [Science] Science and [Culture] Culture generated by the city.
+    func testGovernorPingalaLibrarian() throws {
+
+        // GIVEN
+        // WHEN
+        // THEN
+    }
 
     // connoisseur
     // - +1 [Culture] Culture per turn for each Citizen in the city.
+    func testGovernorPingalaConnoisseur() throws {
+
+        // GIVEN
+        // WHEN
+        // THEN
+    }
 
     // researcher
     // - +1 [Science] Science per turn for each Citizen in the city.
+    func testGovernorPingalaResearcher() throws {
+
+        // GIVEN
+        // WHEN
+        // THEN
+    }
 
     // grants
     // - +100% [GreatPeople] Great People points generated per turn in the city.
+    func testGovernorPingalaGrants() throws {
+
+        // GIVEN
+        // WHEN
+        // THEN
+    }
 
     // spaceInitiative
     // - 30% [Production] Production increase to all space-program projects in the city. // #
+    func testGovernorPingalaSpaceInitiative() throws {
+
+        // GIVEN
+        // WHEN
+        // THEN
+    }
 
     // curator
     // - +100% [Tourism] Tourism from Great Works of Art, Music, and Writing in the city. // #
+    func testGovernorPingalaCurator() throws {
+
+        // GIVEN
+        // WHEN
+        // THEN
+    }
 }

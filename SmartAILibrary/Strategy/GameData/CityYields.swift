@@ -1013,12 +1013,12 @@ extension City {
                     }
                 }
             }
+        }
 
-            if let governor = self.governor() {
-                // moksha - bishop - +2 Faith per specialty district in this city.
-                if governor.type == .moksha && governor.has(title: .bishop) {
-                    faithFromDistricts += 2.0 * Double(districts.numberOfSpecialtyDistricts())
-                }
+        if let governor = self.governor() {
+            // moksha - bishop - +2 Faith per specialty district in this city.
+            if governor.type == .moksha && governor.has(title: .bishop) {
+                faithFromDistricts += 2.0 * Double(districts.numberOfSpecialtyDistricts())
             }
         }
 

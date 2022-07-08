@@ -3081,7 +3081,7 @@ public class City: AbstractCity {
                 }
             }
 
-            self.player?.changeNumberOfAvailable(resource: resource, change: cost)
+            self.player?.changeNumberOfItemsInStockpile(of: resource, by: -cost)
         }
 
         unit.set(experienceModifier: experienceModifier)

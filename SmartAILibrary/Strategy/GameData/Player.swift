@@ -281,6 +281,8 @@ public protocol AbstractPlayer: AnyObject, Codable {
 
     func numberOfAvailable(resource: ResourceType) -> Double
     func changeNumberOfAvailable(resource: ResourceType, change: Double)
+
+    func changeNumberOfItemsInStockpile(of resource: ResourceType, by change: Double)
     func numberOfItemsInStockpile(of resource: ResourceType) -> Double
     func numberOfStockpileCapacity(of resource: ResourceType) -> Double
 
@@ -4577,6 +4579,15 @@ public class Player: AbstractPlayer {
         }
 
         resourceInventory.add(weight: change, for: resource)
+    }
+
+    public func changeNumberOfItemsInStockpile(of resource: ResourceType, by change: Double) {
+
+        guard let resourceStockpile = self.resourceStockpile else {
+            fatalError("cant get resource stockpile")
+        }
+
+        resourceStockpile.add(weight: change, for: resource)
     }
 
     public func numberOfItemsInStockpile(of resource: ResourceType) -> Double {

@@ -22,7 +22,7 @@ internal class SwordmanUnitType: UnitTypeData {
             ],
             abilities: [.canCapture],
             era: .classical,
-            requiredResource: nil,
+            requiredResource: .iron,
             civilization: nil,
             unitTasks: [.attack, .defense, .explore],
             defaultTask: .attack,
