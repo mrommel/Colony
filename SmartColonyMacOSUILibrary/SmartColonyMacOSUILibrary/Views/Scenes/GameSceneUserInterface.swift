@@ -517,4 +517,9 @@ extension GameScene: UserInterfaceDelegate {
 
         return mapNode.unitLayer.animationsAreRunning(for: leader)
     }
+
+    func finish(tutorial: TutorialType) {
+
+        print("finish tutorial: \(tutorial)")
+    }
 }

@@ -293,4 +293,6 @@ public protocol UserInterfaceDelegate: AnyObject {
     func focus(on location: HexPoint)
 
     func animationsAreRunning(for leader: LeaderType) -> Bool
+
+    func finish(tutorial: TutorialType)
 }

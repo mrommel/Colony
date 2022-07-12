@@ -672,7 +672,9 @@ public class GameViewModel: ObservableObject {
                     break
 
                 case .movementAndExploration:
-                    self.genericPopupViewModel.update(with: "", and: "")
+                    let title = "TXT_KEY_TUTORIAL_MOVEMENT_EXPLORATION_TITLE".localized()
+                    let summary = "TXT_KEY_TUTORIAL_MOVEMENT_EXPLORATION_BODY".localized()
+                    self.genericPopupViewModel.update(with: title, and: summary)
 
                 case .foundFirstCity:
                     let title = "TXT_KEY_TUTORIAL_FOUND_FIRST_CITY_TITLE".localized()
@@ -680,14 +682,19 @@ public class GameViewModel: ObservableObject {
                     self.genericPopupViewModel.update(with: title, and: summary)
 
                 case .improvingCity:
-                    self.genericPopupViewModel.update(with: "", and: "")
+                    let title = "TXT_KEY_TUTORIAL_IMPROVING_CITY_TITLE".localized()
+                    let summary = "TXT_KEY_TUTORIAL_IMPROVING_CITY_BODY".localized()
+                    self.genericPopupViewModel.update(with: title, and: summary)
 
                 case .combatAndConquest:
-                    self.genericPopupViewModel.update(with: "", and: "")
+                    let title = "TXT_KEY_TUTORIAL_COMBAT_CONQUEST_TITLE".localized()
+                    let summary = "TXT_KEY_TUTORIAL_COMBAT_CONQUEST_BODY".localized()
+                    self.genericPopupViewModel.update(with: title, and: summary)
 
                 case .basicDiplomacy:
-                    self.genericPopupViewModel.update(with: "", and: "")
-
+                    let title = "TXT_KEY_TUTORIAL_BASIC_DIPLOMACY_TITLE".localized()
+                    let summary = "TXT_KEY_TUTORIAL_BASIC_DIPLOMACY_BODY".localized()
+                    self.genericPopupViewModel.update(with: title, and: summary)
                 }
 
             case .tutorialCityAttack(attacker: _, city: _):

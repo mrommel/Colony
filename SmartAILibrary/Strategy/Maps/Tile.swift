@@ -1304,6 +1304,13 @@ public class Tile: AbstractTile {
         if !self.isDiscovered(by: player) {
 
             self.discovered.discover(by: player)
+
+            if gameModel?.tutorialInfos() == .movementAndExploration && player.isHuman() {
+                let numberOfDiscoveredPlots = player.numberOfDiscoveredPlots(in: gameModel)
+                if numberOfDiscoveredPlots >= 50 {
+                    gameModel?.userInterface?.finish(tutorial: .movementAndExploration)
+                }
+            }
         }
     }
 

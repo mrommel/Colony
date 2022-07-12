@@ -76,6 +76,8 @@ class TestUI: UserInterfaceDelegate {
     func animationsAreRunning(for leader: LeaderType) -> Bool {
         return true
     }
+
+    func finish(tutorial: TutorialType) {}
 }
 
 // swiftlint:disable force_try type_body_length

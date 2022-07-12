@@ -278,6 +278,7 @@ public protocol AbstractPlayer: AnyObject, Codable {
     func addPlot(at point: HexPoint)
     func buyPlotCost() -> Int
     func changeNumPlotsBought(change: Int)
+    func numberOfDiscoveredPlots(in gameModel: GameModel?) -> Int
 
     func numberOfAvailable(resource: ResourceType) -> Double
     func changeNumberOfAvailable(resource: ResourceType, change: Double)
@@ -4559,6 +4560,28 @@ public class Player: AbstractPlayer {
     public func changeNumPlotsBought(change: Int) {
 
         self.numPlotsBoughtValue += change
+    }
+
+    public func numberOfDiscoveredPlots(in gameModel: GameModel?) -> Int {
+
+        guard let gameModel = gameModel else {
+            return 0
+        }
+
+        var number: Int = 0
+
+        for loopPoint in gameModel.points() {
+
+            guard let loopTile = gameModel.tile(at: loopPoint) else {
+                continue
+            }
+
+            if loopTile.isDiscovered(by: self) {
+                number += 1
+            }
+        }
+
+        return number
     }
 
     public func numberOfAvailable(resource: ResourceType) -> Double {

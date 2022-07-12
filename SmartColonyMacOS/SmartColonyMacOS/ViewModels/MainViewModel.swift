@@ -216,9 +216,21 @@ extension MainViewModel: MenuViewModelDelegate {
 
 extension MainViewModel: TutorialsViewModelDelegate {
 
+    private func generateMovementAndExploration() -> GameModel? {
+
+        let mapOptions = MapOptions(withSize: MapSize.duel, type: .continents, leader: .alexander, handicap: .settler, seed: 42)
+
+        let generator = MapGenerator(with: mapOptions)
+        let map = generator.generate()
+
+        let tutorialGenerator = TutorialGenerator()
+        let gameModel = tutorialGenerator.generate(tutorial: .movementAndExploration, on: map, with: .alexander, on: .settler)
+
+        return gameModel
+    }
+
     private func generateFoundFirstCity() -> GameModel? {
 
-        // generate map
         let mapOptions = MapOptions(withSize: MapSize.duel, type: .continents, leader: .alexander, handicap: .settler, seed: 42)
 
         let generator = MapGenerator(with: mapOptions)
@@ -238,7 +250,7 @@ extension MainViewModel: TutorialsViewModelDelegate {
             return nil
 
         case .movementAndExploration:
-            return nil
+            return self.generateMovementAndExploration()
         case .foundFirstCity:
             return self.generateFoundFirstCity()
         case .improvingCity:

@@ -75,4 +75,6 @@ class TestUI: UserInterfaceDelegate {
     func focus(on location: HexPoint) {}
 
     func animationsAreRunning(for leader: LeaderType) -> Bool { return false }
+
+    func finish(tutorial: TutorialType) {}
 }

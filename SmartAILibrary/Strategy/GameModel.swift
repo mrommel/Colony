@@ -2031,6 +2031,10 @@ open class GameModel: Codable {
                     continue
                 }
 
+                guard !tile.isDiscovered(by: player) else {
+                    continue
+                }
+
                 // inform the player about a goody hut
                 if tile.has(improvement: .goodyHut) && !tile.isDiscovered(by: player) {
 
@@ -2103,13 +2107,30 @@ open class GameModel: Codable {
         }
     }
 
-    func discover(at location: HexPoint, sight: Int, for player: AbstractPlayer?) {
+    func discover(at location: HexPoint, sight: Int, for playerRef: AbstractPlayer?) {
+
+        guard let player = playerRef else {
+            fatalError("cant get player")
+        }
+
+        guard let currentTile = self.tile(at: location) else {
+            fatalError("cant get current location")
+        }
 
         for pt in location.areaWith(radius: sight) {
 
             if let tile = self.tile(at: pt) {
+
+                guard tile.canSee(tile: currentTile, for: playerRef, range: sight, hasSentry: false, in: self) else {
+                    continue
+                }
+
+                guard !tile.isDiscovered(by: player) else {
+                    continue
+                }
+
                 tile.discover(by: player, in: self)
-                player?.checkWorldCircumnavigated(in: self)
+                player.checkWorldCircumnavigated(in: self)
                 self.checkDiscovered(continent: self.continent(at: pt)?.type() ?? ContinentType.none, at: pt, for: player)
                 self.userInterface?.refresh(tile: tile)
             }
