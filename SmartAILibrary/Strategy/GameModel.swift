@@ -26,6 +26,17 @@ public enum GameStateType: Int, Codable {
     case extended
 }
 
+public enum TutorialType: String, Codable {
+
+    case none
+
+    case movementAndExploration
+    case foundFirstCity
+    case improvingCity
+    case combatAndConquest
+    case basicDiplomacy
+}
+
 // swiftlint:disable type_body_length
 open class GameModel: Codable {
 
@@ -56,7 +67,7 @@ open class GameModel: Codable {
         case spawnedArchaeologySites
         case worldEra
 
-        case showTutorialInfos
+        case tutorialInfos
     }
 
     public let victoryTypes: [VictoryType]
@@ -89,7 +100,7 @@ open class GameModel: Codable {
     private var spawnedArchaeologySites: Bool
     private var worldEraValue: EraType = .ancient
 
-    private var showTutorialInfosValue: Bool = false
+    private var tutorialInfosValue: TutorialType = .none
 
     public init(victoryTypes: [VictoryType], handicap: HandicapType, turnsElapsed: Int, players: [AbstractPlayer], on map: MapModel) {
 
@@ -172,7 +183,7 @@ open class GameModel: Codable {
         self.spawnedArchaeologySites = try container.decodeIfPresent(Bool.self, forKey: .spawnedArchaeologySites) ?? false
         self.worldEraValue = try container.decode(EraType.self, forKey: .worldEra)
 
-        self.showTutorialInfosValue = try container.decode(Bool.self, forKey: .showTutorialInfos)
+        self.tutorialInfosValue = try container.decodeIfPresent(TutorialType.self, forKey: .tutorialInfos) ?? .none
 
         // setup
         self.tacticalAnalysisMapVal = TacticalAnalysisMap(with: self.map.size)
@@ -285,7 +296,7 @@ open class GameModel: Codable {
         try container.encode(self.spawnedArchaeologySites, forKey: .spawnedArchaeologySites)
         try container.encode(self.worldEraValue, forKey: .worldEra)
 
-        try container.encode(self.showTutorialInfosValue, forKey: .showTutorialInfos)
+        try container.encode(self.tutorialInfosValue, forKey: .tutorialInfos)
     }
 
     public func seed() -> Int {
@@ -293,14 +304,19 @@ open class GameModel: Codable {
         return self.map.seed()
     }
 
-    public func enableTutorials() {
+    public func enable(tutorial: TutorialType) {
 
-        self.showTutorialInfosValue = true
+        self.tutorialInfosValue = tutorial
     }
 
     public func showTutorialInfos() -> Bool {
 
-        return self.showTutorialInfosValue
+        return self.tutorialInfosValue != .none
+    }
+
+    public func tutorialInfos() -> TutorialType {
+
+        return self.tutorialInfosValue
     }
 
     public func update() {

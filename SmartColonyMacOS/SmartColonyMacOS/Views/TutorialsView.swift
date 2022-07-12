@@ -25,17 +25,7 @@ struct TutorialsView: View {
 
             Divider()
 
-            Button("TXT_KEY_FOUND_FIRST_CITY".localized()) {
-                self.viewModel.startFoundFirstCity()
-            }
-            .buttonStyle(GameButtonStyle())
-            .padding(.top, 20)
-
-            Button("TXT_KEY_GOTO_WAR".localized()) {
-                self.viewModel.startGotoWar()
-            }
-            .buttonStyle(GameButtonStyle())
-            .padding(.top, 20)
+            self.tutorialButtonsView
 
             Divider()
 
@@ -48,6 +38,41 @@ struct TutorialsView: View {
             }
 
             Spacer(minLength: 1)
+        }
+    }
+
+    var tutorialButtonsView: some View {
+
+        VStack {
+            Button("TXT_KEY_TUTORIAL_MOVEMENT_EXPLORATION_TITLE".localized()) {
+                self.viewModel.startMovementExploration()
+            }
+            .buttonStyle(GameButtonStyle())
+            .padding(.top, 10)
+
+            Button("TXT_KEY_TUTORIAL_FOUND_FIRST_CITY_TITLE".localized()) {
+                self.viewModel.startFoundFirstCity()
+            }
+            .buttonStyle(GameButtonStyle())
+            .padding(.top, 10)
+
+            Button("TXT_KEY_TUTORIAL_IMPROVING_CITY_TITLE".localized()) {
+                self.viewModel.startImprovingCity()
+            }
+            .buttonStyle(GameButtonStyle())
+            .padding(.top, 10)
+
+            Button("TXT_KEY_TUTORIAL_COMBAT_CONQUEST_TITLE".localized()) {
+                self.viewModel.startCombatAndConquest()
+            }
+            .buttonStyle(GameButtonStyle())
+            .padding(.top, 10)
+
+            Button("TXT_KEY_TUTORIAL_BASIC_DIPLOMACY_TITLE".localized()) {
+                self.viewModel.startBasicDiplomacy()
+            }
+            .buttonStyle(GameButtonStyle())
+            .padding(.top, 10)
         }
     }
 }

@@ -38,6 +38,8 @@ public enum PopupType {
 
     case questFulfilled(cityState: CityStateType, quest: CityStateQuestType)
 
+    // tutorial popups
+    case tutorialStart(tutorial: TutorialType)
     case tutorialCityAttack(attacker: AbstractUnit?, city: AbstractCity?)
     case tutorialBadUnitAttack(attacker: AbstractUnit?, defender: AbstractUnit?)
 }

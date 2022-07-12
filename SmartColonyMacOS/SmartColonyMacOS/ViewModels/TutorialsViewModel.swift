@@ -6,12 +6,7 @@
 //
 
 import SmartAssets
-
-enum TutorialType {
-
-    case foundFirstCity
-    case gotoWar
-}
+import SmartAILibrary
 
 protocol TutorialsViewModelDelegate: AnyObject {
 
@@ -27,14 +22,29 @@ class TutorialsViewModel: ObservableObject {
 
     }
 
+    func startMovementExploration() {
+
+        self.delegate?.started(tutorial: .movementAndExploration)
+    }
+
     func startFoundFirstCity() {
 
         self.delegate?.started(tutorial: .foundFirstCity)
     }
 
-    func startGotoWar() {
+    func startImprovingCity() {
 
-        self.delegate?.started(tutorial: .gotoWar)
+        self.delegate?.started(tutorial: .improvingCity)
+    }
+
+    func startCombatAndConquest() {
+
+        self.delegate?.started(tutorial: .combatAndConquest)
+    }
+
+    func startBasicDiplomacy() {
+
+        self.delegate?.started(tutorial: .basicDiplomacy)
     }
 
     func cancel() {

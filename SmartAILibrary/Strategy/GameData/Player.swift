@@ -2293,6 +2293,13 @@ public class Player: AbstractPlayer {
                 self.doTurnUnits(in: gameModel)
             }
         }
+
+        if gameModel.currentTurn == 1 && gameModel.showTutorialInfos() {
+
+            if self.isHuman() {
+                gameModel.userInterface?.showPopup(popupType: .tutorialStart(tutorial: gameModel.tutorialInfos()))
+            }
+        }
     }
 
     public func endTurn(in gameModel: GameModel?) {

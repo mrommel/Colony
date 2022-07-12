@@ -26,7 +26,6 @@
 "TXT_KEY_QUIT_CONFIRM" = "Do you really want to quit?";
 "TXT_KEY_PEDIA" = "Pedia";
 "TXT_KEY_DEBUG" = "Debug";
-"TXT_KEY_TUTORIALS" = "Tutorials";
 "TXT_KEY_RESUME_GAME" = "Resume Game";
 "TXT_KEY_NEW_GAME" = "New Game";
 "TXT_KEY_LOAD_GAME" = "Load Game";
@@ -195,6 +194,15 @@
 
 
 // tutorial texts
+
+"TXT_KEY_TUTORIALS" = "Tutorials";
+
+"TXT_KEY_TUTORIAL_MOVEMENT_EXPLORATION_TITLE" = "Movement and Exploration";
+"TXT_KEY_TUTORIAL_FOUND_FIRST_CITY_TITLE" = "Founding Cities";
+"TXT_KEY_TUTORIAL_FOUND_FIRST_CITY_BODY" = "Cities should be founded in locations with plenty of food and production and with access to resources such as wheat, fish, and cattle. Cities founded on hills gain a defensive bonus, making it harder for enemies to capture them. It's often a good idea to build a city on a river or coastal tile, as cities built in different locations have different starting yields:\n* Cities on hills: +1 [Production] Production.\n* Cities on fresh water: +1 [Food] Food. \n* Cities without fresh water or hills: +1 [Gold] Gold.\n\nMany Yields, especially those from Policies, Beliefs, and Buildings, state that they 'Scale with Era'";
+"TXT_KEY_TUTORIAL_IMPROVING_CITY_TITLE" = "Improving Cities";
+"TXT_KEY_TUTORIAL_COMBAT_CONQUEST_TITLE" = "Combat and Conquest";
+"TXT_KEY_TUTORIAL_BASIC_DIPLOMACY_TITLE" = "Basic Diplomacy";
 
 "TXT_KEY_ADVISOR_CITY_ATTACK_DISPLAY" = "Attacking cities";
 "TXT_KEY_ADVISOR_CITY_ATTACK_BODY" = "Cities are formidable targets that often require 4 or more units to capture. When you attack them they will damage your attacking units. Cities also have a bombing attack weapon which will be used against any besiegers. Are you sure you want to continue the attack?";

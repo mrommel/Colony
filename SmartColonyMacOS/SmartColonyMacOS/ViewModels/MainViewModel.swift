@@ -225,28 +225,51 @@ extension MainViewModel: TutorialsViewModelDelegate {
         let map = generator.generate()
 
         let gameGenerator = GameGenerator()
-        let game = gameGenerator.generate(map: map, with: .alexander, on: .settler)
+        let gameModel = gameGenerator.generate(map: map, with: .alexander, on: .settler)
 
-        return game
+        return gameModel
     }
 
     private func generate(tutorial: TutorialType) -> GameModel? {
 
         switch tutorial {
+
+        case .none:
+            return nil
+
+        case .movementAndExploration:
+            return nil
         case .foundFirstCity:
             return self.generateFoundFirstCity()
-        case .gotoWar:
+        case .improvingCity:
+            return nil
+        case .combatAndConquest:
+            return nil
+        case .basicDiplomacy:
             return nil
         }
     }
 
     func started(tutorial: TutorialType) {
 
-        if let gameModel = self.generate(tutorial: tutorial) {
-            self.prepared(game: gameModel)
-        } else {
-            print("could not generate tutorial: \(tutorial)")
-            self.canceled()
+        self.presentedView = .loadingGame
+        self.mapMenuDisabled = false
+
+        DispatchQueue.global(qos: .userInitiated).async {
+
+            guard let gameModel = self.generate(tutorial: tutorial) else {
+                print("could not generate tutorial: \(tutorial)")
+                DispatchQueue.main.async {
+                    self.canceled()
+                }
+                return
+            }
+
+            gameModel.enable(tutorial: tutorial)
+
+            DispatchQueue.main.async {
+                self.created(game: gameModel)
+            }
         }
     }
 }

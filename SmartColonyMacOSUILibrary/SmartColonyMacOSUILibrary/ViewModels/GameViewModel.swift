@@ -663,6 +663,33 @@ public class GameViewModel: ObservableObject {
                     .localizedWithFormat(with: [quest.summary().localized(), cityState.name().localized()])
                 self.genericPopupViewModel.update(with: title, and: summary)
 
+            case .tutorialStart(tutorial: let tutorial):
+
+                switch tutorial {
+
+                case .none:
+                    // NOOP
+                    break
+
+                case .movementAndExploration:
+                    self.genericPopupViewModel.update(with: "", and: "")
+
+                case .foundFirstCity:
+                    let title = "TXT_KEY_TUTORIAL_FOUND_FIRST_CITY_TITLE".localized()
+                    let summary = "TXT_KEY_TUTORIAL_FOUND_FIRST_CITY_BODY".localized()
+                    self.genericPopupViewModel.update(with: title, and: summary)
+
+                case .improvingCity:
+                    self.genericPopupViewModel.update(with: "", and: "")
+
+                case .combatAndConquest:
+                    self.genericPopupViewModel.update(with: "", and: "")
+
+                case .basicDiplomacy:
+                    self.genericPopupViewModel.update(with: "", and: "")
+
+                }
+
             case .tutorialCityAttack(attacker: _, city: _):
                 let title = "TXT_KEY_ADVISOR_CITY_ATTACK_DISPLAY".localized()
                 let summary = "TXT_KEY_ADVISOR_CITY_ATTACK_BODY".localized()
