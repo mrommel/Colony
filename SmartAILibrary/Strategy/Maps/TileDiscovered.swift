@@ -147,7 +147,8 @@ class TileDiscovered: Codable {
         if let item = self.items.first(where: { $0.leader == player?.leader }) {
             item.sighted += 1
         } else {
-            self.items.append(TileDiscoveredItem(by: player!.leader, discovered: true, sighted: true))
+            fatalError("this should not happen - a tile must be discovered before it can be sighted")
+            // self.items.append(TileDiscoveredItem(by: player!.leader, discovered: true, sighted: true))
         }
     }
 

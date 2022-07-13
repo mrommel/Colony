@@ -2031,10 +2031,6 @@ open class GameModel: Codable {
                     continue
                 }
 
-                guard !tile.isDiscovered(by: player) else {
-                    continue
-                }
-
                 // inform the player about a goody hut
                 if tile.has(improvement: .goodyHut) && !tile.isDiscovered(by: player) {
 
@@ -2098,8 +2094,8 @@ open class GameModel: Codable {
                     }
                 }
 
-                tile.sight(by: player)
                 tile.discover(by: player, in: self)
+                tile.sight(by: player)
                 player.checkWorldCircumnavigated(in: self)
                 self.checkDiscovered(continent: self.continent(at: areaPoint)?.type() ?? ContinentType.none, at: areaPoint, for: player)
                 self.userInterface?.refresh(tile: tile)
@@ -2141,7 +2137,7 @@ open class GameModel: Codable {
     ///
     /// - Parameters:
     ///   - continent: continent to check
-    ///   - player: player to trigger the moment for
+    ///   - player: player to check and trigger the moment for
     public func checkDiscovered(continent continentType: ContinentType, at location: HexPoint, for player: AbstractPlayer?) {
 
         guard let player = player else {
