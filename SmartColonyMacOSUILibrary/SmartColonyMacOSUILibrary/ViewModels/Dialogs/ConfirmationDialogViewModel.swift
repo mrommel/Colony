@@ -25,7 +25,7 @@ class ConfirmationDialogViewModel: ObservableObject {
     var okayText: String
 
     @Published
-    var cancelText: String
+    var cancelText: String?
 
     weak var delegate: GameViewModelDelegate?
 
@@ -38,7 +38,7 @@ class ConfirmationDialogViewModel: ObservableObject {
     }
 
 #if DEBUG
-    init(title: String, question: String, confirm: String, cancel: String) {
+    init(title: String, question: String, confirm: String, cancel: String?) {
 
         self.title = title
         self.question = question
@@ -47,7 +47,7 @@ class ConfirmationDialogViewModel: ObservableObject {
     }
 #endif
 
-    func update(title: String, question: String, confirm: String, cancel: String, completion: @escaping CompletionBlock) {
+    func update(title: String, question: String, confirm: String, cancel: String?, completion: @escaping CompletionBlock) {
 
         self.title = title
         self.question = question

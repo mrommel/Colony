@@ -215,7 +215,7 @@ extension GameScene: UserInterfaceDelegate {
         // print("select civic \(civic)")
     }
 
-    func askForConfirmation(title: String, question: String, confirm: String = "Yes", cancel: String = "No", completion: @escaping (Bool) -> Void) {
+    func askForConfirmation(title: String, question: String, confirm: String = "Yes", cancel: String? = nil, completion: @escaping (Bool) -> Void) {
 
         self.viewModel?.delegate?.showConfirmationDialog(
             title: title,
@@ -520,6 +520,40 @@ extension GameScene: UserInterfaceDelegate {
 
     func finish(tutorial: TutorialType) {
 
-        print("finish tutorial: \(tutorial)")
+        guard let gameModel = self.viewModel?.gameModel else {
+            return
+        }
+
+        print("tutorial: \(tutorial) finished")
+
+        switch tutorial {
+
+        case .none:
+            fatalError("cant finish 'none' tutorial")
+
+        case .movementAndExploration:
+            let title = "Congratulations"
+            let body = "You have discovered 50 tiles. You may continue with the next tutorial: Founding you first city"
+            gameModel.userInterface?.askForConfirmation(
+                title: title,
+                question: body,
+                confirm: "TXT_KEY_OKAY".localized(),
+                cancel: "TXT_KEY_CANCEL".localized(),
+                completion: { _ in
+                    self.viewModel?.delegate?.closeGame()
+                })
+
+        case .foundFirstCity:
+            fatalError("not implemented")
+
+        case .improvingCity:
+            fatalError("not implemented")
+
+        case .combatAndConquest:
+            fatalError("not implemented")
+
+        case .basicDiplomacy:
+            fatalError("not implemented")
+        }
     }
 }

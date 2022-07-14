@@ -135,7 +135,7 @@ protocol GameViewModelDelegate: AnyObject {
         title: String,
         question: String,
         confirm: String,
-        cancel: String,
+        cancel: String?,
         completion: @escaping (Bool) -> Void
     )
     func showSelectionDialog(

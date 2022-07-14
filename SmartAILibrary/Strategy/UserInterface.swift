@@ -259,7 +259,7 @@ public protocol UserInterfaceDelegate: AnyObject {
         title: String,
         question: String,
         confirm: String,
-        cancel: String,
+        cancel: String?, // if nil, not set
         completion: @escaping (Bool) -> Void
     )
     func askForCity(
