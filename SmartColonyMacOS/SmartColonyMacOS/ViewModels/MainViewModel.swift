@@ -149,7 +149,29 @@ extension MainViewModel: MenuViewModelDelegate {
         self.mapMenuDisabled = true
     }
 
+    func canResumeGame() -> Bool {
+
+        let fileManager = FileManager.default
+        let directory = NSTemporaryDirectory()
+        let fileName = "current.clny"
+
+        // This returns a URL? even though it is an NSURL class method
+        let fullURL = NSURL.fileURL(withPathComponents: [directory, fileName])
+
+        if let filePath = fullURL?.path {
+            if fileManager.fileExists(atPath: filePath) {
+                return true
+            }
+        }
+
+        return false
+    }
+
     func resumeGame() {
+
+        guard self.canResumeGame() else {
+            return
+        }
 
         self.presentedView = .loadingGame
         self.mapMenuDisabled = false
@@ -211,6 +233,7 @@ extension MainViewModel: MenuViewModelDelegate {
 
     func showOptions() {
 
+        print("not implemented yet")
     }
 }
 
@@ -236,8 +259,47 @@ extension MainViewModel: TutorialsViewModelDelegate {
         let generator = MapGenerator(with: mapOptions)
         let map = generator.generate()
 
-        let gameGenerator = GameGenerator()
-        let gameModel = gameGenerator.generate(map: map, with: .alexander, on: .settler)
+        let tutorialGenerator = TutorialGenerator()
+        let gameModel = tutorialGenerator.generate(tutorial: .foundFirstCity, on: map, with: .alexander, on: .settler)
+
+        return gameModel
+    }
+
+    private func generateImprovingCity() -> GameModel? {
+
+        let mapOptions = MapOptions(withSize: MapSize.duel, type: .continents, leader: .alexander, handicap: .settler, seed: 42)
+
+        let generator = MapGenerator(with: mapOptions)
+        let map = generator.generate()
+
+        let tutorialGenerator = TutorialGenerator()
+        let gameModel = tutorialGenerator.generate(tutorial: .improvingCity, on: map, with: .alexander, on: .settler)
+
+        return gameModel
+    }
+
+    private func generateCombatAndConquest() -> GameModel? {
+
+        let mapOptions = MapOptions(withSize: MapSize.duel, type: .continents, leader: .alexander, handicap: .settler, seed: 42)
+
+        let generator = MapGenerator(with: mapOptions)
+        let map = generator.generate()
+
+        let tutorialGenerator = TutorialGenerator()
+        let gameModel = tutorialGenerator.generate(tutorial: .combatAndConquest, on: map, with: .alexander, on: .settler)
+
+        return gameModel
+    }
+
+    private func generateBasicDiplomacy() -> GameModel? {
+
+        let mapOptions = MapOptions(withSize: MapSize.duel, type: .continents, leader: .alexander, handicap: .settler, seed: 42)
+
+        let generator = MapGenerator(with: mapOptions)
+        let map = generator.generate()
+
+        let tutorialGenerator = TutorialGenerator()
+        let gameModel = tutorialGenerator.generate(tutorial: .basicDiplomacy, on: map, with: .alexander, on: .settler)
 
         return gameModel
     }
@@ -254,11 +316,11 @@ extension MainViewModel: TutorialsViewModelDelegate {
         case .foundFirstCity:
             return self.generateFoundFirstCity()
         case .improvingCity:
-            return nil
+            return self.generateImprovingCity()
         case .combatAndConquest:
-            return nil
+            return self.generateCombatAndConquest()
         case .basicDiplomacy:
-            return nil
+            return self.generateBasicDiplomacy()
         }
     }
 

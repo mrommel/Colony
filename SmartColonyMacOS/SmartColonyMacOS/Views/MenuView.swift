@@ -33,7 +33,7 @@ struct MenuView: View {
 
                     Button("TXT_KEY_RESUME_GAME".localized()) {
                         self.viewModel.resumeGame()
-                    }.buttonStyle(GameButtonStyle())
+                    }.buttonStyle(GameButtonStyle(state: self.viewModel.canResumeGame() ? .normal : .disabled))
 
                     Button("TXT_KEY_NEW_GAME".localized()) {
                         self.viewModel.startNewGame()

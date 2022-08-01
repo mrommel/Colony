@@ -10,6 +10,7 @@ import SmartAssets
 
 public enum GameButtonState {
 
+    case disabled
     case normal
     case highlighted
 
@@ -21,6 +22,11 @@ public struct GameButtonStyle: ButtonStyle {
 
     let state: GameButtonState
 
+    public init() {
+
+        self.state = .normal
+    }
+
     public init(state: GameButtonState = .normal) {
 
         self.state = state
@@ -30,6 +36,9 @@ public struct GameButtonStyle: ButtonStyle {
 
         switch self.state {
 
+        case .disabled:
+            return ImageCache.shared.image(for: "grid9-button-disabled")
+
         case .normal, .text, .reply:
             // return ImageCache.shared.image(for: pressed ? "grid9-button-active" : "grid9-button-clicked")
             return ImageCache.shared.image(for: "grid9-button-clicked")
@@ -37,7 +46,6 @@ public struct GameButtonStyle: ButtonStyle {
         case .highlighted:
             // return ImageCache.shared.image(for: pressed ? "grid9-button-active" : "grid9-button-highlighted")
             return ImageCache.shared.image(for: "grid9-button-highlighted")
-
         }
     }
 
@@ -45,6 +53,8 @@ public struct GameButtonStyle: ButtonStyle {
 
         switch self.state {
 
+        case .disabled:
+            return .headline
         case .normal:
             return .headline
         case .highlighted:
@@ -60,6 +70,8 @@ public struct GameButtonStyle: ButtonStyle {
 
         switch self.state {
 
+        case .disabled:
+            return 200
         case .normal:
             return 200
         case .highlighted:
@@ -75,6 +87,8 @@ public struct GameButtonStyle: ButtonStyle {
 
         switch self.state {
 
+        case .disabled:
+            return 24
         case .normal:
             return 24
         case .highlighted:

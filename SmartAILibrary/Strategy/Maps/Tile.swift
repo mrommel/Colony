@@ -1309,6 +1309,7 @@ public class Tile: AbstractTile {
                 let numberOfDiscoveredPlots = player.numberOfDiscoveredPlots(in: gameModel)
                 if numberOfDiscoveredPlots >= 50 {
                     gameModel?.userInterface?.finish(tutorial: .movementAndExploration)
+                    gameModel?.enable(tutorial: .none)
                 }
             }
         }
