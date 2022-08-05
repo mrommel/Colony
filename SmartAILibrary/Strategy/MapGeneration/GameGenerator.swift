@@ -57,26 +57,9 @@ public class GameGenerator: GenericGenerator {
 
             // units
             if startLocation.isHuman {
-                let settlerUnit = Unit(at: startLocation.point, type: .settler, owner: player)
-                units.append(settlerUnit)
-
-                let warriorUnit = Unit(at: startLocation.point, type: .warrior, owner: player)
-                units.append(warriorUnit)
-
-                let builderUnit = Unit(at: startLocation.point, type: .builder, owner: player)
-                units.append(builderUnit)
+                self.allocate(units: &units, at: startLocation.point, of: handicap.freeHumanStartingUnitTypes(), for: player)
             } else {
-                for unitType in handicap.freeAIStartingUnitTypes() {
-
-                    let unit = Unit(at: startLocation.point, type: unitType, owner: player)
-                    units.append(unit)
-                }
-            }
-
-            // debug
-            if startLocation.isHuman {
-                // print("remove me - this is cheating")
-                // MapUtils.discover(mapModel: &map, by: player)
+                self.allocate(units: &units, at: startLocation.point, of: handicap.freeAIStartingUnitTypes(), for: player)
             }
         }
 
@@ -87,11 +70,7 @@ public class GameGenerator: GenericGenerator {
             cityStatePlayer.initialize()
             players.insert(cityStatePlayer, at: 1)
 
-            let settlerUnit = Unit(at: startLocation.point, type: .settler, owner: cityStatePlayer)
-            units.append(settlerUnit)
-
-            let warriorUnit = Unit(at: startLocation.point, type: .warrior, owner: cityStatePlayer)
-            units.append(warriorUnit)
+            self.allocate(units: &units, at: startLocation.point, of: self.freeCityStateStartingUnitTypes(), for: cityStatePlayer)
         }
 
         let gameModel = GameModel(victoryTypes: [VictoryType.cultural], handicap: handicap, turnsElapsed: 0, players: players, on: map!)

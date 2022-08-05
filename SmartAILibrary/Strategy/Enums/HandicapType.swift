@@ -161,6 +161,29 @@ public enum HandicapType: Int, Codable {
         }
     }
 
+    public func freeHumanStartingUnitTypes() -> [UnitType] {
+
+        switch self {
+
+        case .settler:
+            return [.settler, .warrior, .warrior, .builder]
+        case .chieftain:
+            return [.settler, .warrior, .builder]
+        case .warlord:
+            return [.settler, .warrior, .builder]
+        case .prince:
+            return [.settler, .warrior]
+        case .king:
+            return [.settler, .warrior]
+        case .emperor:
+            return [.settler, .settler]
+        case .immortal:
+            return [.settler, .settler]
+        case .deity:
+            return [.settler, .settler]
+        }
+    }
+
     public func freeAIStartingUnitTypes() -> [UnitType] {
 
         switch self {

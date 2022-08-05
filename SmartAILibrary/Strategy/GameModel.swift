@@ -26,17 +26,6 @@ public enum GameStateType: Int, Codable {
     case extended
 }
 
-public enum TutorialType: String, Codable {
-
-    case none
-
-    case movementAndExploration
-    case foundFirstCity
-    case improvingCity
-    case combatAndConquest
-    case basicDiplomacy
-}
-
 // swiftlint:disable type_body_length
 open class GameModel: Codable {
 
