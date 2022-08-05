@@ -532,19 +532,30 @@ extension GameScene: UserInterfaceDelegate {
             fatalError("cant finish 'none' tutorial")
 
         case .movementAndExploration:
-            let title = "Congratulations"
-            let body = "You have discovered 50 tiles. You may continue with the next tutorial: Founding you first city"
             gameModel.userInterface?.askForConfirmation(
-                title: title,
-                question: body,
+                title: "TXT_KEY_TUTORIALS_MOVEMENT_EXPLORATION_CONGRATULATION".localized(),
+                question: "TXT_KEY_TUTORIALS_MOVEMENT_EXPLORATION_SUCCESS"
+                    .localizedWithFormat(with: [Tutorials.MovementAndExplorationTutorial.tilesToDiscover]),
                 confirm: "TXT_KEY_OKAY".localized(),
                 cancel: "TXT_KEY_CANCEL".localized(),
                 completion: { _ in
-                    self.viewModel?.delegate?.closeGame()
-                })
+                    UserDefaults.standard.set(true, forKey: Tutorials.MovementAndExplorationTutorial.userHasFinished)
+                    self.viewModel?.delegate?.closeGameAndShowTutorials()
+                }
+            )
 
         case .foundFirstCity:
-            fatalError("not implemented")
+            gameModel.userInterface?.askForConfirmation(
+                title: "TXT_KEY_TUTORIALS_FOUND_FIRST_CITY_CONGRATULATION".localized(),
+                question: "TXT_KEY_TUTORIALS_FOUND_FIRST_CITY_SUCCESS"
+                    .localizedWithFormat(with: [Tutorials.FoundFirstCityTutorial.citiesToFound]),
+                confirm: "TXT_KEY_OKAY".localized(),
+                cancel: "TXT_KEY_CANCEL".localized(),
+                completion: { _ in
+                    UserDefaults.standard.set(true, forKey: Tutorials.FoundFirstCityTutorial.userHasFinished)
+                    self.viewModel?.delegate?.closeGameAndShowTutorials()
+                }
+            )
 
         case .improvingCity:
             fatalError("not implemented")

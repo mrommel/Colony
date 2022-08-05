@@ -1307,7 +1307,7 @@ public class Tile: AbstractTile {
 
             if gameModel?.tutorialInfos() == .movementAndExploration && player.isHuman() {
                 let numberOfDiscoveredPlots = player.numberOfDiscoveredPlots(in: gameModel)
-                if numberOfDiscoveredPlots >= 50 {
+                if numberOfDiscoveredPlots >= Tutorials.MovementAndExplorationTutorial.tilesToDiscover {
                     gameModel?.userInterface?.finish(tutorial: .movementAndExploration)
                     gameModel?.enable(tutorial: .none)
                 }

@@ -434,6 +434,12 @@ extension MainViewModel: CloseGameViewModelDelegate {
         self.gameEnvironment.assign(game: nil)
     }
 
+    func closeGameAndShowTutorials() {
+
+        self.presentedView = .tutorials
+        self.gameEnvironment.assign(game: nil)
+    }
+
     func closeAndRestartGame() {
 
         // keep seed

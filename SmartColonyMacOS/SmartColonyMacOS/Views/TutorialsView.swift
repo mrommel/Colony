@@ -47,19 +47,19 @@ struct TutorialsView: View {
             Button("TXT_KEY_TUTORIAL_MOVEMENT_EXPLORATION_TITLE".localized()) {
                 self.viewModel.startMovementExploration()
             }
-            .buttonStyle(GameButtonStyle())
+            .buttonStyle(GameButtonStyle(state: self.viewModel.canStartMovementExploration() ? .normal : .disabled))
             .padding(.top, 10)
 
             Button("TXT_KEY_TUTORIAL_FOUND_FIRST_CITY_TITLE".localized()) {
                 self.viewModel.startFoundFirstCity()
             }
-            .buttonStyle(GameButtonStyle())
+            .buttonStyle(GameButtonStyle(state: self.viewModel.canStartFoundFirstCity() ? .normal : .disabled))
             .padding(.top, 10)
 
             Button("TXT_KEY_TUTORIAL_IMPROVING_CITY_TITLE".localized()) {
                 self.viewModel.startImprovingCity()
             }
-            .buttonStyle(GameButtonStyle())
+            .buttonStyle(GameButtonStyle(state: self.viewModel.canStartImprovingCity() ? .normal : .disabled))
             .padding(.top, 10)
 
             Button("TXT_KEY_TUTORIAL_COMBAT_CONQUEST_TITLE".localized()) {

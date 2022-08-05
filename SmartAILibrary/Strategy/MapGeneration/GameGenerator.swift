@@ -8,9 +8,9 @@
 
 import Foundation
 
-public class GameGenerator {
+public class GameGenerator: GenericGenerator {
 
-    public init() {}
+    public override init() {}
 
     // swiftlint:disable force_try
     public func generate(map: MapModel?, with leader: LeaderType, on handicap: HandicapType) -> GameModel {
@@ -94,192 +94,12 @@ public class GameGenerator {
             units.append(warriorUnit)
         }
 
-        let game = GameModel(victoryTypes: [VictoryType.cultural], handicap: handicap, turnsElapsed: 0, players: players, on: map!)
+        let gameModel = GameModel(victoryTypes: [VictoryType.cultural], handicap: handicap, turnsElapsed: 0, players: players, on: map!)
 
         // add units
-        var lastLeader: LeaderType? = LeaderType.none
-        for unit in units {
+        self.add(units: units, to: gameModel)
 
-            game.add(unit: unit)
-            game.sight(at: unit.location, sight: unit.sight(), for: unit.player)
-
-            if lastLeader == unit.player?.leader {
-                let jumped = unit.jumpToNearestValidPlotWithin(range: 2, in: game)
-                if !jumped {
-                    print("--- could not jump unit to nearest valid plot ---")
-                }
-            }
-
-            lastLeader = unit.player?.leader
-        }
-
-        return game
+        return gameModel
     }
-}
-
-public class TutorialGenerator {
-
-    public init() {}
-
-    public func generate(tutorial: TutorialType, on map: MapModel?, with leader: LeaderType, on handicap: HandicapType) -> GameModel {
-
-        switch tutorial {
-
-        case .none:
-            fatalError("cant generate tutorial for 'none'")
-
-        case .movementAndExploration:
-            return self.generateMovementAndExplorationTutorial(on: map, with: leader, on: handicap)
-
-        case .foundFirstCity:
-            return self.generateFoundFirstCityTutorial(on: map, with: leader, on: handicap)
-
-        case .improvingCity:
-            fatalError("cant generate tutorial for 'improvingCity'")
-
-        case .combatAndConquest:
-            fatalError("cant generate tutorial for 'combatAndConquest'")
-
-        case .basicDiplomacy:
-            fatalError("cant generate tutorial for 'basicDiplomacy'")
-        }
-    }
-
-    private func generateMovementAndExplorationTutorial(on map: MapModel?, with leader: LeaderType, on handicap: HandicapType) -> GameModel {
-
-        var players: [AbstractPlayer] = []
-        var units: [AbstractUnit] = []
-
-        // ---- Barbar
-        let playerBarbar = Player(leader: .barbar, isHuman: false)
-        playerBarbar.initialize()
-        players.prepend(playerBarbar)
-
-        for startLocation in map?.startLocations ?? [] {
-
-            // player
-            let player = Player(leader: startLocation.leader, isHuman: startLocation.isHuman)
-            player.initialize()
-
-            // set first government
-            player.government?.set(governmentType: .chiefdom, in: nil)
-            try! player.civics?.discover(civic: .codeOfLaws, in: nil)
-            player.government?.fillPolicyCards()
-
-            players.append(player)
-
-            // units
-            if startLocation.isHuman {
-                let unit = Unit(at: startLocation.point, type: .scout, owner: player)
-                units.append(unit)
-            } else {
-                let unit = Unit(at: startLocation.point, type: .warrior, owner: player)
-                units.append(unit)
-            }
-        }
-
-        // handle city states
-        for startLocation in map?.cityStateStartLocations ?? [] {
-
-            let cityStatePlayer = Player(leader: startLocation.leader, isHuman: startLocation.isHuman)
-            cityStatePlayer.initialize()
-            players.insert(cityStatePlayer, at: 1)
-
-            let settlerUnit = Unit(at: startLocation.point, type: .settler, owner: cityStatePlayer)
-            units.append(settlerUnit)
-
-            let warriorUnit = Unit(at: startLocation.point, type: .warrior, owner: cityStatePlayer)
-            units.append(warriorUnit)
-        }
-
-        let game = GameModel(victoryTypes: [VictoryType.cultural], handicap: handicap, turnsElapsed: 0, players: players, on: map!)
-
-        // add units
-        var lastLeader: LeaderType? = LeaderType.none
-        for unit in units {
-
-            game.add(unit: unit)
-            game.sight(at: unit.location, sight: unit.sight(), for: unit.player)
-
-            if lastLeader == unit.player?.leader {
-                let jumped = unit.jumpToNearestValidPlotWithin(range: 2, in: game)
-                if !jumped {
-                    print("--- could not jump unit to nearest valid plot ---")
-                }
-            }
-
-            lastLeader = unit.player?.leader
-        }
-
-        return game
-    }
-
-    private func generateFoundFirstCityTutorial(on map: MapModel?, with leader: LeaderType, on handicap: HandicapType) -> GameModel {
-
-        var players: [AbstractPlayer] = []
-        var units: [AbstractUnit] = []
-
-        // ---- Barbar
-        let playerBarbar = Player(leader: .barbar, isHuman: false)
-        playerBarbar.initialize()
-        players.prepend(playerBarbar)
-
-        for startLocation in map?.startLocations ?? [] {
-
-            // player
-            let player = Player(leader: startLocation.leader, isHuman: startLocation.isHuman)
-            player.initialize()
-
-            // set first government
-            player.government?.set(governmentType: .chiefdom, in: nil)
-            try! player.civics?.discover(civic: .codeOfLaws, in: nil)
-            player.government?.fillPolicyCards()
-
-            players.append(player)
-
-            // units
-            if startLocation.isHuman {
-                let unit = Unit(at: startLocation.point, type: .settler, owner: player)
-                units.append(unit)
-
-                let unit2 = Unit(at: startLocation.point.neighbors().randomItem(), type: .settler, owner: player)
-                units.append(unit2)
-            } else {
-                let unit = Unit(at: startLocation.point, type: .scout, owner: player)
-                units.append(unit)
-            }
-        }
-
-        // handle city states
-        for startLocation in map?.cityStateStartLocations ?? [] {
-
-            let cityStatePlayer = Player(leader: startLocation.leader, isHuman: startLocation.isHuman)
-            cityStatePlayer.initialize()
-            players.insert(cityStatePlayer, at: 1)
-
-            let settlerUnit = Unit(at: startLocation.point, type: .settler, owner: cityStatePlayer)
-            units.append(settlerUnit)
-        }
-
-        let game = GameModel(victoryTypes: [VictoryType.cultural], handicap: handicap, turnsElapsed: 0, players: players, on: map!)
-
-        // add units
-        var lastLeader: LeaderType? = LeaderType.none
-        for unit in units {
-
-            game.add(unit: unit)
-            game.sight(at: unit.location, sight: unit.sight(), for: unit.player)
-
-            if lastLeader == unit.player?.leader {
-                let jumped = unit.jumpToNearestValidPlotWithin(range: 2, in: game)
-                if !jumped {
-                    print("--- could not jump unit to nearest valid plot ---")
-                }
-            }
-
-            lastLeader = unit.player?.leader
-        }
-
-        return game
-    }
+    // swiftlint:enable force_try
 }

@@ -156,6 +156,7 @@ protocol GameViewModelDelegate: AnyObject {
     func closePopup()
 
     func closeGame()
+    func closeGameAndShowTutorials()
 
     func selectMarker(at location: HexPoint)
 }
@@ -167,6 +168,7 @@ public protocol CloseGameViewModelDelegate: AnyObject {
 
     func closeAndRestartGame()
     func closeGameAndLoad()
+    func closeGameAndShowTutorials()
 }
 
 // swiftlint:disable type_body_length
@@ -1406,6 +1408,11 @@ extension GameViewModel: GameViewModelDelegate {
     func closeGame() {
 
         self.delegate?.closeGame()
+    }
+
+    func closeGameAndShowTutorials() {
+
+        self.delegate?.closeGameAndShowTutorials()
     }
 
     func selectMarker(at location: HexPoint) {

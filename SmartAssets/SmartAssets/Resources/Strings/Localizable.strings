@@ -199,9 +199,13 @@
 
 "TXT_KEY_TUTORIAL_MOVEMENT_EXPLORATION_TITLE" = "Movement and Exploration";
 "TXT_KEY_TUTORIAL_MOVEMENT_EXPLORATION_BODY" = "Units can move certain tiles per turn. Their sight reveals new undiscovered tiles when they come near unexplored land.\n\nIn this tutorial you have to reveal 50 tiles to successfully fisnish it.";
+"TXT_KEY_TUTORIALS_MOVEMENT_EXPLORATION_CONGRATULATION" = "Congratulations";
+"TXT_KEY_TUTORIALS_MOVEMENT_EXPLORATION_SUCCESS" = "You have discovered %d tiles. You may continue with the next tutorial: Founding you first city";
 
 "TXT_KEY_TUTORIAL_FOUND_FIRST_CITY_TITLE" = "Founding Cities";
 "TXT_KEY_TUTORIAL_FOUND_FIRST_CITY_BODY" = "Cities should be founded in locations with plenty of food and production and with access to resources such as wheat, fish, and cattle. Cities founded on hills gain a defensive bonus, making it harder for enemies to capture them. It's often a good idea to build a city on a river or coastal tile, as cities built in different locations have different starting yields:\n* Cities on hills: +1 [Production] Production.\n* Cities on fresh water: +1 [Food] Food. \n* Cities without fresh water or hills: +1 [Gold] Gold.\n\nMany Yields, especially those from Policies, Beliefs, and Buildings, state that they 'Scale with Era'.\n\nFind two good locations to found 2 cities in order to successfully finish this tutorial.";
+"TXT_KEY_TUTORIALS_FOUND_FIRST_CITY_CONGRATULATION" = "Congratulations";
+"TXT_KEY_TUTORIALS_FOUND_FIRST_CITY_SUCCESS" = "You have founded %d cities. You may continue with the next tutorial: Improving your city";
 
 "TXT_KEY_TUTORIAL_IMPROVING_CITY_TITLE" = "Improving Cities";
 "TXT_KEY_TUTORIAL_IMPROVING_CITY_BODY" = "";

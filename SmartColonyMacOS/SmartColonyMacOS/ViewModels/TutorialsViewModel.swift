@@ -22,17 +22,44 @@ class TutorialsViewModel: ObservableObject {
 
     }
 
+    func canStartMovementExploration() -> Bool {
+
+        return true // can always be started
+    }
+
     func startMovementExploration() {
+
+        guard self.canStartMovementExploration() else {
+            return
+        }
 
         self.delegate?.started(tutorial: .movementAndExploration)
     }
 
+    func canStartFoundFirstCity() -> Bool {
+
+        return UserDefaults.standard.bool(forKey: Tutorials.MovementAndExplorationTutorial.userHasFinished)
+    }
+
     func startFoundFirstCity() {
+
+        guard self.canStartFoundFirstCity() else {
+            return
+        }
 
         self.delegate?.started(tutorial: .foundFirstCity)
     }
 
+    func canStartImprovingCity() -> Bool {
+
+        return UserDefaults.standard.bool(forKey: Tutorials.FoundFirstCityTutorial.userHasFinished)
+    }
+
     func startImprovingCity() {
+
+        guard self.canStartImprovingCity() else {
+            return
+        }
 
         self.delegate?.started(tutorial: .improvingCity)
     }

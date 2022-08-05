@@ -261,6 +261,7 @@
 		C9A2B49227ABC0740037D8C6 /* ExpandToOtherContinentsEconomicStrategyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A2B49127ABC0740037D8C6 /* ExpandToOtherContinentsEconomicStrategyType.swift */; };
 		C9A348B225F4C599008B797D /* FoodHarvestingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A348B125F4C599008B797D /* FoodHarvestingType.swift */; };
 		C9A50FE3242244C5006AA47B /* UsecaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A50FE2242244C5006AA47B /* UsecaseTests.swift */; };
+		C9A8CC19289908B3000CFC03 /* TutorialGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A8CC18289908B1000CFC03 /* TutorialGenerator.swift */; };
 		C9AAC26E24D9666100FF1E35 /* GreatPersons.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAC26D24D9666100FF1E35 /* GreatPersons.swift */; };
 		C9AAC27024D97FFE00FF1E35 /* GameModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAC26F24D97FFE00FF1E35 /* GameModelTests.swift */; };
 		C9AAF4C02581FC8000D7F357 /* MapWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAF4BF2581FC8000D7F357 /* MapWriter.swift */; };
@@ -281,6 +282,7 @@
 		C9B1D85628771A5900DB31E3 /* GovernorEffectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1D85528771A5900DB31E3 /* GovernorEffectTests.swift */; };
 		C9B6321E23DCDAB500E15A5F /* DiplomaticDealAITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B6321D23DCDAB400E15A5F /* DiplomaticDealAITests.swift */; };
 		C9BB750C246D5813004BE448 /* DiplomacyRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BB750B246D5813004BE448 /* DiplomacyRequests.swift */; };
+		C9BFDE1A289BDD88000F4FE4 /* Tutorials.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFDE19289BDD88000F4FE4 /* Tutorials.swift */; };
 		C9C003BD23FEDCE00031C7F9 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C003BC23FEDCE00031C7F9 /* Operation.swift */; };
 		C9C003BF23FEDD0B0031C7F9 /* UnitFormationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C003BE23FEDD0B0031C7F9 /* UnitFormationType.swift */; };
 		C9C0DCD724D44799004D9F06 /* GreatPeople.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C0DCD624D44799004D9F06 /* GreatPeople.swift */; };
@@ -700,6 +702,7 @@
 		C9A2B49127ABC0740037D8C6 /* ExpandToOtherContinentsEconomicStrategyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandToOtherContinentsEconomicStrategyType.swift; sourceTree = "<group>"; };
 		C9A348B125F4C599008B797D /* FoodHarvestingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodHarvestingType.swift; sourceTree = "<group>"; };
 		C9A50FE2242244C5006AA47B /* UsecaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsecaseTests.swift; sourceTree = "<group>"; };
+		C9A8CC18289908B1000CFC03 /* TutorialGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialGenerator.swift; sourceTree = "<group>"; };
 		C9AAC26D24D9666100FF1E35 /* GreatPersons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatPersons.swift; sourceTree = "<group>"; };
 		C9AAC26F24D97FFE00FF1E35 /* GameModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModelTests.swift; sourceTree = "<group>"; };
 		C9AAF4BF2581FC8000D7F357 /* MapWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapWriter.swift; sourceTree = "<group>"; };
@@ -720,6 +723,7 @@
 		C9B1D85528771A5900DB31E3 /* GovernorEffectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovernorEffectTests.swift; sourceTree = "<group>"; };
 		C9B6321D23DCDAB400E15A5F /* DiplomaticDealAITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomaticDealAITests.swift; sourceTree = "<group>"; };
 		C9BB750B246D5813004BE448 /* DiplomacyRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiplomacyRequests.swift; sourceTree = "<group>"; };
+		C9BFDE19289BDD88000F4FE4 /* Tutorials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tutorials.swift; sourceTree = "<group>"; };
 		C9C003BC23FEDCE00031C7F9 /* Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
 		C9C003BE23FEDD0B0031C7F9 /* UnitFormationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitFormationType.swift; sourceTree = "<group>"; };
 		C9C0DCD624D44799004D9F06 /* GreatPeople.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreatPeople.swift; sourceTree = "<group>"; };
@@ -1322,6 +1326,8 @@
 				C98CBE0924338D47005EE397 /* MapOptions.swift */,
 				C95503C4245864A200D4B3D8 /* StartPositioner.swift */,
 				C9EB08EA286F127300776745 /* GameGenerator.swift */,
+				C9A8CC18289908B1000CFC03 /* TutorialGenerator.swift */,
+				C9BFDE19289BDD88000F4FE4 /* Tutorials.swift */,
 			);
 			path = MapGeneration;
 			sourceTree = "<group>";
@@ -1951,6 +1957,7 @@
 				C956BF6224F10B99009702B4 /* MoveOptions.swift in Sources */,
 				C957AA322436357E00203024 /* Civ5Feature.swift in Sources */,
 				C9A057452429E61700D0FEAB /* WonderProductionAI.swift in Sources */,
+				C9BFDE1A289BDD88000F4FE4 /* Tutorials.swift in Sources */,
 				C9C0DCD924D45673004D9F06 /* GreatPersonType.swift in Sources */,
 				C9DFCF6E23F29BBE0032243D /* SiteEvaluator.swift in Sources */,
 				C95AB2FA27CDFCBD00EF5C61 /* CityStateQuestType.swift in Sources */,
@@ -2039,6 +2046,7 @@
 				C997785727B3C4CA00BFC102 /* GameUtils.swift in Sources */,
 				C964BA1923EAD18200CA379C /* UnitType.swift in Sources */,
 				C9A348B225F4C599008B797D /* FoodHarvestingType.swift in Sources */,
+				C9A8CC19289908B3000CFC03 /* TutorialGenerator.swift in Sources */,
 				C91D3C8026F283B700CD1F45 /* PlayerGovernors.swift in Sources */,
 				C97AF98D24F551A2005F45EA /* UnitTradeRouteState.swift in Sources */,
 				C9EF13972423C02C003B3DAD /* LandDisputeLevelType.swift in Sources */,

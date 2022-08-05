@@ -2547,7 +2547,7 @@ public class Player: AbstractPlayer {
             if self.isHuman() {
                 notifications.add(notification: .policiesNeeded)
             } else {
-                self.government?.fillPolicyCards()
+                self.government?.fillPolicyCards(in: gameModel)
             }
         }
     }
@@ -4003,6 +4003,13 @@ public class Player: AbstractPlayer {
         gameModel.sendGossip(type: .cityFounded(cityName: cityName), of: self)
 
         self.citiesFoundValue += 1
+
+        if gameModel.tutorialInfos() == .foundFirstCity && self.isHuman() {
+            if self.citiesFoundValue >= Tutorials.FoundFirstCityTutorial.citiesToFound {
+                gameModel.userInterface?.finish(tutorial: .foundFirstCity)
+                gameModel.enable(tutorial: .none)
+            }
+        }
     }
 
     public func newCityName(in gameModel: GameModel?) -> String {
