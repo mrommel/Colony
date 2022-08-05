@@ -15,6 +15,7 @@ public enum TutorialType: String, Codable {
     case movementAndExploration
     case foundFirstCity
     case improvingCity
+    // trade routes?
     case combatAndConquest
     case basicDiplomacy
 }
@@ -41,6 +42,8 @@ public enum Tutorials {
         public static let userHasFinished: String = "ImprovingCityTutorial.userHasFinished"
         // public static let citiesToFound: Int = 2
     }
+
+    // trade routes?
 
     // 4th tutorial
     public enum CombatAndConquestTutorial {

@@ -28,6 +28,8 @@ public class TutorialGenerator: GenericGenerator {
         case .improvingCity:
             return self.generateImprovingCityTutorial(on: map, with: leader, on: handicap)
 
+            // trade routes?
+
         case .combatAndConquest:
             return self.generateCombatAndConquestTutorial(on: map, with: leader, on: handicap)
 

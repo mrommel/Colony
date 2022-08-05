@@ -62,6 +62,8 @@ struct TutorialsView: View {
             .buttonStyle(GameButtonStyle(state: self.viewModel.canStartImprovingCity() ? .normal : .disabled))
             .padding(.top, 10)
 
+            // trade routes?
+
             Button("TXT_KEY_TUTORIAL_COMBAT_CONQUEST_TITLE".localized()) {
                 self.viewModel.startCombatAndConquest()
             }

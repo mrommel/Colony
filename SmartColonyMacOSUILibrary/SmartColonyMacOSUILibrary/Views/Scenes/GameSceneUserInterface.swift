@@ -533,8 +533,8 @@ extension GameScene: UserInterfaceDelegate {
 
         case .movementAndExploration:
             gameModel.userInterface?.askForConfirmation(
-                title: "TXT_KEY_TUTORIALS_MOVEMENT_EXPLORATION_CONGRATULATION".localized(),
-                question: "TXT_KEY_TUTORIALS_MOVEMENT_EXPLORATION_SUCCESS"
+                title: "TXT_KEY_TUTORIAL_MOVEMENT_EXPLORATION_CONGRATULATION".localized(),
+                question: "TXT_KEY_TUTORIAL_MOVEMENT_EXPLORATION_SUCCESS"
                     .localizedWithFormat(with: [Tutorials.MovementAndExplorationTutorial.tilesToDiscover]),
                 confirm: "TXT_KEY_OKAY".localized(),
                 cancel: "TXT_KEY_CANCEL".localized(),
@@ -546,8 +546,8 @@ extension GameScene: UserInterfaceDelegate {
 
         case .foundFirstCity:
             gameModel.userInterface?.askForConfirmation(
-                title: "TXT_KEY_TUTORIALS_FOUND_FIRST_CITY_CONGRATULATION".localized(),
-                question: "TXT_KEY_TUTORIALS_FOUND_FIRST_CITY_SUCCESS"
+                title: "TXT_KEY_TUTORIAL_FOUND_FIRST_CITY_CONGRATULATION".localized(),
+                question: "TXT_KEY_TUTORIAL_FOUND_FIRST_CITY_SUCCESS"
                     .localizedWithFormat(with: [Tutorials.FoundFirstCityTutorial.citiesToFound]),
                 confirm: "TXT_KEY_OKAY".localized(),
                 cancel: "TXT_KEY_CANCEL".localized(),
