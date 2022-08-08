@@ -30,6 +30,13 @@ struct TutorialsView: View {
             Divider()
 
             HStack {
+                Button("TXT_KEY_RESET".localized()) {
+                    self.viewModel.resetTutorials()
+                }
+                .buttonStyle(GameButtonStyle())
+                .padding(.top, 20)
+                .padding(.trailing, 20)
+
                 Button("TXT_KEY_CANCEL".localized()) {
                     self.viewModel.cancel()
                 }

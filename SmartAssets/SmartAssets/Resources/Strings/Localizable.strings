@@ -18,6 +18,7 @@
 "TXT_KEY_TURNS" = "Turns";
 "TXT_KEY_FOUND" = "Found";
 "TXT_KEY_RENAME" = "Rename";
+"TXT_KEY_RESET" = "Reset";
 "TXT_KEY_CANCEL" = "Cancel";
 "TXT_KEY_OKAY" = "Okay";
 "TXT_KEY_CLOSE" = "Close";

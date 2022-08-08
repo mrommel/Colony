@@ -106,6 +106,18 @@ class TutorialsViewModel: ObservableObject {
         self.delegate?.started(tutorial: .basicDiplomacy)
     }
 
+    func resetTutorials() {
+
+        UserDefaults.standard.set(false, forKey: Tutorials.MovementAndExplorationTutorial.userHasFinished)
+        UserDefaults.standard.set(false, forKey: Tutorials.FoundFirstCityTutorial.userHasFinished)
+        UserDefaults.standard.set(false, forKey: Tutorials.ImprovingCityTutorial.userHasFinished)
+        UserDefaults.standard.set(false, forKey: Tutorials.EstablishTradeRouteTutorial.userHasFinished)
+        UserDefaults.standard.set(false, forKey: Tutorials.CombatAndConquestTutorial.userHasFinished)
+        UserDefaults.standard.set(false, forKey: Tutorials.BasicDiplomacyTutorial.userHasFinished)
+
+        self.objectWillChange.send()
+    }
+
     func cancel() {
 
         self.delegate?.canceled()
