@@ -560,7 +560,8 @@ extension GameScene: UserInterfaceDelegate {
         case .improvingCity:
             gameModel.userInterface?.askForConfirmation(
                 title: "TXT_KEY_TUTORIAL_IMPROVING_CITY_CONGRATULATION".localized(),
-                question: "TXT_KEY_TUTORIAL_IMPROVING_CITY_SUCCESS".localized(),
+                question: "TXT_KEY_TUTORIAL_IMPROVING_CITY_SUCCESS"
+                    .localizedWithFormat(with: [Tutorials.ImprovingCityTutorial.citizenInCityNeeded]),
                 confirm: "TXT_KEY_OKAY".localized(),
                 cancel: "TXT_KEY_CANCEL".localized(),
                 completion: { _ in

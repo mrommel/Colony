@@ -1973,6 +1973,10 @@ public class City: AbstractCity {
             fatalError("cant get cityCitizens")
         }
 
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
+        }
+
         guard let player = self.player else {
             fatalError("cant get player")
         }
@@ -2028,6 +2032,16 @@ public class City: AbstractCity {
                                 location: self.location
                             )
                         )
+                    }
+                }
+
+                // check for improving city tutorial
+                if gameModel.tutorialInfos() == .improvingCity && player.isHuman() {
+                    if Int(self.populationValue) >= Tutorials.ImprovingCityTutorial.citizenInCityNeeded &&
+                        buildings.has(building: .granary) && buildings.has(building: .monument) {
+
+                        gameModel.userInterface?.finish(tutorial: .improvingCity)
+                        gameModel.enable(tutorial: .none)
                     }
                 }
 
@@ -3131,6 +3145,10 @@ public class City: AbstractCity {
             fatalError("cant get player")
         }
 
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
+        }
+
         do {
             try self.buildings?.build(building: buildingType)
             self.updateEurekas(in: gameModel)
@@ -3188,6 +3206,16 @@ public class City: AbstractCity {
                 }
 
                 gameModel?.userInterface?.refresh(tile: cityTile)
+            }
+
+            // check for improving city tutorial
+            if gameModel?.tutorialInfos() == .improvingCity && player.isHuman() {
+                if Int(self.populationValue) >= Tutorials.ImprovingCityTutorial.citizenInCityNeeded &&
+                    buildings.has(building: .granary) && buildings.has(building: .monument) {
+
+                    gameModel?.userInterface?.finish(tutorial: .improvingCity)
+                    gameModel?.enable(tutorial: .none)
+                }
             }
 
         } catch {

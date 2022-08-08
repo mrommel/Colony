@@ -108,7 +108,7 @@ public class NotificationItem: Codable, Equatable {
         case .productionNeeded(cityName: _, location: let location):
 
             guard let city = gameModel?.city(at: location) else {
-                fatalError("cant get city")
+                return
             }
 
             gameModel?.userInterface?.showScreen(screenType: .city, city: city, other: nil, data: nil)

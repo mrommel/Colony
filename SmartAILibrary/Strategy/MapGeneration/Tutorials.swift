@@ -40,7 +40,7 @@ public enum Tutorials {
     public enum ImprovingCityTutorial {
 
         public static let userHasFinished: String = "ImprovingCityTutorial.userHasFinished"
-        // public static let citiesToFound: Int = 2
+        public static let citizenInCityNeeded: Int = 5
     }
 
     // 4th tutorial

@@ -86,16 +86,6 @@ public class TutorialGenerator: GenericGenerator {
             }
         }
 
-        // handle city states
-        for startLocation in map?.cityStateStartLocations ?? [] {
-
-            let cityStatePlayer = Player(leader: startLocation.leader, isHuman: startLocation.isHuman)
-            cityStatePlayer.initialize()
-            players.insert(cityStatePlayer, at: 1)
-
-            self.allocate(units: &units, at: startLocation.point, of: self.freeCityStateStartingUnitTypes(), for: cityStatePlayer)
-        }
-
         let gameModel = GameModel(victoryTypes: [VictoryType.cultural], handicap: handicap, turnsElapsed: 0, players: players, on: map!)
 
         // fill policy cards
@@ -145,16 +135,6 @@ public class TutorialGenerator: GenericGenerator {
             }
         }
 
-        // handle city states
-        for startLocation in map?.cityStateStartLocations ?? [] {
-
-            let cityStatePlayer = Player(leader: startLocation.leader, isHuman: startLocation.isHuman)
-            cityStatePlayer.initialize()
-            players.insert(cityStatePlayer, at: 1)
-
-            self.allocate(units: &units, at: startLocation.point, of: [.settler], for: cityStatePlayer)
-        }
-
         let gameModel = GameModel(victoryTypes: [VictoryType.cultural], handicap: handicap, turnsElapsed: 0, players: players, on: map!)
 
         // fill policy cards
@@ -201,16 +181,6 @@ public class TutorialGenerator: GenericGenerator {
             }
         }
 
-        // handle city states
-        for startLocation in map?.cityStateStartLocations ?? [] {
-
-            let cityStatePlayer = Player(leader: startLocation.leader, isHuman: startLocation.isHuman)
-            cityStatePlayer.initialize()
-            players.insert(cityStatePlayer, at: 1)
-
-            self.allocate(units: &units, at: startLocation.point, of: [.settler], for: cityStatePlayer)
-        }
-
         let gameModel = GameModel(victoryTypes: [VictoryType.cultural], handicap: handicap, turnsElapsed: 0, players: players, on: map!)
 
         // fill policy cards
@@ -219,7 +189,7 @@ public class TutorialGenerator: GenericGenerator {
         // add units
         self.add(units: units, to: gameModel)
 
-        // add player city
+        // add human player city
         guard let cityName = leader.civilization().cityNames().first,
               let startLocation = map?.startLocations.first(where: { $0.leader == leader }),
               let humanPlayer = gameModel.humanPlayer() else {
@@ -234,7 +204,7 @@ public class TutorialGenerator: GenericGenerator {
     }
     // swiftlint:enable force_try
 
-    /// generate 4th tutorial: combat and conquest
+    /// generate 4th tutorial: establish trade routes
     // swiftlint:disable force_try
     private func generateEstablishTradeRouteTutorial(on map: MapModel?, with leader: LeaderType, on handicap: HandicapType) -> GameModel {
 
@@ -260,8 +230,7 @@ public class TutorialGenerator: GenericGenerator {
 
             // units
             if startLocation.isHuman {
-                let unit = Unit(at: startLocation.point, type: .settler, owner: player)
-                units.append(unit)
+                try! player.civics?.discover(civic: .foreignTrade, in: nil)
             } else {
                 let unit = Unit(at: startLocation.point, type: .scout, owner: player)
                 units.append(unit)
@@ -269,14 +238,14 @@ public class TutorialGenerator: GenericGenerator {
         }
 
         // handle city states
-        for startLocation in map?.cityStateStartLocations ?? [] {
+        /*for startLocation in map?.cityStateStartLocations ?? [] {
 
             let cityStatePlayer = Player(leader: startLocation.leader, isHuman: startLocation.isHuman)
             cityStatePlayer.initialize()
             players.insert(cityStatePlayer, at: 1)
 
-            self.allocate(units: &units, at: startLocation.point, of: [.settler], for: cityStatePlayer)
-        }
+            // no units !
+        }*/
 
         let gameModel = GameModel(victoryTypes: [VictoryType.cultural], handicap: handicap, turnsElapsed: 0, players: players, on: map!)
 
@@ -286,7 +255,19 @@ public class TutorialGenerator: GenericGenerator {
         // add units
         self.add(units: units, to: gameModel)
 
-        // todo: two or more cities with land, foreign trade civic
+        //
+        // add human player city
+        guard let cityName = leader.civilization().cityNames().first,
+              let startLocation = map?.startLocations.first(where: { $0.leader == leader }),
+              let humanPlayer = gameModel.humanPlayer() else {
+
+            fatalError("cant get human properties")
+        }
+        let city = City(name: cityName, at: startLocation.point, capital: true, owner: humanPlayer)
+        city.initialize(in: gameModel)
+        gameModel.add(city: city)
+
+        // todo: foreign city, connect civs, sight to this city
 
         return gameModel
     }

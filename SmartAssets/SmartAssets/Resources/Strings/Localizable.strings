@@ -209,9 +209,9 @@
 "TXT_KEY_TUTORIAL_FOUND_FIRST_CITY_SUCCESS" = "You have founded %d cities. You may continue with the next tutorial: Improving your city";
 
 "TXT_KEY_TUTORIAL_IMPROVING_CITY_TITLE" = "Improving Cities";
-"TXT_KEY_TUTORIAL_IMPROVING_CITY_BODY" = "";
+"TXT_KEY_TUTORIAL_IMPROVING_CITY_BODY" = "Cities should be improved and developed to strengthen your empire. Build a Monument to increase the output of [Culture] Culture and the speed of gaining more more tiles to work on. Also build a Granary to keep more food, when the city grows. You can finish this tutorial by increasing the population of your city to 5 [Citizen] citizen and having an Momument and a Granary in place.";
 "TXT_KEY_TUTORIAL_IMPROVING_CITY_CONGRATULATION" = "Congratulations";
-"TXT_KEY_TUTORIAL_IMPROVING_CITY_SUCCESS" = "abc";
+"TXT_KEY_TUTORIAL_IMPROVING_CITY_SUCCESS" = "You have increased the size of your city to %d [Citizen] citizen. You may continue with the next tutorial: Establish Trade Route";
 
 "TXT_KEY_TUTORIAL_ESTABLISH_TRADE_ROUTE_TITLE" = "Establish Trade Route";
 "TXT_KEY_TUTORIAL_ESTABLISH_TRADE_ROUTE_BODY" = "Trade Routes are established between two cities of different civilizations, providing [Gold] Gold to each every turn. The civilization that the [TradeRoute] Trade Route originates from gets a larger sum of Gold than the destination civilization. The amount of Gold a Trade Route produces is dependent upon the resource diversity and revenue of the origin city.\n\nTrade Routes can also be created between two cities of the same civilization. Once the origin city has a Granary, it can send Food to the destination city, and once it has a Workshop it can send Production. These types of internal Trade Routes do not benefit the origin city.\n\nYou can only have a limited number of Trade Routes at any time. Researching certain technologies increases the number of routes you have available. For details about your existing Trade Routes, open the Trade Route Overview screen, located in the Additional Information drop-down menu.\n\nThe distance that Trade Routes can travel is affected by roads, terrain, hostile troops, and features. Keep this in mind when expanding, and when trying to link cities via trade routes."; // TXT_KEY_TRADE_ROUTES_HEADING2_BODY
