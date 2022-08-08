@@ -64,12 +64,44 @@ class TutorialsViewModel: ObservableObject {
         self.delegate?.started(tutorial: .improvingCity)
     }
 
+    func canStartEstablishTradeRoute() -> Bool {
+
+        return UserDefaults.standard.bool(forKey: Tutorials.ImprovingCityTutorial.userHasFinished)
+    }
+
+    func startEstablishTradeRoute() {
+
+        guard self.canStartEstablishTradeRoute() else {
+            return
+        }
+
+        self.delegate?.started(tutorial: .establishTradeRoute)
+    }
+
+    func canStartCombatAndConquest() -> Bool {
+
+        return UserDefaults.standard.bool(forKey: Tutorials.EstablishTradeRouteTutorial.userHasFinished)
+    }
+
     func startCombatAndConquest() {
+
+        guard self.canStartCombatAndConquest() else {
+            return
+        }
 
         self.delegate?.started(tutorial: .combatAndConquest)
     }
 
+    func canStartBasicDiplomacy() -> Bool {
+
+        return UserDefaults.standard.bool(forKey: Tutorials.CombatAndConquestTutorial.userHasFinished)
+    }
+
     func startBasicDiplomacy() {
+
+        guard self.canStartBasicDiplomacy() else {
+            return
+        }
 
         self.delegate?.started(tutorial: .basicDiplomacy)
     }

@@ -28,7 +28,8 @@ public class TutorialGenerator: GenericGenerator {
         case .improvingCity:
             return self.generateImprovingCityTutorial(on: map, with: leader, on: handicap)
 
-            // trade routes?
+        case .establishTradeRoute:
+            return self.generateEstablishTradeRouteTutorial(on: map, with: leader, on: handicap)
 
         case .combatAndConquest:
             return self.generateCombatAndConquestTutorial(on: map, with: leader, on: handicap)
@@ -235,6 +236,64 @@ public class TutorialGenerator: GenericGenerator {
 
     /// generate 4th tutorial: combat and conquest
     // swiftlint:disable force_try
+    private func generateEstablishTradeRouteTutorial(on map: MapModel?, with leader: LeaderType, on handicap: HandicapType) -> GameModel {
+
+        var players: [AbstractPlayer] = []
+        var units: [AbstractUnit] = []
+
+        // ---- Barbar
+        let playerBarbar = Player(leader: .barbar, isHuman: false)
+        playerBarbar.initialize()
+        players.prepend(playerBarbar)
+
+        for startLocation in map?.startLocations ?? [] {
+
+            // player
+            let player = Player(leader: startLocation.leader, isHuman: startLocation.isHuman)
+            player.initialize()
+
+            // set first government
+            player.government?.set(governmentType: .chiefdom, in: nil)
+            try! player.civics?.discover(civic: .codeOfLaws, in: nil)
+
+            players.append(player)
+
+            // units
+            if startLocation.isHuman {
+                let unit = Unit(at: startLocation.point, type: .settler, owner: player)
+                units.append(unit)
+            } else {
+                let unit = Unit(at: startLocation.point, type: .scout, owner: player)
+                units.append(unit)
+            }
+        }
+
+        // handle city states
+        for startLocation in map?.cityStateStartLocations ?? [] {
+
+            let cityStatePlayer = Player(leader: startLocation.leader, isHuman: startLocation.isHuman)
+            cityStatePlayer.initialize()
+            players.insert(cityStatePlayer, at: 1)
+
+            self.allocate(units: &units, at: startLocation.point, of: [.settler], for: cityStatePlayer)
+        }
+
+        let gameModel = GameModel(victoryTypes: [VictoryType.cultural], handicap: handicap, turnsElapsed: 0, players: players, on: map!)
+
+        // fill policy cards
+        self.fillAllPolicyCards(in: gameModel)
+
+        // add units
+        self.add(units: units, to: gameModel)
+
+        // todo: two or more cities with land, foreign trade civic
+
+        return gameModel
+    }
+    // swiftlint:enable force_try
+
+    /// generate 5th tutorial: combat and conquest
+    // swiftlint:disable force_try
     private func generateCombatAndConquestTutorial(on map: MapModel?, with leader: LeaderType, on handicap: HandicapType) -> GameModel {
 
         var players: [AbstractPlayer] = []
@@ -291,7 +350,7 @@ public class TutorialGenerator: GenericGenerator {
     }
     // swiftlint:enable force_try
 
-    /// generate 5th tutorial: basic diplomacy
+    /// generate 6th tutorial: basic diplomacy
     // swiftlint:disable force_try
     private func generateBasicDiplomacyTutorial(on map: MapModel?, with leader: LeaderType, on handicap: HandicapType) -> GameModel {
 

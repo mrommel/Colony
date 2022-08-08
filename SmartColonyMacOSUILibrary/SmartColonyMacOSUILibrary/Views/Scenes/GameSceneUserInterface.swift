@@ -558,13 +558,52 @@ extension GameScene: UserInterfaceDelegate {
             )
 
         case .improvingCity:
-            fatalError("not implemented")
+            gameModel.userInterface?.askForConfirmation(
+                title: "TXT_KEY_TUTORIAL_IMPROVING_CITY_CONGRATULATION".localized(),
+                question: "TXT_KEY_TUTORIAL_IMPROVING_CITY_SUCCESS".localized(),
+                confirm: "TXT_KEY_OKAY".localized(),
+                cancel: "TXT_KEY_CANCEL".localized(),
+                completion: { _ in
+                    UserDefaults.standard.set(true, forKey: Tutorials.ImprovingCityTutorial.userHasFinished)
+                    self.viewModel?.delegate?.closeGameAndShowTutorials()
+                }
+            )
+
+        case .establishTradeRoute:
+            gameModel.userInterface?.askForConfirmation(
+                title: "TXT_KEY_TUTORIAL_ESTABLISH_TRADE_ROUTE_CONGRATULATION".localized(),
+                question: "TXT_KEY_TUTORIAL_ESTABLISH_TRADE_ROUTE_SUCCESS".localized(),
+                confirm: "TXT_KEY_OKAY".localized(),
+                cancel: "TXT_KEY_CANCEL".localized(),
+                completion: { _ in
+                    UserDefaults.standard.set(true, forKey: Tutorials.EstablishTradeRouteTutorial.userHasFinished)
+                    self.viewModel?.delegate?.closeGameAndShowTutorials()
+                }
+            )
 
         case .combatAndConquest:
-            fatalError("not implemented")
+            gameModel.userInterface?.askForConfirmation(
+                title: "TXT_KEY_TUTORIAL_COMBAT_CONQUEST_CONGRATULATION".localized(),
+                question: "TXT_KEY_TUTORIAL_COMBAT_CONQUEST_SUCCESS".localized(),
+                confirm: "TXT_KEY_OKAY".localized(),
+                cancel: "TXT_KEY_CANCEL".localized(),
+                completion: { _ in
+                    UserDefaults.standard.set(true, forKey: Tutorials.CombatAndConquestTutorial.userHasFinished)
+                    self.viewModel?.delegate?.closeGameAndShowTutorials()
+                }
+            )
 
         case .basicDiplomacy:
-            fatalError("not implemented")
+            gameModel.userInterface?.askForConfirmation(
+                title: "TXT_KEY_TUTORIAL_BASIC_DIPLOMACY_CONGRATULATION".localized(),
+                question: "TXT_KEY_TUTORIAL_BASIC_DIPLOMACY_SUCCESS".localized(),
+                confirm: "TXT_KEY_OKAY".localized(),
+                cancel: "TXT_KEY_CANCEL".localized(),
+                completion: { _ in
+                    UserDefaults.standard.set(true, forKey: Tutorials.BasicDiplomacyTutorial.userHasFinished)
+                    self.viewModel?.delegate?.closeGameAndShowTutorials()
+                }
+            )
         }
     }
 }

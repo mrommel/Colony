@@ -62,18 +62,22 @@ struct TutorialsView: View {
             .buttonStyle(GameButtonStyle(state: self.viewModel.canStartImprovingCity() ? .normal : .disabled))
             .padding(.top, 10)
 
-            // trade routes?
+            Button("TXT_KEY_TUTORIAL_ESTABLISH_TRADE_ROUTE_TITLE".localized()) {
+                self.viewModel.startEstablishTradeRoute()
+            }
+            .buttonStyle(GameButtonStyle(state: self.viewModel.canStartEstablishTradeRoute() ? .normal : .disabled))
+            .padding(.top, 10)
 
             Button("TXT_KEY_TUTORIAL_COMBAT_CONQUEST_TITLE".localized()) {
                 self.viewModel.startCombatAndConquest()
             }
-            .buttonStyle(GameButtonStyle())
+            .buttonStyle(GameButtonStyle(state: self.viewModel.canStartCombatAndConquest() ? .normal : .disabled))
             .padding(.top, 10)
 
             Button("TXT_KEY_TUTORIAL_BASIC_DIPLOMACY_TITLE".localized()) {
                 self.viewModel.startBasicDiplomacy()
             }
-            .buttonStyle(GameButtonStyle())
+            .buttonStyle(GameButtonStyle(state: self.viewModel.canStartBasicDiplomacy() ? .normal : .disabled))
             .padding(.top, 10)
         }
     }

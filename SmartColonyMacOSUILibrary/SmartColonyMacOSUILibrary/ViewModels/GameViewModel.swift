@@ -688,6 +688,11 @@ public class GameViewModel: ObservableObject {
                     let summary = "TXT_KEY_TUTORIAL_IMPROVING_CITY_BODY".localized()
                     self.genericPopupViewModel.update(with: title, and: summary)
 
+                case .establishTradeRoute:
+                    let title = "TXT_KEY_TUTORIAL_ESTABLISH_TRADE_ROUTE_TITLE".localized()
+                    let summary = "TXT_KEY_TUTORIAL_ESTABLISH_TRADE_ROUTE_BODY".localized()
+                    self.genericPopupViewModel.update(with: title, and: summary)
+
                 case .combatAndConquest:
                     let title = "TXT_KEY_TUTORIAL_COMBAT_CONQUEST_TITLE".localized()
                     let summary = "TXT_KEY_TUTORIAL_COMBAT_CONQUEST_BODY".localized()

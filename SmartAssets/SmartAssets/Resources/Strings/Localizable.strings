@@ -212,18 +212,20 @@
 "TXT_KEY_TUTORIAL_IMPROVING_CITY_CONGRATULATION" = "Congratulations";
 "TXT_KEY_TUTORIAL_IMPROVING_CITY_SUCCESS" = "abc";
 
- // trade routes?
-// TXT_KEY_TRADE_ROUTES_HEADING2_BODY
+"TXT_KEY_TUTORIAL_ESTABLISH_TRADE_ROUTE_TITLE" = "Establish Trade Route";
+"TXT_KEY_TUTORIAL_ESTABLISH_TRADE_ROUTE_BODY" = "Trade Routes are established between two cities of different civilizations, providing [Gold] Gold to each every turn. The civilization that the [TradeRoute] Trade Route originates from gets a larger sum of Gold than the destination civilization. The amount of Gold a Trade Route produces is dependent upon the resource diversity and revenue of the origin city.\n\nTrade Routes can also be created between two cities of the same civilization. Once the origin city has a Granary, it can send Food to the destination city, and once it has a Workshop it can send Production. These types of internal Trade Routes do not benefit the origin city.\n\nYou can only have a limited number of Trade Routes at any time. Researching certain technologies increases the number of routes you have available. For details about your existing Trade Routes, open the Trade Route Overview screen, located in the Additional Information drop-down menu.\n\nThe distance that Trade Routes can travel is affected by roads, terrain, hostile troops, and features. Keep this in mind when expanding, and when trying to link cities via trade routes."; // TXT_KEY_TRADE_ROUTES_HEADING2_BODY
+"TXT_KEY_TUTORIAL_ESTABLISH_TRADE_ROUTE_CONGRATULATION" = "Congratulations";
+"TXT_KEY_TUTORIAL_ESTABLISH_TRADE_ROUTE_SUCCESS" = "abc";
 
 "TXT_KEY_TUTORIAL_COMBAT_CONQUEST_TITLE" = "Combat and Conquest";
 "TXT_KEY_TUTORIAL_COMBAT_CONQUEST_BODY" = "";
-"TXT_KEY_TUTORIAL_IMPROVING_CITY_CONGRATULATION" = "Congratulations";
-"TXT_KEY_TUTORIAL_IMPROVING_CITY_SUCCESS" = "abc";
+"TXT_KEY_TUTORIAL_COMBAT_CONQUEST_CONGRATULATION" = "Congratulations";
+"TXT_KEY_TUTORIAL_COMBAT_CONQUEST_SUCCESS" = "abc";
 
 "TXT_KEY_TUTORIAL_BASIC_DIPLOMACY_TITLE" = "Basic Diplomacy";
 "TXT_KEY_TUTORIAL_BASIC_DIPLOMACY_BODY" = "";
-"TXT_KEY_TUTORIAL_IMPROVING_CITY_CONGRATULATION" = "Congratulations";
-"TXT_KEY_TUTORIAL_IMPROVING_CITY_SUCCESS" = "abc";
+"TXT_KEY_TUTORIAL_BASIC_DIPLOMACY_CONGRATULATION" = "Congratulations";
+"TXT_KEY_TUTORIAL_BASIC_DIPLOMACY_SUCCESS" = "abc";
 
 "TXT_KEY_ADVISOR_CITY_ATTACK_DISPLAY" = "Attacking cities";
 "TXT_KEY_ADVISOR_CITY_ATTACK_BODY" = "Cities are formidable targets that often require 4 or more units to capture. When you attack them they will damage your attacking units. Cities also have a bombing attack weapon which will be used against any besiegers. Are you sure you want to continue the attack?";

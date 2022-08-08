@@ -278,6 +278,19 @@ extension MainViewModel: TutorialsViewModelDelegate {
         return gameModel
     }
 
+    private func generateEstablishTradeRoute() -> GameModel? {
+
+        let mapOptions = MapOptions(withSize: MapSize.duel, type: .continents, leader: .alexander, handicap: .settler, seed: 42)
+
+        let generator = MapGenerator(with: mapOptions)
+        let map = generator.generate()
+
+        let tutorialGenerator = TutorialGenerator()
+        let gameModel = tutorialGenerator.generate(tutorial: .establishTradeRoute, on: map, with: .alexander, on: .settler)
+
+        return gameModel
+    }
+
     private func generateCombatAndConquest() -> GameModel? {
 
         let mapOptions = MapOptions(withSize: MapSize.duel, type: .continents, leader: .alexander, handicap: .settler, seed: 42)
@@ -317,6 +330,8 @@ extension MainViewModel: TutorialsViewModelDelegate {
             return self.generateFoundFirstCity()
         case .improvingCity:
             return self.generateImprovingCity()
+        case.establishTradeRoute:
+            return self.generateEstablishTradeRoute()
         case .combatAndConquest:
             return self.generateCombatAndConquest()
         case .basicDiplomacy:
