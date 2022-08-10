@@ -8,6 +8,7 @@
 
 import Foundation
 
+// swiftlint:disable legacy_random
 extension Double {
 
     // Returns a random floating point number between 0.0 and 1.0, inclusive.
@@ -41,6 +42,30 @@ extension Double {
         }
 
         return 0.0
+    }
+}
+
+extension Double {
+
+    public var display: String {
+
+        let formatter = NumberFormatter()
+        formatter.minimumFractionDigits = 1
+        formatter.maximumFractionDigits = 1
+        formatter.numberStyle = .decimal
+
+        return formatter.string(for: self) ?? "-"
+    }
+
+    public var deltaDisplay: String {
+
+        let formatter = NumberFormatter()
+        formatter.minimumFractionDigits = 1
+        formatter.maximumFractionDigits = 1
+        formatter.numberStyle = .decimal
+        formatter.positivePrefix = "+"
+
+        return formatter.string(for: self) ?? "-"
     }
 }
 

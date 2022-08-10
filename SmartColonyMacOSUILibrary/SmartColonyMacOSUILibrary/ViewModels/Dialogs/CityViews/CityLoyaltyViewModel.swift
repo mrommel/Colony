@@ -103,7 +103,7 @@ class CityLoyaltyViewModel: ObservableObject {
 
             self.loyaltyPressure = String(format: "%.1f", city.loyaltyPressureFromNearbyCitizen(in: gameModel))
             self.loyaltyFromGovernors = String(format: "%.1f", city.loyaltyFromGovernors(in: gameModel))
-            self.loyaltyFromHappiness = String(format: "%.1f", city.loyaltyFromHappiness(in: gameModel))
+            self.loyaltyFromHappiness = String(format: "%.1f", city.loyaltyFromAmenities(in: gameModel))
             self.loyaltyFromTradeRoutes = String(format: "%.1f", city.loyaltyFromTradeRoutes(in: gameModel))
             self.loyaltyFromOthersEffects = String(format: "%.1f", city.loyaltyFromOthersEffects(in: gameModel))
             self.loyaltyPerTurn = String(format: "%.1f", city.loyalty())

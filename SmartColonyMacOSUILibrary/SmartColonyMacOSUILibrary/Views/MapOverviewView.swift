@@ -134,7 +134,7 @@ public struct MapOverviewView: View {
                     ScrollView(.vertical, showsIndicators: true, content: {
                         Picker("", selection: self.$viewModel.selectedMapLens, content: {
                             ForEach(MapLensType.all) { mapLens in
-                                Text(mapLens.title())
+                                Text(mapLens.title().localized())
                                     .tag(mapLens)
                                     .frame(width: 130, alignment: .leading)
                                     .padding(.leading, 4)

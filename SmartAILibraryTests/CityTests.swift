@@ -554,4 +554,96 @@ class CityTests: XCTestCase {
         XCTAssertEqual(canBuildStableAfter, false)
         XCTAssertEqual(canBuildArmoryAfter, true)
     }
+
+    func testNearbyPopulationPressure() {
+
+        // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let playerAlexander = Player(leader: .alexander, isHuman: false)
+        playerAlexander.initialize()
+
+        let playerTrajan = Player(leader: .trajan, isHuman: true)
+        playerTrajan.initialize()
+
+        let mapModel = MapUtils.mapFilled(with: .grass, sized: .custom(width: 20, height: 20), seed: 42)
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.trajan],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
+        let gameModel = GameModel(
+            victoryTypes: [.domination, .cultural, .diplomatic],
+            handicap: .chieftain,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, playerAlexander, playerTrajan],
+            on: mapModel
+        )
+
+        playerAlexander.currentAgeVal = .dark
+
+        // domestic cities
+        self.objectToTest = City(name: "Kinchassa", at: HexPoint(x: 9, y: 5), owner: playerAlexander)
+        self.objectToTest?.initialize(in: gameModel)
+        gameModel.add(city: self.objectToTest)
+        self.objectToTest?.set(population: 5, reassignCitizen: false, in: gameModel)
+
+        let cityMbanzaMbata = City(name: "MbanzaMbata", at: HexPoint(x: 5, y: 5), owner: playerAlexander)
+        cityMbanzaMbata.initialize(in: gameModel)
+        gameModel.add(city: cityMbanzaMbata)
+        cityMbanzaMbata.set(population: 2, reassignCitizen: false, in: gameModel)
+
+        // foreign cities
+        let cityManchester = City(name: "Manchester", at: HexPoint(x: 13, y: 5), owner: playerTrajan)
+        cityManchester.initialize(in: gameModel)
+        gameModel.add(city: cityManchester)
+        cityManchester.set(population: 2, reassignCitizen: false, in: gameModel)
+
+        let cityLiverpool = City(name: "Liverpool", at: HexPoint(x: 16, y: 5), owner: playerTrajan)
+        cityLiverpool.initialize(in: gameModel)
+        gameModel.add(city: cityLiverpool)
+        cityLiverpool.set(population: 11, reassignCitizen: false, in: gameModel)
+
+        // WHEN
+        let distanceKinchassaToMbanzaMbata = cityMbanzaMbata.location.distance(to: self.objectToTest?.location ?? HexPoint.invalid)
+        let distanceKinchassaToManchester = cityManchester.location.distance(to: self.objectToTest?.location ?? HexPoint.invalid)
+        let distanceKinchassaToLiverpool = cityLiverpool.location.distance(to: self.objectToTest?.location ?? HexPoint.invalid)
+
+        let pressureKinchassa = self.objectToTest?.loyaltyPressureFromNearbyCitizen(in: gameModel)
+
+        // THEN
+        // https://civilization.fandom.com/wiki/Loyalty_(Civ6)#Loyalty_lens
+        // Example of pressure from nearby citizens
+        //
+        // The image to the right contains a small island with 5 cities, 1 city-state which we ignore,
+        // 2 English cities (experiencing a Normal Age) and 2 Kongolese cities (experiencing a Dark Age).
+        // If we calculate the pressure for the city of Kinchassa:
+        //
+        // Domestic = 0.5 * [ 5 * (10-0) + 2 * (10-4) ] = 31
+        // Foreign = [ 1 * 11 * (10-7) + 1 * 2 * (10-4) ] = 45
+        // Pressure = 10 * (31 - 45) / (min[31,45] + 0.5) = -4.4
+
+        // prechecks
+        XCTAssertEqual(self.objectToTest?.population(), 5)
+        XCTAssertEqual(distanceKinchassaToMbanzaMbata, 4)
+        XCTAssertEqual(cityMbanzaMbata.population(), 2)
+
+        XCTAssertEqual(distanceKinchassaToManchester, 4)
+        XCTAssertEqual(cityManchester.population(), 2)
+
+        XCTAssertEqual(distanceKinchassaToLiverpool, 7)
+        XCTAssertEqual(cityLiverpool.population(), 11)
+
+        XCTAssertEqual(pressureKinchassa, -4.444444444444445)
+    }
 }
