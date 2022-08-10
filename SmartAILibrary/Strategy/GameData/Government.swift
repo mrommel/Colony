@@ -166,7 +166,7 @@ public protocol AbstractGovernment: AnyObject, Codable {
     func hasPolicyCardsFilled(in gameModel: GameModel?) -> Bool
     func policyCardSlots(in gameModel: GameModel?) -> PolicyCardSlots
     func possiblePolicyCards() -> [PolicyCardType]
-    func fillPolicyCards()
+    func fillPolicyCards(in gameModel: GameModel?)
 
     func verify(in gameModel: GameModel?)
 }
@@ -283,20 +283,20 @@ public class Government: AbstractGovernment {
 
                         self.set(governmentType: bestGovernment, in: gameModel)
 
-                        self.fillPolicyCards()
+                        self.fillPolicyCards(in: gameModel)
                     }
                 }
             } else {
                 self.set(governmentType: .chiefdom, in: gameModel)
 
-                self.fillPolicyCards()
+                self.fillPolicyCards(in: gameModel)
             }
 
             self.lastCheckedGovernment = gameModel.currentTurn
         }
     }
 
-    public func fillPolicyCards() {
+    public func fillPolicyCards(in gameModel: GameModel?) {
 
         guard let currentGovernment = self.currentGovernmentVal else {
             fatalError("no government selected")
@@ -378,7 +378,8 @@ public class Government: AbstractGovernment {
         }
 
         // select best policy cards for each slot
-        for slotType in currentGovernment.policyCardSlots().types() {
+        let slots: PolicyCardSlots = self.policyCardSlots(in: gameModel)
+        for slotType in slots.types() {
 
             let possibleCardsForSlot = policyCardRating.filter(
                 where: { (key, _) in

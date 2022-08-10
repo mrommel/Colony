@@ -1,35 +1,11 @@
 //
-//  BaseDialog.swift
-//  SmartMacOSUILibrary
+//  BaseDialogView.swift
+//  SmartColonyMacOSUILibrary
 //
-//  Created by Michael Rommel on 01.09.21.
+//  Created by Michael Rommel on 23.06.22.
 //
 
 import SwiftUI
-import SmartAssets
-
-protocol BaseDialogViewModel: AnyObject {
-
-    func closeDialog()
-}
-
-struct DialogBackground: ViewModifier {
-
-    func body(content: Content) -> some View {
-        content
-            .background(
-                Image(nsImage: ImageCache.shared.image(for: "grid9-dialog"))
-                    .resizable(capInsets: EdgeInsets(all: 45))
-            )
-    }
-}
-
-extension View {
-
-    public func dialogBackground() -> some View {
-        self.modifier(DialogBackground())
-    }
-}
 
 enum DialogMode {
 
@@ -108,7 +84,11 @@ struct BaseDialogView<Content>: View where Content: View {
 
                 self.content
                     .frame(width: self.mode.contentWidth, height: self.mode.contentHeight, alignment: .center)
-                    .border(Color.gray)
+                    .zIndex(0)
+                    .background(
+                        Rectangle()
+                            .strokeBorder(Color.gray, lineWidth: 1)
+                    )
 
                 Button(action: {
                     self.viewModel.closeDialog()
@@ -116,6 +96,7 @@ struct BaseDialogView<Content>: View where Content: View {
                     Text(self.buttonText.localized())
                 })
                 .buttonStyle(DialogButtonStyle())
+                .zIndex(0)
             }
             .padding(.bottom, 45)
             .padding(.leading, 45)
@@ -127,13 +108,6 @@ struct BaseDialogView<Content>: View where Content: View {
 }
 
 #if DEBUG
-class BaseDialogViewModelImpl: BaseDialogViewModel {
-
-    func closeDialog() {
-
-    }
-}
-
 struct BaseDialogView_Previews: PreviewProvider {
 
     static var previews: some View {

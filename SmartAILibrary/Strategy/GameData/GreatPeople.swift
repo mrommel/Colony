@@ -19,8 +19,8 @@ public protocol AbstractGreatPeople: AnyObject, Codable {
     func retire(greatPerson: GreatPerson, in gameModel: GameModel?)
     func hasRetired(greatPerson: GreatPerson) -> Bool
 
-    func numOfSpawnedGreatPersons() -> Int
-    func increaseNumOfSpawned(greatPersonType: GreatPersonType)
+    func numberOfSpawnedGreatPersons() -> Int
+    func increaseNumberOfSpawned(greatPersonType: GreatPersonType)
 }
 
 class GreatPeople: AbstractGreatPeople {
@@ -98,12 +98,12 @@ class GreatPeople: AbstractGreatPeople {
         return self.retiredGreatPersons.contains(where: { $0 == greatPerson })
     }
 
-    func increaseNumOfSpawned(greatPersonType: GreatPersonType) {
+    func increaseNumberOfSpawned(greatPersonType: GreatPersonType) {
 
         self.spawned[greatPersonType] = (self.spawned[greatPersonType] ?? 0) + 1
     }
 
-    func numOfSpawnedGreatPersons() -> Int {
+    func numberOfSpawnedGreatPersons() -> Int {
 
         return GreatPersonType.all.map { self.spawned[$0] ?? 0 }.reduce(0, +)
     }

@@ -215,7 +215,7 @@ extension GameScene: UserInterfaceDelegate {
         // print("select civic \(civic)")
     }
 
-    func askForConfirmation(title: String, question: String, confirm: String = "Yes", cancel: String = "No", completion: @escaping (Bool) -> Void) {
+    func askForConfirmation(title: String, question: String, confirm: String = "Yes", cancel: String? = nil, completion: @escaping (Bool) -> Void) {
 
         self.viewModel?.delegate?.showConfirmationDialog(
             title: title,
@@ -367,7 +367,9 @@ extension GameScene: UserInterfaceDelegate {
                 tmpText += "\n\(improvement.name().localized())"
             }
 
-            // Movement Cost
+            let movementCost = tile.movementCost(for: .walk, from: tile, wrapX: -1)
+            tmpText += "\nMovement Cost: \(movementCost)"
+
             // Defense Modifier
 
             if humanPlayer.isEqual(to: tile.owner()) {
@@ -394,6 +396,22 @@ extension GameScene: UserInterfaceDelegate {
 
                 if yields.gold > 0.0 {
                     tmpText += "\n\(yields.gold) [Gold] Gold"
+                }
+
+                if yields.science > 0.0 {
+                    tmpText += "\n\(yields.science) [Science] Science"
+                }
+
+                if yields.faith > 0.0 {
+                    tmpText += "\n\(yields.faith) [Faith] Faith"
+                }
+
+                if let city = tile.workingCity() {
+                    if let citizen = city.cityCitizens {
+                        if citizen.isWorked(at: tile.point) {
+                            tmpText += "\n\nWorked by 1 [Citizen] Citizen"
+                        }
+                    }
                 }
             }
 
@@ -498,5 +516,95 @@ extension GameScene: UserInterfaceDelegate {
         }
 
         return mapNode.unitLayer.animationsAreRunning(for: leader)
+    }
+
+    func finish(tutorial: TutorialType) {
+
+        guard let gameModel = self.viewModel?.gameModel else {
+            return
+        }
+
+        print("tutorial: \(tutorial) finished")
+
+        switch tutorial {
+
+        case .none:
+            fatalError("cant finish 'none' tutorial")
+
+        case .movementAndExploration:
+            gameModel.userInterface?.askForConfirmation(
+                title: "TXT_KEY_TUTORIAL_MOVEMENT_EXPLORATION_CONGRATULATION".localized(),
+                question: "TXT_KEY_TUTORIAL_MOVEMENT_EXPLORATION_SUCCESS"
+                    .localizedWithFormat(with: [Tutorials.MovementAndExplorationTutorial.tilesToDiscover]),
+                confirm: "TXT_KEY_OKAY".localized(),
+                cancel: "TXT_KEY_CANCEL".localized(),
+                completion: { _ in
+                    UserDefaults.standard.set(true, forKey: Tutorials.MovementAndExplorationTutorial.userHasFinished)
+                    self.viewModel?.delegate?.closeGameAndShowTutorials()
+                }
+            )
+
+        case .foundFirstCity:
+            gameModel.userInterface?.askForConfirmation(
+                title: "TXT_KEY_TUTORIAL_FOUND_FIRST_CITY_CONGRATULATION".localized(),
+                question: "TXT_KEY_TUTORIAL_FOUND_FIRST_CITY_SUCCESS"
+                    .localizedWithFormat(with: [Tutorials.FoundFirstCityTutorial.citiesToFound]),
+                confirm: "TXT_KEY_OKAY".localized(),
+                cancel: "TXT_KEY_CANCEL".localized(),
+                completion: { _ in
+                    UserDefaults.standard.set(true, forKey: Tutorials.FoundFirstCityTutorial.userHasFinished)
+                    self.viewModel?.delegate?.closeGameAndShowTutorials()
+                }
+            )
+
+        case .improvingCity:
+            gameModel.userInterface?.askForConfirmation(
+                title: "TXT_KEY_TUTORIAL_IMPROVING_CITY_CONGRATULATION".localized(),
+                question: "TXT_KEY_TUTORIAL_IMPROVING_CITY_SUCCESS"
+                    .localizedWithFormat(with: [Tutorials.ImprovingCityTutorial.citizenInCityNeeded]),
+                confirm: "TXT_KEY_OKAY".localized(),
+                cancel: "TXT_KEY_CANCEL".localized(),
+                completion: { _ in
+                    UserDefaults.standard.set(true, forKey: Tutorials.ImprovingCityTutorial.userHasFinished)
+                    self.viewModel?.delegate?.closeGameAndShowTutorials()
+                }
+            )
+
+        case .establishTradeRoute:
+            gameModel.userInterface?.askForConfirmation(
+                title: "TXT_KEY_TUTORIAL_ESTABLISH_TRADE_ROUTE_CONGRATULATION".localized(),
+                question: "TXT_KEY_TUTORIAL_ESTABLISH_TRADE_ROUTE_SUCCESS".localized(),
+                confirm: "TXT_KEY_OKAY".localized(),
+                cancel: "TXT_KEY_CANCEL".localized(),
+                completion: { _ in
+                    UserDefaults.standard.set(true, forKey: Tutorials.EstablishTradeRouteTutorial.userHasFinished)
+                    self.viewModel?.delegate?.closeGameAndShowTutorials()
+                }
+            )
+
+        case .combatAndConquest:
+            gameModel.userInterface?.askForConfirmation(
+                title: "TXT_KEY_TUTORIAL_COMBAT_CONQUEST_CONGRATULATION".localized(),
+                question: "TXT_KEY_TUTORIAL_COMBAT_CONQUEST_SUCCESS".localized(),
+                confirm: "TXT_KEY_OKAY".localized(),
+                cancel: "TXT_KEY_CANCEL".localized(),
+                completion: { _ in
+                    UserDefaults.standard.set(true, forKey: Tutorials.CombatAndConquestTutorial.userHasFinished)
+                    self.viewModel?.delegate?.closeGameAndShowTutorials()
+                }
+            )
+
+        case .basicDiplomacy:
+            gameModel.userInterface?.askForConfirmation(
+                title: "TXT_KEY_TUTORIAL_BASIC_DIPLOMACY_CONGRATULATION".localized(),
+                question: "TXT_KEY_TUTORIAL_BASIC_DIPLOMACY_SUCCESS".localized(),
+                confirm: "TXT_KEY_OKAY".localized(),
+                cancel: "TXT_KEY_CANCEL".localized(),
+                completion: { _ in
+                    UserDefaults.standard.set(true, forKey: Tutorials.BasicDiplomacyTutorial.userHasFinished)
+                    self.viewModel?.delegate?.closeGameAndShowTutorials()
+                }
+            )
+        }
     }
 }

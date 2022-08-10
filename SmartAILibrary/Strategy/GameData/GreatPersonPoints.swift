@@ -89,6 +89,19 @@ public class GreatPersonPoints: Codable {
         self.greatMusician += other.greatMusician
     }
 
+    func modify(by modifier: Double) {
+
+        self.greatGeneral = Int(Double(self.greatGeneral) * modifier)
+        self.greatAdmiral = Int(Double(self.greatAdmiral) * modifier)
+        self.greatEngineer = Int(Double(self.greatEngineer) * modifier)
+        self.greatMerchant = Int(Double(self.greatMerchant) * modifier)
+        self.greatProphet = Int(Double(self.greatProphet) * modifier)
+        self.greatScientist = Int(Double(self.greatScientist) * modifier)
+        self.greatWriter = Int(Double(self.greatWriter) * modifier)
+        self.greatArtist = Int(Double(self.greatArtist) * modifier)
+        self.greatMusician = Int(Double(self.greatMusician) * modifier)
+    }
+
     func add(value: Int, for greatPersonType: GreatPersonType) {
 
         switch greatPersonType {

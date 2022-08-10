@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SmartAssets
+import SmartAILibrary
 
 class GovernorAbilityViewModel: ObservableObject {
 
@@ -18,18 +19,38 @@ class GovernorAbilityViewModel: ObservableObject {
     @Published
     var enabled: Bool
 
-    let iconTexture: String
+    private let governorTitle: GovernorTitleType
 
-    init(iconTexture: String, text: String, enabled: Bool) {
+    init(governorTitle: GovernorTitleType, enabled: Bool) {
 
-        self.text = text.localized()
-        self.iconTexture = iconTexture
+        self.governorTitle = governorTitle
+        self.text = governorTitle.name().localized()
         self.enabled = enabled
+    }
+
+    func toolTip() -> NSAttributedString {
+
+        let toolTipText = NSMutableAttributedString()
+
+        let title = NSAttributedString(
+            string: self.text,
+            attributes: Globals.Attributs.tooltipTitleAttributs
+        )
+        toolTipText.append(title)
+
+        let tokenizer = LabelTokenizer()
+
+        for effect in governorTitle.effects() {
+            toolTipText.append(NSAttributedString(string: "\n"))
+            toolTipText.append(tokenizer.convert(text: effect.localized(), with: Globals.Attributs.tooltipContentAttributs))
+        }
+
+        return toolTipText
     }
 
     func icon() -> NSImage {
 
-        return ImageCache.shared.image(for: self.iconTexture)
+        return ImageCache.shared.image(for: self.governorTitle.iconTexture())
     }
 }
 

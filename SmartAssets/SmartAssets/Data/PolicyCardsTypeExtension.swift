@@ -38,14 +38,7 @@ extension PolicyCardType {
             return "policyCard-darkAge"
         }
 
-        switch self.slot() {
-
-        case .military: return "policyCard-military"
-        case .economic: return "policyCard-economic"
-        case .diplomatic: return "policyCard-diplomatic"
-        case .wildcard: return "policyCard-wildcard"
-        case .darkAge: return "policyCard-darkAge"
-        }
+        return self.slot().iconTexture()
     }
 }
 

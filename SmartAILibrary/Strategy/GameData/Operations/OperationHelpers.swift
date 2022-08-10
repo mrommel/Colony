@@ -10,13 +10,13 @@ import Foundation
 
 class OperationHelpers {
 
-    static func gatherRangeFor(numOfUnits: Int) -> Int {
+    static func gatherRangeFor(numberOfUnits: Int) -> Int {
 
-        if numOfUnits <= 2 {
+        if numberOfUnits <= 2 {
             return 1
-        } else if numOfUnits <= 6 {
+        } else if numberOfUnits <= 6 {
             return 2
-        } else if numOfUnits <= 10 {
+        } else if numberOfUnits <= 10 {
             return 3
         } else {
             return 4

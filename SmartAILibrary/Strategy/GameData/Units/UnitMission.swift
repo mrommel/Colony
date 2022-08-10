@@ -247,6 +247,7 @@ public class UnitMission: Codable {
         
     }*/
 
+    // swiftlint:disable cyclomatic_complexity
     func continueMission(steps: Int, in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
@@ -278,70 +279,46 @@ public class UnitMission: Codable {
 
                     if let target = self.target, let tile = gameModel.tile(at: target) {
 
-                        /*if unit.isAutomated() && tile.isDiscovered(by: unitPlayer) && unit.canMove(into: target, options: MoveOptions.attack, in: gameModel) {
+                        // configs
+                        let cityAttackInterrupt = true // gDLL->GetAdvisorCityAttackInterrupt();
+                        let badAttackInterrupt = true // gDLL->GetAdvisorBadAttackInterrupt();
 
-                            // if we're automated and try to attack, consider this move OVAH
-                            done = true
-                        } else {
+                        if unitPlayer.isHuman() && badAttackInterrupt {
 
-                            // configs
-                            let cityAttackInterrupt = false // gDLL->GetAdvisorCityAttackInterrupt();
-                            let badAttackInterrupt = true // gDLL->GetAdvisorBadAttackInterrupt();
+                            if unit.canMove(into: target, options: .attack, in: gameModel) && tile.isDiscovered(by: unitPlayer) {
 
-                            if unitPlayer.isHuman() && badAttackInterrupt {
+                                if tile.isCity() {
 
-                                if unit.canMove(into: target, options: .attack, in: gameModel) && tile.isDiscovered(by: unitPlayer) {
-
-                                    if tile.isCity() {
-
-                                        if cityAttackInterrupt {
-
-                                            // GC.GetEngineUserInterface()->SetDontShowPopups(false);
-
-                                            // FIXME: show tutorial
-                                            /*if(!GC.getGame().isOption(GAMEOPTION_NO_TUTORIAL))
-                                            {
-                                                // do city alert
-                                                CvPopupInfo kPopup(BUTTONPOPUP_ADVISOR_MODAL);
-                                                kPopup.iData1 = ADVISOR_MILITARY;
-                                                kPopup.iData2 = pPlot->GetPlotIndex();
-                                                kPopup.iData3 = unit.plot()->GetPlotIndex();
-                                                strcpy_s(kPopup.szText, "TXT_KEY_ADVISOR_CITY_ATTACK_BODY");
-                                                kPopup.bOption1 = true;
-                                                GC.GetEngineUserInterface()->AddPopup(kPopup);
-                                                goto ContinueMissionExit;
-                                            }*/
+                                    if cityAttackInterrupt {
+                                        // show tutorial
+                                        if gameModel.showTutorialInfos() {
+                                            // do city alert
+                                            let city = gameModel.city(at: target)
+                                            gameModel.userInterface?.showPopup(popupType: .tutorialCityAttack(attacker: unit, city: city))
+                                            return
                                         }
-                                    } else if badAttackInterrupt {
+                                    }
+                                } else if badAttackInterrupt {
 
-                                        if let defender = gameModel.visibleEnemy(at: target, for: unitPlayer) {
+                                    if let defender = gameModel.visibleEnemy(at: target, for: unitPlayer) {
 
-                                            //CombatPredictionTypes ePrediction = GC.getGame().GetCombatPrediction(hUnit.pointer(), pDefender);
-                                            let result = Combat.predictMeleeAttack(between: unit, and: defender, in: gameModel)
-                                            if result.value == .totalDefeat || result.value == .majorDefeat {
-                                                // FIXME: show tutorial
-                                                /*if(!GC.getGame().isOption(GAMEOPTION_NO_TUTORIAL))
-                                                {
-                                                    GC.GetEngineUserInterface()->SetDontShowPopups(false);
-                                                    CvPopupInfo kPopup(BUTTONPOPUP_ADVISOR_MODAL);
-                                                    kPopup.iData1 = ADVISOR_MILITARY;
-                                                    kPopup.iData2 = pPlot->GetPlotIndex();
-                                                    kPopup.iData3 = unit.plot()->GetPlotIndex();
-                                                    strcpy_s(kPopup.szText, "TXT_KEY_ADVISOR_BAD_ATTACK_BODY");
-                                                    kPopup.bOption1 = false;
-                                                    GC.GetEngineUserInterface()->AddPopup(kPopup);
-                                                    goto ContinueMissionExit;
-                                                }*/
+                                        let result = Combat.predictMeleeAttack(between: unit, and: defender, in: gameModel)
+                                        if result.value == .totalDefeat || result.value == .majorDefeat {
+                                            // show tutorial
+                                            if gameModel.showTutorialInfos() {
+                                                let popup = PopupType.tutorialBadUnitAttack(attacker: unit, defender: defender)
+                                                gameModel.userInterface?.showPopup(popupType: popup)
+                                                return
                                             }
                                         }
                                     }
                                 }
                             }
+                        }
 
-                            if unit.doAttack(into: target, steps: steps, in: gameModel) {
-                                done = true
-                            }
-                        }*/
+                        if unit.doAttack(into: target, steps: steps, in: gameModel) {
+                            done = true
+                        }
                     }
                 }
             }

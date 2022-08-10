@@ -318,7 +318,7 @@ public class ReligionAI {
 
         // let's establish some mid-game goals for the AI.
         var idealCityPop = max(player.capitalCity(in: gameModel)?.population() ?? 0, 30)
-        var idealEmpireSize = max(player.numCities(in: gameModel), gameModel.mapSize().targetNumCities())
+        var idealEmpireSize = max(player.numberOfCities(in: gameModel), gameModel.mapSize().targetNumberOfCities())
 
         if player.leader.isSmaller() {
             idealCityPop += 5
@@ -429,7 +429,7 @@ public class ReligionAI {
         for resourceLoop in ResourceType.all {
 
             if resourceLoop.usage() == .luxury &&
-                (city.numLocalResources(of: resourceLoop, in: gameModel) > 0 || player.numAvailable(resource: resourceLoop) > 0) {
+                (city.numLocalResources(of: resourceLoop, in: gameModel) > 0 || player.numberOfAvailable(resource: resourceLoop) > 0) {
 
                 numLuxuries += 1
             }

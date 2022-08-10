@@ -80,18 +80,17 @@ class EarlyExpansionEconomicStrategyType: EconomicStrategyTypeData {
                     if bestArea == capitalArea {
 
                         let tilesInCapitalArea = gameModel.tiles(in: capitalArea)
-                        let numOwnedTiles = tilesInCapitalArea.filter({ $0?.hasOwner() ?? false }).count
-                        let numUnownedTiles = tilesInCapitalArea.filter({ !($0?.hasOwner() ?? true) }).count
-                        let numTiles = max(1, numOwnedTiles + numUnownedTiles)
-                        let ownageRatio = numOwnedTiles * 100 / numTiles
-                        let numCities = gameModel.cities(of: player).count
+                        let numberOfOwnedTiles = tilesInCapitalArea.filter({ $0?.hasOwner() ?? false }).count
+                        let numberOfUnownedTiles = tilesInCapitalArea.filter({ !($0?.hasOwner() ?? true) }).count
+                        let numberOfTiles = max(1, numberOfOwnedTiles + numberOfUnownedTiles)
+                        let ownageRatio = numberOfOwnedTiles * 100 / numberOfTiles
+                        let numberOfCities = gameModel.cities(of: player).count
 
-                        let numSettlersOnMap = gameModel.units(of: player).count(where: { $0!.task() == .settle })
+                        let numberOfSettlersOnMap = gameModel.units(of: player).count(where: { $0!.task() == .settle })
 
                         if ownageRatio < 75 /* AI_STRATEGY_AREA_IS_FULL_PERCENT */
-
-                            && (numCities + numSettlersOnMap) < desiredCities
-                            && numUnownedTiles >= 25 /* AI_STRATEGY_EARLY_EXPANSION_NUM_UNOWNED_TILES_REQUIRED */ {
+                            && (numberOfCities + numberOfSettlersOnMap) < desiredCities
+                            && numberOfUnownedTiles >= 25 /* AI_STRATEGY_EARLY_EXPANSION_NUM_UNOWNED_TILES_REQUIRED */ {
 
                             return true
                         }

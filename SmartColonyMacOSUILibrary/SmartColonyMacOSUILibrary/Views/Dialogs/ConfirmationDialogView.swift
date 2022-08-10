@@ -31,13 +31,15 @@ struct ConfirmationDialogView: View {
 
                 HStack(alignment: .center, spacing: 0) {
 
-                    Button(action: {
-                        self.viewModel.closeDialog()
-                    }, label: {
-                        Text(self.viewModel.cancelText)
-                    })
+                    if let cancelText = self.viewModel.cancelText {
+                        Button(action: {
+                            self.viewModel.closeDialog()
+                        }, label: {
+                            Text(cancelText)
+                        })
 
-                    Spacer()
+                        Spacer()
+                    }
 
                     Button(action: {
                         self.viewModel.closeDialogAndComfirm()

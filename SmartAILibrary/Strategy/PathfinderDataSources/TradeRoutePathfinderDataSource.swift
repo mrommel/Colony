@@ -63,7 +63,7 @@ class TradeRoutePathfinderDataSource: PathfinderDataSource {
 
             var isReachable: Bool = false
 
-            if neighbor.distance(to: startLocation) < TradeRoutes.landRange {
+            if neighbor.distance(to: startLocation, wrapX: self.wrapXValue) < TradeRoutes.landRange {
                 isReachable = true
             }
 

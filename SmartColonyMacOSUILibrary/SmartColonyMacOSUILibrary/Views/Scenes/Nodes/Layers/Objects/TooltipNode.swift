@@ -64,7 +64,7 @@ class TooltipNode: SKNode {
         let numberOfLines = text.numberOfLines()
 
         let attributedText = TooltipNode.tokenizer.convert(text: text, with: Globals.Attributs.tooltipMapAttributs, extraSpace: false)
-        let height: CGFloat = CGFloat(20 * numberOfLines)
+        let height: CGFloat = CGFloat(18 * numberOfLines)
         let width: CGFloat = attributedText.width(for: height)
         let size = CGSize(width: width, height: height)
 

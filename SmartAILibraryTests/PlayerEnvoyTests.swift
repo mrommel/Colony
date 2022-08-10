@@ -45,7 +45,7 @@ class PlayerEnvoyTests: XCTestCase {
             on: mapModel
         )
 
-        playerTrajan.changeEnvoys(by: 3)
+        playerTrajan.changeUnassignedEnvoys(by: 3)
         playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
         playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
         let suzerainBefore = playerAmsterdam.suzerain()
@@ -91,12 +91,12 @@ class PlayerEnvoyTests: XCTestCase {
             on: mapModel
         )
 
-        playerAlexander.changeEnvoys(by: 3)
+        playerAlexander.changeUnassignedEnvoys(by: 3)
         playerAlexander.assignEnvoy(to: .amsterdam, in: gameModel)
         playerAlexander.assignEnvoy(to: .amsterdam, in: gameModel)
         playerAlexander.assignEnvoy(to: .amsterdam, in: gameModel)
 
-        playerTrajan.changeEnvoys(by: 3)
+        playerTrajan.changeUnassignedEnvoys(by: 3)
         playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
         playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
         let suzerainBefore = playerAmsterdam.suzerain()
@@ -142,12 +142,12 @@ class PlayerEnvoyTests: XCTestCase {
             on: mapModel
         )
 
-        playerAlexander.changeEnvoys(by: 3)
+        playerAlexander.changeUnassignedEnvoys(by: 3)
         playerAlexander.assignEnvoy(to: .amsterdam, in: gameModel)
         playerAlexander.assignEnvoy(to: .amsterdam, in: gameModel)
         playerAlexander.assignEnvoy(to: .amsterdam, in: gameModel)
 
-        playerTrajan.changeEnvoys(by: 4)
+        playerTrajan.changeUnassignedEnvoys(by: 4)
         playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
         playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
         let suzerainBefore = playerAmsterdam.suzerain()
@@ -194,7 +194,7 @@ class PlayerEnvoyTests: XCTestCase {
             on: mapModel
         )
 
-        playerTrajan.changeEnvoys(by: 3)
+        playerTrajan.changeUnassignedEnvoys(by: 3)
         playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
         playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
         playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
@@ -241,12 +241,12 @@ class PlayerEnvoyTests: XCTestCase {
             on: mapModel
         )
 
-        playerAlexander.changeEnvoys(by: 3)
+        playerAlexander.changeUnassignedEnvoys(by: 3)
         playerAlexander.assignEnvoy(to: .amsterdam, in: gameModel)
         playerAlexander.assignEnvoy(to: .amsterdam, in: gameModel)
         playerAlexander.assignEnvoy(to: .amsterdam, in: gameModel)
 
-        playerTrajan.changeEnvoys(by: 4)
+        playerTrajan.changeUnassignedEnvoys(by: 4)
         playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
         playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
         playerTrajan.assignEnvoy(to: .amsterdam, in: gameModel)
@@ -295,7 +295,7 @@ class PlayerEnvoyTests: XCTestCase {
             on: mapModel
         )
 
-        playerAlexander.changeEnvoys(by: 3)
+        playerAlexander.changeUnassignedEnvoys(by: 3)
         playerAlexander.doFirstContact(with: playerAmsterdam, in: gameModel)
         let effectsBefore = playerAlexander.envoyEffects(in: gameModel)
 

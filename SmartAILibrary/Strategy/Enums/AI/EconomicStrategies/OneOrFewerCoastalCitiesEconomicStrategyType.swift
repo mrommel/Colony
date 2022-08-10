@@ -37,7 +37,7 @@ class OneOrFewerCoastalCitiesEconomicStrategyType: EconomicStrategyTypeData {
             fatalError()
         }
 
-        var numCoastalCities = 0
+        var numberOfCoastalCities = 0
         for cityRef in gameModel.cities(of: player) {
 
             guard let cityLocation = cityRef?.location else {
@@ -45,10 +45,10 @@ class OneOrFewerCoastalCitiesEconomicStrategyType: EconomicStrategyTypeData {
             }
 
             if gameModel.isCoastal(at: cityLocation) {
-                numCoastalCities += 1
+                numberOfCoastalCities += 1
             }
         }
 
-        return numCoastalCities <= 1
+        return numberOfCoastalCities <= 1
     }
 }

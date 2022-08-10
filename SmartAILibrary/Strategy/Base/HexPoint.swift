@@ -449,15 +449,27 @@ extension HexPoint {
     }
 
     // returns the direction of the neighbor (or nil when this is not a neighbor)
-    public func direction(towards hex: HexPoint) -> HexDirection? {
+    public func direction(towards hex: HexPoint, wrapX: Int? = nil) -> HexDirection? {
 
         for direction in HexDirection.all {
             if self.neighbor(in: direction) == hex {
                 return direction
             }
+
+            if let wrapX = wrapX {
+                let wrappedHex = HexPoint(x: hex.x - wrapX, y: hex.y)
+                if self.neighbor(in: direction) == wrappedHex {
+                    return direction
+                }
+
+                let wrappedHex2 = HexPoint(x: hex.x + wrapX, y: hex.y)
+                if self.neighbor(in: direction) == wrappedHex2 {
+                    return direction
+                }
+            }
         }
 
-        let angle = HexPoint.screenAngle(from: self, towards: hex)
+        let angle = HexPoint.screenAngle(from: self, towards: hex, wrapX: wrapX)
         return HexPoint.degreesToDirection(degrees: angle)
     }
 
@@ -493,15 +505,40 @@ extension HexPoint {
         return toScreen(cube: HexCube(hex: hex))
     }
 
-    public static func screenAngle(from: HexPoint, towards: HexPoint) -> Int {
+    public static func screenAngle(from: HexPoint, towards: HexPoint, wrapX: Int? = nil) -> Int {
 
-        let fromScreenPoint = HexPoint.self.toScreen(hex: from)
-        let towardsScreenPoint = HexPoint.self.toScreen(hex: towards)
+        if let wrapX = wrapX {
+            let normalDistance = from.distance(to: towards)
+            let wrappedDistance = from.distance(to: towards, wrapX: wrapX)
 
-        let deltax = towardsScreenPoint.x - fromScreenPoint.x
-        let deltay = towardsScreenPoint.y - fromScreenPoint.y
+            if normalDistance <= wrappedDistance {
+                let fromScreenPoint = HexPoint.toScreen(hex: from)
+                let towardsScreenPoint = HexPoint.toScreen(hex: towards)
 
-        return Int(atan2(deltax, deltay) * (180.0 / CGFloat(Double.pi)))
+                let deltax = towardsScreenPoint.x - fromScreenPoint.x
+                let deltay = towardsScreenPoint.y - fromScreenPoint.y
+
+                return Int(atan2(deltax, deltay) * (180.0 / CGFloat(Double.pi)))
+            } else {
+                let wrappedTowards = HexPoint(x: towards.x - wrapX, y: towards.y)
+                let fromScreenPoint = HexPoint.toScreen(hex: from)
+                let towardsScreenPoint = HexPoint.toScreen(hex: wrappedTowards)
+
+                let deltax = towardsScreenPoint.x - fromScreenPoint.x
+                let deltay = towardsScreenPoint.y - fromScreenPoint.y
+
+                return Int(atan2(deltax, deltay) * (180.0 / CGFloat(Double.pi)))
+            }
+
+        } else {
+            let fromScreenPoint = HexPoint.toScreen(hex: from)
+            let towardsScreenPoint = HexPoint.toScreen(hex: towards)
+
+            let deltax = towardsScreenPoint.x - fromScreenPoint.x
+            let deltay = towardsScreenPoint.y - fromScreenPoint.y
+
+            return Int(atan2(deltax, deltay) * (180.0 / CGFloat(Double.pi)))
+        }
     }
 
     func degreesToDirection(degrees: Int) -> HexDirection {
@@ -526,9 +563,9 @@ extension HexPoint {
         }
     }
 
-    public static func screenDirection(from: HexPoint, towards: HexPoint) -> HexDirection {
+    public static func screenDirection(from: HexPoint, towards: HexPoint, wrapX: Int? = nil) -> HexDirection {
 
-        let angle = HexPoint.screenAngle(from: from, towards: towards)
+        let angle = HexPoint.screenAngle(from: from, towards: towards, wrapX: wrapX)
         return degreesToDirection(degrees: angle)
     }
 

@@ -480,7 +480,12 @@ extension GameScene: MouseAwareDelegate {
             return
         }
 
-        let position = HexPoint(screen: location)
+        var position = HexPoint(screen: location)
+
+        if gameModel.wrappedX() {
+            position = gameModel.wrap(point: position)
+        }
+
         var selectedCity: Bool = false
         var selectedUnit: Bool = false
 
@@ -545,6 +550,8 @@ extension GameScene: MouseAwareDelegate {
 
         if self.viewModel?.delegate?.selectedUnit != nil {
             self.unselect()
+            self.viewModel?.unitSelectionMode = .pick
+        } else {
             self.viewModel?.unitSelectionMode = .pick
         }
     }

@@ -209,7 +209,7 @@ public class CityConnections: Codable {
         return self.cityPlots.isEmpty
     }
 
-    func numConnectableCities() -> Int {
+    func numberOfConnectableCities() -> Int {
 
         return self.cityPlots.count
     }

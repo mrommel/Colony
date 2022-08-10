@@ -80,8 +80,8 @@ public enum GovernorType: Int, Codable {
         case .reyna:
             // https://civilization.fandom.com/wiki/Reyna_(Financier)_(Civ6)
             return GovernorTypeData(
-                name: "Reyna",
-                title: "The Financier",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_NAME",
+                title: "TXT_KEY_GOVERNMENT_GOVERNOR_REYNA_TITLE",
                 turnsToEstablish: 5,
                 defaultTitle: .landAcquisition,
                 titles: [
@@ -95,8 +95,8 @@ public enum GovernorType: Int, Codable {
         case .victor:
             // https://civilization.fandom.com/wiki/Victor_(Castellan)_(Civ6)
             return GovernorTypeData(
-                name: "Victor",
-                title: "The Castellan",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_NAME",
+                title: "TXT_KEY_GOVERNMENT_GOVERNOR_VICTOR_TITLE",
                 turnsToEstablish: 3,
                 defaultTitle: .redoubt,
                 titles: [
@@ -110,8 +110,8 @@ public enum GovernorType: Int, Codable {
         case .amani:
             // https://civilization.fandom.com/wiki/Amani_(Diplomat)_(Civ6)
             return GovernorTypeData(
-                name: "Amani",
-                title: "The Diplomat",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_NAME",
+                title: "TXT_KEY_GOVERNMENT_GOVERNOR_AMANI_TITLE",
                 turnsToEstablish: 5,
                 defaultTitle: .messenger,
                 titles: [
@@ -125,8 +125,8 @@ public enum GovernorType: Int, Codable {
         case .magnus:
             // https://civilization.fandom.com/wiki/Magnus_(Steward)_(Civ6)
             return GovernorTypeData(
-                name: "Magnus",
-                title: "The Steward",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_NAME",
+                title: "TXT_KEY_GOVERNMENT_GOVERNOR_MAGNUS_TITLE",
                 turnsToEstablish: 5,
                 defaultTitle: .groundbreaker,
                 titles: [
@@ -140,8 +140,8 @@ public enum GovernorType: Int, Codable {
         case .moksha:
             // https://civilization.fandom.com/wiki/Moksha_(Cardinal)_(Civ6)
             return GovernorTypeData(
-                name: "Moksha",
-                title: "The Cardinal",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_NAME",
+                title: "TXT_KEY_GOVERNMENT_GOVERNOR_MOKSHA_TITLE",
                 turnsToEstablish: 5,
                 defaultTitle: .bishop,
                 titles: [
@@ -155,8 +155,8 @@ public enum GovernorType: Int, Codable {
         case .liang:
             // https://civilization.fandom.com/wiki/Liang_(Surveyor)_(Civ6)
             return GovernorTypeData(
-                name: "Liang",
-                title: "The Surveyor",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_NAME",
+                title: "TXT_KEY_GOVERNMENT_GOVERNOR_LIANG_TITLE",
                 turnsToEstablish: 5,
                 defaultTitle: .guildmaster,
                 titles: [
@@ -170,8 +170,8 @@ public enum GovernorType: Int, Codable {
         case .pingala:
             // https://civilization.fandom.com/wiki/Pingala_(Educator)_(Civ6)
             return GovernorTypeData(
-                name: "Pingala",
-                title: "The Educator",
+                name: "TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_NAME",
+                title: "TXT_KEY_GOVERNMENT_GOVERNOR_PINGALA_TITLE",
                 turnsToEstablish: 5,
                 defaultTitle: .librarian,
                 titles: [

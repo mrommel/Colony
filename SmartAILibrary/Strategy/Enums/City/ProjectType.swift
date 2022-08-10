@@ -73,6 +73,11 @@ public enum ProjectType: Int, Codable {
         return self.data().location
     }
 
+    func unique() -> Bool {
+
+        return self.data().unique
+    }
+
     // in production units
     public func productionCost() -> Int {
 

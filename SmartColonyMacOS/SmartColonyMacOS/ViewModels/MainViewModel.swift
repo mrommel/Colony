@@ -13,6 +13,8 @@ import SmartColonyMacOSUILibrary
 enum PresentedViewType {
 
     case menu
+
+    case tutorials
     case newGameMenu
     case loadGameMenu
     case loadingGame // progress
@@ -36,6 +38,7 @@ class MainViewModel: ObservableObject {
 
     // sub view models
     var menuViewModel: MenuViewModel
+    var tutorialsViewModel: TutorialsViewModel
     var createGameMenuViewModel: CreateGameMenuViewModel
     var loadGameViewModel: LoadGameViewModel
     var generateGameViewModel: GenerateGameViewModel
@@ -49,6 +52,7 @@ class MainViewModel: ObservableObject {
 
     init(presentedView: PresentedViewType = .menu,
          menuViewModel: MenuViewModel = MenuViewModel(),
+         tutorialsViewModel: TutorialsViewModel = TutorialsViewModel(),
          createGameMenuViewModel: CreateGameMenuViewModel = CreateGameMenuViewModel(),
          loadGameViewModel: LoadGameViewModel = LoadGameViewModel(),
          generateGameViewModel: GenerateGameViewModel = GenerateGameViewModel(),
@@ -59,6 +63,7 @@ class MainViewModel: ObservableObject {
         self.mapMenuDisabled = true
 
         self.menuViewModel = menuViewModel
+        self.tutorialsViewModel = tutorialsViewModel
         self.createGameMenuViewModel = createGameMenuViewModel
         self.loadGameViewModel = loadGameViewModel
         self.generateGameViewModel = generateGameViewModel
@@ -69,6 +74,7 @@ class MainViewModel: ObservableObject {
 
         // connect delegates
         self.menuViewModel.delegate = self
+        self.tutorialsViewModel.delegate = self
         self.createGameMenuViewModel.delegate = self
         self.loadGameViewModel.delegate = self
         self.generateGameViewModel.delegate = self
@@ -137,7 +143,35 @@ class MainViewModel: ObservableObject {
 
 extension MainViewModel: MenuViewModelDelegate {
 
+    func showTutorials() {
+
+        self.presentedView = .tutorials
+        self.mapMenuDisabled = true
+    }
+
+    func canResumeGame() -> Bool {
+
+        let fileManager = FileManager.default
+        let directory = NSTemporaryDirectory()
+        let fileName = "current.clny"
+
+        // This returns a URL? even though it is an NSURL class method
+        let fullURL = NSURL.fileURL(withPathComponents: [directory, fileName])
+
+        if let filePath = fullURL?.path {
+            if fileManager.fileExists(atPath: filePath) {
+                return true
+            }
+        }
+
+        return false
+    }
+
     func resumeGame() {
+
+        guard self.canResumeGame() else {
+            return
+        }
 
         self.presentedView = .loadingGame
         self.mapMenuDisabled = false
@@ -199,6 +233,133 @@ extension MainViewModel: MenuViewModelDelegate {
 
     func showOptions() {
 
+        print("not implemented yet")
+    }
+}
+
+extension MainViewModel: TutorialsViewModelDelegate {
+
+    private func generateMovementAndExploration() -> GameModel? {
+
+        let mapOptions = MapOptions(withSize: MapSize.duel, type: .continents, leader: .alexander, handicap: .settler, seed: 42)
+
+        let generator = MapGenerator(with: mapOptions)
+        let map = generator.generate()
+
+        let tutorialGenerator = TutorialGenerator()
+        let gameModel = tutorialGenerator.generate(tutorial: .movementAndExploration, on: map, with: .alexander, on: .settler)
+
+        return gameModel
+    }
+
+    private func generateFoundFirstCity() -> GameModel? {
+
+        let mapOptions = MapOptions(withSize: MapSize.duel, type: .continents, leader: .alexander, handicap: .settler, seed: 42)
+
+        let generator = MapGenerator(with: mapOptions)
+        let map = generator.generate()
+
+        let tutorialGenerator = TutorialGenerator()
+        let gameModel = tutorialGenerator.generate(tutorial: .foundFirstCity, on: map, with: .alexander, on: .settler)
+
+        return gameModel
+    }
+
+    private func generateImprovingCity() -> GameModel? {
+
+        let mapOptions = MapOptions(withSize: MapSize.duel, type: .continents, leader: .alexander, handicap: .settler, seed: 42)
+
+        let generator = MapGenerator(with: mapOptions)
+        let map = generator.generate()
+
+        let tutorialGenerator = TutorialGenerator()
+        let gameModel = tutorialGenerator.generate(tutorial: .improvingCity, on: map, with: .alexander, on: .settler)
+
+        return gameModel
+    }
+
+    private func generateEstablishTradeRoute() -> GameModel? {
+
+        let mapOptions = MapOptions(withSize: MapSize.duel, type: .continents, leader: .alexander, handicap: .settler, seed: 42)
+
+        let generator = MapGenerator(with: mapOptions)
+        let map = generator.generate()
+
+        let tutorialGenerator = TutorialGenerator()
+        let gameModel = tutorialGenerator.generate(tutorial: .establishTradeRoute, on: map, with: .alexander, on: .settler)
+
+        return gameModel
+    }
+
+    private func generateCombatAndConquest() -> GameModel? {
+
+        let mapOptions = MapOptions(withSize: MapSize.duel, type: .continents, leader: .alexander, handicap: .settler, seed: 42)
+
+        let generator = MapGenerator(with: mapOptions)
+        let map = generator.generate()
+
+        let tutorialGenerator = TutorialGenerator()
+        let gameModel = tutorialGenerator.generate(tutorial: .combatAndConquest, on: map, with: .alexander, on: .settler)
+
+        return gameModel
+    }
+
+    private func generateBasicDiplomacy() -> GameModel? {
+
+        let mapOptions = MapOptions(withSize: MapSize.duel, type: .continents, leader: .alexander, handicap: .settler, seed: 42)
+
+        let generator = MapGenerator(with: mapOptions)
+        let map = generator.generate()
+
+        let tutorialGenerator = TutorialGenerator()
+        let gameModel = tutorialGenerator.generate(tutorial: .basicDiplomacy, on: map, with: .alexander, on: .settler)
+
+        return gameModel
+    }
+
+    private func generate(tutorial: TutorialType) -> GameModel? {
+
+        switch tutorial {
+
+        case .none:
+            return nil
+
+        case .movementAndExploration:
+            return self.generateMovementAndExploration()
+        case .foundFirstCity:
+            return self.generateFoundFirstCity()
+        case .improvingCity:
+            return self.generateImprovingCity()
+        case.establishTradeRoute:
+            return self.generateEstablishTradeRoute()
+        case .combatAndConquest:
+            return self.generateCombatAndConquest()
+        case .basicDiplomacy:
+            return self.generateBasicDiplomacy()
+        }
+    }
+
+    func started(tutorial: TutorialType) {
+
+        self.presentedView = .loadingGame
+        self.mapMenuDisabled = false
+
+        DispatchQueue.global(qos: .userInitiated).async {
+
+            guard let gameModel = self.generate(tutorial: tutorial) else {
+                print("could not generate tutorial: \(tutorial)")
+                DispatchQueue.main.async {
+                    self.canceled()
+                }
+                return
+            }
+
+            gameModel.enable(tutorial: tutorial)
+
+            DispatchQueue.main.async {
+                self.created(game: gameModel)
+            }
+        }
     }
 }
 
@@ -285,6 +446,12 @@ extension MainViewModel: CloseGameViewModelDelegate {
     func closeGameAndLoad() {
 
         self.presentedView = .loadGameMenu
+        self.gameEnvironment.assign(game: nil)
+    }
+
+    func closeGameAndShowTutorials() {
+
+        self.presentedView = .tutorials
         self.gameEnvironment.assign(game: nil)
     }
 

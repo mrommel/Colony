@@ -204,11 +204,13 @@ class CityBannerViewModel: ObservableObject {
         self.accent = city.leader.civilization().accent
         self.civilizationTextureName = city.leader.civilization().iconTexture()
 
+        let labelTokenzier = LabelTokenizer()
+
         if let buildableItem = city.currentBuildableItem() {
             self.productionTextureName = buildableItem.iconTexture()
             self.productionTitle = buildableItem.name().localized()
             self.productionEffects = buildableItem.effects()
-                .map { NSAttributedString(string: $0.localized(), attributes: Globals.Attributs.cityBannerAttributs) }
+                .map { labelTokenzier.convert(text: $0.localized(), with: Globals.Attributs.cityBannerAttributs) }
         } else {
             self.productionTextureName = "questionmark"
             self.productionTitle = "TXT_KEY_CITY_NO_PRODUCTION".localized()
@@ -235,7 +237,8 @@ class CityBannerViewModel: ObservableObject {
         self.faithYieldViewModel.tooltip = city.faithPerTurnToolTip(in: gameModel)
 
         var tmpCommands: [CityCommandType] = []
-        if city.isEnemyInRange(in: gameModel) && !city.madeAttack() && !city.canRangeStrike() {
+        tmpCommands.append(.showBuilds(city: city))
+        if city.canRangeStrike() && !city.isOutOfAttacks(in: gameModel) && city.isEnemyInRange(in: gameModel) {
             tmpCommands.append(.showRangedAttackTargets(city: city))
         }
         self.commands = tmpCommands
@@ -294,6 +297,18 @@ class CityBannerViewModel: ObservableObject {
 
         case .showRangedAttackTargets(city: let city):
             self.delegate?.showRangedTargets(of: city)
+
+        case .showBuilds(city: let city):
+            self.delegate?.showCityChooseProductionDialog(for: city)
+
+        case .aquireTiles(city: let city):
+            self.delegate?.showCityAquireTilesDialog(for: city)
+
+        case .purchaseGold(city: let city):
+            self.delegate?.showCityPurchaseGoldDialog(for: city)
+
+        case .purchaseFaith(city: let city):
+            self.delegate?.showCityPurchaseFaithDialog(for: city)
         }
     }
 }

@@ -90,7 +90,7 @@ public class TradeRoute: Codable {
             return false
         }
 
-        return startLeader != endLeader
+        return startLeader == endLeader
     }
 
     public func isInternational(in gameModel: GameModel?) -> Bool {
@@ -137,15 +137,28 @@ public class TradeRoute: Codable {
 
             yields += endDistricts.domesticTradeYields()
 
+            // satrapies - Domestic Trade Routes provide +2 Gold and +1 Culture.
             if startPlayer.leader.civilization().ability() == .satrapies {
-                // Domestic Trade Routes provide +2 Gold and +1 Culture.
                 yields.gold += 2.0
                 yields.culture += 1.0
+            }
+
+            // collectivization - +2 [Production] Production and +4 [Food] Food from domestic [TradeRoute] Trade Routes.
+            if startPlayerGovernment.has(card: .collectivization) {
+                yields.production += 2.0
+                yields.food += 4.0
             }
 
             // universityOfSankore - Domestic Trade Routes give an additional +1 Faith to this city
             if endCity.has(wonder: .universityOfSankore) {
                 yields.faith += 1.0
+            }
+
+            // isolationism - Domestic routes provide +2 [Food] Food, +2 [Production] Production.
+            //    BUT: Can't train or buy Settlers nor settle new cities.
+            if startPlayerGovernment.has(card: .isolationism) {
+                yields.food += 2
+                yields.production += 2
             }
 
         } else {
@@ -168,7 +181,7 @@ public class TradeRoute: Codable {
             }
 
             // kumasi suzerain bonus
-            // Your [TradeRoute] Trade Routes to any city-state provide +2 [Culture] Culture and +1 [Gold] Gold for every specialty district in the origin city.
+            // Your Trade Routes to any city-state provide +2 Culture and +1 Gold for every specialty district in the origin city.
             if startPlayer.isSuzerain(of: .kumasi, in: gameModel) && endCity.player?.isCityState() == true {
 
                 guard let startCityDistricts = startCity.districts else {
@@ -187,6 +200,7 @@ public class TradeRoute: Codable {
             }
         }
 
+        // caravansaries - +2 Gold from all Trade Routes.
         if startPlayerGovernment.has(card: .caravansaries) {
             yields.gold += 2.0
         }
@@ -198,9 +212,30 @@ public class TradeRoute: Codable {
             yields.science += 1.0
         }
 
+        // triangularTrade - +4 Gold and +1 Faith from all Trade Routes.
+        if startPlayerGovernment.has(card: .triangularTrade) {
+
+            yields.gold += 4.0
+            yields.faith += 1.0
+        }
+
+        // ecommerce - +2 [Production] Production and +5 [Gold] Gold from all [TradeRoute] Trade Routes.
+        if startPlayerGovernment.has(card: .ecommerce) {
+
+            yields.production += 2.0
+            yields.gold += 5.0
+        }
+
         // universityOfSankore - +2 Science for every Trade Route to this city
         if endCity.has(wonder: .universityOfSankore) {
             yields.science += 2.0
+        }
+
+        if let endCityGovernor = endCity.governor() {
+            // Your [TradeRoute] Trade Routes ending here provide +2 [Food] Food to their starting city.
+            if endCityGovernor.type == .magnus && endCityGovernor.has(title: .surplusLogistics) {
+                yields.food += 2.0
+            }
         }
 
         /*

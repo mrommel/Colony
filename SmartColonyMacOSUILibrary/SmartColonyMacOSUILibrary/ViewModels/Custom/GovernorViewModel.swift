@@ -61,8 +61,8 @@ class GovernorViewModel: ObservableObject {
         self.governor = governor
 
         self.portraitTexture = governor.type.portraitTexture()
-        self.name = governor.type.name()
-        self.title = governor.type.title()
+        self.name = governor.type.name().localized()
+        self.title = governor.type.title().localized()
 
         self.loyalty = "8"
         self.assignmentTime = "\(governor.type.turnsToEstablish())"
@@ -74,8 +74,7 @@ class GovernorViewModel: ObservableObject {
         self.hasTitles = hasTitles
 
         let defaultGovernorAbilityViewModel = GovernorAbilityViewModel(
-            iconTexture: governor.type.defaultTitle().iconTexture(),
-            text: governor.type.defaultTitle().name(),
+            governorTitle: governor.type.defaultTitle(),
             enabled: true
         )
         self.governorAbilityViewModels.append(defaultGovernorAbilityViewModel)
@@ -83,8 +82,7 @@ class GovernorViewModel: ObservableObject {
         for titleItem in governor.type.titles() {
 
             let governorAbilityViewModel = GovernorAbilityViewModel(
-                iconTexture: titleItem.iconTexture(),
-                text: titleItem.name(),
+                governorTitle: titleItem,
                 enabled: governor.has(title: titleItem)
             )
             self.governorAbilityViewModels.append(governorAbilityViewModel)

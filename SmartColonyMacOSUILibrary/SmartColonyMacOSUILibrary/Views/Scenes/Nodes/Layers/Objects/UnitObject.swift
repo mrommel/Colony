@@ -182,8 +182,13 @@ class UnitObject {
             return
         }
 
-        let direction = HexPoint.screenDirection(from: from, towards: to)
-        let showEmbarked = unit.isEmbarked() && gameModel?.tile(at: to)?.isWater() ?? false
+        guard let gameModel = self.gameModel else {
+            return
+        }
+
+        let wrapX: Int = gameModel.wrappedX() ? gameModel.mapSize().width() : -1
+        let direction = HexPoint.screenDirection(from: from, towards: to, wrapX: wrapX)
+        let showEmbarked = unit.isEmbarked() && gameModel.tile(at: to)?.isWater() ?? false
 
         switch direction {
 
@@ -245,7 +250,12 @@ class UnitObject {
             return
         }
 
-        let direction = HexPoint.screenDirection(from: from, towards: to)
+        guard let gameModel = self.gameModel else {
+            return
+        }
+
+        let wrapX: Int = gameModel.wrappedX() ? gameModel.mapSize().width() : -1
+        let direction = HexPoint.screenDirection(from: from, towards: to, wrapX: wrapX)
 
         switch direction {
 

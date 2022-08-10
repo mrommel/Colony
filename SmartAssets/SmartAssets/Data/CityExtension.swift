@@ -55,9 +55,9 @@ extension City {
     public func sciencePerTurnToolTip(in gameModel: GameModel?) -> NSAttributedString {
 
         let scienceFromTiles: Double = self.scienceFromTiles(in: gameModel)
-        let scienceFromGovernmentType: Double = self.scienceFromGovernmentType()
+        let scienceFromGovernmentType: Double = self.scienceFromGovernmentType().calc()
         let scienceFromBuildings: Double = self.scienceFromBuildings()
-        let scienceFromDistricts: Double = self.scienceFromDistricts(in: gameModel)
+        let scienceFromDistricts: Double = self.scienceFromDistricts(in: gameModel).calc()
         let scienceFromWonders: Double = self.scienceFromWonders()
         let scienceFromPopulation: Double = self.scienceFromPopulation()
         let scienceFromTradeRoutes: Double = self.scienceFromTradeRoutes(in: gameModel)
@@ -146,7 +146,7 @@ extension City {
     public func culturePerTurnToolTip(in gameModel: GameModel?) -> NSAttributedString {
 
         let cultureFromTiles: Double = self.cultureFromTiles(in: gameModel)
-        let cultureFromGovernmentType: Double = self.cultureFromGovernmentType()
+        let cultureFromGovernmentType: Double = self.cultureFromGovernmentType().calc()
         let cultureFromDistricts: Double = self.cultureFromDistricts(in: gameModel)
         let cultureFromBuildings: Double = self.cultureFromBuildings()
         let cultureFromWonders: Double = self.cultureFromWonders(in: gameModel)
@@ -353,7 +353,7 @@ extension City {
     public func goldPerTurnToolTip(in gameModel: GameModel?) -> NSAttributedString {
 
         let goldFromTiles: Double = self.goldFromTiles(in: gameModel)
-        let goldFromGovernmentType: Double = self.goldFromGovernmentType()
+        let goldFromGovernmentType: Double = self.goldFromGovernmentType().calc()
         let goldFromDistricts: Double = self.goldFromDistricts(in: gameModel)
         let goldFromBuildings: Double = self.goldFromBuildings()
         let goldFromWonders: Double = self.goldFromWonders()

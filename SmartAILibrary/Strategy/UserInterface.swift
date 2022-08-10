@@ -37,6 +37,11 @@ public enum PopupType {
     case lostCapital(leader: LeaderType)
 
     case questFulfilled(cityState: CityStateType, quest: CityStateQuestType)
+
+    // tutorial popups
+    case tutorialStart(tutorial: TutorialType)
+    case tutorialCityAttack(attacker: AbstractUnit?, city: AbstractCity?)
+    case tutorialBadUnitAttack(attacker: AbstractUnit?, defender: AbstractUnit?)
 }
 
 extension PopupType: Equatable {
@@ -103,6 +108,12 @@ extension PopupType: Equatable {
         case (.questFulfilled(cityState: let lhsCityState, quest: let lhsQuest),
             .questFulfilled(cityState: let rhsCityState, quest: let rhsQuest)):
             return lhsCityState == rhsCityState && lhsQuest == rhsQuest
+
+        case (.tutorialCityAttack(attacker: _, city: _), .tutorialCityAttack(attacker: _, city: _)):
+            return true
+
+        case (.tutorialBadUnitAttack(attacker: _, defender: _), .tutorialBadUnitAttack(attacker: _, defender: _)):
+            return true
 
         case (.none, .none):
             return true
@@ -248,7 +259,7 @@ public protocol UserInterfaceDelegate: AnyObject {
         title: String,
         question: String,
         confirm: String,
-        cancel: String,
+        cancel: String?, // if nil, not set
         completion: @escaping (Bool) -> Void
     )
     func askForCity(
@@ -282,4 +293,6 @@ public protocol UserInterfaceDelegate: AnyObject {
     func focus(on location: HexPoint)
 
     func animationsAreRunning(for leader: LeaderType) -> Bool
+
+    func finish(tutorial: TutorialType)
 }

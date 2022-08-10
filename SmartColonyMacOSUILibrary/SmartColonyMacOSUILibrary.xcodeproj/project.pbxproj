@@ -33,6 +33,8 @@
 		C917165027D1165B00CBC7D3 /* EnvoyEffectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C917164F27D1165B00CBC7D3 /* EnvoyEffectViewModel.swift */; };
 		C91A07A626D911EE008E9F86 /* WonderBuiltPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A07A526D911EE008E9F86 /* WonderBuiltPopupViewModel.swift */; };
 		C91A07A826D9135C008E9F86 /* WonderBuiltPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A07A726D9135C008E9F86 /* WonderBuiltPopupView.swift */; };
+		C91D43A7286452C60049599B /* BaseDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91D43A6286452C60049599B /* BaseDialogView.swift */; };
+		C91D43A9286452D50049599B /* BaseDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91D43A8286452D50049599B /* BaseDialogViewModel.swift */; };
 		C91E7F972732E078000463F3 /* RankingViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91E7F962732E078000463F3 /* RankingViewType.swift */; };
 		C91E7F992732E0A5000463F3 /* OverallRankingDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91E7F982732E0A5000463F3 /* OverallRankingDialogViewModel.swift */; };
 		C91E7F9C2732E149000463F3 /* OverallRankingDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91E7F9B2732E149000463F3 /* OverallRankingDialogView.swift */; };
@@ -236,7 +238,6 @@
 		C9AC0FFB26DE635C00B65288 /* SelectPromotionDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC0FFA26DE635C00B65288 /* SelectPromotionDialogViewModel.swift */; };
 		C9AC0FFD26DE649B00B65288 /* PromotionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC0FFC26DE649B00B65288 /* PromotionViewModel.swift */; };
 		C9AC100326DE6EA100B65288 /* PromotionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC100226DE6EA100B65288 /* PromotionView.swift */; };
-		C9AC100526DFA3AE00B65288 /* BaseDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC100426DFA3AD00B65288 /* BaseDialogView.swift */; };
 		C9B087C826679E1D0016DFCA /* GoodyHutRewardPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B087C726679E1D0016DFCA /* GoodyHutRewardPopupView.swift */; };
 		C9B087CB2667A2B60016DFCA /* GoodyHutRewardPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B087CA2667A2B60016DFCA /* GoodyHutRewardPopupViewModel.swift */; };
 		C9B087CD2667BBF20016DFCA /* EurekaTechActivatedPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B087CC2667BBF20016DFCA /* EurekaTechActivatedPopupView.swift */; };
@@ -384,6 +385,8 @@
 		C917164F27D1165B00CBC7D3 /* EnvoyEffectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvoyEffectViewModel.swift; sourceTree = "<group>"; };
 		C91A07A526D911EE008E9F86 /* WonderBuiltPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderBuiltPopupViewModel.swift; sourceTree = "<group>"; };
 		C91A07A726D9135C008E9F86 /* WonderBuiltPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WonderBuiltPopupView.swift; sourceTree = "<group>"; };
+		C91D43A6286452C60049599B /* BaseDialogView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseDialogView.swift; sourceTree = "<group>"; };
+		C91D43A8286452D50049599B /* BaseDialogViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseDialogViewModel.swift; sourceTree = "<group>"; };
 		C91E7F962732E078000463F3 /* RankingViewType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingViewType.swift; sourceTree = "<group>"; };
 		C91E7F982732E0A5000463F3 /* OverallRankingDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverallRankingDialogViewModel.swift; sourceTree = "<group>"; };
 		C91E7F9B2732E149000463F3 /* OverallRankingDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverallRankingDialogView.swift; sourceTree = "<group>"; };
@@ -587,7 +590,6 @@
 		C9AC0FFA26DE635C00B65288 /* SelectPromotionDialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPromotionDialogViewModel.swift; sourceTree = "<group>"; };
 		C9AC0FFC26DE649B00B65288 /* PromotionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionViewModel.swift; sourceTree = "<group>"; };
 		C9AC100226DE6EA100B65288 /* PromotionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionView.swift; sourceTree = "<group>"; };
-		C9AC100426DFA3AD00B65288 /* BaseDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BaseDialogView.swift; path = "../New Group/BaseDialogView.swift"; sourceTree = "<group>"; };
 		C9B087C726679E1D0016DFCA /* GoodyHutRewardPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodyHutRewardPopupView.swift; sourceTree = "<group>"; };
 		C9B087CA2667A2B60016DFCA /* GoodyHutRewardPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodyHutRewardPopupViewModel.swift; sourceTree = "<group>"; };
 		C9B087CC2667BBF20016DFCA /* EurekaTechActivatedPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EurekaTechActivatedPopupView.swift; sourceTree = "<group>"; };
@@ -732,6 +734,14 @@
 			path = Layers;
 			sourceTree = "<group>";
 		};
+		C91D43A328644C430049599B /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				C91D43A6286452C60049599B /* BaseDialogView.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
 		C91E7F952732E05F000463F3 /* RankingViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -791,6 +801,7 @@
 		C950F993264902840057A7D1 /* Dialogs */ = {
 			isa = PBXGroup;
 			children = (
+				C91D43A328644C430049599B /* Base */,
 				C9D191A7265A499E008C9622 /* CityViews */,
 				C91E7F9A2732E136000463F3 /* RankingViews */,
 				C9A48D3D2653B9D200260EE0 /* GovernmentDialogView.swift */,
@@ -1106,7 +1117,7 @@
 		C9AC100626DFA4BA00B65288 /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				C9AC100426DFA3AD00B65288 /* BaseDialogView.swift */,
+				C91D43A8286452D50049599B /* BaseDialogViewModel.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -1428,6 +1439,7 @@
 				C9077A8226D626AC004BE679 /* TradeRoutesDialogView.swift in Sources */,
 				C91A07A826D9135C008E9F86 /* WonderBuiltPopupView.swift in Sources */,
 				C9A61D8C261EF87000341241 /* BottomRightBarView.swift in Sources */,
+				C91D43A7286452C60049599B /* BaseDialogView.swift in Sources */,
 				C92F9488265E2298000968AB /* HexagonGridView.swift in Sources */,
 				C9E0598C265520BA00C08463 /* WonderViewModel.swift in Sources */,
 				C9A376172634573E0057923E /* BlurrableNode.swift in Sources */,
@@ -1464,7 +1476,6 @@
 				C9E87BB3264D1CB500514B9A /* TechViewModel.swift in Sources */,
 				C9754D62275F3F5C000A1B70 /* MapLensLegendItemView.swift in Sources */,
 				C968F2A92639E97400612D0E /* CityObject.swift in Sources */,
-				C9AC100526DFA3AE00B65288 /* BaseDialogView.swift in Sources */,
 				C950F98E26427E110057A7D1 /* GameSceneViewModel.swift in Sources */,
 				C9D03F142753B6080008528E /* NotificationDetailViewModel.swift in Sources */,
 				C93FD2CF2732F788003348FB /* ScoreRankingDialogView.swift in Sources */,
@@ -1551,6 +1562,7 @@
 				C9FD453D27E7A7F900C3272F /* ApproachItemViewModel.swift in Sources */,
 				C9A37619263457D70057923E /* GameScene.swift in Sources */,
 				C9755FEB270AE6F900C9CAB7 /* BeliefViewModel.swift in Sources */,
+				C91D43A9286452D50049599B /* BaseDialogViewModel.swift in Sources */,
 				C984642A26F4943D00C40EA7 /* GovernorsDialogView.swift in Sources */,
 				C90039202734237000E1AA7F /* DominationRankingDialogViewModel.swift in Sources */,
 				C9E87BB5264D1D1C00514B9A /* CivicTreeDialogView.swift in Sources */,

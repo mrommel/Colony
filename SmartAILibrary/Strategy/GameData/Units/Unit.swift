@@ -640,6 +640,10 @@ public class Unit: AbstractUnit {
 
     public func canHeal(in gameModel: GameModel?) -> Bool {
 
+        guard let government = self.player?.government else {
+            fatalError("cant get player government")
+        }
+
         // No barb healing
         if self.isBarbarian() {
             return false
@@ -657,6 +661,17 @@ public class Unit: AbstractUnit {
 
         if self.healRate(at: self.location, in: gameModel) == 0 {
             return false
+        }
+
+        // twilightValor - All units +5 [Strength] Combat Strength for all melee attack units.
+        //         BUT: Cannot heal outside your territory.
+        if government.has(card: .twilightValor) {
+
+            guard let unitTile = gameModel?.tile(at: self.location) else {
+                fatalError("cant get unit tile")
+            }
+
+            return unitTile.isFriendlyTerritory(for: self.player, in: gameModel)
         }
 
         return true
@@ -679,7 +694,23 @@ public class Unit: AbstractUnit {
             return
         }
 
-        self.healthPointsValue += self.healRate(at: self.location, in: gameModel)
+        var healRate = self.healRate(at: self.location, in: gameModel)
+
+        // governor effect
+        guard let unitTile = gameModel?.tile(at: self.location) else {
+            fatalError("cant get unit tile")
+        }
+
+        if let city = unitTile.workingCity() {
+            if let governor = city.governor() {
+                // layingOnOfHands - All Governor's units heal fully in one turn in tiles of this city.
+                if governor.has(title: .layingOnOfHands) {
+                    healRate = Int(Unit.maxHealth) - self.healthPointsValue
+                }
+            }
+        }
+
+        self.healthPointsValue += healRate
 
         if self.healthPointsValue > Int(Unit.maxHealth) {
             self.healthPointsValue = Int(Unit.maxHealth)
@@ -718,23 +749,59 @@ public class Unit: AbstractUnit {
             modifierUpgradeCost -= 50
         }
 
+        // forceModernization - 50% [Gold] Gold and resource discount on all unit upgrades.
+        if government.has(card: .forceModernization) {
+
+            modifierUpgradeCost -= 50
+        }
+
         baseUpgradeCost *= modifierUpgradeCost
         baseUpgradeCost /= 100
 
         return baseUpgradeCost
     }
 
+    func upgradeResourceAmount(to unitType: UnitType) -> Double {
+
+        guard let government = self.player?.government else {
+            fatalError("cant get player government")
+        }
+
+        if unitType.requiredResource() != nil {
+
+            var modifier: Double = 1.0
+
+            // retinues - 50% resource discount on all unit upgrades.
+            if government.has(card: .retinues) {
+                modifier -= 0.5
+            }
+
+            // forceModernization - 50% [Gold] Gold and resource discount on all unit upgrades.
+            if government.has(card: .forceModernization) {
+                modifier -= 0.5
+            }
+
+            return 1.0 * modifier
+        }
+
+        return 0.0
+    }
+
     public func canUpgrade(to unitType: UnitType, in gameModel: GameModel?) -> Bool {
 
-        guard let techs = self.player?.techs else {
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        guard let techs = player.techs else {
             fatalError("cant get player techs")
         }
 
-        guard let civics = self.player?.civics else {
+        guard let civics = player.civics else {
             fatalError("cant get player civics")
         }
 
-        guard let treasury = self.player?.treasury else {
+        guard let treasury = player.treasury else {
             fatalError("cant get player treasury")
         }
 
@@ -763,6 +830,12 @@ public class Unit: AbstractUnit {
             }
         }
 
+        if let resource = unitType.requiredResource() {
+            if self.upgradeResourceAmount(to: unitType) > player.numberOfItemsInStockpile(of: resource) {
+                return false
+            }
+        }
+
         if treasury.value() < Double(self.upgradeCost(to: unitType)) {
             return false
         }
@@ -774,6 +847,15 @@ public class Unit: AbstractUnit {
 
         guard self.canUpgrade(to: unitType, in: gameModel) else {
             fatalError("cant upgrade")
+        }
+
+        // consume cost
+        let cost = self.upgradeCost(to: unitType)
+        self.player?.treasury?.changeGold(by: -Double(cost))
+
+        if let resource = unitType.requiredResource() {
+            let cost = self.upgradeResourceAmount(to: unitType)
+            self.player?.changeNumberOfAvailable(resource: resource, change: cost)
         }
 
         // backup old unit properties
@@ -967,6 +1049,12 @@ public class Unit: AbstractUnit {
 
             // All units gain +5 Combat Strength.
             result.append(CombatModifier(value: 5, title: "Government Bonus"))
+        }
+
+        // twilightValor - All units +5 [Strength] Combat Strength for all melee attack units.
+        //         BUT: Cannot heal outside your territory.
+        if government.has(card: .twilightValor) && self.unitClassType() == .melee {
+            result.append(CombatModifier(value: 5, title: PolicyCardType.twilightValor.name()))
         }
 
         ////////////////////////
@@ -1189,6 +1277,10 @@ public class Unit: AbstractUnit {
             fatalError("cant get civics")
         }
 
+        guard let government = self.player?.government else {
+            fatalError("cant get player government")
+        }
+
         guard let promotions = self.promotions else {
             fatalError("cant get promotions")
         }
@@ -1197,6 +1289,12 @@ public class Unit: AbstractUnit {
 
         if self.isBarbarian() {
             return result
+        }
+
+        // twilightValor - All units +5 [Strength] Combat Strength for all melee attack units.
+        //         BUT: Cannot heal outside your territory.
+        if government.has(card: .twilightValor) && self.unitClassType() == .melee {
+            result.append(CombatModifier(value: 5, title: PolicyCardType.twilightValor.name()))
         }
 
         ////////////////////////
@@ -1275,58 +1373,70 @@ public class Unit: AbstractUnit {
                     result.append(CombatModifier(value: 10, title: UnitPromotionType.rollingBarrage.name()))
                 }
             }*/
+        }
 
-            // city attacks us
-            if city != nil {
+        // city attacks us
+        if city != nil {
 
-                if promotions.has(promotion: .emplacement) {
-                    // +10 Combat Strength when defending vs. city attacks.
-                    result.append(CombatModifier(value: +10, title: UnitPromotionType.emplacement.name()))
-                }
+            if promotions.has(promotion: .emplacement) {
+                // +10 Combat Strength when defending vs. city attacks.
+                result.append(CombatModifier(value: +10, title: UnitPromotionType.emplacement.name()))
             }
+        }
 
-            // //////////
-            // support
-            // //////////
-
-            var supportUnitCount: Int = 0
-
-            // only melee units can gain Flanking bonus && unlocked only after researching Military Tradition
-            if self.type.unitClass() != .airFighter &&
-                self.type.unitClass() != .airBomber &&
-                civics.has(civic: .militaryTradition) {
-
-                for neighborLocation in self.location.neighbors() {
-
-                    for loopUnitRef in gameModel.units(at: neighborLocation) {
-
-                        guard let loopUnit = loopUnitRef else {
-                            continue
-                        }
-
-                        // All non-air military units can provide Flanking
-                        if loopUnit.type.unitClass() == .airFighter || loopUnit.type.unitClass() == .airBomber {
-                            continue
-                        }
-
-                        // Only units that are currently owned by the same player can provide Flanking to one another
-                        if loopUnit.player?.leader != self.leader {
-                            continue
-                        }
-
-                        // square - Double Support bonus
-                        if loopUnit.has(promotion: .square) {
-                            supportUnitCount += 1
-                        }
-
-                        supportUnitCount += 1
+        // governor effects
+        if let tile = toTile {
+            if let workingCity = tile.workingCity() {
+                if let governor = workingCity.governor() {
+                    // Victor - garrisonCommander - Units defending within the city's territory get +5 Combat Strength.
+                    if governor.type == .victor && governor.has(title: .garrisonCommander) {
+                        result.append(CombatModifier(value: 5, title: "Governor Victor"))
                     }
                 }
             }
+        }
 
-            if supportUnitCount > 0 {
-                result.append(CombatModifier(value: 2 * supportUnitCount, title: "Support Bonus"))
+        // //////////
+        // support
+        // //////////
+
+        var supportUnitCount: Int = 0
+
+        // only melee units can gain Flanking bonus && unlocked only after researching Military Tradition
+        if self.type.unitClass() != .airFighter &&
+            self.type.unitClass() != .airBomber &&
+            civics.has(civic: .militaryTradition) {
+
+            for neighborLocation in self.location.neighbors() {
+
+                for loopUnitRef in gameModel.units(at: neighborLocation) {
+
+                    guard let loopUnit = loopUnitRef else {
+                        continue
+                    }
+
+                    // All non-air military units can provide Flanking
+                    if loopUnit.type.unitClass() == .airFighter || loopUnit.type.unitClass() == .airBomber {
+                        continue
+                    }
+
+                    // Only units that are currently owned by the same player can provide Flanking to one another
+                    if loopUnit.player?.leader != self.leader {
+                        continue
+                    }
+
+                    // square - Double Support bonus
+                    if loopUnit.has(promotion: .square) {
+                        supportUnitCount += 1
+                    }
+
+                    supportUnitCount += 1
+                }
             }
+        }
+
+        if supportUnitCount > 0 {
+            result.append(CombatModifier(value: 2 * supportUnitCount, title: "Support Bonus"))
         }
 
         return result
@@ -1398,12 +1508,9 @@ public class Unit: AbstractUnit {
             fatalError("cant get diplomacyAI")
         }
 
-        guard let path = self.pathIgnoreUnits(towards: destination, in: gameModel) else {
-            return false
-        }
-
         var attack = false
-        let adjacent = path.count == 2
+        let wrapX: Int = gameModel.wrappedX() ? gameModel.mapSize().width() : -1
+        let adjacent = self.location.isNeighbor(of: destination, wrapX: wrapX)
 
         if adjacent {
 
@@ -1441,7 +1548,11 @@ public class Unit: AbstractUnit {
                 }
 
                 // Ranged units that are embarked can't do a move-attack
-                if self.isRanged() && self.isEmbarked() {
+                guard !(self.isRanged() && self.isEmbarked()) else {
+                    return false
+                }
+
+                guard diplomacyAI.isAtWar(with: defenderUnit.player) || defenderUnit.isBarbarian() else {
                     return false
                 }
 
@@ -2847,6 +2958,10 @@ public class Unit: AbstractUnit {
             fatalError("cant get player")
         }
 
+        guard let government = player.government else {
+            fatalError("cant get player government")
+        }
+
         var moveVal = self.baseMoves(in: gameModel)
 
         if (self.type.era() == .classical || self.type.era() == .medieval) && self.domain() == .land {
@@ -2893,6 +3008,24 @@ public class Unit: AbstractUnit {
         // helmsman - +1 Movement.
         if self.has(promotion: .helmsman) {
             moveVal += 1
+        }
+
+        // militaryOrganization - +2 [GreatGeneral] Great General points for every Armory and +4 [GreatGeneral] Great General points for every Military Academy. [GreatGeneral] Great Generals receive +2 [Movement] Movement.
+        if government.has(card: .militaryOrganization) {
+            if self.type == .general {
+                moveVal += 2
+            }
+        }
+
+        // logistics - +1 [Movement] Movement if starting turn in friendly territory.
+        if government.has(card: .logistics) {
+            guard let unitTile = gameModel.tile(at: self.location) else {
+                fatalError("cant get unit tile")
+            }
+
+            if unitTile.isFriendlyTerritory(for: self.player, in: gameModel) {
+                moveVal += 1
+            }
         }
 
         return moveVal
@@ -3112,19 +3245,31 @@ public class Unit: AbstractUnit {
             fatalError("cant get government")
         }
 
-        var experienceDelta: Double = Double(delta)
+        let experienceDelta: Double = Double(delta)
+        var experienceModifier: Double = 1.0
 
         // Doubles experience for recon units.
-        if government.has(card: .survey) {
-            experienceDelta *= 2.0
+        if government.has(card: .survey) && self.unitClassType() == .recon {
+            experienceModifier += 1.0
         }
 
         // +20% Unit Experience.
         if government.currentGovernment() == .oligarchy {
-            experienceDelta *= 1.2
+            experienceModifier += 0.2
         }
 
-        self.experienceValue += Int(experienceDelta)
+        // afterActionReports - All units gain +50% combat experience.
+        if government.has(card: .afterActionReports) {
+            experienceModifier += 0.5
+        }
+
+        // eliteForces - +100% combat experience for all units.
+        //    BUT: +2 [Gold] Gold to maintain each military unit.
+        if government.has(card: .eliteForces) {
+            experienceModifier += 1.0
+        }
+
+        self.experienceValue += Int(experienceDelta * experienceModifier)
 
         let level = self.experienceLevel()
 
@@ -3565,11 +3710,21 @@ public class Unit: AbstractUnit {
             fatalError("cant get player")
         }
 
+        guard let government = player.government else {
+            fatalError("cant get player government")
+        }
+
         if !self.type.canFound() {
             return false
         }
 
         if !player.canFound(at: location, in: gameModel) {
+            return false
+        }
+
+        // isolationism - Domestic routes provide +2 [Food] Food, +2 [Production] Production.
+        //    BUT: Can't train or buy Settlers nor settle new cities.
+        if government.has(card: .isolationism) {
             return false
         }
 
@@ -3676,38 +3831,11 @@ public class Unit: AbstractUnit {
             return []
         }
 
-        guard let unitPlayer = self.player,
-            let unitPlayerTradeRoutes = unitPlayer.tradeRoutes else {
+        guard let unitPlayer = self.player else {
             fatalError("unit doesnt have a player")
         }
 
-        var cities: [AbstractCity?] = []
-
-        for player in gameModel.players {
-            for city in gameModel.cities(of: player) {
-
-                guard let cityLocation = city?.location,
-                    let cityTile = gameModel.tile(at: cityLocation) else {
-
-                        continue
-                }
-
-                if self.origin == cityLocation {
-                    continue
-                }
-
-                if cityTile.isDiscovered(by: unitPlayer) {
-
-                    // check if is within reach
-                    if unitPlayerTradeRoutes.canEstablishTradeRoute(from: originCity, to: city, in: gameModel) {
-
-                        cities.append(city)
-                    }
-                }
-            }
-        }
-
-        return cities
+        return unitPlayer.possibleTradeRouteTargets(from: originCity, in: gameModel)
     }
 
     @discardableResult
@@ -3947,7 +4075,7 @@ public class Unit: AbstractUnit {
             if tile.resource(for: self.player) != .none {
                 if let player = tile.owner() {
                     let resourceQuantity = tile.resourceQuantity()
-                    player.changeNumAvailable(resource: tile.resource(for: self.player), change: resourceQuantity)
+                    player.changeNumberOfAvailable(resource: tile.resource(for: self.player), change: Double(resourceQuantity))
                 }
             }
         }
@@ -4346,7 +4474,7 @@ public class Unit: AbstractUnit {
                 if tile.resource(for: player) != .none {
                     if let player = tile.owner() {
                         let resourceQuantity = tile.resourceQuantity()
-                        player.changeNumAvailable(resource: tile.resource(for: player), change: -resourceQuantity)
+                        player.changeNumberOfAvailable(resource: tile.resource(for: player), change: -Double(resourceQuantity))
                     }
                 }
 

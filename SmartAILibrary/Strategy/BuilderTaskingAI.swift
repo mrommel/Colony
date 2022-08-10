@@ -834,7 +834,7 @@ public class BuilderTaskingAI {
 
             var modifier = 500 /* GC.getBUILDER_TASKING_PLOT_EVAL_MULTIPLIER_LUXURY_RESOURCE()*/ * resource.amenities()
 
-            if player.numAvailable(resource: resource) == 0 {
+            if player.numberOfAvailable(resource: resource) == 0 {
                 // full bonus
             } else {
                 modifier /= 2 // half the awesome bonus, so that we pick up extra resources
@@ -850,10 +850,10 @@ public class BuilderTaskingAI {
                 var multiplyingAmount = quantity * 2
 
                 // if we don't have any currently available
-                if player.numAvailable(resource: resource) == 0 {
+                if player.numberOfAvailable(resource: resource) == 0 {
 
                     // if we have some of the strategic resource, but all is used
-                    if player.numAvailable(resource: resource) > 0 {
+                    if player.numberOfAvailable(resource: resource) > 0 {
                         multiplyingAmount *= 4
                     } else {
                         // if we don't have any of it

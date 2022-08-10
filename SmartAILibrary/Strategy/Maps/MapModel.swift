@@ -802,6 +802,12 @@ open class MapModel: Codable {
                 print("something weird happend")
             }
         }
+
+        if let lastRiverPoint = river.points.last {
+            if !self.isCoastal(at: lastRiverPoint.point) {
+                self.set(feature: .lake, at: lastRiverPoint.point)
+            }
+        }
     }
 
     func river(at point: HexPoint) -> Bool {

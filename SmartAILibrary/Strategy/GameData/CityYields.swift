@@ -35,8 +35,14 @@ func + (left: YieldValues, right: YieldValues) -> YieldValues {
     return YieldValues(value: left.value + right.value, percentage: left.percentage + right.percentage)
 }
 
+func + (left: YieldValues, right: Double) -> YieldValues {
+
+    return YieldValues(value: left.value + right, percentage: left.percentage)
+}
+
 // infix operator +=
 func += (lhs: inout YieldValues, rhs: YieldValues) { lhs = (lhs + rhs) }
+func += (lhs: inout YieldValues, rhs: Double) { lhs = (lhs + rhs) }
 
 extension City {
 
@@ -49,6 +55,9 @@ extension City {
         greatPeoplePerTurn.add(other: self.greatPeoplePointsFromWonders())
         greatPeoplePerTurn.add(other: self.greatPeoplePointsFromBuildings())
         greatPeoplePerTurn.add(other: self.greatPeoplePointsFromDistricts(in: gameModel))
+        greatPeoplePerTurn.add(other: self.greatPeoplePointsFromGovernments())
+
+        greatPeoplePerTurn.modify(by: self.greatPeopleModifierFromGovernors())
 
         return greatPeoplePerTurn
     }
@@ -287,7 +296,7 @@ extension City {
                 greatPeoplePoints.greatProphet += 1
             }
 
-            // stockhol suzerain bonus
+            // stockholm suzerain bonus
             // Your districts with a building provide +1 [GreatPerson] Great Person point of their type ([GreatWriter] Great Writer,
             // [GreatArtist] Great Artist, and [GreatMusician] Great Musician for Theater Square districts with a building).
             if player.isSuzerain(of: .stockholm, in: gameModel) {
@@ -396,6 +405,85 @@ extension City {
         return greatPeoplePoints
     }
 
+    private func greatPeoplePointsFromGovernments() -> GreatPersonPoints {
+
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+
+        guard let buildings = self.buildings else {
+            fatalError("cant get city buildings")
+        }
+
+        let greatPeoplePoints: GreatPersonPoints = GreatPersonPoints()
+
+        // invention - +4 [GreatEngineer] Great Engineer points per turn. +2 additional [GreatEngineer] Great Engineer points for every Workshop.
+        if government.has(card: .invention) {
+            if buildings.has(building: .workshop) {
+                greatPeoplePoints.greatEngineer += 2
+            }
+        }
+
+        // frescoes - +2 [GreatArtist] Great Artist points per turn. +2 additional [GreatArtist] Great Artist points for every Art Museum.
+        if government.has(card: .frescoes) {
+            if buildings.has(building: .artMuseum) {
+                greatPeoplePoints.greatArtist += 2
+            }
+        }
+
+        // militaryOrganization - +2 [GreatGeneral] Great General points for every Armory and +4 [GreatGeneral] Great General points for every Military Academy. [GreatGeneral] Great Generals receive +2 [Movement] Movement.
+        if government.has(card: .militaryOrganization) {
+            if buildings.has(building: .armory) {
+                greatPeoplePoints.greatGeneral += 2
+            }
+            if buildings.has(building: .militaryAcademy) {
+                greatPeoplePoints.greatGeneral += 4
+            }
+        }
+
+        // laissezFaire - +2 [GreatMerchant] Great Merchant points for every Bank and +4 [GreatMerchant] Great Merchant points for every Stock Exchange. +2 [GreatAdmiral] Great Admiral points for every Shipyard and +4 [GreatAdmiral] Great Admiral points for every Seaport.
+        if government.has(card: .laissezFaire) {
+            if buildings.has(building: .bank) {
+                greatPeoplePoints.greatMerchant += 2
+            }
+            if buildings.has(building: .stockExchange) {
+                greatPeoplePoints.greatMerchant += 4
+            }
+            if buildings.has(building: .shipyard) {
+                greatPeoplePoints.greatAdmiral += 2
+            }
+            /*if buildings.has(building: .seaport) {
+                greatPeoplePoints.greatAdmiral += 4
+            }*/
+        }
+
+        return greatPeoplePoints
+    }
+
+    private func greatPeopleModifierFromGovernors() -> Double {
+
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+
+        var greatPeopleModifier: Double = 1.0
+
+        if let governor = self.governor() {
+            // Pingala - grants - +100% [GreatPeople] Great People points generated per turn in the city.
+            if governor.type == .pingala && governor.has(title: .grants) {
+                greatPeopleModifier += 1.0
+            }
+        }
+
+        // collectivism - Farms +1 [Food] Food. All cities +2 [Housing] Housing. +100% Industrial Zone adjacency bonuses.
+        //          BUT: [GreatPerson] Great People Points earned 50% slower.
+        if government.has(card: .collectivism) {
+            greatPeopleModifier -= 0.5
+        }
+
+        return greatPeopleModifier
+    }
+
     // MARK: production functions
 
     public func productionPerTurn(in gameModel: GameModel?) -> Double {
@@ -490,12 +578,12 @@ extension City {
                         productionValue += 1.0
                     }
 
-                    // godOfTheSea - 1 [Production] Production from Fishing Boats.
+                    // godOfTheSea - 1 Production from Fishing Boats.
                     if workedTile.improvement() == .fishingBoats && player.religion?.pantheon() == .godOfTheSea {
                         productionValue += 1.0
                     }
 
-                    // ladyOfTheReedsAndMarshes - +2 [Production] Production from Marsh, Oasis, and Desert Floodplains.
+                    // ladyOfTheReedsAndMarshes - +2 Production from Marsh, Oasis, and Desert Floodplains.
                     if (workedTile.has(feature: .marsh) || workedTile.has(feature: .oasis) || workedTile.has(feature: .floodplains)) &&
                         self.player?.religion?.pantheon() == .ladyOfTheReedsAndMarshes {
                         productionValue += 1.0
@@ -563,13 +651,11 @@ extension City {
             // https://civilization.fandom.com/wiki/Autocracy_(Civ6)
             // +1 to all yields for each government building and Palace in a city.
             if government.currentGovernment() == .autocracy {
-
-                productionFromGovernmentType += Double(buildings.numOfBuildings(of: BuildingCategoryType.government))
+                productionFromGovernmentType += Double(buildings.numberOfBuildings(of: BuildingCategoryType.government))
             }
 
             // urbanPlanning: +1 Production in all cities.
             if government.has(card: .urbanPlanning) {
-
                 productionFromGovernmentType += 1
             }
         }
@@ -579,11 +665,33 @@ extension City {
 
     public func productionFromDistricts(in gameModel: GameModel?) -> Double {
 
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+
         guard let districts = self.districts else {
             fatalError("cant get districts")
         }
 
         var productionFromDistricts: Double = 0.0
+        var policyCardModifier: Double = 1.0
+
+        // yields from cards
+        // craftsmen - +100% Industrial Zone adjacency bonuses.
+        if government.has(card: .craftsmen) {
+            policyCardModifier += 1.0
+        }
+
+        // fiveYearPlan - +100% Campus and Industrial Zone district adjacency bonuses.
+        if government.has(card: .fiveYearPlan) {
+            policyCardModifier += 1.0
+        }
+
+        // collectivism - Farms +1 [Food] Food. All cities +2 [Housing] Housing. +100% Industrial Zone adjacency bonuses.
+        //          BUT: [GreatPerson] Great People Points earned 50% slower.
+        if government.has(card: .collectivism) {
+            policyCardModifier += 1.0
+        }
 
         if districts.has(district: .industrialZone) {
 
@@ -595,14 +703,32 @@ extension City {
                         continue
                     }
 
-                    // Standard bonus (+1 Production) for each adjacent Mine or a Quarry
-                    if neighborTile.has(improvement: .mine) || neighborTile.has(improvement: .quarry) {
-                        productionFromDistricts += 1
+                    // Major bonus (+2 Production) for each adjacent Aqueduct, Dam, Canal or Bath
+                    if neighborTile.district() == .aqueduct /*||
+                        neighborTile.district() == .dam ||
+                        neighborTile.district() == .canal ||
+                        neighborTile.district() == .bath */ {
+                        productionFromDistricts += 2.0 * policyCardModifier
+                        continue
                     }
 
-                    // Minor bonus (+½ Production) for each adjacent district tile
+                    // Standard bonus (+1 Production) for each adjacent Strategic Resource and Quarry
+                    if neighborTile.has(improvement: .quarry) {
+                        productionFromDistricts += 1.0 * policyCardModifier
+                        continue
+                    }
+
+                    if neighborTile.resource(for: player).usage() == .strategic {
+                        productionFromDistricts += 1.0 * policyCardModifier
+                    }
+
+                    // Minor bonus (+½ Production) for each adjacent district tile, Mine or Lumber Mill
+                    if neighborTile.has(improvement: .mine) /*|| neighborTile.has(improvement: .lumberMill)*/ {
+                        productionFromDistricts += 0.5 * policyCardModifier
+                    }
+
                     if neighborTile.district() != .none {
-                        productionFromDistricts += 0.5
+                        productionFromDistricts += 0.5 * policyCardModifier
                     }
                 }
             }
@@ -790,7 +916,7 @@ extension City {
             // +1 to all yields for each government building and Palace in a city.
             if government.currentGovernment() == .autocracy {
 
-                faithFromGovernmentValue += Double(buildings.numOfBuildings(of: BuildingCategoryType.government))
+                faithFromGovernmentValue += Double(buildings.numberOfBuildings(of: BuildingCategoryType.government))
             }
 
             // godKing
@@ -823,11 +949,22 @@ extension City {
 
     public func faithFromDistricts(in gameModel: GameModel?) -> Double {
 
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+
         guard let districts = self.districts else {
             fatalError("cant get districts")
         }
 
         var faithFromDistricts: Double = 0.0
+        var policyCardModifier: Double = 1.0
+
+        // yields from cards
+        // scripture - +100% Holy Site district adjacency bonuses.
+        if government.has(card: .scripture) {
+            policyCardModifier += 1.0
+        }
 
         if districts.has(district: .holySite) {
 
@@ -841,40 +978,47 @@ extension City {
 
                     if neighborTile.feature().isNaturalWonder() {
                         // Major bonus (+2 Faith) for each adjacent Natural Wonder
-                        faithFromDistricts += 2.0
+                        faithFromDistricts += 2.0 * policyCardModifier
                     }
 
                     if neighborTile.feature() == .mountains {
                         // Standard bonus (+1 Faith) for each adjacent Mountain tile
-                        faithFromDistricts += 1.0
+                        faithFromDistricts += 1.0 * policyCardModifier
                     }
 
                     if neighborTile.feature() == .forest || neighborTile.feature() == .rainforest {
                         // Minor bonus (+½ Faith) for each adjacent District District tile and each adjacent unimproved Woods tile
-                        faithFromDistricts += 0.5
+                        faithFromDistricts += 0.5 * policyCardModifier
                     }
 
                     if self.player?.religion?.pantheon() == .danceOfTheAurora {
                         if neighborTile.terrain() == .tundra {
-                            // Holy Site districts get +1 [Faith] Faith from adjacent Tundra tiles.
+                            // Holy Site districts get +1 Faith from adjacent Tundra tiles.
                             faithFromDistricts += 1.0
                         }
                     }
 
                     if self.player?.religion?.pantheon() == .desertFolklore {
                         if neighborTile.terrain() == .desert {
-                            // Holy Site districts get +1 [Faith] Faith from adjacent Desert tiles.
+                            // Holy Site districts get +1 Faith from adjacent Desert tiles.
                             faithFromDistricts += 1.0
                         }
                     }
 
                     if self.player?.religion?.pantheon() == .desertFolklore {
                         if neighborTile.has(feature: .rainforest) {
-                            // Holy Site districts get +1 [Faith] Faith from adjacent Rainforest tiles.
+                            // Holy Site districts get +1 Faith from adjacent Rainforest tiles.
                             faithFromDistricts += 1.0
                         }
                     }
                 }
+            }
+        }
+
+        if let governor = self.governor() {
+            // moksha - bishop - +2 Faith per specialty district in this city.
+            if governor.type == .moksha && governor.has(title: .bishop) {
+                faithFromDistricts += 2.0 * Double(districts.numberOfSpecialtyDistricts())
             }
         }
 
@@ -973,7 +1117,7 @@ extension City {
         var culturePerTurn: YieldValues = YieldValues(value: 0.0, percentage: 1.0)
 
         culturePerTurn += YieldValues(value: self.cultureFromTiles(in: gameModel))
-        culturePerTurn += YieldValues(value: self.cultureFromGovernmentType())
+        culturePerTurn += self.cultureFromGovernmentType()
         culturePerTurn += YieldValues(value: self.cultureFromDistricts(in: gameModel))
         culturePerTurn += YieldValues(value: self.cultureFromBuildings())
         culturePerTurn += YieldValues(value: self.cultureFromWonders(in: gameModel))
@@ -1038,7 +1182,7 @@ extension City {
                         cultureFromTiles += 1.0
                     }
 
-                    // goddessOfFestivals - +1 [Culture] Culture from Plantations.
+                    // goddessOfFestivals - +1 Culture from Plantations.
                     if adjacentTile.improvement() == .plantation && self.player?.religion?.pantheon() == .goddessOfFestivals {
                         cultureFromTiles += 1.0
                     }
@@ -1049,7 +1193,7 @@ extension City {
         return cultureFromTiles
     }
 
-    public func cultureFromGovernmentType() -> Double {
+    public func cultureFromGovernmentType() -> YieldValues {
 
         guard let player = self.player else {
             fatalError("Cant get player")
@@ -1059,7 +1203,7 @@ extension City {
             fatalError("cant get buildings")
         }
 
-        var cultureFromGovernmentValue: Double = 0.0
+        var cultureFromGovernmentValue: YieldValues = YieldValues(value: 0.0, percentage: 0.0)
 
         // yields from government
         if let government = player.government {
@@ -1068,7 +1212,40 @@ extension City {
             // +1 to all yields for each government building and Palace in a city.
             if government.currentGovernment() == .autocracy {
 
-                cultureFromGovernmentValue += Double(buildings.numOfBuildings(of: BuildingCategoryType.government))
+                cultureFromGovernmentValue += Double(buildings.numberOfBuildings(of: BuildingCategoryType.government))
+            }
+
+            // thirdAlternative- +2 [Culture] Culture and +4 [Gold] Gold from each Research Lab, Military Academy, Coal Power Plant, Oil Power Plant, and Nuclear Power Plant.
+            if government.has(card: .thirdAlternative) {
+                /*if buildings.has(building: .researchLab) {
+                    cultureFromGovernmentValue += 2
+                }*/
+                if buildings.has(building: .militaryAcademy) {
+                    cultureFromGovernmentValue += 2
+                }
+                if buildings.has(building: .coalPowerPlant) {
+                    cultureFromGovernmentValue += 2
+                }
+                /*if buildings.has(building: .oilPowerPlant) {
+                    cultureFromGovernmentValue += 2
+                }
+                if buildings.has(building: .nuclearPowerPlant) {
+                    cultureFromGovernmentValue += 2
+                }*/
+            }
+
+            // despoticPaternalism - +4 Loyalty per turn in cities with [Governor] Governors.
+            //   BUT: -15% [Science] Science and -15% [Culture] Culture in all cities without an established [Governor] Governor.
+            if government.has(card: .despoticPaternalism) {
+                if self.governor() == nil {
+                    cultureFromGovernmentValue.percentage -= 0.15
+                }
+            }
+
+            // monasticism - +75% [Science] Science in cities with a Holy Site.
+            //        BUT: -25% [Culture] Culture in all cities.
+            if government.has(card: .monasticism) {
+                cultureFromGovernmentValue.percentage -= 0.25
             }
         }
 
@@ -1081,16 +1258,32 @@ extension City {
             fatalError("Cant get player")
         }
 
+        guard let government = player.government else {
+            fatalError("Cant get government")
+        }
+
         guard let districts = self.districts else {
             fatalError("cant get districts")
         }
 
         var cultureFromDistricts: Double = 0.0
+        var policyCardModifier: Double = 1.0
+
+        // yields from cards
+        // aesthetics - +100% Theater Square district adjacency bonuses.
+        if government.has(card: .aesthetics) {
+            policyCardModifier += 1.0
+        }
+
+        // meritocracy - Each city receives +1 [Culture] Culture for each specialty District it constructs.
+        if government.has(card: .meritocracy) {
+            cultureFromDistricts += 1.0 * Double(districts.numberOfSpecialtyDistricts())
+        }
 
         // district
-        if districts.has(district: .campus) {
+        if districts.has(district: .theatherSquare) {
 
-            if let campusLocation = self.location(of: .campus) {
+            if let campusLocation = self.location(of: .theatherSquare) {
 
                 for neighbor in campusLocation.neighbors() {
 
@@ -1100,19 +1293,19 @@ extension City {
 
                     // Major bonus (+2 Culture) for each adjacent Wonder
                     if neighborTile.feature().isNaturalWonder() {
-                        cultureFromDistricts += 2
+                        cultureFromDistricts += 2.0 * policyCardModifier
                     }
 
                     // Major bonus (+2 Culture) for each adjacent Water Park or Entertainment Complex district tile
                     if neighborTile.district() == .entertainmentComplex {
-                        cultureFromDistricts += 2
+                        cultureFromDistricts += 2.0 * policyCardModifier
                     }
 
                     // Major bonus (+2 Culture) for each adjacent Pamukkale tile
 
                     // Minor bonus (+½ Culture) for each adjacent district tile
                     if neighborTile.district() != .none {
-                        cultureFromDistricts += 0.5
+                        cultureFromDistricts += 0.5 * policyCardModifier
                     }
                 }
             }
@@ -1227,7 +1420,7 @@ extension City {
 
         var cultureFromGovernors: YieldValues = YieldValues(value: 0.0, percentage: 0.0)
 
-        // +1 Culture per turn for each Citizen Citizen in the city.
+        // connoisseur - +1 Culture per turn for each Citizen Citizen in the city.
         if self.hasGovernorTitle(of: .connoisseur) {
             cultureFromGovernors += YieldValues(value: Double(self.population()))
         }
@@ -1283,7 +1476,7 @@ extension City {
         var goldPerTurn: YieldValues = YieldValues(value: 0.0, percentage: 1.0)
 
         goldPerTurn += YieldValues(value: self.goldFromTiles(in: gameModel))
-        goldPerTurn += YieldValues(value: self.goldFromGovernmentType())
+        goldPerTurn += self.goldFromGovernmentType()
         goldPerTurn += YieldValues(value: self.goldFromDistricts(in: gameModel))
         goldPerTurn += YieldValues(value: self.goldFromBuildings())
         goldPerTurn += YieldValues(value: self.goldFromWonders())
@@ -1326,6 +1519,15 @@ extension City {
                         // +2 Food, +2 Gold, and +1 Production on all Desert tiles for this city (non-Floodplains).
                         goldValue += 2.0
                     }
+
+                    // Reyna + forestryManagement - This city receives +2 Gold for each unimproved feature.
+                    if adjacentTile.has(feature: .forest) && !adjacentTile.hasAnyImprovement() {
+                        if let governor = self.governor() {
+                            if governor.type == .reyna && governor.has(title: .forestryManagement) {
+                                goldValue = 2.0
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -1333,7 +1535,7 @@ extension City {
         return goldValue
     }
 
-    public func goldFromGovernmentType() -> Double {
+    public func goldFromGovernmentType() -> YieldValues {
 
         guard let player = self.player else {
             fatalError("no player provided")
@@ -1343,7 +1545,7 @@ extension City {
             fatalError("cant get buildings")
         }
 
-        var goldFromGovernmentValue: Double = 0.0
+        var goldFromGovernmentValue: YieldValues = YieldValues(value: 0.0, percentage: 0.0)
 
         // yields from government
         if let government = player.government {
@@ -1351,14 +1553,46 @@ extension City {
             // https://civilization.fandom.com/wiki/Autocracy_(Civ6)
             // +1 to all yields for each government building and Palace in a city.
             if government.currentGovernment() == .autocracy {
-
-                goldFromGovernmentValue += Double(buildings.numOfBuildings(of: BuildingCategoryType.government))
+                goldFromGovernmentValue += Double(buildings.numberOfBuildings(of: BuildingCategoryType.government))
             }
 
             // godKing
             if government.has(card: .godKing) && self.capitalValue == true {
-
                 goldFromGovernmentValue += 1.0
+            }
+
+            // thirdAlternative- +2 [Culture] Culture and +4 [Gold] Gold from each Research Lab, Military Academy, Coal Power Plant, Oil Power Plant, and Nuclear Power Plant.
+            if government.has(card: .thirdAlternative) {
+                /*if buildings.has(building: .researchLab) {
+                 goldFromGovernmentValue += 4
+                }*/
+                if buildings.has(building: .militaryAcademy) {
+                    goldFromGovernmentValue += 4
+                }
+                if buildings.has(building: .coalPowerPlant) {
+                    goldFromGovernmentValue += 4
+                }
+                /*if buildings.has(building: .oilPowerPlant) {
+                 goldFromGovernmentValue += 4
+                }
+                if buildings.has(building: .nuclearPowerPlant) {
+                 goldFromGovernmentValue += 4
+                }*/
+            }
+
+            // - Decentralization    Cities with 6 or less [Citizen] population receive +4 Loyalty per turn.
+            //    BUT: Cities with more than 6 Citizen population receive -15% [Gold] Gold.
+            if government.has(card: .decentralization) && self.population() > 6 {
+                goldFromGovernmentValue += YieldValues(value: 0.0, percentage: -0.15)
+            }
+        }
+
+        // yields from governors
+        if let governor = self.governor() {
+
+            // Reyna + taxCollector - +2 Gold per turn for each Citizen in the city.
+            if governor.type == .reyna && governor.has(title: .taxCollector) {
+                goldFromGovernmentValue += 2.0 * Double(self.population())
             }
         }
 
@@ -1371,12 +1605,46 @@ extension City {
             fatalError("cant get gameModel")
         }
 
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+
         guard let districts = self.districts else {
             fatalError("cant get districts")
         }
 
         var goldFromDistricts: Double = 0.0
+        var governorModifier: Double = 1.0
+        var policyCardHarborModifier: Double = 1.0
+        var policyCardCommercialHubModifier: Double = 1.0
 
+        // yields from governors
+        if let governor = self.governor() {
+
+            // Reyna + harbormaster - Double adjacency bonuses from Commercial Hubs and Harbors in the city.
+            if governor.type == .reyna && governor.has(title: .harbormaster) {
+                governorModifier += 1.0
+            }
+        }
+
+        // yields from cards
+        // navalInfrastructure - +100% Harbor district adjacency bonus.
+        if government.has(card: .navalInfrastructure) {
+            policyCardHarborModifier += 1.0
+        }
+
+        // townCharters - +100% Commercial Hub adjacency bonuses.
+        if government.has(card: .townCharters) {
+            policyCardCommercialHubModifier += 1.0
+        }
+
+        // economicUnion - +100% Commercial Hub and Harbor district adjacency bonuses.
+        if government.has(card: .townCharters) {
+            policyCardHarborModifier += 1.0
+            policyCardCommercialHubModifier += 1.0
+        }
+
+        // harbor
         if districts.has(district: .harbor) {
 
             if let harborLocation = self.location(of: .harbor) {
@@ -1389,22 +1657,23 @@ extension City {
 
                     // Major bonus (+2 Gold) for being adjacent to the City Center
                     if neighborTile.point == self.location {
-                        goldFromDistricts += 2.0
+                        goldFromDistricts += 2.0 * governorModifier * policyCardHarborModifier
                     }
 
                     // Standard bonus (+1 Gold) for each adjacent Sea resource
                     if neighborTile.isWater() && neighborTile.hasAnyResource(for: self.player) {
-                        goldFromDistricts += 1.0
+                        goldFromDistricts += 1.0 * governorModifier * policyCardHarborModifier
                     }
 
                     // Minor bonus (+½ Gold) for each adjacent District
                     if neighborTile.district() != .none {
-                        goldFromDistricts += 0.5
+                        goldFromDistricts += 0.5 * governorModifier * policyCardHarborModifier
                     }
                 }
             }
         }
 
+        // commercialHub
         if districts.has(district: .commercialHub) {
 
             if let commercialHubLocation = self.location(of: .commercialHub) {
@@ -1417,16 +1686,16 @@ extension City {
                         continue
                     }
 
-                    // Major bonus (+2 Gold) for a nearby River or a Harbor District.",
+                    // Major bonus (+2 Gold) for a nearby River or a Harbor District.
                     if neighborTile.has(district: .harbor) {
                         harborOrRiver = true
                     }
 
-                    // Major bonus (+2 Gold) for each adjacent Pamukkale tile.",
+                    // Major bonus (+2 Gold) for each adjacent Pamukkale tile.
 
-                    // Minor bonus (+½ Gold) for each nearby District.",
+                    // Minor bonus (+½ Gold) for each nearby District.
                     if neighborTile.district() != .none {
-                        goldFromDistricts += 0.5
+                        goldFromDistricts += 0.5 * governorModifier * policyCardCommercialHubModifier
                     }
                 }
 
@@ -1436,7 +1705,7 @@ extension City {
                 }
 
                 if harborOrRiver {
-                    goldFromDistricts += 2.0
+                    goldFromDistricts += 2.0 * governorModifier * policyCardCommercialHubModifier
                 }
             }
         }
@@ -1501,7 +1770,7 @@ extension City {
         for tradeRoute in tradeRoutes {
             goldFromTradeRoutes += tradeRoute.yields(in: gameModel).gold
 
-            // +3 Gold per turn for each foreign Trade Route Trade Route passing through the city.
+            // landAcquisition - +3 Gold per turn for each foreign Trade Route passing through the city.
             if self.hasGovernorTitle(of: .landAcquisition) && tradeRoute.isInternational(in: gameModel) {
                 goldFromTradeRoutes += 3
             }
@@ -1558,9 +1827,9 @@ extension City {
         var sciencePerTurn: YieldValues = YieldValues(value: 0.0, percentage: 1.0)
 
         sciencePerTurn += YieldValues(value: self.scienceFromTiles(in: gameModel))
-        sciencePerTurn += YieldValues(value: self.scienceFromGovernmentType())
+        sciencePerTurn += self.scienceFromGovernmentType()
         sciencePerTurn += YieldValues(value: self.scienceFromBuildings())
-        sciencePerTurn += YieldValues(value: self.scienceFromDistricts(in: gameModel))
+        sciencePerTurn += self.scienceFromDistricts(in: gameModel)
         sciencePerTurn += YieldValues(value: self.scienceFromWonders())
         sciencePerTurn += YieldValues(value: self.scienceFromPopulation())
         sciencePerTurn += YieldValues(value: self.scienceFromTradeRoutes(in: gameModel))
@@ -1623,7 +1892,7 @@ extension City {
         return scienceFromTiles
     }
 
-    public func scienceFromGovernmentType() -> Double {
+    public func scienceFromGovernmentType() -> YieldValues {
 
         guard let player = self.player else {
             fatalError("Cant get player")
@@ -1633,7 +1902,7 @@ extension City {
             fatalError("cant get buildings")
         }
 
-        var scienceFromGovernmentValue: Double = 0.0
+        var scienceFromGovernmentValue: YieldValues = YieldValues(value: 0.0, percentage: 0.0)
 
         // yields from government
         if let government = player.government {
@@ -1642,24 +1911,61 @@ extension City {
             // +1 to all yields for each government building and Palace in a city.
             if government.currentGovernment() == .autocracy {
 
-                scienceFromGovernmentValue += Double(buildings.numOfBuildings(of: BuildingCategoryType.government))
+                scienceFromGovernmentValue += Double(buildings.numberOfBuildings(of: BuildingCategoryType.government))
+            }
+
+            // militaryResearch - Military Academies, Seaports, and Renaissance Walls generate +2 [Science] Science.
+            if government.has(card: .militaryResearch) {
+                if buildings.has(building: .militaryAcademy) {
+                    scienceFromGovernmentValue += 2.0
+                }
+                /*if buildings.has(building: .seaport) {
+                    scienceFromGovernmentValue += 2.0
+                }*/
+                if buildings.has(building: .renaissanceWalls) {
+                    scienceFromGovernmentValue += 2.0
+                }
+            }
+
+            // despoticPaternalism - +4 Loyalty per turn in cities with [Governor] Governors.
+            //   BUT: -15% [Science] Science and -15% [Culture] Culture in all cities without an established [Governor] Governor.
+            if government.has(card: .despoticPaternalism) {
+                if self.governor() == nil {
+                    scienceFromGovernmentValue.percentage += -0.15
+                }
             }
         }
 
         return scienceFromGovernmentValue
     }
 
-    public func scienceFromDistricts(in gameModel: GameModel?) -> Double {
+    public func scienceFromDistricts(in gameModel: GameModel?) -> YieldValues {
 
         guard let player = self.player else {
             fatalError("Cant get player")
+        }
+
+        guard let government = player.government else {
+            fatalError("Cant get government")
         }
 
         guard let districts = self.districts else {
             fatalError("cant get districts")
         }
 
-        var scienceFromDistricts: Double = 0.0
+        var scienceFromDistricts: YieldValues = YieldValues(value: 0.0, percentage: 0.0)
+        var policyCardModifier: Double = 1.0
+
+        // yields from cards
+        // naturalPhilosophy - +100% Campus district adjacency bonuses.
+        if government.has(card: .naturalPhilosophy) {
+            policyCardModifier += 1.0
+        }
+
+        // fiveYearPlan - +100% Campus and Industrial Zone district adjacency bonuses.
+        if government.has(card: .fiveYearPlan) {
+            policyCardModifier += 1.0
+        }
 
         // district
         if districts.has(district: .campus) {
@@ -1674,22 +1980,22 @@ extension City {
 
                     // Major bonus (+2 Science) for each adjacent Geothermal Fissure and Reef tile.
                     if neighborTile.has(feature: .geyser) || neighborTile.has(feature: .reef) {
-                        scienceFromDistricts += 2.0
+                        scienceFromDistricts += 2.0 * policyCardModifier
                     }
 
                     // Major bonus (+2 Science) for each adjacent Great Barrier Reef tile.
                     if neighborTile.has(feature: .greatBarrierReef) {
-                        scienceFromDistricts += 2.0
+                        scienceFromDistricts += 2.0 * policyCardModifier
                     }
 
                     // Standard bonus (+1 Science) for each adjacent Mountain tile.
                     if neighborTile.has(feature: .mountains) {
-                        scienceFromDistricts += 1.0
+                        scienceFromDistricts += 1.0 * policyCardModifier
                     }
 
                     // Minor bonus (+½ Science) for each adjacent Rainforest and district tile.
                     if neighborTile.has(feature: .rainforest) || neighborTile.district() != .none {
-                        scienceFromDistricts += 0.5
+                        scienceFromDistricts += 0.5 * policyCardModifier
                     }
                 }
             }
@@ -1704,6 +2010,12 @@ extension City {
             if districts.has(district: .harbor) {
                 scienceFromDistricts += 2.0 // not exactly what the bonus says
             }
+        }
+
+        // monasticism - +75% [Science] Science in cities with a Holy Site.
+        //        BUT: -25% [Culture] Culture in all cities.
+        if government.has(card: .monasticism) && districts.has(district: .holySite) {
+            scienceFromDistricts.percentage += 0.75
         }
 
         return scienceFromDistricts
@@ -1850,6 +2162,7 @@ extension City {
         foodPerTurn += YieldValues(value: self.foodFromBuildings(in: gameModel))
         foodPerTurn += YieldValues(value: self.foodFromWonders(in: gameModel))
         foodPerTurn += YieldValues(value: self.foodFromTradeRoutes(in: gameModel))
+        foodPerTurn += self.foodFromGovernors(in: gameModel)
 
         // cap yields based on loyalty
         foodPerTurn += YieldValues(value: 0.0, percentage: self.loyaltyState().yieldPercentage())
@@ -1877,6 +2190,10 @@ extension City {
 
         guard let player = self.player else {
             fatalError("cant get player")
+        }
+
+        guard let government = player.government else {
+            fatalError("cant get player government")
         }
 
         let hasHueyTeocalli = player.has(wonder: .hueyTeocalli, in: gameModel)
@@ -1934,6 +2251,12 @@ extension City {
 
                         foodValue += 1.0
                     }
+
+                    // collectivism - Farms +1 [Food] Food. All cities +2 [Housing] Housing. +100% Industrial Zone adjacency bonuses.
+                    //          BUT: [GreatPerson] Great People Points earned 50% slower.
+                    if adjacentTile.improvement() == .farm && government.has(card: .collectivism) {
+                        foodValue += 1.0
+                    }
                 }
             }
         }
@@ -1960,7 +2283,7 @@ extension City {
             // +1 to all yields for each government building and Palace in a city.
             if government.currentGovernment() == .autocracy {
 
-                foodFromGovernmentValue += Double(buildings.numOfBuildings(of: BuildingCategoryType.government))
+                foodFromGovernmentValue += Double(buildings.numberOfBuildings(of: BuildingCategoryType.government))
             }
         }
 
@@ -2025,6 +2348,20 @@ extension City {
         }
 
         return foodFromTradeRoutes
+    }
+
+    private func foodFromGovernors(in gameModel: GameModel?) -> YieldValues {
+
+        var foodFromGovernors: YieldValues = YieldValues(value: 0.0, percentage: 0.0)
+
+        if let governor = self.governor() {
+            // surplusLogistics - +20% [Food] Food Growth in the city.
+            if governor.has(title: .surplusLogistics) {
+                foodFromGovernors.percentage += 0.2
+            }
+        }
+
+        return foodFromGovernors
     }
 
     // MARK: housing functions
@@ -2094,6 +2431,14 @@ extension City {
             fatalError("cant get gameModel")
         }
 
+        guard let districts = self.districts else {
+            fatalError("cant get districts")
+        }
+
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+
         var housingFromDistricts: Double = 0.0
 
         // district
@@ -2160,6 +2505,13 @@ extension City {
             }
         }
 
+        // medinaQuarter - +2 [Housing] Housing in all cities with at least 3 specialty Districts.
+        if government.has(card: .medinaQuarter) {
+            if districts.numberOfSpecialtyDistricts() >= 3 {
+                housingFromDistricts += 2.0
+            }
+        }
+
         return housingFromDistricts
     }
 
@@ -2204,6 +2556,19 @@ extension City {
             if buildings.has(building: .medievalWalls) {
                 housingFromGovernment += 2.0
             }
+        }
+
+        // newDeal - +4 [Housing] Housing and +2 [Amenities] Amenities to all cities with at least 3 specialty districts.
+        if government.has(card: .newDeal) {
+            if districts.numberOfBuiltDistricts() >= 3 {
+                housingFromGovernment += 4.0
+            }
+        }
+
+        // collectivism - Farms +1 [Food] Food. All cities +2 [Housing] Housing. +100% Industrial Zone adjacency bonuses.
+        //          BUT: [GreatPerson] Great People Points earned 50% slower.
+        if government.has(card: .collectivism) {
+            housingFromGovernment += 2.0
         }
 
         return housingFromGovernment
@@ -2297,9 +2662,23 @@ extension City {
         var housingValue: Double = 0.0
 
         // Established Governors with at least 2 Promotions provide +1 Amenity and +2 Housing.
-        if government.has(card: .civilPrestige) && self.numOfGovernorTitles() >= 2 {
+        if government.has(card: .civilPrestige) && self.numberOfGovernorTitles() >= 2 {
 
             housingValue += 2.0
+        }
+
+        if let governor = self.governor() {
+            // Liang - waterWorks - +2 Housing for every Neighborhood and Aqueduct district in this city.
+            if governor.type == .liang && governor.has(title: .waterWorks) {
+                let numberOfNeighborhoods = self.has(district: .neighborhood) ? 1.0 : 0.0
+                let numberOfAqueducts = self.has(district: .aqueduct) ? 1.0 : 0.0
+                housingValue += 2.0 * (numberOfNeighborhoods + numberOfAqueducts)
+            }
+
+            // civilPrestige - Established [Governor] Governors with at least 2 [Promotion] Promotions provide +1 [Amenities] Amenity and +2 [Housing] Housing.
+            if government.has(card: .civilPrestige) && governor.titles.count >= 2 {
+                housingValue += 2.0
+            }
         }
 
         return housingValue
@@ -2341,5 +2720,277 @@ extension City {
         }
 
         return result
+    }
+
+    // MARK: amenities functions
+
+    public func amenitiesPerTurn(in gameModel: GameModel?) -> Double {
+
+        var amenitiesPerTurn: Double = 0.0
+
+        amenitiesPerTurn += self.amenitiesFromTiles(in: gameModel)
+        amenitiesPerTurn += self.amenitiesFromLuxuries()
+        amenitiesPerTurn += self.amenitiesFromDistrict(in: gameModel)
+        amenitiesPerTurn += self.amenitiesFromBuildings()
+        amenitiesPerTurn += self.amenitiesFromWonders(in: gameModel)
+        amenitiesPerTurn += self.amenitiesFromCivics(in: gameModel)
+
+        return amenitiesPerTurn
+    }
+
+    public func amenitiesFromLuxuries() -> Double {
+
+        return Double(self.luxuries.count)
+    }
+
+    public func amenitiesFromBuildings() -> Double {
+
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
+        }
+
+        var amenitiesFromBuildings: Double = 0.0
+
+        // gather amenities from buildingss
+        for building in BuildingType.all {
+            if buildings.has(building: building) {
+                amenitiesFromBuildings += Double(building.amenities())
+            }
+        }
+
+        // audienceChamber - +2 Amenities and +4 Housing in Cities with Governors.
+        if buildings.has(building: .audienceChamber) && self.governor() != nil {
+            amenitiesFromBuildings += 2
+        }
+
+        return amenitiesFromBuildings
+    }
+
+    public func amenitiesFromWonders(in gameModel: GameModel?) -> Double {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        var locationOfColosseum: HexPoint = .invalid
+
+        for cityRef in gameModel.cities(of: player) {
+
+            guard let city = cityRef else {
+                continue
+            }
+
+            if city.has(wonder: .colosseum) {
+                locationOfColosseum = city.location
+            }
+        }
+
+        var amenitiesFromWonders: Double = 0.0
+
+        // gather amenities from buildingss
+        for wonder in WonderType.all {
+            if self.has(wonder: wonder) {
+                amenitiesFromWonders += Double(wonder.amenities())
+            }
+        }
+
+        // temple of artemis
+        if self.has(wonder: .templeOfArtemis) {
+            for loopPoint in self.location.areaWith(radius: 3) {
+
+                guard let loopTile = gameModel.tile(at: loopPoint) else {
+                    continue
+                }
+                if loopTile.has(improvement: .camp) || loopTile.has(improvement: .pasture) || loopTile.has(improvement: .plantation) {
+                    // Each Camp, Pasture, and Plantation improvement within 4 tiles of this wonder provides +1 Amenities6 Amenity.
+                    amenitiesFromWonders += 1.0
+                }
+            }
+        }
+
+        // colosseum - +2 [Culture] Culture, +2 Loyalty, +2 [Amenities] Amenities from entertainment
+        // to each City Center within 6 tiles.
+        if self.has(wonder: .colosseum) || locationOfColosseum.distance(to: self.location) <= 6 {
+            amenitiesFromWonders += 2.0
+        }
+
+        return amenitiesFromWonders
+    }
+
+    // amenities from districts
+    public func amenitiesFromDistrict(in gameModel: GameModel?) -> Double {
+
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+
+        guard let districts = self.districts else {
+            fatalError("cant get districts")
+        }
+
+        var amenitiesFromDistrict: Double = 0.0
+
+        // "All cities with a district receive +1 Housing6 Housing and +1 Amenities6 Amenity."
+        if government.currentGovernment() == .classicalRepublic {
+
+            if districts.hasAny() {
+                amenitiesFromDistrict += 1.0
+            }
+        }
+
+        if self.has(district: .holySite) {
+
+            // riverGoddess - +2 [Amenities] Amenities and +2 [Housing] Housing to cities if they have a Holy Site district adjacent to a River.
+            if let holySiteLocation = self.location(of: .holySite) {
+
+                var isHolySiteAdjacentToRiver = false
+
+                for neighbor in holySiteLocation.neighbors() {
+
+                    if gameModel.river(at: neighbor) {
+                        isHolySiteAdjacentToRiver = true
+                        break
+                    }
+                }
+
+                if isHolySiteAdjacentToRiver {
+                    amenitiesFromDistrict += 2.0
+                }
+            }
+        }
+
+        return amenitiesFromDistrict
+    }
+
+    private func amenitiesFromTiles(in gameModel: GameModel?) -> Double {
+
+        guard let gameModel = gameModel else {
+            fatalError("no game model provided")
+        }
+
+        guard let cityCitizens = self.cityCitizens else {
+            fatalError("no cityCitizens provided")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        var amenitiesFromTiles: Double = 0.0
+
+        var hueyTeocalliLocation: HexPoint = .invalid
+        if player.has(wonder: .hueyTeocalli, in: gameModel) {
+            for point in cityCitizens.workingTileLocations() {
+                if cityCitizens.isWorked(at: point) {
+                    if let adjacentTile = gameModel.tile(at: point) {
+                        if adjacentTile.has(wonder: .hueyTeocalli) {
+                            hueyTeocalliLocation = point
+                        }
+                    }
+                }
+            }
+        }
+
+        // +1 Amenity from entertainment for each Lake tile within one tile of Huey Teocalli.
+        // (This includes the Lake tile where the wonder is placed.)
+        for point in cityCitizens.workingTileLocations() {
+            if cityCitizens.isWorked(at: point) {
+                // if let adjacentTile = gameModel.tile(at: point) {
+                if point == hueyTeocalliLocation || point.isNeighbor(of: hueyTeocalliLocation) {
+                    amenitiesFromTiles += 1
+                }
+                // }
+            }
+        }
+
+        return amenitiesFromTiles
+    }
+
+    public func amenitiesFromCivics(in gameModel: GameModel?) -> Double {
+
+        guard let government = self.player?.government else {
+            fatalError("cant get government")
+        }
+
+        guard let districts = self.districts else {
+            fatalError("cant get districts")
+        }
+
+        guard let buildings = self.buildings else {
+            fatalError("cant get buildings")
+        }
+
+        var amenitiesFromCivics: Double = 0.0
+
+        // Retainers - +1 Amenity in cities with a garrisoned unit.
+        if government.has(card: .retainers) {
+            if self.garrisonedUnitValue != nil {
+                amenitiesFromCivics += 1
+            }
+        }
+
+        // Civil Prestige - +1 Amenity and +2 Housing in cities with established Governors with 2+ promotions.
+        if government.has(card: .retainers) {
+            if let governor = self.governor() {
+                if governor.titles.count >= 2 {
+                    amenitiesFromCivics += 1
+                }
+            }
+        }
+
+        // Liberalism - +1 Amenity in cities with 2+ specialty districts.
+        if government.has(card: .liberalism) {
+            if districts.numberOfBuiltDistricts() >= 2 {
+                amenitiesFromCivics += 1
+            }
+        }
+
+        // Police State - -2 Spy operation level in your lands. -1 Amenity in all cities.
+        if government.has(card: .policyState) {
+            amenitiesFromCivics -= 1
+        }
+
+        // New Deal - +2 Amenities and +4 Housing in all cities with 3+ specialty districts.
+        if government.has(card: .newDeal) {
+            if districts.numberOfBuiltDistricts() >= 3 {
+                amenitiesFromCivics += 2
+            }
+        }
+
+        // civilPrestige - Established [Governor] Governors with at least 2 [Promotion] Promotions provide +1 [Amenities] Amenity and +2 [Housing] Housing.
+        if government.has(card: .civilPrestige) {
+            if let governor = self.governor() {
+                if governor.titles.count >= 2 {
+                    amenitiesFromCivics += 1.0
+                }
+            }
+        }
+
+        // Sports Media    +100% Theater Square adjacency bonuses, and Stadiums generate +1 Amenities Amenity.
+        // Music Censorship    Other civs' Rock Bands cannot enter your territory. -1 Amenities Amenity in all cities.
+
+        // robberBarons - +50% Gold in cities with a Stock Exchange. +25% Production Production in cities with a Factory.
+        //   BUT: -2 Amenities in all cities.
+        if government.has(card: .robberBarons) {
+            if buildings.has(building: .stockExchange) {
+                amenitiesFromCivics -= 2
+            }
+        }
+
+        // - Automated Workforce    +20% Production towards city projects.
+        //    BUT: -1 Amenities  and -5 Loyalty in all cities.
+        if government.has(card: .automatedWorkforce) {
+            amenitiesFromCivics -= 1
+        }
+
+        return amenitiesFromCivics
     }
 }

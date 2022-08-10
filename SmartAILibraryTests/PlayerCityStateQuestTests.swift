@@ -314,7 +314,7 @@ class PlayerCityStateQuestTests: XCTestCase {
         let questBefore = playerAmsterdam.quest(for: .trajan)
 
         // WHEN
-        _ = playerTrajanCity.purchase(district: .encampment, at: HexPoint(x: 14, y: 15), in: gameModel)
+        _ = playerTrajanCity.purchase(district: .encampment, with: .gold, at: HexPoint(x: 14, y: 15), in: gameModel)
         let questAfter = playerAmsterdam.quest(for: .trajan)
 
         // THEN

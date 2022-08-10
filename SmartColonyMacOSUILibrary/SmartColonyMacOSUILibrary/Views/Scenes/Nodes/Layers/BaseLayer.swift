@@ -49,7 +49,7 @@ class BaseLayerHasher<T: Hashable & Codable> {
     }
 }
 
-class BaseLayerTile: Hashable & Codable {
+class BaseLayerTile: Hashable, Codable {
 
     enum CodingKeys: CodingKey {
         case point

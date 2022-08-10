@@ -55,6 +55,8 @@ open class GameModel: Codable {
 
         case spawnedArchaeologySites
         case worldEra
+
+        case tutorialInfos
     }
 
     public let victoryTypes: [VictoryType]
@@ -86,6 +88,8 @@ open class GameModel: Codable {
     private var barbarianAI: BarbarianAI?
     private var spawnedArchaeologySites: Bool
     private var worldEraValue: EraType = .ancient
+
+    private var tutorialInfosValue: TutorialType = .none
 
     public init(victoryTypes: [VictoryType], handicap: HandicapType, turnsElapsed: Int, players: [AbstractPlayer], on map: MapModel) {
 
@@ -167,6 +171,8 @@ open class GameModel: Codable {
 
         self.spawnedArchaeologySites = try container.decodeIfPresent(Bool.self, forKey: .spawnedArchaeologySites) ?? false
         self.worldEraValue = try container.decode(EraType.self, forKey: .worldEra)
+
+        self.tutorialInfosValue = try container.decodeIfPresent(TutorialType.self, forKey: .tutorialInfos) ?? .none
 
         // setup
         self.tacticalAnalysisMapVal = TacticalAnalysisMap(with: self.map.size)
@@ -278,11 +284,28 @@ open class GameModel: Codable {
 
         try container.encode(self.spawnedArchaeologySites, forKey: .spawnedArchaeologySites)
         try container.encode(self.worldEraValue, forKey: .worldEra)
+
+        try container.encode(self.tutorialInfosValue, forKey: .tutorialInfos)
     }
 
     public func seed() -> Int {
 
         return self.map.seed()
+    }
+
+    public func enable(tutorial: TutorialType) {
+
+        self.tutorialInfosValue = tutorial
+    }
+
+    public func showTutorialInfos() -> Bool {
+
+        return self.tutorialInfosValue != .none
+    }
+
+    public func tutorialInfos() -> TutorialType {
+
+        return self.tutorialInfosValue
     }
 
     public func update() {
@@ -1226,10 +1249,10 @@ open class GameModel: Codable {
             let totalCities = self.cities(of: player).count
             self.rankingData.add(totalCities: totalCities, for: player.leader)
 
-            let totalCitiesFounded = player.numOfCitiesFounded()
+            let totalCitiesFounded = player.numberOfCitiesFounded()
             self.rankingData.add(totalCitiesFounded: totalCitiesFounded, for: player.leader)
 
-            let totalCitiesLost = player.numOfCitiesLost()
+            let totalCitiesLost = player.numberOfCitiesLost()
             self.rankingData.add(totalCitiesLost: totalCitiesLost, for: player.leader)
 
             let totalDistrictsConstructed = self.cities(of: player)
@@ -1243,7 +1266,7 @@ open class GameModel: Codable {
             self.rankingData.add(totalWondersConstructed: totalWondersConstructed, for: player.leader)
 
             let totalBuildingsConstructed = self.cities(of: player)
-                .map { $0?.buildings?.numberOfBuiltBuildings() ?? 0 }
+                .map { $0?.buildings?.numberOfBuildings() ?? 0 }
                 .reduce(0, +)
             self.rankingData.add(totalBuildingsConstructed: totalBuildingsConstructed, for: player.leader)
 
@@ -1261,7 +1284,7 @@ open class GameModel: Codable {
             let totalReligionsFounded = player.religion?.currentReligion() == Optional<ReligionType>.none ? 0 : 1
             self.rankingData.add(totalReligionsFounded: totalReligionsFounded, for: player.leader)
 
-            let totalGreatPeopleEarned = player.greatPeople?.numOfSpawnedGreatPersons() ?? 0
+            let totalGreatPeopleEarned = player.greatPeople?.numberOfSpawnedGreatPersons() ?? 0
             self.rankingData.add(totalGreatPeopleEarned: totalGreatPeopleEarned, for: player.leader)
 
             let totalWarDeclarationsReceived = player.diplomacyAI?.atWarCount() ?? 0
@@ -2060,8 +2083,8 @@ open class GameModel: Codable {
                     }
                 }
 
-                tile.sight(by: player)
                 tile.discover(by: player, in: self)
+                tile.sight(by: player)
                 player.checkWorldCircumnavigated(in: self)
                 self.checkDiscovered(continent: self.continent(at: areaPoint)?.type() ?? ContinentType.none, at: areaPoint, for: player)
                 self.userInterface?.refresh(tile: tile)
@@ -2069,13 +2092,30 @@ open class GameModel: Codable {
         }
     }
 
-    func discover(at location: HexPoint, sight: Int, for player: AbstractPlayer?) {
+    func discover(at location: HexPoint, sight: Int, for playerRef: AbstractPlayer?) {
+
+        guard let player = playerRef else {
+            fatalError("cant get player")
+        }
+
+        guard let currentTile = self.tile(at: location) else {
+            fatalError("cant get current location")
+        }
 
         for pt in location.areaWith(radius: sight) {
 
             if let tile = self.tile(at: pt) {
+
+                guard tile.canSee(tile: currentTile, for: playerRef, range: sight, hasSentry: false, in: self) else {
+                    continue
+                }
+
+                guard !tile.isDiscovered(by: player) else {
+                    continue
+                }
+
                 tile.discover(by: player, in: self)
-                player?.checkWorldCircumnavigated(in: self)
+                player.checkWorldCircumnavigated(in: self)
                 self.checkDiscovered(continent: self.continent(at: pt)?.type() ?? ContinentType.none, at: pt, for: player)
                 self.userInterface?.refresh(tile: tile)
             }
@@ -2086,7 +2126,7 @@ open class GameModel: Codable {
     ///
     /// - Parameters:
     ///   - continent: continent to check
-    ///   - player: player to trigger the moment for
+    ///   - player: player to check and trigger the moment for
     public func checkDiscovered(continent continentType: ContinentType, at location: HexPoint, for player: AbstractPlayer?) {
 
         guard let player = player else {

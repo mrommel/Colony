@@ -30,21 +30,25 @@ struct GenericPopupView: View {
 
                 VStack(alignment: .center, spacing: 6) {
 
-                    Label(self.viewModel.summary)
-                        .font(.body)
-                        .lineLimit(nil)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .padding(.top, 30)
-                        .padding(.bottom, 10)
-                        .padding(.leading, 20)
-                        .padding(.trailing, 20)
+                    ScrollView([.vertical], showsIndicators: true) {
+
+                        Label(self.viewModel.summary, width: 320)
+                            .lineLimit(nil)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .multilineTextAlignment(.center)
+                            .padding(.top, 30)
+                            .padding(.bottom, 10)
+                            .padding(.leading, 20)
+                            .padding(.trailing, 20)
+                    }
+                    .frame(width: 360)
 
                     Spacer()
 
                     Button(action: {
                         self.viewModel.closePopup()
                     }, label: {
-                        Text("Close")
+                        Text("TXT_KEY_CLOSE".localized())
                     })
                     .buttonStyle(DialogButtonStyle())
                     .padding(.bottom, 8)

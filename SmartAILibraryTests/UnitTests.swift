@@ -129,11 +129,13 @@ class UnitTests: XCTestCase {
         mapGenerator.identifyOceans(on: mapModel)
         mapGenerator.identifyStartPositions(on: mapModel)
 
-        let gameModel = GameModel(victoryTypes: [.domination],
-                                  handicap: .king,
-                                  turnsElapsed: 0,
-                                  players: [barbarianPlayer, aiPlayer, humanPlayer],
-                                  on: mapModel)
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .king,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, aiPlayer, humanPlayer],
+            on: mapModel
+        )
 
         // add UI
         let userInterface = TestUI()
@@ -386,6 +388,7 @@ class UnitTests: XCTestCase {
         humanPlayer.initialize()
 
         humanPlayer.treasury?.changeGold(by: 1000.0)
+        humanPlayer.changeNumberOfItemsInStockpile(of: .iron, by: 1.0)
 
         let mapModel = MapUtils.mapFilled(with: .grass, sized: .small, seed: 42)
 

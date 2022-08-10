@@ -61,9 +61,9 @@ public enum MapSize {
         return self.data().maxActiveReligions
     }
 
-    func targetNumCities() -> Int {
+    func targetNumberOfCities() -> Int {
 
-        return self.data().targetNumCities
+        return self.data().targetNumberOfCities
     }
 
     func numberOfPlayers() -> Int {
@@ -91,7 +91,7 @@ public enum MapSize {
 
         let fogTilesPerBarbarianCamp: Int
         let maxActiveReligions: Int
-        let targetNumCities: Int
+        let targetNumberOfCities: Int
         let numberOfPlayers: Int
         let numberOfNaturalWonders: Int
         let numberOfCityStates: Int
@@ -108,7 +108,7 @@ public enum MapSize {
                 height: 22,
                 fogTilesPerBarbarianCamp: 13,
                 maxActiveReligions: 2,
-                targetNumCities: 8,
+                targetNumberOfCities: 8,
                 numberOfPlayers: 2,
                 numberOfNaturalWonders: 2,
                 numberOfCityStates: 3
@@ -121,7 +121,7 @@ public enum MapSize {
                 height: 32,
                 fogTilesPerBarbarianCamp: 18,
                 maxActiveReligions: 4,
-                targetNumCities: 10,
+                targetNumberOfCities: 10,
                 numberOfPlayers: 3,
                 numberOfNaturalWonders: 3,
                 numberOfCityStates: 6
@@ -134,7 +134,7 @@ public enum MapSize {
                 height: 42,
                 fogTilesPerBarbarianCamp: 23,
                 maxActiveReligions: 5,
-                targetNumCities: 15,
+                targetNumberOfCities: 15,
                 numberOfPlayers: 4,
                 numberOfNaturalWonders: 4,
                 numberOfCityStates: 9
@@ -147,7 +147,7 @@ public enum MapSize {
                 height: 52,
                 fogTilesPerBarbarianCamp: 27,
                 maxActiveReligions: 7,
-                targetNumCities: 20,
+                targetNumberOfCities: 20,
                 numberOfPlayers: 6,
                 numberOfNaturalWonders: 5,
                 numberOfCityStates: 12
@@ -160,7 +160,7 @@ public enum MapSize {
                 height: 62,
                 fogTilesPerBarbarianCamp: 30,
                 maxActiveReligions: 9,
-                targetNumCities: 30,
+                targetNumberOfCities: 30,
                 numberOfPlayers: 8,
                 numberOfNaturalWonders: 6,
                 numberOfCityStates: 15
@@ -173,7 +173,7 @@ public enum MapSize {
                 height: 72,
                 fogTilesPerBarbarianCamp: 35,
                 maxActiveReligions: 11,
-                targetNumCities: 45,
+                targetNumberOfCities: 45,
                 numberOfPlayers: 10,
                 numberOfNaturalWonders: 7,
                 numberOfCityStates: 18
@@ -187,7 +187,7 @@ public enum MapSize {
                 height: height,
                 fogTilesPerBarbarianCamp: bestMatch.fogTilesPerBarbarianCamp(),
                 maxActiveReligions: bestMatch.maxActiveReligions(),
-                targetNumCities: bestMatch.targetNumCities(),
+                targetNumberOfCities: bestMatch.targetNumberOfCities(),
                 numberOfPlayers: bestMatch.numberOfPlayers(),
                 numberOfNaturalWonders: bestMatch.numberOfNaturalWonders(),
                 numberOfCityStates: bestMatch.numberOfCityStates()

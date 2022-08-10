@@ -108,7 +108,7 @@ public class NotificationItem: Codable, Equatable {
         case .productionNeeded(cityName: _, location: let location):
 
             guard let city = gameModel?.city(at: location) else {
-                fatalError("cant get city")
+                return
             }
 
             gameModel?.userInterface?.showScreen(screenType: .city, city: city, other: nil, data: nil)
@@ -420,7 +420,7 @@ public class NotificationItem: Codable, Equatable {
                 fatalError("cant get city at \(location)")
             }
 
-            return city.madeAttack()
+            return city.isOutOfAttacks(in: gameModel)
 
         case .cityAcquired(cityName: _, location: _):
             return false

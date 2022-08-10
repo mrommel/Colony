@@ -251,7 +251,7 @@ public class HomelandAI {
         self.targetedAncientRuins = []
     }
 
-    /// Mark all the units that will be under tactical AI control this turn
+    /// Mark all the units that will be under homeland AI control this turn
     func recruitUnits(in gameModel: GameModel?) {
 
         guard let gameModel = gameModel else {
@@ -677,6 +677,109 @@ public class HomelandAI {
         }
     }
 
+    /// Send out work boats to harvest resources
+    private func plotWorkerSeaMoves(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("no gameModel given")
+        }
+
+        self.clearCurrentMoveUnits()
+
+        // Loop through all recruited units
+        for currentTurnUnitRef in self.currentTurnUnits {
+
+            if let currentTurnUnit = currentTurnUnitRef {
+                if currentTurnUnit.task() == .workerSea ||
+                    (currentTurnUnit.isAutomated() && currentTurnUnit.domain() == .sea && currentTurnUnit.automateType() == .build) {
+
+                    let homelandUnit = HomelandUnit(unit: currentTurnUnit)
+                    self.currentMoveUnits.append(homelandUnit)
+                }
+            }
+        }
+
+        for currentMoveUnit in self.currentMoveUnits {
+
+            if let unit = currentMoveUnit?.unit {
+
+                var targetIndex: HomelandTarget?
+                var targetMoves = Int.max
+
+                let pathFinderDataSource = gameModel.ignoreUnitsPathfinderDataSource(
+                    for: unit.movementType(),
+                    for: unit.player,
+                    unitMapType: .combat,
+                    canEmbark: unit.player!.canEmbark(),
+                    canEnterOcean: unit.player!.canEnterOcean()
+                )
+                let pathFinder = AStarPathfinder(with: pathFinderDataSource)
+
+                // See how many moves of this type we can execute
+                for target in self.targetedNavalResources {
+
+                    let build = target.improvement.buildType()!
+                    let targetLocation = target.target ?? HexPoint.zero
+                    guard unit.canBuild(build: build, at: targetLocation, testVisible: true, testGold: true, in: gameModel) else {
+                        continue
+                    }
+
+                    let moves = pathFinder.turnsToReachTarget(for: unit, to: targetLocation, in: gameModel)
+                    if moves < targetMoves {
+                        targetMoves = moves
+                        targetIndex = target
+                    }
+                }
+
+                if let target = targetIndex {
+                    // Queue best one up to capture it
+                    let targetLocation = target.target ?? HexPoint.invalid
+
+                    var result = false
+                    if let path = unit.path(towards: targetLocation, options: .none, in: gameModel) {
+
+                        unit.push(mission: UnitMission(type: .moveTo, at: targetLocation), in: gameModel)
+                        if unit.location == targetLocation {
+                            let target = target.improvement.buildType()
+                            let mission = UnitMission(
+                                type: .build,
+                                buildType: target,
+                                at: targetLocation,
+                                follow: path,
+                                options: .none
+                            )
+                            unit.push(mission: mission, in: gameModel)
+                            result = true
+                        } else {
+                            unit.finishMoves()
+                        }
+
+                        // Delete this unit from those we have to move
+                        self.unitProcessed(unit: unit)
+                    } else {
+                        if unit.location == targetLocation {
+                            let mission = UnitMission(
+                                type: .build,
+                                buildType: target.improvement.buildType(),
+                                at: targetLocation,
+                                follow: nil,
+                                options: .none
+                            )
+                            unit.push(mission: mission, in: gameModel)
+                            result = true
+                        }
+                    }
+
+                    if result {
+                        print("Harvesting naval resource at: \(targetLocation)")
+                    } else {
+                        print("Moving toward naval resource at: \(targetLocation)")
+                    }
+                }
+            }
+        }
+    }
+
     /// When nothing better to do, have units patrol to an adjacent tiles
     func plotPatrolMoves(in gameModel: GameModel?) {
 
@@ -817,6 +920,11 @@ public class HomelandAI {
         return nil
     }
 
+    func plotUpgradeMoves(in gameModel: GameModel?) {
+
+        // FIXME
+    }
+
     /// Choose which moves to run and assign units to it
     func assignHomelandMoves(in gameModel: GameModel?) {
 
@@ -853,15 +961,13 @@ public class HomelandAI {
                 self.plotWorkerMoves(in: gameModel)
 
             case .workerSea: // AI_HOMELAND_MOVE_WORKER_SEA
-                // FIXME self.plotWorkerSeaMoves()
-                break
+                self.plotWorkerSeaMoves(in: gameModel)
 
             case .patrol: // AI_HOMELAND_MOVE_PATROL
                 self.plotPatrolMoves(in: gameModel)
 
             case .upgrade: // AI_HOMELAND_MOVE_UPGRADE
-                // self.plotUpgradeMoves(in: gameModel)
-                break
+                self.plotUpgradeMoves(in: gameModel)
 
             case .ancientRuins: // AI_HOMELAND_MOVE_ANCIENT_RUINS
                 self.plotAncientRuinMoves(in: gameModel)
@@ -871,8 +977,7 @@ public class HomelandAI {
                 break
 
             case .tradeUnit: // AI_HOMELAND_MOVE_TRADE_UNIT
-                // self.plotTradeUnitMoves(in: gameModel)
-            break
+                self.plotTradeUnitMoves(in: gameModel)
 
             // TODO
             /*case .writer:
@@ -985,6 +1090,124 @@ public class HomelandAI {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    /// Send trade units on their way
+    func plotTradeUnitMoves(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("no gameModel given")
+        }
+
+        self.clearCurrentMoveUnits()
+
+        // Loop through all remaining units
+        for currentTurnUnitRef in self.currentTurnUnits {
+
+            if let loopUnit = currentTurnUnitRef {
+                if loopUnit.task() == .trade {
+                    let unit = HomelandUnit(unit: loopUnit)
+                    self.currentMoveUnits.append(unit)
+                }
+            }
+        }
+
+        if !self.currentMoveUnits.isEmpty {
+            self.executeTradeUnitMoves(in: gameModel)
+        }
+    }
+
+    // Get a trade unit and send it to a city!
+    func executeTradeUnitMoves(in gameModel: GameModel?) {
+
+        guard let gameModel = gameModel else {
+            fatalError("no gameModel given")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        let goldFlavor: Double = Double(player.leader.flavor(for: .gold))
+        let foodFlavor: Double = Double(player.leader.flavor(for: .growth))
+        let scienceFlavor: Double = Double(player.leader.flavor(for: .science))
+
+        for currentMoveUnit in currentMoveUnits {
+
+            guard let unit = currentMoveUnit?.unit else {
+                continue
+            }
+
+            if let originCity = gameModel.city(at: unit.origin) {
+
+                var bestTradeRouteRef: TradeRoute?
+                var bestTradeRouteValue: Double = -1.0
+
+                let possibleTradeRoutes = player.possibleTradeRoutes(from: originCity, in: gameModel)
+
+                for possibleTradeRoute in possibleTradeRoutes {
+
+                    // skip, if already has trade route between these cities
+                    guard !player.hasTradeRoute(from: originCity.location, to: possibleTradeRoute.end) else {
+                        continue
+                    }
+
+                    let tradeRouteYields: Yields = possibleTradeRoute.yields(in: gameModel)
+                    var value: Double = 0
+                    value += tradeRouteYields.gold * goldFlavor
+                    value += tradeRouteYields.food * foodFlavor
+                    value += tradeRouteYields.science * scienceFlavor
+
+                    if value > bestTradeRouteValue {
+                        bestTradeRouteRef = possibleTradeRoute
+                        bestTradeRouteValue = value
+                    }
+                }
+
+                if let bestTradeRoute = bestTradeRouteRef {
+
+                    guard let targetCity = gameModel.city(at: bestTradeRoute.end) else {
+                        fatalError("cant get target city at \(bestTradeRoute.end)")
+                    }
+
+                    unit.doEstablishTradeRoute(to: targetCity, in: gameModel)
+                    self.unitProcessed(unit: unit)
+                    // unit.finishMoves()
+                    if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                        print("Trade unit founded trade route between \(originCity.name) and \(targetCity.name)")
+                    }
+                } else {
+
+                    if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                        print("Trade unit idling")
+                    }
+
+                    self.unitProcessed(unit: unit)
+
+                    unit.push(mission: UnitMission(type: .skip), in: gameModel)
+                    unit.finishMoves()
+                }
+
+            } else {
+                // try to relocate trader to random city
+                if let randomCity = gameModel.cities(of: player).randomItem() {
+                    _ = unit.doRebase(to: randomCity.location)
+
+                    if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                        print("Trade unit rebased to \(randomCity.name)")
+                    }
+                } else {
+                    if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
+                        print("Trade unit idling")
+                    }
+                }
+
+                self.unitProcessed(unit: unit)
+
+                unit.push(mission: UnitMission(type: .skip), in: gameModel)
+                unit.finishMoves()
             }
         }
     }

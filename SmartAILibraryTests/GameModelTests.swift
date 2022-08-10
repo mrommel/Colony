@@ -441,7 +441,7 @@ class GameModelTests: XCTestCase {
             on: mapModel
         )
 
-        let url = downloadsFolder.appendingPathComponent("tmp.sc")
+        let url = downloadsFolder.appendingPathComponent("tmp.clny")
 
         let writer = GameWriter()
         let reader = GameLoader()

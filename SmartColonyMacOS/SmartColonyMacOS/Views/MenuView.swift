@@ -28,12 +28,12 @@ struct MenuView: View {
 
                 VStack(alignment: .center, spacing: 10) {
                     Button("TXT_KEY_TUTORIALS".localized()) {
-                        print("tutorials")
+                        self.viewModel.showTutorials()
                     }.buttonStyle(GameButtonStyle())
 
                     Button("TXT_KEY_RESUME_GAME".localized()) {
                         self.viewModel.resumeGame()
-                    }.buttonStyle(GameButtonStyle())
+                    }.buttonStyle(GameButtonStyle(state: self.viewModel.canResumeGame() ? .normal : .disabled))
 
                     Button("TXT_KEY_NEW_GAME".localized()) {
                         self.viewModel.startNewGame()

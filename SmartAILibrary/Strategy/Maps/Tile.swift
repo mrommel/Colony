@@ -1304,6 +1304,14 @@ public class Tile: AbstractTile {
         if !self.isDiscovered(by: player) {
 
             self.discovered.discover(by: player)
+
+            if gameModel?.tutorialInfos() == .movementAndExploration && player.isHuman() {
+                let numberOfDiscoveredPlots = player.numberOfDiscoveredPlots(in: gameModel)
+                if numberOfDiscoveredPlots >= Tutorials.MovementAndExplorationTutorial.tilesToDiscover {
+                    gameModel?.userInterface?.finish(tutorial: .movementAndExploration)
+                    gameModel?.enable(tutorial: .none)
+                }
+            }
         }
     }
 
@@ -2241,6 +2249,18 @@ public class Tile: AbstractTile {
                 neighborTile.has(feature: .oasis) {
 
                 neighborGoodTerrainsCount += 1
+            }
+
+            if neighborTile.hasAnyFeature() && !neighborTile.hasAnyImprovement() {
+                // check for governor effects of reyna
+                if let city = neighborTile.workingCity() {
+                    if let governor = city.governor(), governor.type == .reyna {
+                        // forestryManagement - Tiles adjacent to unimproved features receive +1 Appeal in this city.
+                        if governor.has(title: .forestryManagement) {
+                            neighborGoodTerrainsCount += 1
+                        }
+                    }
+                }
             }
 
             if neighborTile.wonder() != .none {

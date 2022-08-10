@@ -181,7 +181,7 @@ class Civics: AbstractCivics {
         }
 
         if civic.envoys() > 0 {
-            player.changeEnvoys(by: civic.envoys())
+            player.changeUnassignedEnvoys(by: civic.envoys())
 
             // notify player about envoy to spend
             if player.isHuman() {

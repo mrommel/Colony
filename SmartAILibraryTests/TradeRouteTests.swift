@@ -314,6 +314,120 @@ class TradeRouteTests: XCTestCase {
         // THEN
         XCTAssertEqual(established, true)
     }
+
+    func testFollowTradeRouteAcrossWarppedMap() {
+
+        // GIVEN
+        let barbarianPlayer = Player(leader: .barbar, isHuman: false)
+        barbarianPlayer.initialize()
+
+        let cityStatePlayer = Player(leader: .cityState(type: .akkad), isHuman: false)
+        cityStatePlayer.initialize()
+
+        let aiPlayer = Player(leader: .victoria, isHuman: false)
+        aiPlayer.initialize()
+
+        let humanPlayer = Player(leader: .alexander, isHuman: true)
+        humanPlayer.initialize()
+
+        var mapModel = MapUtils.mapFilled(with: .grass, sized: .duel, seed: 42)
+        mapModel.set(terrain: .plains, at: HexPoint(x: 1, y: 2))
+        mapModel.set(hills: true, at: HexPoint(x: 1, y: 2))
+        mapModel.set(resource: .wheat, at: HexPoint(x: 1, y: 2))
+        mapModel.set(terrain: .plains, at: HexPoint(x: 3, y: 2))
+        mapModel.set(resource: .iron, at: HexPoint(x: 3, y: 2))
+
+        let mapOptions = MapOptions(
+            withSize: .duel,
+            type: .continents,
+            leader: .alexander,
+            aiLeaders: [.victoria],
+            handicap: .chieftain
+        )
+
+        let mapGenerator = MapGenerator(with: mapOptions)
+        mapGenerator.identifyContinents(on: mapModel)
+        mapGenerator.identifyOceans(on: mapModel)
+        mapGenerator.identifyStartPositions(on: mapModel)
+
+        let gameModel = GameModel(
+            victoryTypes: [.domination],
+            handicap: .king,
+            turnsElapsed: 0,
+            players: [barbarianPlayer, cityStatePlayer, aiPlayer, humanPlayer],
+            on: mapModel
+        )
+
+        // Human - setup
+        try! humanPlayer.techs?.discover(tech: .pottery, in: gameModel)
+        try! humanPlayer.techs?.setCurrent(tech: .irrigation, in: gameModel)
+        try! humanPlayer.civics?.discover(civic: .codeOfLaws, in: gameModel)
+        try! humanPlayer.civics?.discover(civic: .foreignTrade, in: gameModel)
+        try! humanPlayer.civics?.setCurrent(civic: .craftsmanship, in: gameModel)
+        humanPlayer.government?.set(governmentType: .chiefdom, in: gameModel)
+        try! humanPlayer.government?.set(policyCardSet: PolicyCardSet(cards: [.godKing, .discipline]))
+
+        humanPlayer.doFirstContact(with: aiPlayer, in: gameModel)
+
+        // Human - city 1
+        humanPlayer.found(at: HexPoint(x: 30, y: 5), named: "Human Capital", in: gameModel)
+
+        if let humanCapital = gameModel.city(at: HexPoint(x: 3, y: 5)) {
+            humanCapital.buildQueue.append(item: BuildableItem(buildingType: .granary))
+        }
+
+        // AI - city 2
+        aiPlayer.found(at: HexPoint(x: 3, y: 5), named: "City State City", in: gameModel)
+        let aiPlayerCity = gameModel.city(at: HexPoint(x: 3, y: 5))
+
+        let traderUnit = Unit(at: HexPoint(x: 30, y: 5), type: .trader, owner: humanPlayer)
+        traderUnit.origin = HexPoint(x: 30, y: 5)
+        gameModel.add(unit: traderUnit)
+        gameModel.userInterface?.show(unit: traderUnit, at: HexPoint(x: 30, y: 5))
+
+        MapUtils.discover(mapModel: &mapModel, by: humanPlayer, in: gameModel)
+
+        let userInterface = TestUI()
+        gameModel.userInterface = userInterface
+
+        traderUnit.unitMoved = self
+
+        // WHEN
+        traderUnit.doEstablishTradeRoute(to: aiPlayerCity, in: gameModel)
+
+        self.sourceLocation = HexPoint(x: 30, y: 5)
+        self.targetLocation = HexPoint(x: 3, y: 5)
+
+        var turnCounter = 0
+        self.hasVisited = false
+        self.targetVisited = 0
+        self.sourceVisited = 0
+        self.hasExpired = false
+
+        repeat {
+
+            repeat {
+                gameModel.update()
+
+                if humanPlayer.isTurnActive() {
+                    humanPlayer.finishTurn()
+                    humanPlayer.setAutoMoves(to: true)
+                }
+            } while !(humanPlayer.hasProcessedAutoMoves() && humanPlayer.turnFinished())
+
+            if !traderUnit.isTrading() {
+                self.hasExpired = true
+            }
+
+            turnCounter += 1
+        } while turnCounter < 10 && !self.hasExpired
+
+        // THEN
+        XCTAssertEqual(self.hasVisited, true, "not visited trade city within first 10 turns")
+        XCTAssertEqual(self.targetVisited, 1)
+        XCTAssertEqual(self.sourceVisited, 1)
+        XCTAssertEqual(self.hasExpired, false)
+    }
 }
 
 extension TradeRouteTests: UnitMovedDelegate {

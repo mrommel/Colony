@@ -178,7 +178,7 @@ extension GameViewModel {
         }
     }
 
-    func showCityDialog(for city: AbstractCity?) {
+    private func showCityDialog(for city: AbstractCity?, detail: CityDetailViewType) {
 
         if self.currentScreenType == .city {
             // already shown
@@ -187,37 +187,39 @@ extension GameViewModel {
 
         if self.currentScreenType == .none {
             self.cityDialogViewModel.update(for: city)
-            self.cityDialogViewModel.show(detail: .production)
+            self.cityDialogViewModel.show(detail: detail)
             self.currentScreenType = .city
         }
+    }
+
+    func showCityDialog(for city: AbstractCity?) {
+
+        self.showCityDialog(for: city, detail: .production)
     }
 
     func showCityChooseProductionDialog(for city: AbstractCity?) {
 
-        if self.currentScreenType == .city {
-            // already shown
-            return
-        }
+        self.showCityDialog(for: city, detail: .production)
+    }
 
-        if self.currentScreenType == .none {
-            self.cityDialogViewModel.update(for: city)
-            self.cityDialogViewModel.show(detail: .production)
-            self.currentScreenType = .city
-        }
+    func showCityAquireTilesDialog(for city: AbstractCity?) {
+
+        self.showCityDialog(for: city, detail: .citizen)
+    }
+
+    func showCityPurchaseGoldDialog(for city: AbstractCity?) {
+
+        self.showCityDialog(for: city, detail: .goldPurchase)
+    }
+
+    func showCityPurchaseFaithDialog(for city: AbstractCity?) {
+
+        self.showCityDialog(for: city, detail: .faithPurchase)
     }
 
     func showCityBuildingsDialog(for city: AbstractCity?) {
 
-        if self.currentScreenType == .city {
-            // already shown
-            return
-        }
-
-        if self.currentScreenType == .none {
-            self.cityDialogViewModel.update(for: city)
-            self.cityDialogViewModel.show(detail: .buildings)
-            self.currentScreenType = .city
-        }
+        self.showCityDialog(for: city, detail: .buildings)
     }
 
     func showCityStateDialog(for city: AbstractCity?) {
@@ -237,7 +239,7 @@ extension GameViewModel {
         title: String,
         question: String,
         confirm: String,
-        cancel: String,
+        cancel: String?,
         completion: @escaping (Bool) -> Void
     ) {
 

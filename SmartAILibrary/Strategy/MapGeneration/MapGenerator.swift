@@ -116,9 +116,7 @@ public class MapGenerator: BaseMapHandler {
         usleep(10000) // will sleep for 10 milliseconds
 
 		// 4th step: rivers
-		self.identifySpringLocations(on: heightMap)
-		let rivers = self.add(rivers: options.rivers, on: heightMap)
-		self.put(rivers: rivers, onto: grid)
+        self.placeRivers(number: options.rivers, on: grid, with: heightMap)
 
 		if let completionHandler = self.progressHandler {
 			completionHandler(0.7, "TXT_KEY_MAP_GENERATOR_RIVERS")
@@ -217,19 +215,19 @@ public class MapGenerator: BaseMapHandler {
             let heightMap = HeightMap(width: self.width, height: self.height, octaves: 20, zoom: 1.0, andPersistence: 0.52)
             let waterLevel = heightMap.findThresholdBelow(percentage: self.options.waterPercentage)
 
-            var numOfIslands = self.width * self.height * 3 / 100 // 2% new islands
+            var numberOfIslands = self.width * self.height * 3 / 100 // 2% new islands
             var points = self.points().shuffled
 
-            print("=== place \(numOfIslands) additional islands ===")
+            print("=== place \(numberOfIslands) additional islands ===")
 
-            while numOfIslands > 0 {
+            while numberOfIslands > 0 {
 
                 if let firstPoint = points.first {
 
                     if (heightMap[firstPoint] ?? 0.0) < waterLevel {
 
                         heightMap[firstPoint]! = waterLevel + 0.3
-                        numOfIslands -= 1
+                        numberOfIslands -= 1
                     }
 
                     // pick a random neighbor
@@ -668,6 +666,9 @@ public class MapGenerator: BaseMapHandler {
         // precheck
         // let polarPlots = self.climateZones.filter(where: { $0 == .polar })//.count
 
+        // reset random number
+        srand48(self.options.seed)
+
         // presets
         let rainForestPercent = 15
         let forestPercent = 36
@@ -729,6 +730,7 @@ public class MapGenerator: BaseMapHandler {
         // reef reef baby => 10% chance for reefs
         for reefLocation in waterTilesWithReefPossible.shuffled where (reefFeatures * 100 / waterTilesWithReefPossible.count) <= reefPercent {
 
+            // print("add reef at \(reefLocation)")
             gridRef?.set(feature: .reef, at: reefLocation)
             reefFeatures += 1
         }
@@ -783,12 +785,13 @@ public class MapGenerator: BaseMapHandler {
         // stats
         print("----------------------------------------------")
         print("Number of Ices: \(iceFeatures)")
-        print("Number of Reefs: \(reefFeatures)")
+        print("Number of Reefs: \(reefFeatures) / \(reefPercent)%")
         print("Number of Floodplains: \(floodPlainsFeatures)")
         print("Number of Marshes: \(marshFeatures) / \(marshPercent)%")
         print("Number of Jungle: \(rainForestFeatures) / \(rainForestPercent)%")
         print("Number of Forest: \(forestFeatures) / \(forestPercent)%")
         print("Number of Oasis: \(oasisFeatures) / \(oasisPercent)%")
+        print("----------------------------------------------")
     }
 
     private func refineNaturalWonders(on gridRef: MapModel?) {
@@ -820,7 +823,7 @@ public class MapGenerator: BaseMapHandler {
 
         var naturalWondersAdded: Int = 0
 
-        for item in possibleWonderSpots.keys.shuffled() {
+        for item in Array(possibleWonderSpots.keys).shuffled {
 
             guard naturalWondersAdded < self.options.size.numberOfNaturalWonders() else {
                 continue
@@ -969,13 +972,25 @@ public class MapGenerator: BaseMapHandler {
 
 	// MARK: 4th step methods - river
 
+    func placeRivers(number rivers: Int, on grid: MapModel?, with heightMap: HeightMap) {
+
+        // reset random number
+        srand48(self.options.seed)
+
+        print("------------------------")
+        self.identifySpringLocations(on: heightMap)
+        let rivers = self.add(rivers: rivers, on: heightMap)
+        self.put(rivers: rivers, onto: grid)
+        print("------------------------")
+    }
+
 	func identifySpringLocations(on heightMap: HeightMap) {
 
 		self.springLocations.removeAll()
 
         let springHeight = heightMap.maximum * 0.5
 
-        for point in self.points().shuffled() {
+        for point in self.points().shuffled {
 
             if let height = heightMap[point] {
                 if height > springHeight {
@@ -1011,6 +1026,7 @@ public class MapGenerator: BaseMapHandler {
 
 		for spring in selectedSprings {
 
+            print("start river at: \(spring)")
 			let riverName = unusedRiverNames.randomItem()
 			rivers.append(self.startRiver(with: riverName, at: spring, on: heightMap))
             let riverIndex = unusedRiverNames.firstIndex(where: { $0 == riverName })
@@ -1200,6 +1216,9 @@ public class MapGenerator: BaseMapHandler {
 
         let startPositioner = StartPositioner(on: grid, for: numberOfPlayers, and: numberOfCityStates)
         startPositioner.generateRegions()
+
+        // reset random number
+        srand48(self.options.seed)
 
         var aiLeaders: [LeaderType] = self.options.aiLeaders
 

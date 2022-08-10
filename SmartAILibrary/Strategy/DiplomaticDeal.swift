@@ -714,7 +714,7 @@ public class DiplomaticDeal: Codable {
                     return false
                 }
 
-                let numAvailable = fromPlayer.numAvailable(resource: resource)
+                let numAvailable = fromPlayer.numberOfAvailable(resource: resource)
                 let numInRenewDeal = 0
                 let numInExistingDeal = 0
 
@@ -742,7 +742,7 @@ public class DiplomaticDeal: Codable {
                 }*/
 
                 // Offering up more of a Resource than we have available
-                if numAvailable + numInRenewDeal - numInExistingDeal < resourceQuantity {
+                if Int(numAvailable) + numInRenewDeal - numInExistingDeal < resourceQuantity {
                     return false
                 }
 
@@ -754,7 +754,7 @@ public class DiplomaticDeal: Codable {
                 if resource.usage() == .luxury {
 
                     // Can't trade Luxury, if the other player already has one
-                    if toPlayer.numAvailable(resource: resource) > max(numInRenewDeal - numInExistingDeal, 0) {
+                    if Int(toPlayer.numberOfAvailable(resource: resource)) > max(numInRenewDeal - numInExistingDeal, 0) {
                         return false
                     }
                 }

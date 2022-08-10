@@ -240,7 +240,41 @@ class Treasury: AbstractTreasury {
 
     func goldPerTurnFromDiplomacy(in gameModel: GameModel?) -> Double {
 
-        return 0.0
+        guard let gameModel = gameModel else {
+            fatalError("cant get gameModel")
+        }
+
+        guard let player = self.player else {
+            fatalError("cant get government")
+        }
+
+        guard let government = player.government else {
+            fatalError("cant get government")
+        }
+
+        var goldPerTurnFromDiplomacy: Double = 0.0
+
+        // deals
+
+        // policy cards
+        if government.has(card: .merchantConfederation) {
+
+            var numberOfCityState: Double = 0.0
+
+            // calculate number of envoys assigned to any city state
+            for cityStatePlayer in gameModel.players where cityStatePlayer.isCityState() {
+
+                if case .cityState(type: let cityStateType) = cityStatePlayer.leader {
+                    let envoys = player.envoysAssigned(to: cityStateType)
+                    numberOfCityState += Double(envoys)
+                }
+            }
+
+            // merchantConfederation - +1 [Gold] Gold from each of your [Envoy] Envoys at city-states.
+            goldPerTurnFromDiplomacy += numberOfCityState
+        }
+
+        return goldPerTurnFromDiplomacy
     }
 
     func goldFromTradeRoutes(in gameModel: GameModel?) -> Double {
@@ -278,9 +312,20 @@ class Treasury: AbstractTreasury {
 
             var unitMaintenanceCost: Double = Double(unit.type.maintenanceCost())
 
-            // Unit maintenance reduced by 1 Gold per turn, per unit.
+            // conscription - Unit maintenance reduced by 1 Gold per turn, per unit.
             if government.has(card: .conscription) {
                 unitMaintenanceCost = max(0.0, unitMaintenanceCost - 1.0)
+            }
+
+            // leveeEnMasse - Unit maintenance cost reduced by 2 [Gold] Gold per unit.
+            if government.has(card: .leveeEnMasse) {
+                unitMaintenanceCost = max(0.0, unitMaintenanceCost - 2.0)
+            }
+
+            // eliteForces - +100% combat experience for all units.
+            //    BUT: +2 [Gold] Gold to maintain each military unit.
+            if unit.type.maintenanceCost() > 0 && government.has(card: .eliteForces) {
+                unitMaintenanceCost += 2.0
             }
 
             maintenanceCost += unitMaintenanceCost

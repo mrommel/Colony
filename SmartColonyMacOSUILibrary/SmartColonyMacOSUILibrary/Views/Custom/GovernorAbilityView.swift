@@ -38,6 +38,7 @@ struct GovernorAbilityView: View {
                 .background(Color.gray.opacity(self.viewModel.enabled ? 0.2 : 0.8))
         )
         .cornerRadius(self.cornerRadius)
+        .tooltip(self.viewModel.toolTip(), side: .leadingBottom)
     }
 }
 
@@ -48,10 +49,10 @@ struct GovernorAbilityView_Previews: PreviewProvider {
         // swiftlint:disable:next redundant_discardable_let
         let _ = GameViewModel(preloadAssets: true)
 
-        let viewModelEnabled = GovernorAbilityViewModel(iconTexture: "promotion-default", text: "Ability", enabled: true)
+        let viewModelEnabled = GovernorAbilityViewModel(governorTitle: .affluence, enabled: true)
         GovernorAbilityView(viewModel: viewModelEnabled)
 
-        let viewModelDisabled = GovernorAbilityViewModel(iconTexture: "promotion-default", text: "Ability long", enabled: false)
+        let viewModelDisabled = GovernorAbilityViewModel(governorTitle: .bishop, enabled: false)
         GovernorAbilityView(viewModel: viewModelDisabled)
     }
 }

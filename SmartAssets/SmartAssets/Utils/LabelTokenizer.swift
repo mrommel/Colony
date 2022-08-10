@@ -123,6 +123,7 @@ public enum LabelImageType {
         case "[Shipwreck]": return .shipwreck
 
         case "[GreatPerson]": return .greatPerson
+        case "[GreatPeople]": return .greatPerson
         case "[GreatAdmiral]": return .greatAdmiral
         case "[GreatArtist]": return .greatArtist
         case "[GreatEngineer]": return .greatEngineer

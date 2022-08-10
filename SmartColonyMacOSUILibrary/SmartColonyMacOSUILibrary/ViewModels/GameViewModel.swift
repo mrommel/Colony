@@ -107,6 +107,9 @@ protocol GameViewModelDelegate: AnyObject {
 
     func showCityDialog(for city: AbstractCity?)
     func showCityChooseProductionDialog(for city: AbstractCity?)
+    func showCityAquireTilesDialog(for city: AbstractCity?)
+    func showCityPurchaseGoldDialog(for city: AbstractCity?)
+    func showCityPurchaseFaithDialog(for city: AbstractCity?)
     func showCityBuildingsDialog(for city: AbstractCity?)
     func showDiplomaticDialog(with otherPlayer: AbstractPlayer?, data: DiplomaticData?, deal: DiplomaticDeal?)
 
@@ -132,7 +135,7 @@ protocol GameViewModelDelegate: AnyObject {
         title: String,
         question: String,
         confirm: String,
-        cancel: String,
+        cancel: String?,
         completion: @escaping (Bool) -> Void
     )
     func showSelectionDialog(
@@ -153,6 +156,7 @@ protocol GameViewModelDelegate: AnyObject {
     func closePopup()
 
     func closeGame()
+    func closeGameAndShowTutorials()
 
     func selectMarker(at location: HexPoint)
 }
@@ -164,6 +168,7 @@ public protocol CloseGameViewModelDelegate: AnyObject {
 
     func closeAndRestartGame()
     func closeGameAndLoad()
+    func closeGameAndShowTutorials()
 }
 
 // swiftlint:disable type_body_length
@@ -658,6 +663,55 @@ public class GameViewModel: ObservableObject {
                 let title = "TXT_KEY_POPUP_QUEST_FULFILLED_TITLE".localized()
                 let summary = "TXT_KEY_POPUP_QUEST_FULFILLED_SUMMARY"
                     .localizedWithFormat(with: [quest.summary().localized(), cityState.name().localized()])
+                self.genericPopupViewModel.update(with: title, and: summary)
+
+            case .tutorialStart(tutorial: let tutorial):
+
+                switch tutorial {
+
+                case .none:
+                    // NOOP
+                    break
+
+                case .movementAndExploration:
+                    let title = "TXT_KEY_TUTORIAL_MOVEMENT_EXPLORATION_TITLE".localized()
+                    let summary = "TXT_KEY_TUTORIAL_MOVEMENT_EXPLORATION_BODY".localized()
+                    self.genericPopupViewModel.update(with: title, and: summary)
+
+                case .foundFirstCity:
+                    let title = "TXT_KEY_TUTORIAL_FOUND_FIRST_CITY_TITLE".localized()
+                    let summary = "TXT_KEY_TUTORIAL_FOUND_FIRST_CITY_BODY".localized()
+                    self.genericPopupViewModel.update(with: title, and: summary)
+
+                case .improvingCity:
+                    let title = "TXT_KEY_TUTORIAL_IMPROVING_CITY_TITLE".localized()
+                    let summary = "TXT_KEY_TUTORIAL_IMPROVING_CITY_BODY".localized()
+                    self.genericPopupViewModel.update(with: title, and: summary)
+
+                case .establishTradeRoute:
+                    let title = "TXT_KEY_TUTORIAL_ESTABLISH_TRADE_ROUTE_TITLE".localized()
+                    let summary = "TXT_KEY_TUTORIAL_ESTABLISH_TRADE_ROUTE_BODY".localized()
+                    self.genericPopupViewModel.update(with: title, and: summary)
+
+                case .combatAndConquest:
+                    let title = "TXT_KEY_TUTORIAL_COMBAT_CONQUEST_TITLE".localized()
+                    let summary = "TXT_KEY_TUTORIAL_COMBAT_CONQUEST_BODY".localized()
+                    self.genericPopupViewModel.update(with: title, and: summary)
+
+                case .basicDiplomacy:
+                    let title = "TXT_KEY_TUTORIAL_BASIC_DIPLOMACY_TITLE".localized()
+                    let summary = "TXT_KEY_TUTORIAL_BASIC_DIPLOMACY_BODY".localized()
+                    self.genericPopupViewModel.update(with: title, and: summary)
+                }
+
+            case .tutorialCityAttack(attacker: _, city: _):
+                let title = "TXT_KEY_ADVISOR_CITY_ATTACK_DISPLAY".localized()
+                let summary = "TXT_KEY_ADVISOR_CITY_ATTACK_BODY".localized()
+                self.genericPopupViewModel.update(with: title, and: summary)
+
+            case .tutorialBadUnitAttack(attacker: _, defender: _):
+                let title = "TXT_KEY_ADVISOR_BAD_ATTACK_DISPLAY".localized()
+                let summary = "TXT_KEY_ADVISOR_BAD_ATTACK_BODY".localized()
                 self.genericPopupViewModel.update(with: title, and: summary)
 
             default:
@@ -1309,6 +1363,9 @@ extension GameViewModel: GameViewModelDelegate {
         case .razeOrReturnCity:
             self.showRazeOrReturnCity(for: city)
 
+        case .moments:
+            self.showMomentsDialog()
+
         default:
             print("screen: \(screenType) not handled")
         }
@@ -1356,6 +1413,11 @@ extension GameViewModel: GameViewModelDelegate {
     func closeGame() {
 
         self.delegate?.closeGame()
+    }
+
+    func closeGameAndShowTutorials() {
+
+        self.delegate?.closeGameAndShowTutorials()
     }
 
     func selectMarker(at location: HexPoint) {

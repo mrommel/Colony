@@ -511,7 +511,7 @@ public class TacticalAI: Codable {
 
                 // Look at where we'd move this turn taking units into consideration
                 // int iFlags = 0;
-                // if army.numOfSlotsFilled() > 1 {
+                // if army.numberOfSlotsFilled() > 1 {
                     // iFlags = MOVE_UNITS_IGNORE_DANGER;
                 // }
 
@@ -1153,7 +1153,7 @@ public class TacticalAI: Codable {
         }
 
         // Range around turn target based on number of units we need to place
-        let range = OperationHelpers.gatherRangeFor(numOfUnits: mostUnits)
+        let range = OperationHelpers.gatherRangeFor(numberOfUnits: mostUnits)
 
         // See if we have enough places to put everyone
         if !self.scoreDeploymentPlots(point: turnTarget, army: army, numMeleeUnits: mostUnits, numRangedUnits: 0, range: range, in: gameModel) &&
@@ -1187,7 +1187,7 @@ public class TacticalAI: Codable {
                         let blockingUnit = BlockingUnit(
                             unit: currentMoveUnit?.unit,
                             at: tempTarget.target,
-                            numChoices: self.currentMoveUnits.count,
+                            numberOfChoices: self.currentMoveUnits.count,
                             distanceToTarget: currentMoveUnit!.movesToTarget
                         )
                         self.potentialBlocks.append(blockingUnit)
@@ -1240,7 +1240,7 @@ public class TacticalAI: Codable {
                             let blockingUnit = BlockingUnit(
                                 unit: currentMoveUnit?.unit,
                                 at: tempTarget.target,
-                                numChoices: self.currentMoveUnits.count,
+                                numberOfChoices: self.currentMoveUnits.count,
                                 distanceToTarget: currentMoveUnit!.movesToTarget
                             )
                             self.potentialBlocks.append(blockingUnit)
@@ -2078,7 +2078,7 @@ public class TacticalAI: Codable {
         let numUnits = self.operationUnits.count
 
         // Range around target based on number of units we need to place
-        var range = OperationHelpers.gatherRangeFor(numOfUnits: numUnits)
+        var range = OperationHelpers.gatherRangeFor(numberOfUnits: numUnits)
 
         // Try one time with computed range
         var foundEnoughDeploymentPlots = false
@@ -2136,7 +2136,7 @@ public class TacticalAI: Codable {
                             let blockingUnit = BlockingUnit(
                                 unit: currentMoveUnit.unit,
                                 at: tempTarget.target,
-                                numChoices: self.currentMoveUnits.count,
+                                numberOfChoices: self.currentMoveUnits.count,
                                 distanceToTarget: currentMoveUnit.movesToTarget
                             )
                             self.potentialBlocks.append(blockingUnit)
@@ -2332,7 +2332,7 @@ public class TacticalAI: Codable {
                     }
 
                     // Use number of choices field to indicate already moved
-                    chosenBlockRef?.numChoices = -1
+                    chosenBlockRef?.numberOfChoices = -1
                 }
             }
         }
@@ -2347,10 +2347,10 @@ public class TacticalAI: Codable {
             if let unit = chosenBlock.unit {
 
                 if unit.location == chosenBlock.point {
-                    chosenBlockRef?.numChoices = -1
+                    chosenBlockRef?.numberOfChoices = -1
                 } else {
                     // Someone we didn't move above?
-                    if chosenBlock.numChoices != -1 {
+                    if chosenBlock.numberOfChoices != -1 {
 
                         let plotBeforeMove = unit.location
                         var moveWasSafe = false
@@ -2364,7 +2364,7 @@ public class TacticalAI: Codable {
 
                         // Use number of choices field to indicate already moved
                         if plotBeforeMove != unit.location {
-                            chosenBlockRef?.numChoices = -1
+                            chosenBlockRef?.numberOfChoices = -1
                         }
                     }
                 }
@@ -2383,7 +2383,7 @@ public class TacticalAI: Codable {
                 if let unit = chosenBlock.unit {
 
                     // Someone we didn't move above?
-                    if chosenBlock.numChoices != -1 {
+                    if chosenBlock.numberOfChoices != -1 {
 
                         let plotBeforeMove = unit.location
 
@@ -2396,7 +2396,7 @@ public class TacticalAI: Codable {
                             }
 
                             if plotBeforeMove != unit.location {
-                                chosenBlockRef?.numChoices = -1
+                                chosenBlockRef?.numberOfChoices = -1
                             }
                         }
                     }
@@ -2416,7 +2416,7 @@ public class TacticalAI: Codable {
                 if let unit = chosenBlock.unit {
 
                     // Someone we didn't move above?
-                    if chosenBlock.numChoices != -1 {
+                    if chosenBlock.numberOfChoices != -1 {
 
                         if self.moveToEmptySpaceTwoFromTarget(unit: unit, target: chosenBlock.point, land: unit.domain() == .land, in: gameModel) {
                             if gameModel.loggingEnabled() && gameModel.aiLoggingEnabled() {
@@ -4452,7 +4452,7 @@ public class TacticalAI: Codable {
                             let blockingUnit = BlockingUnit(
                                 unit: currentMoveUnit?.unit,
                                 at: tempTarget.target,
-                                numChoices: self.currentMoveUnits.count,
+                                numberOfChoices: self.currentMoveUnits.count,
                                 distanceToTarget: currentMoveUnit!.movesToTarget
                             )
                             self.potentialBlocks.append(blockingUnit)
@@ -4493,7 +4493,7 @@ public class TacticalAI: Codable {
                             let blockingUnit = BlockingUnit(
                                 unit: currentMoveUnit?.unit,
                                 at: tempTarget.target,
-                                numChoices: self.currentMoveUnits.count,
+                                numberOfChoices: self.currentMoveUnits.count,
                                 distanceToTarget: currentMoveUnit!.movesToTarget
                             )
                             self.potentialBlocks.append(blockingUnit)
@@ -4722,7 +4722,7 @@ public class TacticalAI: Codable {
                             let blockingUnit = BlockingUnit(
                                 unit: currentMoveUnit?.unit,
                                 at: tempTarget.target,
-                                numChoices: self.currentMoveUnits.count,
+                                numberOfChoices: self.currentMoveUnits.count,
                                 distanceToTarget: currentMoveUnit!.movesToTarget
                             )
                             self.potentialBlocks.append(blockingUnit)
@@ -5152,7 +5152,7 @@ public class TacticalAI: Codable {
 
                                 if !currentMoveUnit.isEqual(to: attackingUnit) {
 
-                                    self.potentialBlocks.append(BlockingUnit(unit: currentMoveUnit, at: neighbor, numChoices: self.currentMoveUnits.count, distanceToTarget: currentMoveUnitRef!.movesToTarget))
+                                    self.potentialBlocks.append(BlockingUnit(unit: currentMoveUnit, at: neighbor, numberOfChoices: self.currentMoveUnits.count, distanceToTarget: currentMoveUnitRef!.movesToTarget))
                                 }
                             }
                         }
@@ -5184,7 +5184,7 @@ public class TacticalAI: Codable {
                     continue
                 }
 
-                if temp.numChoices == 1 {
+                if temp.numberOfChoices == 1 {
                     self.newlyChosen.append(temp)
                     choseOne = true
                 }
@@ -5241,7 +5241,7 @@ public class TacticalAI: Codable {
             while level < blocksToCreate {
 
                 first[level] = curIndex
-                let numChoices = self.potentialBlocks[curIndex]!.numChoices
+                let numChoices = self.potentialBlocks[curIndex]!.numberOfChoices
 
                 assert(numChoices > 0, "Invalid number of tactical AI move choices. Will cause array overflows and performance issues!")
                 assert(numChoices + curIndex <= self.potentialBlocks.count, "Invalid number of tactical AI move choices. Will cause array overflows and performance issues!")
@@ -5493,7 +5493,7 @@ public class TacticalAI: Codable {
 
                         for currentMoveUnit in self.currentMoveUnits {
 
-                            self.potentialBlocks.append(BlockingUnit(unit: currentMoveUnit?.unit, at: loopPlot.point, numChoices: self.currentMoveUnits.count, distanceToTarget: currentMoveUnit!.movesToTarget))
+                            self.potentialBlocks.append(BlockingUnit(unit: currentMoveUnit?.unit, at: loopPlot.point, numberOfChoices: self.currentMoveUnits.count, distanceToTarget: currentMoveUnit!.movesToTarget))
                         }
 
                         rangedUnitsToPlace -= 1
@@ -5529,7 +5529,7 @@ public class TacticalAI: Codable {
 
                         for currentMoveUnit in self.currentMoveUnits {
 
-                            self.potentialBlocks.append(BlockingUnit(unit: currentMoveUnit?.unit, at: loopPlot.point, numChoices: self.currentMoveUnits.count, distanceToTarget: currentMoveUnit!.movesToTarget))
+                            self.potentialBlocks.append(BlockingUnit(unit: currentMoveUnit?.unit, at: loopPlot.point, numberOfChoices: self.currentMoveUnits.count, distanceToTarget: currentMoveUnit!.movesToTarget))
                         }
 
                         meleeUnitsToPlace -= 1
@@ -5665,7 +5665,7 @@ public class TacticalAI: Codable {
             choseOne = false
             self.newlyChosen.removeAll()
 
-            for potentialBlock in self.potentialBlocks where potentialBlock?.numChoices == 1 {
+            for potentialBlock in self.potentialBlocks where potentialBlock?.numberOfChoices == 1 {
 
                 self.newlyChosen.append(potentialBlock)
                 choseOne = true
@@ -5701,7 +5701,7 @@ public class TacticalAI: Codable {
             self.chosenBlocks.append(potentialBlock)
 
             // Don't copy the other entries for this hex so pass in the number of choices here
-            self.removeChosenUnits(startIndex: potentialBlock!.numChoices)
+            self.removeChosenUnits(startIndex: potentialBlock!.numberOfChoices)
 
             // Do we have enough units left to cover everything?
             if self.numUniqueUnitsLeft() < (numUnitsRequiredToDeploy - self.chosenBlocks.count) {
@@ -5793,7 +5793,7 @@ public class TacticalAI: Codable {
         // Rebuild number of choices
         for index in 0..<self.potentialBlocks.count {
 
-            var numFound = 0
+            var numberOfFoundBlocks = 0
 
             guard let plot = self.potentialBlocks[index]?.point else {
                 continue
@@ -5801,10 +5801,10 @@ public class TacticalAI: Codable {
 
             for index2 in 0..<self.potentialBlocks.count where plot == self.potentialBlocks[index2]?.point {
 
-                numFound += 1
+                numberOfFoundBlocks += 1
             }
 
-            self.potentialBlocks[index]?.numChoices = numFound
+            self.potentialBlocks[index]?.numberOfChoices = numberOfFoundBlocks
         }
     }
 

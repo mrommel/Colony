@@ -29,7 +29,7 @@ struct SelectItemView: View {
                 Text(self.viewModel.title)
                     .font(.headline)
 
-                Text(self.viewModel.subtitle)
+                Label(self.viewModel.subtitle)
                     .font(.footnote)
                     .padding(.top, 1)
             }

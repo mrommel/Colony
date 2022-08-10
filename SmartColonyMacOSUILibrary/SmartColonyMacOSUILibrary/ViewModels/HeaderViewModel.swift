@@ -167,7 +167,7 @@ class HeaderViewModel: ObservableObject {
             }
         }
 
-        if self.leaderViewModels.isEmpty {
+        if self.leaderViewModels.count != gameModel.players.count {
 
             var tmpLeaderViewModels: [LeaderViewModel] = []
 

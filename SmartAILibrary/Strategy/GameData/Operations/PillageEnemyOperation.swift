@@ -154,7 +154,7 @@ class PillageEnemyOperation: EnemyTerritoryOperation {
                 if gameModel.area(of: loopCity.location) == gameModel.area(of: startCity.location) {
 
                     // Initial value of target is the number of improved plots
-                    var value = loopCity.countNumImprovedPlots(in: gameModel)
+                    var value = loopCity.countNumberOfImprovedPlots(in: gameModel)
 
                     // Adjust value based on proximity to our start location
                     let distance = loopCity.location.distance(to: startCity.location)

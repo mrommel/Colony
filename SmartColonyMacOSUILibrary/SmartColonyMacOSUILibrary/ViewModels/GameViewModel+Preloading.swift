@@ -415,10 +415,7 @@ extension GameViewModel {
             )
         }
 
-        let policyCardTextureNames = [
-            "policyCard-slot", "policyCard-military", "policyCard-economic", "policyCard-diplomatic",
-            "policyCard-wildcard", "policyCard-darkAge"
-        ]
+        let policyCardTextureNames = PolicyCardSlotType.all.map { $0.iconTexture() } + [ "policyCard-slot"]
         print("- load \(policyCardTextureNames.count) policy card textures")
         for textureName in policyCardTextureNames {
             ImageCache.shared.add(
@@ -618,7 +615,7 @@ extension GameViewModel {
             )
         }
 
-        let promotionTextureNames = UnitPromotionType.all.map { $0.iconTexture() }
+        let promotionTextureNames = UnitPromotionType.all.map { $0.iconTexture() } + ["promotion-default"]
         print("- load \(promotionTextureNames.count) promotion type textures")
         for textureName in promotionTextureNames {
             ImageCache.shared.add(

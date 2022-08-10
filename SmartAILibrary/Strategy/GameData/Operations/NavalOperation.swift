@@ -94,7 +94,9 @@ class NavalOperation: EnemyTerritoryOperation {
         guard let gameModel = gameModel,
             let enemy = self.enemy,
             let army = self.army else {
-                fatalError("cant get gameModel")
+
+            self.state = .aborted(reason: .noTarget)
+            return true
         }
 
         var stateChanged = false

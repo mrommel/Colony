@@ -19,16 +19,15 @@ public protocol AbstractBuildings: Codable {
     // buildings
     func has(building: BuildingType) -> Bool
     func build(building: BuildingType) throws
-    func numOfBuildings(of buildingCategoryType: BuildingCategoryType) -> Int
+    func numberOfBuildings(of buildingCategoryType: BuildingCategoryType) -> Int
     func clear()
-    func numberOfBuiltBuildings() -> Int
 
     // stats
     func defense() -> Int
     func defenseModifier() -> Int
     func housing() -> Double
     func updateHousing()
-    func numOfBuildings() -> Int
+    func numberOfBuildings() -> Int
 }
 
 class Buildings: AbstractBuildings {
@@ -103,7 +102,7 @@ class Buildings: AbstractBuildings {
         }
     }
 
-    func numOfBuildings(of buildingCategoryType: BuildingCategoryType) -> Int {
+    func numberOfBuildings(of buildingCategoryType: BuildingCategoryType) -> Int {
 
         var num: Int = 0
 
@@ -120,11 +119,6 @@ class Buildings: AbstractBuildings {
     func clear() {
 
         self.buildings.removeAll()
-    }
-
-    func numberOfBuiltBuildings() -> Int {
-
-        return self.buildings.count
     }
 
     private func updateDefense() {
@@ -184,7 +178,7 @@ class Buildings: AbstractBuildings {
         return self.housingVal
     }
 
-    func numOfBuildings() -> Int {
+    func numberOfBuildings() -> Int {
 
         return self.buildings.count
     }
