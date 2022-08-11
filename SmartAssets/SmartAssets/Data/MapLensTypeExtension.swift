@@ -21,13 +21,13 @@ extension MapLensType {
 
         case .none: return "-"
 
-        case .religion: return "TXT_KEY_LENS_RELIGION_TITLE"
-        case .continents: return "TXT_KEY_LENS_CONTINENTS_TITLE"
-        case .appeal: return "TXT_KEY_LENS_APPEAL_TITLE"
-        case .settler: return "TXT_KEY_LENS_SETTLER_TITLE"
-        case .government: return "TXT_KEY_LENS_GOVERNMENT_TITLE"
-        case .tourism: return "TXT_KEY_LENS_TOURISM_TITLE"
-        case .loyalty: return "TXT_KEY_LENS_LOYALTY_TITLE"
+        case .religion: return "TXT_KEY_LENSES_RELIGION_TITLE"
+        case .continents: return "TXT_KEY_LENSES_CONTINENTS_TITLE"
+        case .appeal: return "TXT_KEY_LENSES_APPEAL_TITLE"
+        case .settler: return "TXT_KEY_LENSES_SETTLER_TITLE"
+        case .government: return "TXT_KEY_LENSES_GOVERNMENT_TITLE"
+        case .tourism: return "TXT_KEY_LENSES_TOURISM_TITLE"
+        case .loyalty: return "TXT_KEY_LENSES_LOYALTY_TITLE"
         }
     }
 

@@ -235,13 +235,15 @@
 "TXT_KEY_ADVISOR_BAD_ATTACK_BODY" = "It might be a good idea to reconsider this attack; you will do minimal damage to your opponent and they will do considerable damage to you.";
 
 // lenses
-"TXT_KEY_LENS_RELIGION_TITLE" = "Religion";
-"TXT_KEY_LENS_CONTINENTS_TITLE" = "Continents";
-"TXT_KEY_LENS_APPEAL_TITLE" = "Appeal";
-"TXT_KEY_LENS_SETTLER_TITLE" = "Settler";
-"TXT_KEY_LENS_GOVERNMENT_TITLE" = "Government";
-"TXT_KEY_LENS_TOURISM_TITLE" = "Tourism";
-"TXT_KEY_LENS_LOYALTY_TITLE" = "Loyalty";
+"TXT_KEY_LENSES_TITLE" = "Lenses";
+"TXT_KEY_LENSES_LEGEND_TITLE" = "Legend";
+"TXT_KEY_LENSES_RELIGION_TITLE" = "Religion";
+"TXT_KEY_LENSES_CONTINENTS_TITLE" = "Continents";
+"TXT_KEY_LENSES_APPEAL_TITLE" = "Appeal";
+"TXT_KEY_LENSES_SETTLER_TITLE" = "Settler";
+"TXT_KEY_LENSES_GOVERNMENT_TITLE" = "Government";
+"TXT_KEY_LENSES_TOURISM_TITLE" = "Tourism";
+"TXT_KEY_LENSES_LOYALTY_TITLE" = "Loyalty";
 
 // notifications
 

@@ -148,9 +148,53 @@ class MapLensLayer: BaseLayer {
                 text += "| \(loyaltyFromAmenities.deltaDisplay) [Amenities]"
                 text += "| \(loyaltyFromOther.deltaDisplay) Other"
                 self.show(text: text, at: point)
+            } else {
+                // is city in direct neighborhood
+                for direction in HexDirection.all {
+
+                    let neighborPoint = tile.point.neighbor(in: direction)
+
+                    guard let centerCity = gameModel.city(at: neighborPoint) else {
+                        continue
+                    }
+
+                    var citiesInDirection: [AbstractCity?] = []
+                    let areaPoints = neighborPoint.areaWith(radius: 10)
+
+                    for loopPoint in areaPoints {
+
+                        // skip central city
+                        guard loopPoint != neighborPoint else {
+                            continue
+                        }
+
+                        guard let loopCity = gameModel.city(at: loopPoint) else {
+                            continue
+                        }
+
+                        guard loopCity.isHuman() || loopCity.isMajorAI() else {
+                            continue
+                        }
+
+                        if loopCity.location.direction(towards: neighborPoint) == direction {
+                            citiesInDirection.append(loopCity)
+                        }
+                    }
+
+                    if !citiesInDirection.isEmpty {
+                        print("need to calculate influence at: \(tile.point) for: \(citiesInDirection.map { $0?.name }) cities in direction: \(direction.short())")
+
+                        let loyaltyPressureFromNearbyCitizen = centerCity.loyaltyPressureFromNearbyCitizen(for: citiesInDirection, in: gameModel)
+                        print("loyaltyPressureFromNearbyCitizen: \(loyaltyPressureFromNearbyCitizen)")
+
+                        if loyaltyPressureFromNearbyCitizen > 0.0 {
+                            textureColor = .darkViolet
+                        }
+                    }
+                }
             }
 
-            return
+            // return
         }
 
         // place texture

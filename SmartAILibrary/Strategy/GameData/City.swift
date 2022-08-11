@@ -45,6 +45,7 @@ public protocol AbstractCity: AnyObject, Codable {
 
     func isBarbarian() -> Bool
     func isHuman() -> Bool
+    func isMajorAI() -> Bool
 
     func foodConsumption() -> Double
 
@@ -254,6 +255,7 @@ public protocol AbstractCity: AnyObject, Codable {
     // loyalty
     func loyalty() -> Int
     func loyaltyState() -> LoyaltyState
+    func loyaltyPressureFromNearbyCitizen(for cities: [AbstractCity?], in gameModel: GameModel?) -> Double
     func loyaltyPressureFromNearbyCitizen(in gameModel: GameModel?) -> Double
     func loyaltyFromGovernors(in gameModel: GameModel?) -> Double
     func loyaltyFromAmenities(in gameModel: GameModel?) -> Double
@@ -757,12 +759,21 @@ public class City: AbstractCity {
 
     public func isHuman() -> Bool {
 
-           guard let player = self.player else {
-               fatalError("cant get player")
-           }
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
 
-           return player.isHuman()
-       }
+        return player.isHuman()
+    }
+
+    public func isMajorAI() -> Bool {
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        return player.isMajorAI()
+    }
 
     public func doFoundMessage() {
 
@@ -1267,6 +1278,89 @@ public class City: AbstractCity {
     public func strengthValue() -> Int {
 
         return self.strengthVal
+    }
+
+    public func loyaltyPressureFromNearbyCitizen(for cities: [AbstractCity?], in gameModel: GameModel?) -> Double {
+
+        guard let player = self.player else {
+            fatalError("cant get player")
+        }
+
+        let domesticCities = cities.filter { player.isEqual(to: $0?.player) }
+        let foreignCities = cities.filter { !player.isEqual(to: $0?.player) }
+
+        var domesticPressure: Double = 0.0
+
+        for domesticCityRef in domesticCities {
+
+            guard let domesticCity = domesticCityRef else {
+                continue
+            }
+
+            // Each Citizen exerts a base pressure of 1, but it can be modified.
+            // For example, Citizens in a Capital city exert an additional 1 pressure.
+            // Golden and Heroic Ages add 0.5 for all  Citizens, while Dark Ages subtract 0.5.
+            // This Citizen pressure affects cities within 9 tiles, but is 10% less effective per tile distant.
+            let distance: Int = domesticCity.location.distance(to: self.location)
+
+            guard distance < 10 else {
+                continue
+            }
+
+            var domesticCityPressure: Double = Double(domesticCity.population() * (10 - distance)) * player.currentAge().loyalityFactor()
+
+            // Note that a Capital is counted twice: the first time with its Citizen Population affected by the Age Factor and the second time it is assumed to be in a Normal Age.
+            if domesticCity.isCapital() {
+
+                domesticCityPressure += Double(domesticCity.population() * (10 - distance)) * AgeType.normal.loyalityFactor()
+            }
+
+            // The Bread and Circuses project from a nearby Entertainment Complex or Water Park also has the effect of doubling
+            // the Citizen Population count, so a Bread and Circuses project in a highly populated city can be very powerful.
+            if domesticCity.has(project: .breadAndCircuses) {
+
+                domesticCityPressure *= 2
+            }
+
+            domesticPressure += domesticCityPressure
+        }
+
+        // Foreign Pressure = Sum of [ each Foreign Population * (10 - Distance Away) * Age Factor of Foreign Civ ]
+        var foreignPressure: Double = 0.0
+
+        for foreignCityRef in foreignCities {
+
+            guard let foreignCity = foreignCityRef else {
+                continue
+            }
+
+            // only foreign city
+            guard foreignCity.leader != player.leader else {
+                continue
+            }
+
+            guard let foreignPlayer = foreignCity.player else {
+                continue
+            }
+
+            // Only civilizations' cities within 9 tiles of the city can impact the pressure from nearby citizens, and Free Cities and city-states have no impact.
+            guard !foreignPlayer.isBarbarian() && !foreignPlayer.isFreeCity() && !foreignPlayer.isCityState() else {
+                continue
+            }
+
+            let distance = foreignCity.location.distance(to: self.location)
+
+            guard distance < 10 else {
+                continue
+            }
+
+            let foreignCityLoyalityFactor = foreignCity.player?.currentAge().loyalityFactor() ?? 1.0
+            let foreignCityPressure: Double = Double(foreignCity.population()) * Double(10 - distance) * foreignCityLoyalityFactor
+
+            foreignPressure += foreignCityPressure
+        }
+
+        return 10.0 * (domesticPressure - foreignPressure) / (min(domesticPressure, foreignPressure) + 0.5)
     }
 
     // Pressure from nearby Citizens.
