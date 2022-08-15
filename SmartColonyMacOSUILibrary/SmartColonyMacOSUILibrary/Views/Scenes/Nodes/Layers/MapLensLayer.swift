@@ -128,28 +128,12 @@ class MapLensLayer: BaseLayer {
 
                 }*/
 
-                let cityLoyalty = city.loyalty()
-                let loyaltyFromNearbyCitizen = city.loyaltyPressureFromNearbyCitizen(in: gameModel)
-                let loyaltyFromGovernors = city.loyaltyFromGovernors(in: gameModel)
-                let loyaltyFromAmenities = city.loyaltyFromAmenities(in: gameModel)
-                var loyaltyFromOther = 0.0
-                loyaltyFromOther += city.loyaltyFromWonders(in: gameModel)
-                loyaltyFromOther += city.loyaltyFromTradeRoutes(in: gameModel)
-                loyaltyFromOther += city.loyaltyFromOthersEffects(in: gameModel)
-                var loyaltyDelta = 0.0
-                loyaltyDelta += loyaltyFromNearbyCitizen
-                loyaltyDelta += loyaltyFromGovernors
-                loyaltyDelta += loyaltyFromAmenities
-                loyaltyDelta += loyaltyFromOther
-
-                var text = "Loyalty: \(cityLoyalty)/100 (\(loyaltyDelta.deltaDisplay))\n\n"
-                text += "\(loyaltyFromNearbyCitizen.deltaDisplay) [Citizen]"
-                text += "| \(loyaltyFromGovernors.deltaDisplay) [Governor]"
-                text += "| \(loyaltyFromAmenities.deltaDisplay) [Amenities]"
-                text += "| \(loyaltyFromOther.deltaDisplay) Other"
-                self.show(text: text, at: point)
+                self.showLoyaltyTooltip(for: city, at: point)
             } else {
-                // is city in direct neighborhood
+                // check if city is in direct neighborhood
+                var neighboringCityRef: AbstractCity?
+                var neighboringCityDir: HexDirection = .north
+
                 for direction in HexDirection.all {
 
                     let neighborPoint = tile.point.neighbor(in: direction)
@@ -158,13 +142,18 @@ class MapLensLayer: BaseLayer {
                         continue
                     }
 
+                    neighboringCityRef = centerCity
+                    neighboringCityDir = direction
+                }
+
+                if let neighboringCity = neighboringCityRef {
                     var citiesInDirection: [AbstractCity?] = []
-                    let areaPoints = neighborPoint.areaWith(radius: 10)
+                    let areaPoints = neighboringCity.location.areaWith(radius: 10)
 
                     for loopPoint in areaPoints {
 
                         // skip central city
-                        guard loopPoint != neighborPoint else {
+                        guard loopPoint != neighboringCity.location else {
                             continue
                         }
 
@@ -176,19 +165,29 @@ class MapLensLayer: BaseLayer {
                             continue
                         }
 
-                        if loopCity.location.direction(towards: neighborPoint) == direction {
+                        if loopCity.location.direction(towards: neighboringCity.location) == neighboringCityDir {
                             citiesInDirection.append(loopCity)
                         }
                     }
 
                     if !citiesInDirection.isEmpty {
-                        print("need to calculate influence at: \(tile.point) for: \(citiesInDirection.map { $0?.name }) cities in direction: \(direction.short())")
+                        // print("--- \(neighboringCity.name) ----------------")
+                        // print("- calc influence at: \(tile.point) for: \(citiesInDirection.count) cities in direction: \(neighboringCityDir.opposite.short())")
+                        // print("- cities: \(citiesInDirection.map { $0?.name })")
 
-                        let loyaltyPressureFromNearbyCitizen = centerCity.loyaltyPressureFromNearbyCitizen(for: citiesInDirection, in: gameModel)
-                        print("loyaltyPressureFromNearbyCitizen: \(loyaltyPressureFromNearbyCitizen)")
+                        let loyaltyPressureFromNearbyCitizen = neighboringCity.loyaltyPressureFromNearbyCitizen(for: citiesInDirection, in: gameModel)
+                        // print("- loyaltyPressureFromNearbyCitizen: \(loyaltyPressureFromNearbyCitizen)")
 
-                        if loyaltyPressureFromNearbyCitizen > 0.0 {
-                            textureColor = .darkViolet
+                        if loyaltyPressureFromNearbyCitizen > 10.0 {
+                            textureColor = TypeColor.Lenses.green
+                        } else if loyaltyPressureFromNearbyCitizen > 0.0 {
+                            textureColor = TypeColor.Lenses.lightGreen
+                        }
+
+                        if loyaltyPressureFromNearbyCitizen < 10.0 {
+                            textureColor = TypeColor.Lenses.red
+                        } else if loyaltyPressureFromNearbyCitizen < 0.0 {
+                            textureColor = TypeColor.Lenses.lightRed
                         }
                     }
                 }
@@ -250,11 +249,31 @@ class MapLensLayer: BaseLayer {
         }
     }
 
-    private func show(text: String, at location: HexPoint) {
+    private func showLoyaltyTooltip(for city: AbstractCity, at location: HexPoint) {
 
         var screenPoint = HexPoint.toScreen(hex: location)
 
         screenPoint.x += 12 // 24 / 2
+
+        let cityLoyalty = city.loyalty()
+        let loyaltyFromNearbyCitizen = city.loyaltyPressureFromNearbyCitizen(in: gameModel)
+        let loyaltyFromGovernors = city.loyaltyFromGovernors(in: gameModel)
+        let loyaltyFromAmenities = city.loyaltyFromAmenities(in: gameModel)
+        var loyaltyFromOther = 0.0
+        loyaltyFromOther += city.loyaltyFromWonders(in: gameModel)
+        loyaltyFromOther += city.loyaltyFromTradeRoutes(in: gameModel)
+        loyaltyFromOther += city.loyaltyFromOthersEffects(in: gameModel)
+        var loyaltyDelta = 0.0
+        loyaltyDelta += loyaltyFromNearbyCitizen
+        loyaltyDelta += loyaltyFromGovernors
+        loyaltyDelta += loyaltyFromAmenities
+        loyaltyDelta += loyaltyFromOther
+
+        var text = "Loyalty: \(cityLoyalty)/100 (\(loyaltyDelta.deltaDisplay))\n\n"
+        text += "\(loyaltyFromNearbyCitizen.deltaDisplay) [Citizen]"
+        text += "| \(loyaltyFromGovernors.deltaDisplay) [Governor]"
+        text += "| \(loyaltyFromAmenities.deltaDisplay) [Amenities]"
+        text += "| \(loyaltyFromOther.deltaDisplay) Other"
 
         let tooltipNode = TooltipNode(text: text, type: TooltipNodeType.blue)
         tooltipNode.position = screenPoint
