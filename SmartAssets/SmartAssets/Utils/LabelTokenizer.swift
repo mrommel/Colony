@@ -50,7 +50,7 @@ public enum LabelImageType {
     case diplomaticFavor
     case envoy
     case grievances
-    case shipwreck
+    // case revolt
 
     case greatPerson
     case greatAdmiral
@@ -63,6 +63,7 @@ public enum LabelImageType {
     case greatScientist
     case greatWriter
 
+    case shipwreck
     case relic
     case artifact
     case sculpture

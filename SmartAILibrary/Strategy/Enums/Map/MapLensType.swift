@@ -18,6 +18,7 @@ public enum MapLensType: Int {
     case settler
     case government
     case tourism
+    case loyalty
 
     public static var all: [MapLensType] = [
 
@@ -26,6 +27,7 @@ public enum MapLensType: Int {
         .appeal,
         .settler,
         .government,
-        .tourism
+        .tourism,
+        .loyalty
     ]
 }

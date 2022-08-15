@@ -19,14 +19,15 @@ extension MapLensType {
 
         switch self {
 
-        case .none: return "None"
+        case .none: return "-"
 
-        case .religion: return "Religion"
-        case .continents: return "Continents"
-        case .appeal: return "Appeal"
-        case .settler: return "Settler"
-        case .government: return "Government"
-        case .tourism: return "Tourism"
+        case .religion: return "TXT_KEY_LENSES_RELIGION_TITLE"
+        case .continents: return "TXT_KEY_LENSES_CONTINENTS_TITLE"
+        case .appeal: return "TXT_KEY_LENSES_APPEAL_TITLE"
+        case .settler: return "TXT_KEY_LENSES_SETTLER_TITLE"
+        case .government: return "TXT_KEY_LENSES_GOVERNMENT_TITLE"
+        case .tourism: return "TXT_KEY_LENSES_TOURISM_TITLE"
+        case .loyalty: return "TXT_KEY_LENSES_LOYALTY_TITLE"
         }
     }
 
@@ -105,6 +106,10 @@ extension MapLensType {
             }
 
         case .tourism:
+            // NOOP
+            break
+
+        case .loyalty:
             // NOOP
             break
 

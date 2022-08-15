@@ -119,7 +119,7 @@ public struct MapOverviewView: View {
                 .onTapGesture {
                     self.viewModel.mapLensClicked()
                 }
-                .tooltip(self.viewModel.mapLensToolTip())
+                .tooltip(self.viewModel.mapLensToolTip(), side: .trailing)
         }
         .offset(x: -8.0, y: -93.0)
     }
@@ -129,12 +129,12 @@ public struct MapOverviewView: View {
         if self.viewModel.showMapLens {
             return AnyView(
                 VStack(alignment: .center, spacing: 4) {
-                    Text("Lenses")
+                    Text("TXT_KEY_LENSES_TITLE".localized())
 
                     ScrollView(.vertical, showsIndicators: true, content: {
                         Picker("", selection: self.$viewModel.selectedMapLens, content: {
                             ForEach(MapLensType.all) { mapLens in
-                                Text(mapLens.title())
+                                Text(mapLens.title().localized())
                                     .tag(mapLens)
                                     .frame(width: 130, alignment: .leading)
                                     .padding(.leading, 4)
@@ -159,13 +159,12 @@ public struct MapOverviewView: View {
 
     var legendView: some View {
 
-        if self.viewModel.showMapLens {
+        if self.viewModel.showMapLens && !self.viewModel.mapLensLegendViewModel.items.isEmpty {
             return AnyView(
                 VStack(alignment: .center, spacing: 4) {
-                    Text("Legend")
+                    Text("TXT_KEY_LENSES_LEGEND_TITLE".localized())
 
                     ForEach(self.viewModel.mapLensLegendViewModel.items, id: \.self) { legendItemViewModel in
-
                         MapLensLegendItemView(viewModel: legendItemViewModel)
                     }
                 }

@@ -131,7 +131,7 @@ public enum HexDirection: Int {
         }
     }*/
 
-    var opposite: HexDirection {
+    public var opposite: HexDirection {
 
         switch self {
         case .north:

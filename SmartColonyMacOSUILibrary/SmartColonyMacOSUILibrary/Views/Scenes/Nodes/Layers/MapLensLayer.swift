@@ -15,6 +15,7 @@ class MapLensLayer: BaseLayer {
 
     var mapLens: MapLensType
     let tileTexture: NSImage
+    var loyaltyNodes: [TooltipNode] = []
 
     // MARK: constructor
 
@@ -110,6 +111,89 @@ class MapLensLayer: BaseLayer {
             if tourismValue > 0.0 {
                 textureColor = Globals.Colors.tourismLens
             }
+
+        case .loyalty:
+            if tile.isCity() {
+                guard let city = gameModel.city(at: tile.point) else {
+                    fatalError("cant get city")
+                }
+
+                /*guard let diplomacy = city.player?.diplomacyAI else {
+                    fatalError("cant get diplomacy")
+                }
+
+                if city.isHuman() || diplomacy.isAllianceActive(with: city.player) {
+
+                } else if alpha == 1.0 {
+
+                }*/
+
+                self.showLoyaltyTooltip(for: city, at: point)
+            } else {
+                // check if city is in direct neighborhood
+                var neighboringCityRef: AbstractCity?
+                var neighboringCityDir: HexDirection = .north
+
+                for direction in HexDirection.all {
+
+                    let neighborPoint = tile.point.neighbor(in: direction)
+
+                    guard let centerCity = gameModel.city(at: neighborPoint) else {
+                        continue
+                    }
+
+                    neighboringCityRef = centerCity
+                    neighboringCityDir = direction
+                }
+
+                if let neighboringCity = neighboringCityRef {
+                    var citiesInDirection: [AbstractCity?] = []
+                    let areaPoints = neighboringCity.location.areaWith(radius: 10)
+
+                    for loopPoint in areaPoints {
+
+                        // skip central city
+                        guard loopPoint != neighboringCity.location else {
+                            continue
+                        }
+
+                        guard let loopCity = gameModel.city(at: loopPoint) else {
+                            continue
+                        }
+
+                        guard loopCity.isHuman() || loopCity.isMajorAI() else {
+                            continue
+                        }
+
+                        if loopCity.location.direction(towards: neighboringCity.location) == neighboringCityDir {
+                            citiesInDirection.append(loopCity)
+                        }
+                    }
+
+                    if !citiesInDirection.isEmpty {
+                        // print("--- \(neighboringCity.name) ----------------")
+                        // print("- calc influence at: \(tile.point) for: \(citiesInDirection.count) cities in direction: \(neighboringCityDir.opposite.short())")
+                        // print("- cities: \(citiesInDirection.map { $0?.name })")
+
+                        let loyaltyPressureFromNearbyCitizen = neighboringCity.loyaltyPressureFromNearbyCitizen(for: citiesInDirection, in: gameModel)
+                        // print("- loyaltyPressureFromNearbyCitizen: \(loyaltyPressureFromNearbyCitizen)")
+
+                        if loyaltyPressureFromNearbyCitizen > 10.0 {
+                            textureColor = TypeColor.Lenses.green
+                        } else if loyaltyPressureFromNearbyCitizen > 0.0 {
+                            textureColor = TypeColor.Lenses.lightGreen
+                        }
+
+                        if loyaltyPressureFromNearbyCitizen < 10.0 {
+                            textureColor = TypeColor.Lenses.red
+                        } else if loyaltyPressureFromNearbyCitizen < 0.0 {
+                            textureColor = TypeColor.Lenses.lightRed
+                        }
+                    }
+                }
+            }
+
+            // return
         }
 
         // place texture
@@ -138,6 +222,10 @@ class MapLensLayer: BaseLayer {
         if let lensSprite = self.textureUtils?.lensSprite(at: alternatePoint) {
             self.removeChildren(in: [lensSprite])
         }
+
+        if let loyaltyNode = self.loyaltyNodes.first(where: { $0.name == point.description }) {
+            loyaltyNode.removeFromParent()
+        }
     }
 
     override func update(tile: AbstractTile?) {
@@ -159,5 +247,41 @@ class MapLensLayer: BaseLayer {
                 self.placeTileHex(for: tile, and: alternatePoint, at: alternateScreenPoint, alpha: 0.5)
             }
         }
+    }
+
+    private func showLoyaltyTooltip(for city: AbstractCity, at location: HexPoint) {
+
+        var screenPoint = HexPoint.toScreen(hex: location)
+
+        screenPoint.x += 12 // 24 / 2
+
+        let cityLoyalty = city.loyalty()
+        let loyaltyFromNearbyCitizen = city.loyaltyPressureFromNearbyCitizen(in: gameModel)
+        let loyaltyFromGovernors = city.loyaltyFromGovernors(in: gameModel)
+        let loyaltyFromAmenities = city.loyaltyFromAmenities(in: gameModel)
+        var loyaltyFromOther = 0.0
+        loyaltyFromOther += city.loyaltyFromWonders(in: gameModel)
+        loyaltyFromOther += city.loyaltyFromTradeRoutes(in: gameModel)
+        loyaltyFromOther += city.loyaltyFromOthersEffects(in: gameModel)
+        var loyaltyDelta = 0.0
+        loyaltyDelta += loyaltyFromNearbyCitizen
+        loyaltyDelta += loyaltyFromGovernors
+        loyaltyDelta += loyaltyFromAmenities
+        loyaltyDelta += loyaltyFromOther
+
+        var text = "Loyalty: \(cityLoyalty)/100 (\(loyaltyDelta.deltaDisplay))\n\n"
+        text += "\(loyaltyFromNearbyCitizen.deltaDisplay) [Citizen]"
+        text += "| \(loyaltyFromGovernors.deltaDisplay) [Governor]"
+        text += "| \(loyaltyFromAmenities.deltaDisplay) [Amenities]"
+        text += "| \(loyaltyFromOther.deltaDisplay) Other"
+
+        let tooltipNode = TooltipNode(text: text, type: TooltipNodeType.blue)
+        tooltipNode.position = screenPoint
+        tooltipNode.zPosition = Globals.ZLevels.tooltips
+        tooltipNode.setScale(0.5)
+        tooltipNode.name = location.description
+        self.addChild(tooltipNode)
+
+        self.loyaltyNodes.append(tooltipNode)
     }
 }
