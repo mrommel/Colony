@@ -1112,7 +1112,6 @@
 		C92317A423D62A6B001FC723 /* SmartAILibraryTests */ = {
 			isa = PBXGroup;
 			children = (
-				C9B1D85528771A5900DB31E3 /* GovernorEffectTests.swift */,
 				C907085B23ED45C200281161 /* Helpers */,
 				C9B1D2A2243612FF00033791 /* Maps */,
 				C99496912519E41E0049C2D6 /* OperationTests */,
@@ -1143,6 +1142,7 @@
 				C92AB92227347827003647D8 /* GameModelVictoryTests.swift */,
 				C9F4FE5327EFAB85008545DB /* GossipTests.swift */,
 				C92D221423E2118400BB9238 /* GovernmentTypeTests.swift */,
+				C9B1D85528771A5900DB31E3 /* GovernorEffectTests.swift */,
 				C92317CB23D79F2C001FC723 /* GrandStrategyAITests.swift */,
 				C9C0DCE024D7486E004D9F06 /* GreatPersonsTests.swift */,
 				C973B8AC28153FE900D4AB53 /* HexPointTests.swift */,

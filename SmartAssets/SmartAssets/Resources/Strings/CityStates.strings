@@ -256,4 +256,4 @@
 
 // zanzibar
 "TXT_KEY_CITY_STATE_ZANZIBAR_NAME" = "Zanzibar";
-"TXT_KEY_CITY_STATE_ZANZIBAR_SUZARIN" = "Receive the [Cinnamon] Cinnamon and [Cloves] Cloves Luxury resources. These cannot be earned any other way in the game, and provide 6 [Amenities] Amenities each."; // #
+"TXT_KEY_CITY_STATE_ZANZIBAR_SUZARIN" = "Receive the #Cinnamon# Cinnamon and #Cloves# Cloves Luxury resources. These cannot be earned any other way in the game, and provide 6 [Amenities] Amenities each."; // #

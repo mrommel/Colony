@@ -59,7 +59,7 @@ class UsecaseTests: XCTestCase {
 
         // initial units
         /*let playerAlexanderSettler = Unit(at: HexPoint(x: 5, y: 5), type: .settler, owner: playerAlexander)
-        gameModel.add(unit: playerAlexanderSettler)*/
+         gameModel.add(unit: playerAlexanderSettler)*/
 
         let playerAlexanderWarrior = Unit(at: HexPoint(x: 5, y: 6), type: .warrior, owner: playerAlexander)
         gameModel.add(unit: playerAlexanderWarrior)
@@ -281,7 +281,7 @@ class UsecaseTests: XCTestCase {
         // THEN
 
         XCTAssertEqual(playerTrajanScout.location, HexPoint(x: 16, y: 12))
-     }
+    }
 
     func testBuilderBuildsInPlace() {
 

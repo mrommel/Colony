@@ -192,8 +192,6 @@ class MapLensLayer: BaseLayer {
                     }
                 }
             }
-
-            // return
         }
 
         // place texture
