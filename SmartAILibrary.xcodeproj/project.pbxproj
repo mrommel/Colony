@@ -117,6 +117,10 @@
 		C95503C5245864A200D4B3D8 /* StartPositioner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95503C4245864A200D4B3D8 /* StartPositioner.swift */; };
 		C955561823FEB41600A4E312 /* UnitMissionTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C955561723FEB41600A4E312 /* UnitMissionTypes.swift */; };
 		C955FBCE246065D600605618 /* AmenitiesState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C955FBCD246065D600605618 /* AmenitiesState.swift */; };
+		C9568FB828B4C4D60063AD3C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9568FB728B4C4D60063AD3C /* Assets.xcassets */; };
+		C9568FC128B4C61D0063AD3C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9568FC028B4C61D0063AD3C /* main.swift */; };
+		C9568FC628B4CA610063AD3C /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9568FC328B4C8B90063AD3C /* XCTest.framework */; };
+		C9568FC928B4CA7C0063AD3C /* SmartAILibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C923179723D62A6B001FC723 /* SmartAILibrary.framework */; };
 		C956BF5824F015A6009702B4 /* TradeRoutePathfinderDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956BF5724F015A6009702B4 /* TradeRoutePathfinderDataSource.swift */; };
 		C956BF5A24F015C5009702B4 /* TradeRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956BF5924F015C5009702B4 /* TradeRoute.swift */; };
 		C956BF5C24F105C9009702B4 /* UnitTradeRouteDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956BF5B24F105C9009702B4 /* UnitTradeRouteDirection.swift */; };
@@ -444,6 +448,13 @@
 			remoteGlobalIDString = C923179623D62A6B001FC723;
 			remoteInfo = SmartAILibrary;
 		};
+		C9568FC728B4CA6F0063AD3C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C923178E23D62A6B001FC723 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C923179623D62A6B001FC723;
+			remoteInfo = SmartAILibrary;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -559,6 +570,12 @@
 		C95503C4245864A200D4B3D8 /* StartPositioner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPositioner.swift; sourceTree = "<group>"; };
 		C955561723FEB41600A4E312 /* UnitMissionTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitMissionTypes.swift; sourceTree = "<group>"; };
 		C955FBCD246065D600605618 /* AmenitiesState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmenitiesState.swift; sourceTree = "<group>"; };
+		C9568FB128B4C4D30063AD3C /* SmartAILibraryPerformance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartAILibraryPerformance.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9568FB328B4C4D30063AD3C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C9568FB728B4C4D60063AD3C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C9568FBC28B4C4D60063AD3C /* SmartAILibraryPerformance.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartAILibraryPerformance.entitlements; sourceTree = "<group>"; };
+		C9568FC028B4C61D0063AD3C /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		C9568FC328B4C8B90063AD3C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		C956BF5724F015A6009702B4 /* TradeRoutePathfinderDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeRoutePathfinderDataSource.swift; sourceTree = "<group>"; };
 		C956BF5924F015C5009702B4 /* TradeRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeRoute.swift; sourceTree = "<group>"; };
 		C956BF5B24F105C9009702B4 /* UnitTradeRouteDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTradeRouteDirection.swift; sourceTree = "<group>"; };
@@ -896,6 +913,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C9568FAE28B4C4D30063AD3C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9568FC928B4CA7C0063AD3C /* SmartAILibrary.framework in Frameworks */,
+				C9568FC628B4CA610063AD3C /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -1072,6 +1098,7 @@
 			isa = PBXGroup;
 			children = (
 				C9F9639127C589EA00073CC7 /* Packages */,
+				C9568FB228B4C4D30063AD3C /* SmartAILibraryPerformance */,
 				C923179823D62A6B001FC723 /* Products */,
 				C923179923D62A6B001FC723 /* SmartAILibrary */,
 				C92317A423D62A6B001FC723 /* SmartAILibraryTests */,
@@ -1084,6 +1111,7 @@
 			children = (
 				C923179723D62A6B001FC723 /* SmartAILibrary.framework */,
 				C92317A023D62A6B001FC723 /* SmartAILibraryTests.xctest */,
+				C9568FB128B4C4D30063AD3C /* SmartAILibraryPerformance.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1241,6 +1269,25 @@
 				C9D645EC27229C5800646BB8 /* BarbarianArcherUnitType.swift */,
 			);
 			path = Barbarian;
+			sourceTree = "<group>";
+		};
+		C9568FB228B4C4D30063AD3C /* SmartAILibraryPerformance */ = {
+			isa = PBXGroup;
+			children = (
+				C9568FC028B4C61D0063AD3C /* main.swift */,
+				C9568FB328B4C4D30063AD3C /* AppDelegate.swift */,
+				C9568FC228B4C6B20063AD3C /* Resources */,
+			);
+			path = SmartAILibraryPerformance;
+			sourceTree = "<group>";
+		};
+		C9568FC228B4C6B20063AD3C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C9568FB728B4C4D60063AD3C /* Assets.xcassets */,
+				C9568FBC28B4C4D60063AD3C /* SmartAILibraryPerformance.entitlements */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		C957AA302436353500203024 /* MapLoading */ = {
@@ -1690,6 +1737,7 @@
 		C9F9639427C60DF900073CC7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C9568FC328B4C8B90063AD3C /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1751,13 +1799,31 @@
 			productReference = C92317A023D62A6B001FC723 /* SmartAILibraryTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		C9568FB028B4C4D30063AD3C /* SmartAILibraryPerformance */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C9568FBF28B4C4D60063AD3C /* Build configuration list for PBXNativeTarget "SmartAILibraryPerformance" */;
+			buildPhases = (
+				C9568FAD28B4C4D30063AD3C /* Sources */,
+				C9568FAE28B4C4D30063AD3C /* Frameworks */,
+				C9568FAF28B4C4D30063AD3C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C9568FC828B4CA6F0063AD3C /* PBXTargetDependency */,
+			);
+			name = SmartAILibraryPerformance;
+			productName = SmartAILibraryPerformance;
+			productReference = C9568FB128B4C4D30063AD3C /* SmartAILibraryPerformance.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		C923178E23D62A6B001FC723 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1130;
+				LastSwiftUpdateCheck = 1330;
 				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = "Michael Rommel";
 				TargetAttributes = {
@@ -1766,6 +1832,9 @@
 					};
 					C923179F23D62A6B001FC723 = {
 						CreatedOnToolsVersion = 11.3.1;
+					};
+					C9568FB028B4C4D30063AD3C = {
+						CreatedOnToolsVersion = 13.3;
 					};
 				};
 			};
@@ -1788,6 +1857,7 @@
 			targets = (
 				C923179623D62A6B001FC723 /* SmartAILibrary */,
 				C923179F23D62A6B001FC723 /* SmartAILibraryTests */,
+				C9568FB028B4C4D30063AD3C /* SmartAILibraryPerformance */,
 			);
 		};
 /* End PBXProject section */
@@ -1813,6 +1883,14 @@
 				C90FA35324C22A6000733331 /* arbalest.png in Resources */,
 				C9B1D2AE2436131700033791 /* Earth_Small.Civ5Map in Resources */,
 				C9B1D2AB2436131700033791 /* Earth_Standard.Civ5Map in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9568FAF28B4C4D30063AD3C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9568FB828B4C4D60063AD3C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2267,6 +2345,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C9568FAD28B4C4D30063AD3C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9568FC128B4C61D0063AD3C /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2274,6 +2360,11 @@
 			isa = PBXTargetDependency;
 			target = C923179623D62A6B001FC723 /* SmartAILibrary */;
 			targetProxy = C92317A223D62A6B001FC723 /* PBXContainerItemProxy */;
+		};
+		C9568FC828B4CA6F0063AD3C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C923179623D62A6B001FC723 /* SmartAILibrary */;
+			targetProxy = C9568FC728B4CA6F0063AD3C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2499,6 +2590,68 @@
 			};
 			name = Release;
 		};
+		C9568FBD28B4C4D60063AD3C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_ENTITLEMENTS = SmartAILibraryPerformance/Resources/SmartAILibraryPerformance.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 56RR42EQK6;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Michael Rommel. All rights reserved.";
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks,
+					/Applications/Xcode.app/Contents/SharedFrameworks,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartAILibraryPerformance;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C9568FBE28B4C4D60063AD3C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_ENTITLEMENTS = SmartAILibraryPerformance/Resources/SmartAILibraryPerformance.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 56RR42EQK6;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Michael Rommel. All rights reserved.";
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks,
+					/Applications/Xcode.app/Contents/SharedFrameworks,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miro.SmartAILibraryPerformance;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2525,6 +2678,15 @@
 			buildConfigurations = (
 				C92317AF23D62A6B001FC723 /* Debug */,
 				C92317B023D62A6B001FC723 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9568FBF28B4C4D60063AD3C /* Build configuration list for PBXNativeTarget "SmartAILibraryPerformance" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9568FBD28B4C4D60063AD3C /* Debug */,
+				C9568FBE28B4C4D60063AD3C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
