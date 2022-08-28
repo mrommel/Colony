@@ -210,6 +210,10 @@
 		C98DBFBA23E0D8C700B6CE25 /* Techs.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DBFB923E0D8C700B6CE25 /* Techs.swift */; };
 		C99047F626CA45A600B1A7A6 /* UnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99047F526CA45A600B1A7A6 /* UnitTests.swift */; };
 		C99496932519E4300049C2D6 /* BasicCityAttackOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99496922519E4300049C2D6 /* BasicCityAttackOperationTests.swift */; };
+		C995164128BBEBBC009E9F39 /* UsecaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A50FE2242244C5006AA47B /* UsecaseTests.swift */; };
+		C995164228BBEBD6009E9F39 /* TestUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C4FC0242682DD00070038 /* TestUI.swift */; };
+		C995164328BBEBDF009E9F39 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EE1F46272FDA7800EBBC07 /* TestUtils.swift */; };
+		C995164428BBEC70009E9F39 /* TradeRouteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C956BF6924F3C7B9009702B4 /* TradeRouteTests.swift */; };
 		C9956853247E90B00005E9EA /* Eurekas.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9956852247E90AF0005E9EA /* Eurekas.swift */; };
 		C995A6A5271416BC00DCC04A /* GameReplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995A6A4271416BC00DCC04A /* GameReplay.swift */; };
 		C997785727B3C4CA00BFC102 /* GameUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C997785627B3C4C900BFC102 /* GameUtils.swift */; };
@@ -1098,10 +1102,10 @@
 			isa = PBXGroup;
 			children = (
 				C9F9639127C589EA00073CC7 /* Packages */,
-				C9568FB228B4C4D30063AD3C /* SmartAILibraryPerformance */,
 				C923179823D62A6B001FC723 /* Products */,
 				C923179923D62A6B001FC723 /* SmartAILibrary */,
 				C92317A423D62A6B001FC723 /* SmartAILibraryTests */,
+				C9568FB228B4C4D30063AD3C /* SmartAILibraryPerformance */,
 				C9F9639427C60DF900073CC7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -2350,6 +2354,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9568FC128B4C61D0063AD3C /* main.swift in Sources */,
+				C995164228BBEBD6009E9F39 /* TestUI.swift in Sources */,
+				C995164128BBEBBC009E9F39 /* UsecaseTests.swift in Sources */,
+				C995164428BBEC70009E9F39 /* TradeRouteTests.swift in Sources */,
+				C995164328BBEBDF009E9F39 /* TestUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
