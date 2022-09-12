@@ -363,7 +363,7 @@ public class Unit: AbstractUnit {
     // trader
     var tradeRouteDataValue: UnitTradeRouteData?
 
-    weak var unitMoved: UnitMovedDelegate?
+    public weak var unitMoved: UnitMovedDelegate?
 
     // MARK: constructors
 

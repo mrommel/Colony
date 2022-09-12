@@ -9,7 +9,7 @@
 import Foundation
 
 import XCTest
-@testable import SmartAILibrary
+import SmartAILibrary
 
 // swiftlint:disable force_try
 

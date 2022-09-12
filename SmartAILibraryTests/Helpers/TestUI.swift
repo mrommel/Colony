@@ -8,7 +8,7 @@
 
 import Foundation
 
-@testable import SmartAILibrary
+import SmartAILibrary
 
 class TestUI: UserInterfaceDelegate {
 
